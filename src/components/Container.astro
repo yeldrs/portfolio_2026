@@ -1,0 +1,13 @@
+---
+// Fichier : src/components/Container.astro
+export interface Props {
+    /** Permet d'ajouter des classes additionnelles si nécessaire. */
+    class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class={`max-w-7xl mx-auto px-md md:px-xl ${className}`}>
+    <slot />
+</div>

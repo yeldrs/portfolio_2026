@@ -1,0 +1,40 @@
+---
+// Fichier : src/components/Hero.astro
+import Container from './Container.astro';
+
+export interface Props {
+    title: string;
+    subtitle: string;
+    profileImage: any;
+}
+
+const { title, subtitle, profileImage } = Astro.props;
+---
+
+<Container>
+    <section class="flex w-full flex-col md:flex-row items-center justify-center py-7xl gap-xl"> 
+        
+        <div class="mb-md md:mb-0 w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-full overflow-hidden">
+            <img 
+                src={profileImage} 
+                alt="Image de profil du designer"
+                class="object-cover w-full h-full"
+            />
+        </div>
+
+        <div 
+            class="flex flex-col items-center md:items-start text-center md:text-left"
+            style="width: fit-content;" 
+        > 
+            
+            <h1 class="text-xl font-extrabold text-text-body-primary w-full">
+                {title}
+            </h1>
+
+            <p class="text-xl font-normal text-text-body-tertiary w-full max-w-[600px]">
+                {subtitle}
+            </p>
+        </div>
+
+    </section>
+</Container>

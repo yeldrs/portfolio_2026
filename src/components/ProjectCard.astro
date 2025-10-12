@@ -1,0 +1,80 @@
+---
+import Button from './Button.astro'; 
+
+export interface Props {
+  headline: string;
+  client: string;
+  description: string;
+  role: string;
+  projectLink: string;
+  imageAlt: string;
+  imageUrl: any;
+  direction?: 'default' | 'reverse'; 
+}
+
+const { 
+  headline, client, description, role, projectLink, imageAlt,
+  imageUrl,
+  direction = 'default' 
+} = Astro.props;
+
+const directionClass = direction === 'reverse' ? 'md:flex-row-reverse' : ''; 
+---
+
+<article class={`flex flex-col md:flex-row gap-6 md:gap-16 bg-background-primary p-md ${directionClass} md:items-center`}>
+  
+  <h1 class="text-4xl font-extrabold leading-tight text-text-body-primary md:hidden">
+    {headline}
+  </h1>
+
+  <aside class="group flex-1 md:basis-1/2 relative rounded-2xl overflow-hidden flex items-center justify-center min-h-[300px] h-full order-2 md:order-none">
+    
+    <div class="transition-transform duration-500 scale-90 group-hover:scale-100 absolute inset-0">
+        <img 
+            src={imageUrl} 
+            alt={imageAlt} 
+            class="object-contain w-full h-full" 
+            loading="lazy"
+        />
+    </div>
+    
+  </aside>
+
+  <section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
+    
+    <h1 class="text-4xl font-extrabold leading-tight text-text-body-primary hidden md:block mb-xl"> 
+      {headline}
+    </h1>
+
+    <div class="space-y-lg"> 
+         
+      
+      <div>
+        <span class="block text-sm font-medium text-text-body-tertiary uppercase mb-xxs">Client / holder</span>
+        <p class="text-base font-normal text-text-body-primary">
+          {client}
+        </p>
+      </div>
+
+      <div>
+        <span class="block text-sm font-medium text-text-body-tertiary uppercase mb-xxs">Description</span>
+        <p class="text-base font-normal text-text-body-primary leading-normal">
+          {description}
+        </p>
+      </div>
+
+      <div class="mb-xl"> 
+        <span class="block text-sm font-medium text-text-body-tertiary uppercase mb-xxs">Role</span>
+        <p class="text-base font-normal text-text-body-primary">
+          {role}
+        </p>
+      </div>
+    </div>
+    
+    <div>
+      <Button href={projectLink}>
+          View project
+      </Button>
+    </div>
+  </section>
+</article>

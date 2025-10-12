@@ -1,0 +1,79 @@
+---
+// 1. Importez le Layout de base
+import BaseLayout from '../layouts/BaseLayout.astro'; 
+
+// 2. Importez les composants nécessaires
+import ProjectCard from '../components/ProjectCard.astro'; 
+import Container from '../components/Container.astro'; 
+import Hero from '../components/Hero.astro'; 
+import Divider from '../components/Divider.astro';
+
+// 🚨 Importez vos images (Astro gère l'optimisation)
+import SmartphoneImage from '../assets/images/smartphone.png?url'; 
+import imageProject2 from '../assets/images/smartphone.png?url';
+import ProfilePic from '../assets/images/profile-pic.jpg?url';
+
+// 3. Définissez les données (simulées) pour le ProjectCard.
+const projectData = {
+  headline: "Refonte UX et Optimisation de la Conversion pour E-commerce B2B",
+  client: "TechSolutions Pro",
+  description: "Conception centrée utilisateur pour améliorer le parcours d'achat et réduire les frictions sur une plateforme de distribution de matériel industriel. Résultats : +25% de taux de complétion de commande.",
+  role: "UX Designer Lead & Prototypage",
+  projectLink: "/project-details/techsolutions", 
+  imageAlt: "Aperçu de la nouvelle interface utilisateur de la plateforme TechSolutions Pro",
+
+};
+
+// Note: Navbar est inclus dans BaseLayout
+---
+
+<BaseLayout title="[Votre Nom] - Portfolio UX Design">
+    
+    <main>
+    
+                <Container class="py-3xl flex flex-col gap-16"> 
+    
+           <Hero 
+            title="Hello, i'm Yassine 👋" 
+            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            profileImage={ProfilePic}
+        />
+                <Divider />
+                                <section id="projects" class="flex flex-col gap-16">
+               
+               <ProjectCard 
+            headline="Refonte de l'Application Mobile"
+            client="InnovCorp"
+            description="Création d'un Design System unifié pour iOS et Android."
+            role="UX/UI Designer"
+            projectLink="/project-2"
+            imageAlt="Maquettes de l'application mobile"
+            imageUrl={imageProject2}
+            direction="reverse" 
+            />
+                 <Divider />
+               <ProjectCard 
+            headline="Optimisation de la Conversion"
+            client="TechSolutions"
+            description="Refonte complète de l'expérience utilisateur et des chemins de conversion."
+            role="Lead Designer & Frontend Developer"
+            projectLink="/project-1"
+            imageAlt="Capture d'écran de l'interface du projet 1"
+            imageUrl={SmartphoneImage}
+            />
+  <Divider />
+            <ProjectCard 
+            headline="Refonte de l'Application Mobile"
+            client="InnovCorp"
+            description="Création d'un Design System unifié pour iOS et Android."
+            role="UX/UI Designer"
+            projectLink="/project-2"
+            imageAlt="Maquettes de l'application mobile"
+            imageUrl={imageProject2}
+            direction="reverse" 
+            />
+            
+            </section>
+        </Container>
+    </main>
+</BaseLayout>

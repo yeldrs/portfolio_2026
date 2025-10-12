@@ -1,0 +1,50 @@
+---
+// 1. Définition des Props
+export interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'outline'; // Pour gérer les variantes futures
+  size?: 'default' | 'small' | 'large';
+  class?: string; // Permet de passer des classes additionnelles
+}
+
+const { 
+  href, 
+  variant = 'primary', 
+  size = 'default',
+  class: className 
+} = Astro.props;
+
+
+// 2. Définition des tokens Tailwind pour la variante PRIMAIRE (votre bouton actuel)
+// 🚨 CORRECTION : 'flex w-full md:w-fit' pour la largeur adaptative
+const baseStyles = 'flex w-full md:w-fit items-center justify-center transition-colors duration-200 cursor-pointer rounded-full'; 
+const sizeStyles = 'py-sm-d px-lg';  
+const fontStyles = 'text-lg font-medium'; 
+
+// 3. Définition des couleurs Sémantiques et des états (inchangé)
+const primaryColors = `
+  bg-button-background-primary 
+  text-button-text-primary 
+  shadow-md
+  hover:bg-button-hover-primary 
+  focus:ring-2 focus:ring-button-background-primary focus:ring-offset-2
+  active:bg-button-active-primary
+`;
+
+// Le bouton est centré car il est en full-width sur mobile
+let buttonClasses = `${baseStyles} ${sizeStyles} ${fontStyles} ${primaryColors} ${className} text-center`; 
+---
+
+<a 
+  href={href} 
+  class={buttonClasses} 
+  role="button"
+>
+    <span class="relative flex items-center justify-center w-full mt-[-1px] whitespace-nowrap"> 
+    <slot /> 
+  </span>
+
+  <svg class="relative w-4 h-4 ml-2 text-button-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+  </svg>
+</a>

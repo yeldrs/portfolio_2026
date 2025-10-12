@@ -1,0 +1,31 @@
+/* src/styles/global.css (ou le fichier que vous liez à <link rel="stylesheet" ...>) */
+
+/* 1. IMPORTS : Vos tokens.css doit être le premier import si vous utilisez @import */
+@import "./tokens.css"; 
+
+/* 2. TAILWIND LAYERS : Ils doivent suivre les imports */
+/* @tailwind base; peut contenir des styles qui dépendent de vos tokens */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* Tes styles globaux */
+html,
+body {
+  font-family: system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Exemple de composant stylé via tokens */
+@layer components {
+  .btn {
+    @apply bg-primary text-white px-md py-sm rounded-md font-medium;
+  }
+
+  .btn-outline {
+    @apply border border-primary text-primary bg-transparent;
+  }
+}
