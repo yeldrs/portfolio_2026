@@ -1,88 +1,77 @@
 ---
 // 1. Importez le Layout de base
-import BaseLayout from '../layouts/BaseLayout.astro'; 
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 // 2. Importez les composants nécessaires
-import ProjectCard from '../components/ProjectCard.astro'; 
-import Container from '../components/Container.astro'; 
-import Hero from '../components/Hero.astro'; 
-import Divider from '../components/Divider.astro';
+import ProjectCard from "../components/ProjectCard.astro";
+import Container from "../components/Container.astro";
+import Hero from "../components/Hero.astro";
+import Divider from "../components/Divider.astro";
 
-// 🚨 Importez vos images 
-// import SmartphoneImage from '../assets/images/smartphone.png?url'; 
-// import imageProject2 from '../assets/images/smartphone.png?url';
-// import ProfilePic from '../assets/images/profile-pic.jpg?url';
+// 🔴 CRITIQUE : Importez la fonction de collection d'Astro
+import { getCollection } from "astro:content";
 
-// use a neutral placeholder instead (more reliable)
-const PlaceholderImage = 'https://placehold.co/1600x900/efefef/111111.png?text=Placeholder';
+// use a neutral placeholder instead (plus fiable)
+const PlaceholderImage =
+    "https://placehold.co/1600x900/efefef/111111.png?text=Placeholder";
 
-// 3. Définissez les données (cette constante est conservée mais non utilisée pour les cartes)
-const projectData = {
-  headline: "Refonte UX et Optimisation de la Conversion pour E-commerce B2B",
-  client: "TechSolutions Pro",
-  description: "Conception centrée utilisateur pour améliorer le parcours d'achat et réduire les frictions sur une plateforme de distribution de matériel industriel. Résultats : +25% de taux de complétion de commande.",
-  role: "UX Designer Lead & Prototypage",
-  projectLink: "/project-details/techsolutions", 
-  imageAlt: "Aperçu de la nouvelle interface utilisateur de la plateforme TechSolutions Pro",
-};
+// 🔴 RÉCUPÉRATION DYNAMIQUE DES DONNÉES DE LA COLLECTION 'projects'
+const allProjects = (
+    await getCollection("projects", ({ data }) => {
+        // Filtre les brouillons
+        return data.isDraft !== true;
+    })
+).sort((a, b) => {
+    // Triez par date de publication (plus récent en premier)
+    const dateA = new Date(a.data.publishDate).getTime();
+    const dateB = new Date(b.data.publishDate).getTime();
+    return dateB - dateA;
+});
 ---
 
 <BaseLayout title="[Votre Nom] - Portfolio UX Design">
-    
-    <main>
-    
-        <Container class="py-3xl px-lg flex flex-col gap-3xl"> 
-    
-           <Hero 
-            title="Hello, i'm Yassine 👋" 
-            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
-            profileImage={PlaceholderImage}
-            />
-                
-            <Divider />
+    <main>
+        <Container class="py-3xl px-lg flex flex-col gap-3xl">
+            <Hero
+                title="Hello, i'm Yassine 👋"
+                subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+                profileImage={PlaceholderImage}
+            />
+            <Divider />
 
-            <!-- Projects section: major spacing = 3xl -->
-            <section id="projects" role="region" aria-label="Projects" class="flex flex-col space-y-3xl">
-               
-               <ProjectCard 
-                id="project-1"
-                headline="900.care: Optimizing Conversion and Average Basket Value"
-                client="900.care"
-                description="Full-cycle Product Design on a D2C subscription model focused on improving first-order profitability. I led the redesign of the checkout funnel and homepage, driving a measured +47% increase in Average Basket Value (ABV)"
-                role="Product Design Manager"
-                projectLink="/projects/project-1"
-                imageAlt="Maquettes de l'application mobile"
-                imageUrl={PlaceholderImage} 
-                direction="reverse" 
-               />
-
-               <Divider />
-
-               <ProjectCard 
-                id="project-2"
-                headline="Optimisation de la Conversion (Projet 2)"
-                client="TechSolutions"
-                description="Refonte complète de l'expérience utilisateur et des chemins de conversion."
-                role="Lead Designer & Frontend Developer"
-                projectLink="/projects/project-2"
-                imageAlt="Capture d'écran de l'interface du projet 1"
-                imageUrl={PlaceholderImage}
-               />
-
-               <Divider />
-
-               <ProjectCard 
-                id="project-3"
-                headline="Refonte de l'Application Mobile (Projet 3)"
-                client="InnovCorp"
-                description="Création d'un Design System unifié pour iOS et Android."
-                role="UX/UI Designer"
-                projectLink="/projects/project-3"
-                imageAlt="Maquettes de l'application mobile"
-                imageUrl={PlaceholderImage}
-                direction="reverse" 
-               />
-            </section>
-        </Container>
-    </main>
+            <section
+                id="projects"
+                role="region"
+                aria-label="Projects"
+                class="flex flex-col space-y-3xl"
+            >
+                {
+                    allProjects.map((project, index) => (
+                        <>
+                    
+                            <ProjectCard
+                                id={project.slug}
+                                headline={project.data.title}
+                                client={project.data.client}
+                                description={project.data.description}
+                                role={project.data.role}
+                                projectLink={`/projects/${project.slug}`}
+                                imageAlt={`Aperçu du projet ${project.data.title}`}
+                                imageUrl={PlaceholderImage}
+                                direction={
+                                    index % 2 === 0 ? "reverse" : "default"
+                                }
+                            />
+                           
+                            {/* Ajoute un Divider après chaque carte sauf la dernière */}
+                      
+                            {index < allProjects.length - 1 && <Divider />}
+                         
+                            
+                        </>
+                    ))
+                }
+            </section>
+        </Container>
+    </main>
 </BaseLayout>
