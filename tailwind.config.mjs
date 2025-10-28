@@ -1,66 +1,97 @@
 // tailwind.config.mjs
-import colors from './src/styles/tokens-colors.json'; // Assurez-vous que vos tokens sont accessibles
-import spacing from './src/styles/tokens-spacing.json'; 
+import { tokens } from './src/styles/tokens.js';
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}', // 👈 Ligne critique à ajouter
-    './pages/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}', // Optionnel, selon la structure
+    './src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}',
+    './pages/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}',
   ],
   theme: {
     extend: {
-      // 1. COLORS
+      // Colors: map a few semantic names to primitive values
       colors: {
-        // Couleurs sémantiques basées sur les tokens.json
-        'background-primary': '#ffffff', // base.White
-        'background-brand': '#367984',
-        'text-body-primary': '#030712', // base.Black
-        'text-body-tertiary': '#99a1af', // gray.400
-        'button-background-primary': '#367984', // blue-chill.600
-        'button-text-primary': '#ffffff', // base.White
-         'button-hover-primary': '#2d6470',  // La couleur hexadécimale que vous avez définie pour le hover
-        'button-active-primary': '#245159', // La couleur hexadécimale que vous avez définie pour l'état actif
-        'stroke-secondary': '#59aeb7', // blue-chill.400
-        'stroke-primary': '#367984', // blue-chill.600
-        // ... ajoutez toutes vos couleurs sémantiques et primitives ici ...
+        'background-primary': tokens.primitives.color.base.white,
+        'background-brand': tokens.primitives.color['blue-chill'][600],
+        'text-body-primary': tokens.primitives.color.base.black,
+        'text-body-tertiary': tokens.primitives.color.gray[400],
+        'text-body-secondary': tokens.primitives.color.gray[600],
+        'button-background-primary': tokens.primitives.color['blue-chill'][600],
+        'button-text-primary': tokens.primitives.color.base.white,
+        'stroke-secondary': tokens.primitives.color['blue-chill'][400],
+        'stroke-primary': tokens.primitives.color['blue-chill'][600],
       },
 
-      // 2. FONT SIZES
+      // Font sizes (you can expand)
       fontSize: {
-        '5xl': '48px', // font.size.5xl
-        'lg': '18px',  // font.size.lg
-        'sm': '14px',  // font.size.sm
-        'base': '16px', // font.size.base
-        // ...
+        '6xl': tokens.primitives.fontSize['6xl'],
+        '4xl': tokens.primitives.fontSize['4xl'],
+        'base': tokens.primitives.fontSize.base,
+        'lg': tokens.primitives.fontSize.lg,
+        'sm': tokens.primitives.fontSize.sm,
       },
 
-      // 3. FONT WEIGHTS
+      // Font weights
       fontWeight: {
-        'extrabold': '800', // font.weight.extrabold
-        'semibold': '600',  // font.weight.semibold
-        // ...
+        extrabold: tokens.primitives.fontWeight.extrabold,
+        semibold: tokens.primitives.fontWeight.semibold,
+        normal: tokens.primitives.fontWeight.normal,
       },
-      
+
+      // Spacing scale
+      spacing: {
+        'xxs': tokens.primitives.spacing.xxs,
+        'xs': tokens.primitives.spacing.xs,
+        'sm-d': tokens.primitives.spacing['sm-d'],
+        'md': tokens.primitives.spacing.md,
+        'lg': tokens.primitives.spacing.lg,
+        'xl': tokens.primitives.spacing.xl,
+        '2-xl': tokens.primitives.spacing['2-xl'],
+        '3-xl': tokens.primitives.spacing['3-xl'],
+      },
+
+      // Border radius
+      borderRadius: {
+        md: tokens.primitives.borderRadius.md,
+        xl: tokens.primitives.borderRadius.xl,
+        '2xl': tokens.primitives.borderRadius['2xl'],
+        card: tokens.semantic.border.radius.card,
+      },
+
+      // Max width (container)
+      maxWidth: {
+        content: tokens.semantic.layout.container.maxWidth,
+      },
+
+      // Aspect ratio token
+      aspectRatio: {
+        card: tokens.semantic.layout.image.aspectRatio,
+      },
+
+      // Gap tokens for grids
+      gap: {
+        grid: tokens.semantic.layout.grid.gap.base,
+        'grid-lg': tokens.semantic.layout.grid.gap.large,
+      },
+
+      // Line-height
+      lineHeight: {
+        relaxed: tokens.primitives.leading.relaxed,
+        normal: tokens.primitives.leading.normal,
+      },
+
       // 4. SPACING (pour padding, margin, gap)
       spacing: {
-        'xxs': '2px', // Spacing.xxs
-        'xs': '4px',  // Spacing.xs
-        'sm-d': '12px', // Spacing.sm-d
-        'md': '16px', // Spacing.md
-        'lg': '24px', // Spacing.lg
-        'xl': '32px', // Spacing.xl
-        // ...
-      },
-      
-      // 5. BORDER RADIUS
-      borderRadius: {
-        'md': '6px', // Border.Border-radius.rounded-md
-        'xl': '12px', // Border.Border-radius.rounded-xl
-        '2xl': '16px', // Border.Border-radius.rounded-2xl
-        // ...
+        'xxs': tokens.primitives.spacing.xxs,
+        'xs': tokens.primitives.spacing.xs,
+        'sm-d': tokens.primitives.spacing['sm-d'],
+        'md': tokens.primitives.spacing.md,
+        'lg': tokens.primitives.spacing.lg,
+        'xl': tokens.primitives.spacing.xl,
+        '2xl': tokens.primitives.spacing['2xl'], // 48px
+        '3xl': tokens.primitives.spacing['3xl'] ?? '64px', // 64px — ensure present
       },
     },
   },
   plugins: [],
-}
+};

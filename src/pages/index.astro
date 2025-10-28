@@ -8,12 +8,15 @@ import Container from '../components/Container.astro';
 import Hero from '../components/Hero.astro'; 
 import Divider from '../components/Divider.astro';
 
-// 🚨 Importez vos images (Astro gère l'optimisation)
-import SmartphoneImage from '../assets/images/smartphone.png?url'; 
-import imageProject2 from '../assets/images/smartphone.png?url';
-import ProfilePic from '../assets/images/profile-pic.jpg?url';
+// 🚨 Importez vos images 
+// import SmartphoneImage from '../assets/images/smartphone.png?url'; 
+// import imageProject2 from '../assets/images/smartphone.png?url';
+// import ProfilePic from '../assets/images/profile-pic.jpg?url';
 
-// 3. Définissez les données (simulées) pour le ProjectCard.
+// use a neutral placeholder instead (more reliable)
+const PlaceholderImage = 'https://placehold.co/1600x900/efefef/111111.png?text=Placeholder';
+
+// 3. Définissez les données (cette constante est conservée mais non utilisée pour les cartes)
 const projectData = {
   headline: "Refonte UX et Optimisation de la Conversion pour E-commerce B2B",
   client: "TechSolutions Pro",
@@ -21,58 +24,64 @@ const projectData = {
   role: "UX Designer Lead & Prototypage",
   projectLink: "/project-details/techsolutions", 
   imageAlt: "Aperçu de la nouvelle interface utilisateur de la plateforme TechSolutions Pro",
-
 };
-
-// Note: Navbar est inclus dans BaseLayout
 ---
 
 <BaseLayout title="[Votre Nom] - Portfolio UX Design">
     
     <main>
     
-                <Container class="py-3xl flex flex-col gap-16"> 
+        <Container class="py-3xl px-lg flex flex-col gap-3xl"> 
     
            <Hero 
             title="Hello, i'm Yassine 👋" 
             subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
-            profileImage={ProfilePic}
-        />
-                <Divider />
-                                <section id="projects" class="flex flex-col gap-16">
+            profileImage={PlaceholderImage}
+            />
+                
+            <Divider />
+
+            <!-- Projects section: major spacing = 3xl -->
+            <section id="projects" role="region" aria-label="Projects" class="flex flex-col space-y-3xl">
                
                <ProjectCard 
-            headline="Refonte de l'Application Mobile"
-            client="InnovCorp"
-            description="Création d'un Design System unifié pour iOS et Android."
-            role="UX/UI Designer"
-            projectLink="/project-2"
-            imageAlt="Maquettes de l'application mobile"
-            imageUrl={imageProject2}
-            direction="reverse" 
-            />
-                 <Divider />
+                id="project-1"
+                headline="900.care: Optimizing Conversion and Average Basket Value"
+                client="900.care"
+                description="Full-cycle Product Design on a D2C subscription model focused on improving first-order profitability. I led the redesign of the checkout funnel and homepage, driving a measured +47% increase in Average Basket Value (ABV)"
+                role="Product Design Manager"
+                projectLink="/projects/project-1"
+                imageAlt="Maquettes de l'application mobile"
+                imageUrl={PlaceholderImage} 
+                direction="reverse" 
+               />
+
+               <Divider />
+
                <ProjectCard 
-            headline="Optimisation de la Conversion"
-            client="TechSolutions"
-            description="Refonte complète de l'expérience utilisateur et des chemins de conversion."
-            role="Lead Designer & Frontend Developer"
-            projectLink="/project-1"
-            imageAlt="Capture d'écran de l'interface du projet 1"
-            imageUrl={SmartphoneImage}
-            />
-  <Divider />
-            <ProjectCard 
-            headline="Refonte de l'Application Mobile"
-            client="InnovCorp"
-            description="Création d'un Design System unifié pour iOS et Android."
-            role="UX/UI Designer"
-            projectLink="/project-2"
-            imageAlt="Maquettes de l'application mobile"
-            imageUrl={imageProject2}
-            direction="reverse" 
-            />
-            
+                id="project-2"
+                headline="Optimisation de la Conversion (Projet 2)"
+                client="TechSolutions"
+                description="Refonte complète de l'expérience utilisateur et des chemins de conversion."
+                role="Lead Designer & Frontend Developer"
+                projectLink="/projects/project-2"
+                imageAlt="Capture d'écran de l'interface du projet 1"
+                imageUrl={PlaceholderImage}
+               />
+
+               <Divider />
+
+               <ProjectCard 
+                id="project-3"
+                headline="Refonte de l'Application Mobile (Projet 3)"
+                client="InnovCorp"
+                description="Création d'un Design System unifié pour iOS et Android."
+                role="UX/UI Designer"
+                projectLink="/projects/project-3"
+                imageAlt="Maquettes de l'application mobile"
+                imageUrl={PlaceholderImage}
+                direction="reverse" 
+               />
             </section>
         </Container>
     </main>

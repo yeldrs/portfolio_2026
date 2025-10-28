@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+
+// Placeholder image
+const PlaceholderImage = 'https://placehold.co/1600x900/efefef/111111.png?text=Placeholder';
+
+// Generate static paths from markdown files
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<BaseLayout title={`Project | ${project.data.title}`}>
+  <Container>
+    <main class="py-3xl max-w-content mx-auto space-y-3xl">
+      <h1 class="text-6xl font-extrabold text-text-body-primary mb-xl">
+        {project.data.title}
+      </h1>
+
+      <!-- Project Content -->
+      <div class="prose prose-lg dark:prose-invert">
+        <Content />
+      </div>
+
+      <!-- Project Details -->
+      <div class="space-y-3xl">
+        <!-- Diagnosis (keep as-is) -->
+        <section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-2xl">
+          <h2 class="text-4xl font-extrabold text-text-body-primary mb-xl">Diagnosis</h2>
+
+          <!-- Context + Problem (text left) + image (right) -->
+          <article id={`${project.slug}-context`} role="article" aria-labelledby={`${project.slug}-context-title`} class="grid grid-cols-1 md:grid-cols-2 gap-xl mb-2xl">
+            <div class="space-y-lg">
+              <div class="space-y-sm">
+                <h3 id={`${project.slug}-context-title`} class="text-xl font-semibold text-text-body-primary">Context</h3>
+                <p class="text-base text-text-body-secondary leading-relaxed">{project.data.context}</p>
+              </div>
+              <div class="space-y-sm">
+                <h3 class="text-xl font-semibold text-text-body-primary">Problem</h3>
+                <p class="text-base text-text-body-secondary leading-relaxed">{project.data.problem}</p>
+              </div>
+            </div>
+
+            <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+              <img src={PlaceholderImage} alt="Context and problem visualization" class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+            </div>
+          </article>
+
+          <!-- Image left + Role & Key insights right -->
+          <article id={`${project.slug}-role-insights`} role="article" aria-labelledby={`${project.slug}-role-title`} class="grid grid-cols-1 md:grid-cols-2 gap-xl items-start">
+            <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+              <img src={PlaceholderImage} alt="Role and insights visualization" class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+            </div>
+
+            <div class="space-y-lg flex flex-col justify-start">
+               <div class="space-y-sm">
+                 <h3 id={`${project.slug}-role-title`} class="text-xl font-semibold text-text-body-primary">Role</h3>
+                 <p class="text-base text-text-body-secondary leading-relaxed">{project.data.role}</p>
+               </div>
+               <div class="space-y-sm">
+                 <h3 class="text-xl font-semibold text-text-body-primary">Key insights</h3>
+                 <p class="text-base text-text-body-secondary leading-relaxed">{project.data.keyInsights}</p>
+               </div>
+            </div>
+           </article>
+        </section>
+
+        <!-- Conception: Methodology / Design Conception + Image (text left, image right) -->
+        <section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-2xl">
+          <h2 class="text-4xl font-extrabold text-text-body-primary mb-xl">Conception</h2>
+
+          <article id={`${project.slug}-conception-main`} role="article" class="grid grid-cols-1 md:grid-cols-2 gap-xl items-start">
+             <div class="space-y-lg">
+              <div class="space-y-sm">
+                <h3 class="text-xl font-semibold text-text-body-primary">Methodology</h3>
+                <p class="text-base text-text-body-tertiary leading-relaxed">{project.data.methodology}</p>
+              </div>
+
+              <div class="space-y-sm">
+                <h3 class="text-xl font-semibold text-text-body-primary">Design conception</h3>
+                <p class="text-base text-text-body-tertiary leading-relaxed">{project.data.designConception}</p>
+              </div>
+             </div>
+
+            <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+              <img src={PlaceholderImage} alt="Conception visualization" class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+            </div>
+           </article>
+        </section>
+
+        <!-- Results: text left + image right -->
+        <section id={`${project.slug}-results`} role="region" aria-label="Results" class="space-y-2xl">
+          <h2 class="text-4xl font-extrabold text-text-body-primary mb-xl">Results</h2>
+
+          <article id={`${project.slug}-results-main`} role="article" class="grid grid-cols-1 md:grid-cols-2 gap-xl items-start">
+            <div class="space-y-lg">
+               <div class="space-y-sm">
+                 <h3 class="text-xl font-semibold text-text-body-primary">Delivery</h3>
+                 <p class="text-base text-text-body-tertiary leading-relaxed">{project.data.delivery}</p>
+               </div>
+
+               <div class="space-y-sm">
+                 <h3 class="text-xl font-semibold text-text-body-primary">Metrics</h3>
+                 <p class="text-base text-text-body-tertiary leading-relaxed">{project.data.metrics}</p>
+               </div>
+             </div>
+
+            <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+              <img src={PlaceholderImage} alt="Results visualization" class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+            </div>
+           </article>
+        </section>
+      </div>
+    </main>
+  </Container>
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: none;
+  }
+</style>
