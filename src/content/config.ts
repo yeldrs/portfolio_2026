@@ -16,7 +16,7 @@ const projectCollection = defineCollection({
         
         context: z.string(),
         problem: z.string(),
-        keyInsights: z.string(),
+        keyInsights: z.array(z.string()),
         methodology: z.string(),
         designConception: z.string(),
         delivery: z.string(),
