@@ -4,28 +4,31 @@
 @import "./tokens.css"; 
 
 /* 2. TAILWIND LAYERS : Ils doivent suivre les imports */
-/* @tailwind base; peut contenir des styles qui dépendent de vos tokens */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
-
 /* Tes styles globaux */
 html,
 body {
-  font-family: system-ui, sans-serif;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+ font-family: system-ui, sans-serif;
+ background-color: var(--color-bg);
+ color: var(--color-text);
+}
+
+/* ✅ AJOUT : Défilement fluide pour tous les liens d'ancre */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Exemple de composant stylé via tokens */
 @layer components {
-  .btn {
-    @apply bg-primary text-white px-md py-sm rounded-md font-medium;
-  }
+ .btn {
+  @apply bg-primary text-white px-md py-sm rounded-md font-medium;
+ }
 
-  .btn-outline {
-    @apply border border-primary text-primary bg-transparent;
-  }
+ .btn-outline {
+  @apply border border-primary text-primary bg-transparent;
+ }
 }

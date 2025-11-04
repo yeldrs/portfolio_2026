@@ -4,32 +4,27 @@ import Container from './Container.astro';
 
 // Définition des liens pour la modularité future
 const navLinks = [
-  { name: 'Work', href: '/' },
-  { name: 'About me', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+ { name: 'Work', href: '/' },
+ { name: 'About me', href: '/about' },
+ { name: 'Contact', href: '/contact' },
 ];
 ---
 
 <nav class="py-md">
+  
+    <Container class="flex justify-center items-center">
     
-    <Container class="flex justify-between items-center">
-        
-        <a href="/" class="flex items-center text-text-body-primary">
-            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M24 0C10.745 0 0 10.745 0 24s10.745 24 24 24 24-10.745 24-24S37.255 0 24 0zm-5.75 34.5c-.775 0-1.4-.625-1.4-1.4v-18.2c0-.775.625-1.4 1.4-1.4h11.5c.775 0 1.4.625 1.4 1.4v18.2c0 .775-.625 1.4-1.4 1.4h-11.5z"/>
-            </svg>
-        </a>
+  
 
-        <div class="flex space-x-lg">
-            {navLinks.map((link) => (
-                <a 
-                    href={link.href} 
-                    class="text-base font-normal text-text-body-primary hover:text-gray-600 transition duration-150"
-                >
-                    {link.name}
-                </a>
-            ))}
-        </div>
-        
-    </Container>
+    <div class="flex space-x-lg ml-xl">       {navLinks.map((link) => (
+        <a 
+          href={link.href} 
+          class="text-base font-normal text-text-body-primary hover:text-gray-600 transition duration-150"
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+    
+  </Container>
 </nav>

@@ -7,71 +7,93 @@ import ProjectCard from "../components/ProjectCard.astro";
 import Container from "../components/Container.astro";
 import Hero from "../components/Hero.astro";
 import Divider from "../components/Divider.astro";
-
-// 🔴 CRITIQUE : Importez la fonction de collection d'Astro
 import { getCollection } from "astro:content";
 
 // use a neutral placeholder instead (plus fiable)
 const PlaceholderImage =
-    "https://placehold.co/1600x900/efefef/111111.png?text=Placeholder";
+"/images/profile-pic.jpg"; // Doit pointer vers /public
 
 // 🔴 RÉCUPÉRATION DYNAMIQUE DES DONNÉES DE LA COLLECTION 'projects'
 const allProjects = (
-    await getCollection("projects", ({ data }) => {
-        // Filtre les brouillons
-        return data.isDraft !== true;
-    })
+ await getCollection("projects", ({ data }) => {
+  // Filtre les brouillons
+  return data.isDraft !== true;
+ })
 ).sort((a, b) => {
-    // Triez par date de publication (plus récent en premier)
-    const dateA = new Date(a.data.publishDate).getTime();
-    const dateB = new Date(b.data.publishDate).getTime();
-    return dateB - dateA;
+ // Triez par date de publication (plus récent en premier)
+ const dateA = new Date(a.data.publishDate).getTime();
+ const dateB = new Date(b.data.publishDate).getTime();
+ return dateB - dateA;
 });
 ---
 
 <BaseLayout title="[Votre Nom] - Portfolio UX Design">
-    <main>
-        <Container class="py-3xl px-lg flex flex-col gap-3xl">
-            <Hero
-                title="Hello, i'm Yassine 👋"
-                subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
-                profileImage={PlaceholderImage}
-            />
-            <Divider />
+ <main>
+  <Container class="mt-xl py-3xl px-lg flex flex-col gap-3xl">
+    <section class="space-y-4xl md:p-5xl">
+   <Hero
+    title="Hello, i'm Yassine 👋"
+    subtitle="I’m a Product Designer who loves translating user insights into genuine experiences that are measurable, valuable, and most importantly... built for people. "
+    profileImage={PlaceholderImage}
+   />
+   
+         <div class="flex flex-col items-center gap-xl">
+         <a
+            href="#projects"
+            class="text-base semibold underline font-semibold text-text-body-accent"
+          >
+            View case studies
+          </a>
+          
+               <div class="text-stroke-primary-dark animate-bounce">
+        <a href="#projects" aria-label="Scroll down to projects">
+                              <svg 
+                        width="19" 
+                        height="39" 
+                        viewBox="0 0 19 39" 
+                        fill="none" 
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-10 w-6" 
+                    >
+                        <path 
+                            d="M10.455 1.25C10.455 0.559644 9.89531 3.01764e-08 9.20496 0C8.5146 -3.01764e-08 7.95496 0.559644 7.95496 1.25L9.20496 1.25L10.455 1.25ZM8.32107 38.1339C8.80923 38.622 9.60068 38.622 10.0888 38.1339L18.0438 30.1789C18.5319 29.6908 18.5319 28.8993 18.0438 28.4112C17.5556 27.923 16.7642 27.923 16.276 28.4112L9.20495 35.4822L2.13389 28.4112C1.64573 27.923 0.854275 27.923 0.36612 28.4112C-0.122035 28.8993 -0.122035 29.6908 0.36612 30.1789L8.32107 38.1339ZM9.20496 1.25L7.95496 1.25L7.95495 37.25L9.20495 37.25L10.455 37.25L10.455 1.25L9.20496 1.25Z" 
+                            fill="currentColor" 
+                        /> 
+                    </svg>
+        </a>
+     </div>
+   </div>
+   </section>
 
-            <section
-                id="projects"
-                role="region"
-                aria-label="Projects"
-                class="flex flex-col space-y-3xl"
-            >
-                {
-                    allProjects.map((project, index) => (
-                        <>
-                    
-                            <ProjectCard
-                                id={project.slug}
-                                headline={project.data.title}
-                                client={project.data.client}
-                                description={project.data.description}
-                                role={project.data.role}
-                                projectLink={`/projects/${project.slug}`}
-                                imageAlt={`Aperçu du projet ${project.data.title}`}
-                                imageUrl={PlaceholderImage}
-                                direction={
-                                    index % 2 === 0 ? "reverse" : "default"
-                                }
-                            />
-                           
-                            {/* Ajoute un Divider après chaque carte sauf la dernière */}
-                      
-                            {index < allProjects.length - 1 && <Divider />}
-                         
-                            
-                        </>
-                    ))
-                }
-            </section>
-        </Container>
-    </main>
+   <section
+    id="projects"
+    role="region"
+    aria-label="Projects"
+        class="flex flex-col space-y-5xl"
+   >
+    {
+     allProjects.map((project, index) => (
+      <>
+     
+       <ProjectCard
+        id={project.slug}
+        headline={project.data.title}
+        client={project.data.client}
+        description={project.data.description}
+        role={project.data.role}
+        projectLink={`/projects/${project.slug}`}
+        imageAlt={`Aperçu du projet ${project.data.title}`}
+        imageUrl={project.data.cardImage}
+        direction={
+         index % 2 === 0 ? "reverse" : "default"
+        }
+       />
+      
+       {/* Le Divider est maintenant inutile, l'espace est géré par la classe space-y-4xl. */}
+      </>
+     ))
+    }
+   </section>
+  </Container>
+ </main>
 </BaseLayout>

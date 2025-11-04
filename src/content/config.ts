@@ -1,7 +1,6 @@
 // src/content/config.ts
 
-import { defineCollection, z } from 'astro:content';
-// import { image } from 'astro/assets'; // Décommentez si vous utilisez l'intégration des images
+import { defineCollection, z } from 'astro:content'; 
 
 const projectCollection = defineCollection({
     type: 'content', 
@@ -10,18 +9,16 @@ const projectCollection = defineCollection({
         client: z.string(),
         description: z.string().optional(),
         role: z.string(),
-        
-        // 🔴 NOUVEAU : Champ pour la description détaillée du rôle
         roleDescription: z.string(), 
-        
         context: z.string(),
         problem: z.string(),
-        keyInsights: z.array(z.string()),
+        keyInsights: z.array(z.string()), // 👈 Doit être un Array
         methodology: z.string(),
         designConception: z.string(),
         delivery: z.string(),
         metrics: z.string(),
-        // cardImage: image().optional(), // Décommentez si vous utilisez l'image
+        cardImage: z.string(), // 👈 Doit être un String (Contournement)
+        projectImages: z.array(z.string()).min(1).optional(),
         publishDate: z.string(), 
         isDraft: z.boolean().default(false),
     }),

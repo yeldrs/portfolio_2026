@@ -12,7 +12,7 @@ const { title, subtitle, profileImage } = Astro.props;
 ---
 
 <Container>
-    <section class="flex w-full flex-col md:flex-row items-center justify-center py-7xl gap-xl"> 
+    <section class="flex w-full flex-col md:flex-row items-center justify-center p-md gap-xl"> 
         
         <div class="mb-md md:mb-0 w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-full overflow-hidden">
             <img 
@@ -31,7 +31,7 @@ const { title, subtitle, profileImage } = Astro.props;
                 {title}
             </h1>
 
-            <p class="text-xl font-normal text-text-body-tertiary w-full max-w-[600px]">
+            <p class="text-md font-normal text-text-body-tertiary w-full max-w-[600px]">
                 {subtitle}
             </p>
         </div>

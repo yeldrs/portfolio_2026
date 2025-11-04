@@ -1,5 +1,12 @@
 ---
-title: "900.care: Optimizing Conversion and Average Basket Value"
+cardImage: "/images/coverProject-1.png"
+projectImages:
+  - "/images/project-1/image-01.jpg"
+  - "/images/project-1/image-02.jpg"
+  - "/images/project-1/image-03.jpg"
+  - "/images/project-1/image-04.jpg"
+
+title: "Optimizing retention and growth for a green e-commerce"
 client: "900.care"
 description: "Full-cycle Product Design on a D2C subscription model focused on improving first-order profitability."
 role: "Product Design Manager"
