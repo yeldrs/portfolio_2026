@@ -53,6 +53,7 @@ export default {
   '3xl': tokens.primitives.spacing['3xl'], // Utilisation directe du token (64px)
   '4xl': tokens.primitives.spacing['4xl'], // Utilisation directe du token (80px)
   '5xl': tokens.primitives.spacing['5xl'], // Utilisation directe du token (96px)
+  '6xl': tokens.primitives.spacing['6xl'], // Utilisation directe du token (112px)
  },
 
    // Border radius

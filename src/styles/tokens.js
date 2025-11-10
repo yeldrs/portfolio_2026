@@ -69,6 +69,7 @@ export const tokens = {
    '3xl': '64px',
    '4xl': '80px', // 🎯 NOUVELLE VALEUR: 80px (pour l'espacement entre les cartes)
    '5xl': '96px',
+   '6xl': '112px',
   },
 
   borderRadius: {

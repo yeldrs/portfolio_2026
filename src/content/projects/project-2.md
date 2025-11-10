@@ -1,5 +1,5 @@
 ---
-cardImage: "/images/coverProject-2.jpg"
+cardImage: "/images/coverProject-cdc.png"
 projectImages:
   - "/images/project-2/image-01.jpg"
   - "/images/project-2/image-02.jpg"

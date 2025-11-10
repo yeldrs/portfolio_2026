@@ -1,14 +1,14 @@
 ---
-cardImage: "/images/coverProject-1.png"
+cardImage: "/images/coverProject-900care.png"
 projectImages:
-  - "/images/project-1/image-01.jpg"
-  - "/images/project-1/image-02.jpg"
-  - "/images/project-1/image-03.jpg"
-  - "/images/project-1/image-04.jpg"
+  - "/images/project-1/mockupDesktop.png"
+  - "/images/project-1/research.png"
+  - "/images/project-1/conception.png"
+  - "/images/project-1/metricsHomepage.png"
 
 title: "Optimizing retention and growth for a green e-commerce"
 client: "900.care"
-description: "Full-cycle Product Design on a D2C subscription model focused on improving first-order profitability."
+description: "Full-cycle Product Design on a D2C subscription model focused on improving first-order profitability and long term retention."
 role: "Product Design Manager"
 roleDescription: "As a Product Designer, I was responsible for the entire cycle, from user research to the delivery of the final mockups, working closely with the Product Manager to define the A/B test hypotheses."
 context: "900.care is a D2C startup with a subscription-based business model. Its profitability strongly depends on the value of the first order to encourage retention and offset the Customer Acquisition Cost (CAC). The homepage and sales funnel were major friction points, not converting visitors efficiently enough and not sufficiently encouraging product range discovery."
