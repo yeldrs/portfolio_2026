@@ -30,143 +30,156 @@ const galleryImages = projectImages.slice(4);
 
 <BaseLayout title={`Project | ${project.data.title}`}>
 <Container>
- <main class="py-3xl max-w-content mx-auto space-y-3xl">
-  <h1 class="text-6xl font-extrabold text-text-body-primary mb-xl">
-   {project.data.title}
-  </h1>
+<main class="py-3xl max-w-content mx-auto space-y-3xl">
 
-  <div class="prose prose-lg dark:prose-invert">
-  <Content />
-  </div>
+ {/* H1 : 4XL BOLD (Extrabold) */}
+<h1 class="text-4xl font-extrabold text-text-body-primary">
+{project.data.title}
+</h1>
 
-  <div class="space-y-3xl">
-   
-      <section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-md"> 
-   <h2 class="text-4xl font-extrabold text-text-body-tertiary mb-md">Diagnosis</h2> 
+<div class="prose prose-lg dark:prose-invert">
+<Content />
+</div>
 
-   <div class="space-y-md">
-    
-        <article id={`${project.slug}-context-problem`} role="article"
-    aria-labelledby={`${project.slug}-context-title`} 
-    class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
-          <div class="space-y-md"> 
-            <div class="space-y-sm"> 
-       <h3 id={`${project.slug}-context-title`}
-       class="text-xl font-semibold text-text-body-primary">Context</h3>
-              <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.context}</p>
-      </div>
-            <div class="space-y-sm"> 
-       <h3 class="text-xl font-semibold text-text-body-primary">Problem</h3>
-              <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.problem}</p>
-      </div>
-     </div>
+<div class="space-y-3xl">
 
-          <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
-      <img src={contextImage} alt="Context and problem visualization"
-      class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
-     </div>
-    </article>
-    
-        <article id={`${project.slug}-role-insights`} role="article"
-    aria-labelledby={`${project.slug}-role-title`} 
-    class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
-     
-          <div class="space-y-md">
-            <div class="space-y-sm">
-       <h3 id={`${project.slug}-role-title`}
-       class="text-xl font-semibold text-text-body-primary">Role</h3>
-              <p class="text-base text-text-body-secondary leading-relaxed text-justify">
-       {project.data.roleDescription}</p>
-      </div>
-            <div class="space-y-sm">
-       <h3 class="text-xl font-semibold text-text-body-primary">Key insights</h3>
-              <ul class="list-disc pl-5 text-base text-text-body-secondary leading-relaxed text-justify">
-        {project.data.keyInsights.map(insight => <li>{insight}</li>)}
-       </ul>
-      </div>
-     </div>
+ <section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-md"> 
+{/* H2 : 3XL MEDIUM (Normal) */}
+<h2 class="text-3xl font-semibold text-text-body-primary mb-md">Diagnosis</h2> 
 
-          <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
-      <img src={roleImage} alt="Role and insights visualization"
-      class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
-     </div>
-    </article>
-   </div>
-   </section>
-      
-      <section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-md">
-   <h2 class="text-4xl font-extrabold text-text-body-tertiary mb-md">Conception</h2>
-
-      <article id={`${project.slug}-conception-main`} role="article"
-   class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
-        <div class="space-y-md">
-          <div class="space-y-sm">
-      <h3 class="text-xl font-semibold text-text-body-primary">Methodology</h3>
-            <p class="text-base text-text-body-tertiary leading-relaxed text-justify">{project.data.methodology}
-     </p>
-     </div>
-
-          <div class="space-y-sm">
-      <h3 class="text-xl font-semibold text-text-body-primary">Design conception</h3>
-            <p class="text-base text-text-body-tertiary leading-relaxed text-justify">
-     {project.data.designConception}</p>
-     </div>
-     </div>
-
-        <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
-     <img src={conceptionImage} alt="Conception visualization"
-    class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
-     </div>
-    </article>
-   </section>
-
-      <section id={`${project.slug}-results`} role="region" aria-label="Results" class="space-y-md">
-   <h2 class="text-4xl font-extrabold text-text-body-tertiary mb-md">Results</h2>
-
-      <article id={`${project.slug}-results-main`} role="article"
-   class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
-        <div class="space-y-md">
-          <div class="space-y-sm">
-      <h3 class="text-xl font-semibold text-text-body-primary">Delivery</h3>
-            <p class="text-base text-text-body-tertiary leading-relaxed text-justify">{project.data.delivery}
-     </p>
-     </div>
-
-          <div class="space-y-sm">
-      <h3 class="text-xl font-semibold text-text-body-primary">Metrics</h3>
-            <p class="text-base text-text-body-tertiary leading-relaxed text-justify">{project.data.metrics}</p>
-     </div>
-     </div>
-
-        <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
-     <img src={resultsImage} alt="Results visualization"
-    class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
-     </div>
-    </article>
-   </section>
- </div>
+<div class="space-y-md">
  
- {/* --- SÉLECTION DE LA GALERIE D'IMAGES (Laissée commentée) ---
- {projectImages.length > 0 && (
- <section id={`${project.slug}-gallery`} role="region" aria-label="Gallery" class="space-y-3xl pt-5xl">
-  <h2 class="text-4xl font-extrabold text-text-body-primary border-t pt-lg">Galerie</h2>
-  <div class="space-y-5xl">
-  {projectImages.map((imageUrl) => (
-  <div class="w-full rounded-xl overflow-hidden shadow-2xl">
-   <img src={imageUrl} alt={`Image de détail pour le projet ${project.data.title}`} loading="lazy"
-   class="w-full h-auto block" />
-  </div>
-  ))}
-  </div>
- </section>
- )}
- */}
- </main>
- </Container>
+  <article id={`${project.slug}-context-problem`} role="article"
+ aria-labelledby={`${project.slug}-context-title`} 
+ class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
+  <div class="space-y-md"> 
+   <div class="space-y-sm"> 
+ {/* H3 : LG SEMIBOLD */}
+ <h3 id={`${project.slug}-context-title`}
+ class="text-lg font-semibold text-text-body-secondary">Context</h3>
+   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.context}</p>
+ </div>
+   <div class="space-y-sm"> 
+ {/* H3 : LG SEMIBOLD */}
+ <h3 class="text-lg font-semibold text-text-body-secondary">Problem</h3>
+   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.problem}</p>
+ </div>
+ </div>
+
+  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+ <img src={contextImage} alt="Context and problem visualization"
+ class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+ </div>
+ </article>
+ 
+  <article id={`${project.slug}-role-insights`} role="article"
+ aria-labelledby={`${project.slug}-role-title`} 
+ class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
+ 
+  <div class="space-y-md">
+   <div class="space-y-sm">
+ {/* H3 : LG SEMIBOLD */}
+ <h3 id={`${project.slug}-role-title`}
+ class="text-lg font-semibold text-text-body-secondary">Role</h3>
+   <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+ {project.data.roleDescription}</p>
+ </div>
+   <div class="space-y-sm">
+ {/* H3 : LG SEMIBOLD */}
+ <h3 class="text-lg font-semibold text-text-body-secondary">Key insights</h3>
+   <ul class="list-disc pl-5 text-base text-text-body-secondary leading-relaxed text-justify">
+  {project.data.keyInsights.map(insight => <li>{insight}</li>)}
+ </ul>
+ </div>
+ </div>
+
+  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+ <img src={roleImage} alt="Role and insights visualization"
+ class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+ </div>
+ </article>
+</div>
+</section>
+ 
+ <section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-md">
+{/* H2 : 3XL MEDIUM (Normal) */}
+<h2 class="text-3xl font-normal text-text-body-secondary mb-md">Conception</h2>
+
+ <article id={`${project.slug}-conception-main`} role="article"
+class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
+  <div class="space-y-md">
+  <div class="space-y-sm">
+ {/* H3 : LG SEMIBOLD */}
+ <h3 class="text-lg font-semibold text-text-body-secondary">Methodology</h3>
+   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.methodology}
+ </p>
+ </div>
+
+  <div class="space-y-sm">
+ {/* H3 : LG SEMIBOLD */}
+ <h3 class="text-lg font-semibold text-text-body-secondary">Design conception</h3>
+   <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+ {project.data.designConception}</p>
+ </div>
+ </div>
+
+  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+ <img src={conceptionImage} alt="Conception visualization"
+ class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+ </div>
+ </article>
+</section>
+
+ <section id={`${project.slug}-results`} role="region" aria-label="Results" class="space-y-md">
+{/* H2 : 3XL MEDIUM (Normal) */}
+<h2 class="text-3xl font-normal text-text-body-secondary mb-md">Results</h2>
+
+ <article id={`${project.slug}-results-main`} role="article"
+class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
+  <div class="space-y-md">
+  <div class="space-y-sm">
+ {/* H3 : LG SEMIBOLD */}
+ <h3 class="text-lg font-semibold text-text-body-secondary">Delivery</h3>
+   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.delivery}
+ </p>
+ </div>
+
+  <div class="space-y-sm">
+ {/* H3 : LG SEMIBOLD */}
+ <h3 class="text-lg font-semibold text-text-body-secondary">Metrics</h3>
+   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.metrics}</p>
+ </div>
+ </div>
+
+  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
+ <img src={resultsImage} alt="Results visualization"
+ class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
+ </div>
+ </article>
+</section>
+</div>
+
+{/* --- SÉLECTION DE LA GALERIE D'IMAGES (Laissée commentée) ---
+{projectImages.length > 0 && (
+<section id={`${project.slug}-gallery`} role="region" aria-label="Gallery" class="space-y-3xl pt-5xl">
+<h2 class="text-4xl font-extrabold text-text-body-primary border-t pt-lg">Galerie</h2>
+<div class="space-y-5xl">
+{projectImages.map((imageUrl) => (
+<div class="w-full rounded-xl overflow-hidden shadow-2xl">
+<img src={imageUrl} alt={`Image de détail pour le projet ${project.data.title}`} loading="lazy"
+class="w-full h-auto block" />
+</div>
+))}
+</div>
+</section>
+)}
+*/}
+</main>
+</Container>
 </BaseLayout>
 
 <style>
 .prose {
- max-width: none;
+max-width: none;
 }
 </style>

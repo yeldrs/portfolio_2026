@@ -1,0 +1,242 @@
+/* src/styles/tokens.css ou intégré dans global.css */
+
+:root {
+  /* ========================================================================= */
+  /* --- 📏 FONT SIZE (Primitive) ------------------------------------------ */
+  /* ========================================================================= */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 60px;
+  /* Tailles non utilisées précédemment, mais conservées de votre format */
+  --font-size-7xl: 72px;
+  --font-size-8xl: 96px;
+  --font-size-9xl: 128px;
+
+  /* ========================================================================= */
+  /* --- 🏋️ FONT WEIGHT (Primitive) ----------------------------------------- */
+  /* ========================================================================= */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400; /* = Medium 400 dans votre usage */
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* ========================================================================= */
+  /* --- ✍️ TYPOGRAPHY COMPOSED (Styles recommandés) ------------------------- */
+  /* --- Définit Taille/Hauteur pour les titres spécifiques utilisés ---------- */
+  /* ========================================================================= */
+
+  /* H1 (4xl bold/extrabold) */
+  --typography-h1--size: var(--font-size-4xl); /* 36px */
+  --typography-h1--weight: var(--font-weight-extrabold); /* 800 */
+  --typography-h1--leading: 1.111; /* 40px / 36px */
+
+  /* H2 (3xl normal/medium) */
+  --typography-h2--size: var(--font-size-3xl); /* 30px */
+  --typography-h2--weight: var(--font-weight-normal); /* 400 */
+  --typography-h2--leading: 1.2; /* 36px / 30px */
+
+  /* H3 (lg semibold) */
+  --typography-h3--size: var(--font-size-lg); /* 18px */
+  --typography-h3--weight: var(--font-weight-semibold); /* 600 */
+  --typography-h3--leading: 1.333; /* 24px / 18px */
+
+  /* Body (base normal) */
+  --typography-body--size: var(--font-size-base); /* 16px */
+  --typography-body--weight: var(--font-weight-normal); /* 400 */
+  --typography-body--leading: 1.5; /* Ratio 1.5 */
+  
+  /* Text-sm (Body-sm) */
+  --typography-sm--size: var(--font-size-sm); /* 14px */
+  --typography-sm--leading: 1.143; /* 16px / 14px */
+
+
+  /* ========================================================================= */
+  /* --- 📏 SPACING (Primitive) -------------------------------------------- */
+  /* ========================================================================= */
+  --spacing-none: 0px;
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;   /* 💡 8px pour H3/P padding */
+  --spacing-sm-d: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 80px;
+  --spacing-5xl: 96px;   /* Ajouté de tokens.js */
+  --spacing-6xl: 112px;  /* Ajouté de tokens.js */
+
+
+  /* ========================================================================= */
+  /* --- 📦 BORDER & RADIUS (Primitive) -------------------------------------- */
+  /* ========================================================================= */
+  --border-radius-md: 6px;
+  --border-radius-xl: 12px;
+  --border-radius-2xl: 16px;
+  /* Autres Radii du format CSS */
+  --border-radius-none: 0px;
+  --border-radius-sm: 2px;
+  --border-radius-default: 4px;
+  --border-radius-lg: 8px;
+  --border-radius-3xl: 24px;
+  --border-radius-full: 9999px;
+
+  /* Largeur de Bordure */
+  --border-width-none: 0px;
+  --border-width-xs: 1px;
+  --border-width-s: 1.5px;
+  --border-width-m: 2px;
+  --border-width-lg: 2.5px;
+  --border-width-xl: 3px;
+  --border-width-xxl: 4px;
+  --border-width-xxxl: 8px;
+
+
+  /* ========================================================================= */
+  /* --- 🌑 SHADOWS (Styles Manuels) ---------------------------------------- */
+  /* ========================================================================= */
+  --shadow--2xs: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  --shadow--xs: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow--sm: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow--md: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow--lg: 0px 4px 6px rgba(0, 0, 0, 0.05), 0px 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow--xl: 0px 10px 10px rgba(0, 0, 0, 0.04), 0px 20px 25px rgba(0, 0, 0, 0.1);
+  --shadow--2xl: 0px 25px 50px rgba(0, 0, 0, 0.25);
+  --shadow--none: 0px 0px 0px rgba(0, 0, 0, 1);
+
+
+  /* ========================================================================= */
+  /* --- 🎨 COLORS (Primitives) -------------------------------------------- */
+  /* ========================================================================= */
+
+  /* Base */
+  --color-base-white: #ffffff;
+  --color-base-black: #030712;
+
+  /* Gray */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5dc;
+  --color-gray-400: #99a1af;
+  --color-gray-500: #6a7282;
+  --color-gray-600: #4a5565;
+  --color-gray-700: #364153;
+  --color-gray-800: #1e2939;
+  --color-gray-900: #101828;
+  --color-gray-950: #030712;
+
+  /* Blue Chill (Utilisé pour Brand) */
+  --color-blue-chill-50: #f1f9fa;
+  --color-blue-chill-100: #dcf0f1;
+  --color-blue-chill-200: #bde2e4;
+  --color-blue-chill-300: #8fcdd1;
+  --color-blue-chill-400: #59aeb7;
+  --color-blue-chill-500: #3b8c95;
+  --color-blue-chill-600: #367984;
+  --color-blue-chill-700: #31636d;
+  --color-blue-chill-800: #2f525b;
+  --color-blue-chill-900: #2b474e;
+  --color-blue-chill-950: #182d34;
+
+  /* Yellow, Green, Red, Persian Blue, Periwinkle (de votre format CSS initial) */
+  --color-yellow-50: #fefce8;
+  --color-yellow-100: #fef9c2;
+  --color-yellow-200: #fff085;
+  --color-yellow-300: #ffdf20;
+  --color-yellow-400: #fcc800;
+  --color-yellow-500: #efb100;
+  --color-yellow-600: #d08700;
+  --color-yellow-700: #a65f00;
+  --color-yellow-800: #894b00;
+  --color-yellow-900: #733e0a;
+  --color-yellow-950: #432004;
+
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #b9f8cf;
+  --color-green-300: #7bf1a8;
+  --color-green-400: #05df72;
+  --color-green-500: #00c951;
+  --color-green-600: #00a63e;
+  --color-green-700: #008236;
+  --color-green-800: #016630;
+  --color-green-900: #0d542b;
+  --color-green-950: #052e16;
+
+  --color-red-50: #fef2f2;
+  --color-red-100: #ffe2e2;
+  --color-red-200: #ffc9c9;
+  --color-red-300: #ffa2a2;
+  --color-red-400: #ff6467;
+  --color-red-500: #fb2c36;
+  --color-red-600: #e7000b;
+  --color-red-700: #c10007;
+  --color-red-800: #9f0712;
+  --color-red-900: #82181a;
+  --color-red-950: #460809;
+
+  --color-persian-blue-50: #edf6ff;
+  --color-persian-blue-100: #d7e9ff;
+  --color-persian-blue-200: #b8daff;
+  --color-persian-blue-300: #87c4ff;
+  --color-persian-blue-400: #4ea3ff;
+  --color-persian-blue-500: #257dff;
+  --color-persian-blue-600: #0e5aff;
+  --color-persian-blue-700: #073fde;
+  --color-persian-blue-800: #0d37c0;
+  --color-persian-blue-900: #123496;
+  --color-persian-blue-950: #10215b;
+
+  --color-periwinkle-50: #eef1ff;
+  --color-periwinkle-100: #dfe5ff;
+  --color-periwinkle-200: #becbff;
+  --color-periwinkle-300: #a3b5fe;
+  --color-periwinkle-400: #7f98fa;
+  --color-periwinkle-500: #607ef4;
+  --color-periwinkle-600: #4364e8;
+  --color-periwinkle-700: #3553cd;
+  --color-periwinkle-800: #2e46a5;
+  --color-periwinkle-900: #2c3d83;
+  --color-periwinkle-950: #1a244c;
+
+
+  /* ========================================================================= */
+  /* --- 🎨 COLORS (Sémantiques) ------------------------------------------- */
+  /* ========================================================================= */
+  /* Ces variables sémantiques font référence aux variables primitives définies ci-dessus. */
+  --color-stroke-primary: var(--color-blue-chill-400);
+  --color-stroke-primary-dark: var(--color-blue-chill-500);
+  
+  --color-button-background-primary: var(--color-blue-chill-600);
+  --color-button-text-primary: var(--color-base-white);
+  
+  --color-text-body-primary: var(--color-base-black);
+  --color-text-body-accent: var(--color-blue-chill-600);
+  --color-text-body-secondary: var(--color-gray-600);
+  --color-text-body-tertiary: var(--color-gray-400);
+  
+  --color-background-primary: var(--color-base-white);
+  --color-background-brand: var(--color-blue-chill-600); /* Ajouté pour Brand */
+  
+  --color-background-accent-1: var(--color-blue-chill-100);
+  --color-background-accent-2: var(--color-persian-blue-100);
+  --color-background-accent-3: var(--color-periwinkle-100);
+  
+  --color-text-body-accent-1: var(--color-periwinkle-950);
+  --color-text-body-accent-2: var(--color-blue-chill-950);
+  --color-text-body-accent-3: var(--color-persian-blue-950);
+}
