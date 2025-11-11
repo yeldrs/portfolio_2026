@@ -19,12 +19,12 @@ const { Content } = await project.render();
 const projectImages = project.data.projectImages || [];
 
 // Les 4 premières images pour les sections Context/Role/Conception/Results
-const contextImage = projectImages[0] || project.data.cardImage || ''; // Utilise la cardImage comme fallback
+const contextImage = projectImages[0] || project.data.cardImage || '';
 const roleImage = projectImages[1] || '';
 const conceptionImage = projectImages[2] || '';
 const resultsImage = projectImages[3] || '';
 
-// Le reste des images pour la galerie
+// Le reste des images pour la galerie (non utilisée)
 const galleryImages = projectImages.slice(4); 
 ---
 
@@ -32,7 +32,7 @@ const galleryImages = projectImages.slice(4);
 <Container>
 <main class="py-3xl max-w-content mx-auto space-y-3xl">
 
- {/* H1 : 4XL BOLD (Extrabold) */}
+{/* H1 : 4XL BOLD (Extrabold) */}
 <h1 class="text-4xl font-extrabold text-text-body-primary">
 {project.data.title}
 </h1>
@@ -43,142 +43,189 @@ const galleryImages = projectImages.slice(4);
 
 <div class="space-y-3xl">
 
- <section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-md"> 
-{/* H2 : 3XL MEDIUM (Normal) */}
-<h2 class="text-3xl font-semibold text-text-body-primary mb-md">Diagnosis</h2> 
+<section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-md"> 
+<h2 class="text-3xl font-normal text-text-body-primary mb-md">Diagnosis</h2> 
 
 <div class="space-y-md">
- 
-  <article id={`${project.slug}-context-problem`} role="article"
- aria-labelledby={`${project.slug}-context-title`} 
- class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
-  <div class="space-y-md"> 
-   <div class="space-y-sm"> 
- {/* H3 : LG SEMIBOLD */}
- <h3 id={`${project.slug}-context-title`}
- class="text-lg font-semibold text-text-body-secondary">Context</h3>
-   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.context}</p>
- </div>
-   <div class="space-y-sm"> 
- {/* H3 : LG SEMIBOLD */}
- <h3 class="text-lg font-semibold text-text-body-secondary">Problem</h3>
-   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.problem}</p>
- </div>
- </div>
 
-  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
- <img src={contextImage} alt="Context and problem visualization"
- class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
- </div>
- </article>
- 
-  <article id={`${project.slug}-role-insights`} role="article"
- aria-labelledby={`${project.slug}-role-title`} 
- class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
- 
-  <div class="space-y-md">
-   <div class="space-y-sm">
- {/* H3 : LG SEMIBOLD */}
- <h3 id={`${project.slug}-role-title`}
- class="text-lg font-semibold text-text-body-secondary">Role</h3>
-   <p class="text-base text-text-body-secondary leading-relaxed text-justify">
- {project.data.roleDescription}</p>
- </div>
-   <div class="space-y-sm">
- {/* H3 : LG SEMIBOLD */}
- <h3 class="text-lg font-semibold text-text-body-secondary">Key insights</h3>
-   <ul class="list-disc pl-5 text-base text-text-body-secondary leading-relaxed text-justify">
-  {project.data.keyInsights.map(insight => <li>{insight}</li>)}
- </ul>
- </div>
- </div>
+ <article id={`${project.slug}-context-problem`} role="article"
+aria-labelledby={`${project.slug}-context-title`} 
+class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
+ <div class="space-y-md"> 
+ <div class="space-y-sm"> 
+<h3 id={`${project.slug}-context-title`}
+class="text-lg font-semibold text-text-body-secondary">Context</h3>
+ <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.context}</p>
+</div>
+ <div class="space-y-sm"> 
+<h3 class="text-lg font-semibold text-text-body-secondary">Problem</h3>
+ <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.problem}</p>
+</div>
+</div>
 
-  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
- <img src={roleImage} alt="Role and insights visualization"
- class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
- </div>
- </article>
+ {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
+ <div 
+    onclick={`showImageModal('${contextImage}')`}
+    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
+ {/* Image : w-full h-auto pour conserver le ratio natif */}
+<img src={contextImage} alt="Context and problem visualization"
+class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+</div>
+</article>
+
+ <article id={`${project.slug}-role-insights`} role="article"
+aria-labelledby={`${project.slug}-role-title`} 
+class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
+
+ <div class="space-y-md">
+ <div class="space-y-sm">
+<h3 id={`${project.slug}-role-title`}
+class="text-lg font-semibold text-text-body-secondary">Role</h3>
+ <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+{project.data.roleDescription}</p>
+</div>
+ <div class="space-y-sm">
+<h3 class="text-lg font-semibold text-text-body-secondary">Key insights</h3>
+ <ul class="list-disc pl-5 text-base text-text-body-secondary leading-relaxed text-justify">
+ {project.data.keyInsights.map(insight => <li>{insight}</li>)}
+</ul>
+</div>
+</div>
+
+ {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
+ <div 
+    onclick={`showImageModal('${roleImage}')`}
+    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
+ {/* Image : w-full h-auto pour conserver le ratio natif */}
+<img src={roleImage} alt="Role and insights visualization"
+class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+</div>
+</article>
 </div>
 </section>
- 
- <section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-md">
-{/* H2 : 3XL MEDIUM (Normal) */}
-<h2 class="text-3xl font-normal text-text-body-secondary mb-md">Conception</h2>
 
- <article id={`${project.slug}-conception-main`} role="article"
+<section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-md">
+<h2 class="text-3xl font-normal text-text-body-primary mb-md">Conception</h2>
+
+<article id={`${project.slug}-conception-main`} role="article"
 class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
-  <div class="space-y-md">
-  <div class="space-y-sm">
- {/* H3 : LG SEMIBOLD */}
- <h3 class="text-lg font-semibold text-text-body-secondary">Methodology</h3>
-   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.methodology}
- </p>
- </div>
+ <div class="space-y-md">
+ <div class="space-y-sm">
+<h3 class="text-lg font-semibold text-text-body-secondary">Methodology</h3>
+ <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.methodology}
+</p>
+</div>
 
-  <div class="space-y-sm">
- {/* H3 : LG SEMIBOLD */}
- <h3 class="text-lg font-semibold text-text-body-secondary">Design conception</h3>
-   <p class="text-base text-text-body-secondary leading-relaxed text-justify">
- {project.data.designConception}</p>
- </div>
- </div>
+ <div class="space-y-sm">
+<h3 class="text-lg font-semibold text-text-body-secondary">Design conception</h3>
+ <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+{project.data.designConception}</p>
+</div>
+</div>
 
-  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
- <img src={conceptionImage} alt="Conception visualization"
- class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
- </div>
- </article>
+ {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
+ <div 
+    onclick={`showImageModal('${conceptionImage}')`}
+    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
+ {/* Image : w-full h-auto pour conserver le ratio natif */}
+<img src={conceptionImage} alt="Conception visualization"
+class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+</div>
+</article>
 </section>
 
- <section id={`${project.slug}-results`} role="region" aria-label="Results" class="space-y-md">
-{/* H2 : 3XL MEDIUM (Normal) */}
-<h2 class="text-3xl font-normal text-text-body-secondary mb-md">Results</h2>
+<section id={`${project.slug}-results`} role="region" aria-label="Results" class="space-y-md">
+<h2 class="text-3xl font-normal text-text-body-primary mb-md">Results</h2>
 
- <article id={`${project.slug}-results-main`} role="article"
+<article id={`${project.slug}-results-main`} role="article"
 class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
-  <div class="space-y-md">
-  <div class="space-y-sm">
- {/* H3 : LG SEMIBOLD */}
- <h3 class="text-lg font-semibold text-text-body-secondary">Delivery</h3>
-   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.delivery}
- </p>
- </div>
+ <div class="space-y-md">
+ <div class="space-y-sm">
+<h3 class="text-lg font-semibold text-text-body-secondary">Delivery</h3>
+ <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.delivery}
+</p>
+</div>
 
-  <div class="space-y-sm">
- {/* H3 : LG SEMIBOLD */}
- <h3 class="text-lg font-semibold text-text-body-secondary">Metrics</h3>
-   <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.metrics}</p>
- </div>
- </div>
+ <div class="space-y-sm">
+<h3 class="text-lg font-semibold text-text-body-secondary">Metrics</h3>
+ <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.metrics}</p>
+</div>
+</div>
 
-  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-[19/9]">
- <img src={resultsImage} alt="Results visualization"
- class="w-full h-full object-cover object-center block rounded-2xl" loading="lazy" />
- </div>
- </article>
+ {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
+ <div 
+    onclick={`showImageModal('${resultsImage}')`}
+    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
+ {/* Image : w-full h-auto pour conserver le ratio natif */}
+<img src={resultsImage} alt="Results visualization"
+class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+</div>
+</article>
 </section>
 </div>
 
-{/* --- SÉLECTION DE LA GALERIE D'IMAGES (Laissée commentée) ---
-{projectImages.length > 0 && (
-<section id={`${project.slug}-gallery`} role="region" aria-label="Gallery" class="space-y-3xl pt-5xl">
-<h2 class="text-4xl font-extrabold text-text-body-primary border-t pt-lg">Galerie</h2>
-<div class="space-y-5xl">
-{projectImages.map((imageUrl) => (
-<div class="w-full rounded-xl overflow-hidden shadow-2xl">
-<img src={imageUrl} alt={`Image de détail pour le projet ${project.data.title}`} loading="lazy"
-class="w-full h-auto block" />
-</div>
-))}
-</div>
-</section>
-)}
-*/}
 </main>
 </Container>
 </BaseLayout>
 
+{/* ========================================================================= */}
+{/* 🖼️ MODALE / LIGHTBOX SIMULÉE AVEC DIV (Inchangement) */}
+{/* ========================================================================= */}
+
+<div 
+  id="imageModal" 
+  class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out" 
+  aria-modal="true" 
+  role="dialog">
+  
+  {/* Bouton de fermeture visible au-dessus de l'image */}
+  <button 
+    id="closeModalBtn"
+    class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
+    aria-label="Fermer la modale"
+    onclick="document.getElementById('imageModal').classList.add('hidden'); document.getElementById('imageModal').classList.remove('flex');">
+    &times;
+  </button>
+  
+  {/* L'image elle-même, qui ne doit pas fermer la modale si elle est cliquée */}
+  <img 
+    id="modalImage" 
+    src="" 
+    alt="Image agrandie du projet" 
+    class="w-auto max-h-[95vh] max-w-[95vw] block object-contain cursor-default" 
+    onclick="event.stopPropagation()" />
+</div>
+
+<script is:inline>
+  // 1. Définir la fonction d'ouverture globalement pour être appelée par onclick=""
+  window.showImageModal = function(imageUrl) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+
+    if (!modal || !modalImg || !imageUrl) return;
+
+    modalImg.src = imageUrl;
+    
+    // Afficher le DIV de la modale et centrer le contenu (z-[9999] est critique ici)
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    console.log("Modal opened for:", imageUrl); // Débogage
+  };
+    
+  // 2. Gérer la fermeture par Échap une seule fois
+  document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+          const modal = document.getElementById('imageModal');
+          if (modal && !modal.classList.contains('hidden')) {
+              modal.classList.add('hidden');
+              modal.classList.remove('flex');
+          }
+      }
+  }, { once: true });
+</script>
+
 <style>
+/* CSS pour s'assurer que le Prose n'interfère pas */
 .prose {
 max-width: none;
 }

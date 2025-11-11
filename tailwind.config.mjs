@@ -2,6 +2,8 @@
 import {
   tokens
 } from './src/styles/tokens.js';
+// 🚨 CORRECTION : Importez defaultTheme pour pouvoir l'utiliser
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -11,6 +13,11 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        // Cette ligne définit Manrope comme la nouvelle police 'sans' par défaut
+        // 🚨 CORRECTION : defaultTheme est maintenant défini
+        sans: ['Manrope', ...defaultTheme.fontFamily.sans],
+      },
       // Colors: map a few semantic names to primitive values
       colors: {
         'background-primary': tokens.primitives.color.base.white,
