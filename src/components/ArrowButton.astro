@@ -1,0 +1,87 @@
+---
+export interface Props {
+direction: 'left' | 'right';
+variant?: 'main' | 'tertiary' | 'disabled';
+onClick?: string; 
+id: string;
+label: string;
+isMobile?: boolean; 
+isHidden?: boolean; 
+class?: string; 
+disabled?: boolean;
+
+// Ces props ne seront PAS utilisées pour l'affichage visuel temporairement
+mainDefault: string; 
+mainHover: string; 
+tertiaryDefault: string; 
+tertiaryHover: string; 
+disabledColor: string; 
+}
+
+const { 
+direction, 
+variant = 'main', 
+onClick, 
+id, 
+label, 
+isMobile = false, 
+isHidden = false,
+class: className, 
+disabled = false,
+// Les props de couleur sont extraites mais ignorées pour le style
+mainDefault,
+mainHover,
+tertiaryDefault,
+tertiaryHover,
+disabledColor,
+} = Astro.props;
+
+// 1. Détermination de l'état et des classes d'invisibilité
+let opacityClass = '';
+let pointerEvents = '';
+
+const isDisabled = disabled || variant === 'disabled'; 
+
+if (isDisabled) {
+    // Rend la flèche invisible et non cliquable
+    opacityClass = 'opacity-0'; 
+    pointerEvents = 'pointer-events-none';
+} else {
+    // Reste visible et cliquable
+    opacityClass = 'opacity-100'; 
+    pointerEvents = '';
+}
+
+// 2. Définition du SVG (Retour à la version simple avec stroke="currentColor" pour le noir)
+const ArrowSVGContent = `
+<svg width="24" height="43" viewBox="0 0 24 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.5 1.5L21.5 21.5L1.5 41.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg>
+`;
+
+// 3. Détermination de la rotation (SVG par défaut pointe à droite)
+const rotationClass = direction === 'left' ? 'transform rotate-180' : '';
+
+// 4. Classes d'affichage
+// Corrigé temporairement pour assurer la visibilité sur l'écran de débogage :
+const displayClasses = isMobile ? 'block sm:hidden' : 'block sm:block'; 
+const hiddenClass = isHidden ? 'hidden' : '';
+
+const baseClasses = `p-2 transition-opacity ${displayClasses} ${hiddenClass}`;
+---
+
+<button 
+id={id} 
+aria-label={label} 
+class={`${baseClasses} ${className || ''}`} 
+onclick={onClick || ''}
+disabled={isDisabled} 
+data-variant={variant}
+>
+<span 
+    class={`h-full w-full block ${rotationClass} ${opacityClass} ${pointerEvents}`} 
+    aria-hidden="true" 
+    set:html={ArrowSVGContent}
+>
+</span>
+</button>

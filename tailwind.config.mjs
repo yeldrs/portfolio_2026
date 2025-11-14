@@ -22,6 +22,13 @@ export default {
       colors: {
         'background-primary': tokens.primitives.color.base.white,
         'background-brand': tokens.primitives.color['blue-chill'][600],
+        
+        // 💡 NOUVEAU: background-accent-primary (Couleur Active)
+        'background-accent-primary': tokens.primitives.color['blue-chill'][500],
+        
+        // 💡 NOUVEAU: background-disabled (Couleur Inactive/Désactivée)
+        'background-disabled': tokens.primitives.color.gray[300],
+        
         'text-body-primary': tokens.primitives.color.base.black,
         'text-body-tertiary': tokens.primitives.color.gray[400],
         'text-body-secondary': tokens.primitives.color.gray[600],
@@ -29,7 +36,11 @@ export default {
         'button-background-primary': tokens.primitives.color['blue-chill'][600],
         'button-text-primary': tokens.primitives.color.base.white,
         'stroke-primary': tokens.primitives.color['blue-chill'][400],
+        'stroke-primary-hover': tokens.primitives.color['blue-chill'][200],
         'stroke-primary-dark': tokens.primitives.color['blue-chill'][500],
+        'stroke-tertiary': tokens.primitives.color.gray[50],
+        'stroke-tertiary-hover': tokens.primitives.color.gray[200],
+        'stroke-disabled': tokens.primitives.color.gray[300],
       },
 
       // Font sizes (Styles Composés: [font-size, {lineHeight: ratio}])

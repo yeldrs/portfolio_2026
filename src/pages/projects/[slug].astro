@@ -1,7 +1,10 @@
 ---
+// src/pages/projects/[slug].astro
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/Container.astro';
+import ProjectCarousel from '../../components/ProjectCarousel.astro'; 
+import ArrowButton from '../../components/ArrowButton.astro'; 
 
 // Générer les chemins statiques à partir des fichiers MDX
 export async function getStaticPaths() {
@@ -15,24 +18,32 @@ props: { project },
 const { project } = Astro.props;
 const { Content } = await project.render();
 
-// 🚨 RÉCUPÉRATION DES IMAGES
+// --- Logique d'images ---
 const projectImages = project.data.projectImages || [];
-
-// Les 4 premières images pour les sections Context/Role/Conception/Results
 const contextImage = projectImages[0] || project.data.cardImage || '';
 const roleImage = projectImages[1] || '';
 const conceptionImage = projectImages[2] || '';
 const resultsImage = projectImages[3] || '';
+const carouselImages = projectImages.slice(4); 
+const allModalImages = projectImages; // <-- Variable à utiliser dans le script
 
-// Le reste des images pour la galerie (non utilisée)
-const galleryImages = projectImages.slice(4); 
+// --- Classes du Design System (DS) pour les Props (Couleurs des flèches) ---
+const DS_CLASSES = {
+mainDefault: 'stroke-primary', 
+mainHover: 'stroke-primary-hover', 
+tertiaryDefault: 'stroke-tertiary', 
+tertiaryHover: 'stroke-tertiary-hover', 
+disabledColor: 'stroke-disabled',
+};
+
+const tertiaryVariant = 'tertiary';
+const disabledVariant = 'disabled';
 ---
 
 <BaseLayout title={`Project | ${project.data.title}`}>
 <Container>
 <main class="py-3xl max-w-content mx-auto space-y-3xl">
 
-{/* H1 : 4XL BOLD (Extrabold) */}
 <h1 class="text-4xl font-extrabold text-text-body-primary">
 {project.data.title}
 </h1>
@@ -46,57 +57,56 @@ const galleryImages = projectImages.slice(4);
 <section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-md"> 
 <h2 class="text-3xl font-normal text-text-body-primary mb-md">Diagnosis</h2> 
 
-<div class="space-y-md">
-
- <article id={`${project.slug}-context-problem`} role="article"
+<article id={`${project.slug}-context-problem`} role="article"
 aria-labelledby={`${project.slug}-context-title`} 
 class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
- <div class="space-y-md"> 
- <div class="space-y-sm"> 
-<h3 id={`${project.slug}-context-title`}
-class="text-lg font-semibold text-text-body-secondary">Context</h3>
- <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.context}</p>
-</div>
- <div class="space-y-sm"> 
-<h3 class="text-lg font-semibold text-text-body-secondary">Problem</h3>
- <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.problem}</p>
-</div>
+<div class="space-y-md"> 
+ 
+ <div class="space-y-sm">
+  <h3 id={`${project.slug}-context-title`}
+   class="text-lg font-semibold text-text-body-secondary">Context</h3>
+  <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+   {project.data.context}
+  </p>
+ </div>
+
+ <div class="space-y-sm">
+  <h3 class="text-lg font-semibold text-text-body-secondary">Problem</h3>
+  <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+   {project.data.problem}
+  </p>
+ </div>
 </div>
 
- {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
- <div 
-    onclick={`showImageModal('${contextImage}')`}
-    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
- {/* Image : w-full h-auto pour conserver le ratio natif */}
+<div 
+onclick={`showImageModal('${contextImage}')`}
+class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
 <img src={contextImage} alt="Context and problem visualization"
 class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
 </div>
 </article>
 
- <article id={`${project.slug}-role-insights`} role="article"
+<article id={`${project.slug}-role-insights`} role="article"
 aria-labelledby={`${project.slug}-role-title`} 
 class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"> 
-
- <div class="space-y-md">
- <div class="space-y-sm">
+<div class="space-y-md">
+<div class="space-y-sm">
 <h3 id={`${project.slug}-role-title`}
 class="text-lg font-semibold text-text-body-secondary">Role</h3>
- <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+<p class="text-base text-text-body-secondary leading-relaxed text-justify">
 {project.data.roleDescription}</p>
 </div>
- <div class="space-y-sm">
+<div class="space-y-sm">
 <h3 class="text-lg font-semibold text-text-body-secondary">Key insights</h3>
- <ul class="list-disc pl-5 text-base text-text-body-secondary leading-relaxed text-justify">
- {project.data.keyInsights.map(insight => <li>{insight}</li>)}
+<ul class="list-disc pl-5 text-base text-text-body-secondary leading-relaxed text-justify">
+{project.data.keyInsights.map(insight => <li>{insight}</li>)}
 </ul>
 </div>
 </div>
 
- {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
- <div 
-    onclick={`showImageModal('${roleImage}')`}
-    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
- {/* Image : w-full h-auto pour conserver le ratio natif */}
+<div 
+onclick={`showImageModal('${roleImage}')`}
+class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
 <img src={roleImage} alt="Role and insights visualization"
 class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
 </div>
@@ -104,30 +114,31 @@ class="w-full h-auto object-contain object-center block rounded-2xl transition-t
 </div>
 </section>
 
+{/* PLACEMENT DU CARROUSEL */}
+<ProjectCarousel images={carouselImages} />
+
 <section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-md">
 <h2 class="text-3xl font-normal text-text-body-primary mb-md">Conception</h2>
 
 <article id={`${project.slug}-conception-main`} role="article"
 class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
- <div class="space-y-md">
- <div class="space-y-sm">
+<div class="space-y-md">
+<div class="space-y-sm">
 <h3 class="text-lg font-semibold text-text-body-secondary">Methodology</h3>
- <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.methodology}
+<p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.methodology}
 </p>
 </div>
 
- <div class="space-y-sm">
+<div class="space-y-sm">
 <h3 class="text-lg font-semibold text-text-body-secondary">Design conception</h3>
- <p class="text-base text-text-body-secondary leading-relaxed text-justify">
+<p class="text-base text-text-body-secondary leading-relaxed text-justify">
 {project.data.designConception}</p>
 </div>
 </div>
 
- {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
- <div 
-    onclick={`showImageModal('${conceptionImage}')`}
-    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
- {/* Image : w-full h-auto pour conserver le ratio natif */}
+<div 
+onclick={`showImageModal('${conceptionImage}')`}
+class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
 <img src={conceptionImage} alt="Conception visualization"
 class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
 </div>
@@ -139,24 +150,22 @@ class="w-full h-auto object-contain object-center block rounded-2xl transition-t
 
 <article id={`${project.slug}-results-main`} role="article"
 class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start">
- <div class="space-y-md">
- <div class="space-y-sm">
+<div class="space-y-md">
+<div class="space-y-sm">
 <h3 class="text-lg font-semibold text-text-body-secondary">Delivery</h3>
- <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.delivery}
+<p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.delivery}
 </p>
 </div>
 
- <div class="space-y-sm">
+<div class="space-y-sm">
 <h3 class="text-lg font-semibold text-text-body-secondary">Metrics</h3>
- <p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.metrics}</p>
+<p class="text-base text-text-body-secondary leading-relaxed text-justify">{project.data.metrics}</p>
 </div>
 </div>
 
- {/* Div parent : ASPECT RATIO FIXE RETIRÉ */}
- <div 
-    onclick={`showImageModal('${resultsImage}')`}
-    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
- {/* Image : w-full h-auto pour conserver le ratio natif */}
+<div 
+onclick={`showImageModal('${resultsImage}')`}
+class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block">
 <img src={resultsImage} alt="Results visualization"
 class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
 </div>
@@ -169,63 +178,212 @@ class="w-full h-auto object-contain object-center block rounded-2xl transition-t
 </BaseLayout>
 
 {/* ========================================================================= */}
-{/* 🖼️ MODALE / LIGHTBOX SIMULÉE AVEC DIV (Inchangement) */}
+{/* 🖼️ MODALE / LIGHTBOX SIMULÉE AVEC NAVIGATION */}
 {/* ========================================================================= */}
 
 <div 
-  id="imageModal" 
-  class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out" 
-  aria-modal="true" 
-  role="dialog">
-  
-  {/* Bouton de fermeture visible au-dessus de l'image */}
-  <button 
-    id="closeModalBtn"
-    class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
-    aria-label="Fermer la modale"
-    onclick="document.getElementById('imageModal').classList.add('hidden'); document.getElementById('imageModal').classList.remove('flex');">
-    &times;
-  </button>
-  
-  {/* L'image elle-même, qui ne doit pas fermer la modale si elle est cliquée */}
-  <img 
-    id="modalImage" 
-    src="" 
-    alt="Image agrandie du projet" 
-    class="w-auto max-h-[95vh] max-w-[95vw] block object-contain cursor-default" 
-    onclick="event.stopPropagation()" />
+id="imageModal" 
+class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out" 
+aria-modal="true" 
+role="dialog"
+onclick="window.hideImageModal()">
+
+{/* Bouton de fermeture */}
+<button 
+id="closeModalBtn"
+class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
+aria-label="Fermer la modale"
+onclick="event.stopPropagation(); window.hideImageModal();">
+&times;
+</button>
+
+{/* Conteneur de la Modale */}
+<div class="relative flex items-center justify-center w-full h-full" onclick="event.stopPropagation()">
+
+{/* ⬅️ Flèche Précédente Modale (Commence désactivée) */}
+<ArrowButton 
+id="modalPrevBtn"
+label="Image précédente"
+direction="left"
+variant={disabledVariant as any} 
+onClick="window.navigateModal(-1)"
+class="absolute left-0 z-10"
+{...DS_CLASSES}
+/>
+
+{/* L'image elle-même */}
+<img 
+id="modalImage" 
+src="" 
+alt="Image agrandie du projet" 
+class="w-auto max-h-[95vh] max-w-[95vw] block object-contain cursor-default" 
+data-current-modal-index="0"
+/>
+
+{/* ➡️ Flèche Suivante Modale (Commence active, variant tertiary) */}
+<ArrowButton 
+id="modalNextBtn"
+label="Image suivante"
+direction="right"
+variant={tertiaryVariant as any} 
+onClick="window.navigateModal(1)"
+class="absolute right-0 z-10" 
+{...DS_CLASSES} 
+/>
+
+</div>
 </div>
 
-<script is:inline>
-  // 1. Définir la fonction d'ouverture globalement pour être appelée par onclick=""
-  window.showImageModal = function(imageUrl) {
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
+{/* ========================================================================= */}
+{/* 🚀 LOGIQUE DE MODALE INTÉGRÉE (VERSION STABLE) */}
+{/* ========================================================================= */}
 
-    if (!modal || !modalImg || !imageUrl) return;
+<script define:vars={{ allModalImages }} is:inline>
+ // Variables passées par Astro
+ const images = allModalImages;
+ const TOTAL_MODAL_IMAGES = images.length;
+ 
+ // Classes de référence (Utilisées pour le DOM, non les props)
+ const OPACITY_VISIBLE = 'opacity-100';
+ const OPACITY_HIDDEN = 'opacity-0';
+ const POINTER_ACTIVE = '';
+ const POINTER_DISABLED = 'pointer-events-none';
+ 
+ let isModalOpen = false;
+ let isInitialized = false;
 
-    modalImg.src = imageUrl;
-    
-    // Afficher le DIV de la modale et centrer le contenu (z-[9999] est critique ici)
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    console.log("Modal opened for:", imageUrl); // Débogage
-  };
-    
-  // 2. Gérer la fermeture par Échap une seule fois
+ // --- Fonctions globales exposées sur window (maintenant définies ici) ---
+
+ window.navigateModal = function(direction) {
+  const modalImg = document.getElementById('modalImage');
+  // Retourne si pas d'image, s'il n'y en a qu'une seule ou si la modale est fermée
+  if (!modalImg || TOTAL_MODAL_IMAGES <= 1 || !isModalOpen) return; 
+
+  let currentIndex = parseInt(modalImg.dataset.currentModalIndex) || 0;
+  let newIndex = currentIndex + direction;
+
+  if (direction === 1) {
+   // Logique de BOUCLE (dernière -> première)
+   if (newIndex >= TOTAL_MODAL_IMAGES) {
+    newIndex = 0; 
+   }
+  } else if (direction === -1) {
+   // Logique d'ARRÊT (s'arrête sur la première image)
+   if (newIndex < 0) {
+    return; 
+   }
+  }
+  
+  modalImg.src = images[newIndex];
+  modalImg.dataset.currentModalIndex = newIndex.toString();
+  
+  updateModalArrows(newIndex, TOTAL_MODAL_IMAGES);
+ };
+
+ window.showImageModal = function(imageUrl) {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  
+  if (!modal || !modalImg || !imageUrl || isModalOpen) return;
+
+  const initialIndex = images.indexOf(imageUrl);
+  let initialModalIndex = (initialIndex === -1) ? 0 : initialIndex;
+  
+  modalImg.src = imageUrl;
+  modalImg.dataset.currentModalIndex = initialModalIndex.toString();
+  
+  // 🚨 Logique clé : Afficher les flèches SEULEMENT si l'image est dans la liste navigable
+  if (initialIndex !== -1 && TOTAL_MODAL_IMAGES > 1) {
+   updateModalArrows(initialModalIndex, TOTAL_MODAL_IMAGES);
+  } else {
+   // Cacher les flèches (image non navigable)
+   updateModalArrows(-1, 0); 
+  }
+  
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  isModalOpen = true;
+  
+  // S'assurer que le focus n'est pas sur le carrousel mais sur la modale
+  modal.focus();
+ };
+
+ window.hideImageModal = function() {
+  const modal = document.getElementById('imageModal');
+  if (modal && isModalOpen) {
+   modal.classList.add('hidden');
+   modal.classList.remove('flex');
+   isModalOpen = false;
+  }
+ };
+
+ // --- Fonction d'aide interne (Applique les styles CSS de visibilité/interactivité) ---
+ 
+ function updateModalArrows(index, total) {
+  const prevBtn = document.getElementById('modalPrevBtn');
+  const nextBtn = document.getElementById('modalNextBtn');
+  
+  if (!prevBtn || !nextBtn) return;
+  
+  const hideAll = total <= 1;
+
+  if (hideAll) {
+   prevBtn.classList.add('hidden');
+   nextBtn.classList.add('hidden');
+   return;
+  } else {
+   prevBtn.classList.remove('hidden');
+   nextBtn.classList.remove('hidden');
+  }
+
+  // === Logique Flèche Précédente (Arrêt à la première image) ===
+  const isPrevDisabled = index <= 0;
+  const prevSpan = prevBtn.querySelector('span');
+
+  if (prevSpan) {
+   prevSpan.classList.toggle(OPACITY_HIDDEN, isPrevDisabled);
+   prevSpan.classList.toggle(POINTER_DISABLED, isPrevDisabled);
+   prevSpan.classList.toggle(OPACITY_VISIBLE, !isPrevDisabled);
+  }
+  prevBtn.disabled = isPrevDisabled; 
+  
+  // === Logique Flèche Suivante (Boucle vers la première image, donc JAMAIS désactivée) ===
+  const isNextDisabled = false; // Toujours false
+  const nextSpan = nextBtn.querySelector('span');
+
+  if (nextSpan) {
+   // La flèche Suivant est toujours visible et cliquable
+   nextSpan.classList.remove(OPACITY_HIDDEN, POINTER_DISABLED);
+   nextSpan.classList.add(OPACITY_VISIBLE);
+  }
+  nextBtn.disabled = isNextDisabled; // Toujours false
+ }
+ 
+ function attachKeyboardHandler() {
+  if (isInitialized) return;
+  
   document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-          const modal = document.getElementById('imageModal');
-          if (modal && !modal.classList.contains('hidden')) {
-              modal.classList.add('hidden');
-              modal.classList.remove('flex');
-          }
-      }
-  }, { once: true });
+   if (isModalOpen) {
+    if (event.key === 'Escape') {
+     window.hideImageModal();
+    } else if (event.key === 'ArrowLeft') {
+     window.navigateModal(-1);
+    } else if (event.key === 'ArrowRight') {
+     window.navigateModal(1);
+    }
+   }
+  });
+  isInitialized = true;
+ }
+
+ // --- Initialisation ---
+ attachKeyboardHandler();
+
+ document.addEventListener('astro:after-swap', attachKeyboardHandler);
+ 
 </script>
 
 <style>
-/* CSS pour s'assurer que le Prose n'interfère pas */
 .prose {
 max-width: none;
 }

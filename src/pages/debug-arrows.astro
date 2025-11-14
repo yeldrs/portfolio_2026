@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/Container.astro';
+import ArrowButton from '../components/ArrowButton.astro'; 
+
+const DS_CLASSES = {
+ mainDefault: 'stroke-primary', 
+ mainHover: 'stroke-primary-hover', 
+ tertiaryDefault: 'stroke-tertiary', 
+ tertiaryHover: 'stroke-tertiary-hover', 
+ disabledColor: 'stroke-disabled',
+} as const;
+
+const activeVariant = 'main';
+const tertiaryVariant = 'tertiary';
+const disabledVariant = 'disabled';
+---
+
+<BaseLayout title="Debug Flèches">
+    <Container>
+        <main class="py-4xl space-y-4xl">
+            <h1 class="text-3xl font-bold">🧪 Test des Variants ArrowButton</h1>
+            
+            <section class="space-y-4">
+                <h2 class="text-2xl font-semibold">Variant 1: Main / Actif</h2>
+                <div class="flex items-center space-x-8">
+                    <p class="w-40">**Active** (Default/Hover)</p>
+                    <ArrowButton
+                        id="debug-main"
+                        label="Main Active"
+                        direction="right"
+                        variant={activeVariant as any}
+                        onClick="console.log('Main clicked')"
+                        isMobile={false}
+                        {...DS_CLASSES}
+                    />
+                    <p>
+                        *Devrait être **Primary Color***
+                    </p>
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <h2 class="text-2xl font-semibold">Variant 2: Tertiary / Modale</h2>
+                <div class="flex items-center space-x-8">
+                    <p class="w-40">**Tertiary** (Default/Hover)</p>
+                    <ArrowButton
+                        id="debug-tertiary"
+                        label="Tertiary"
+                        direction="left"
+                        variant={tertiaryVariant as any}
+                        onClick="console.log('Tertiary clicked')"
+                        isMobile={false}
+                        {...DS_CLASSES}
+                    />
+                    <p>
+                        *Devrait être **Tertiary Color***
+                    </p>
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <h2 class="text-2xl font-semibold">Variant 3: Disabled / Désactivé</h2>
+                <div class="flex items-center space-x-8">
+                    <p class="w-40">**Disabled**</p>
+                    <ArrowButton
+                        id="debug-disabled"
+                        label="Disabled"
+                        direction="right"
+                        variant={disabledVariant as any}
+                        onClick="console.log('Disabled clicked')"
+                        isMobile={false}
+                        disabled={true} 
+                        {...DS_CLASSES}
+                    />
+                    <p>
+                        *Devrait être **Disabled Color***
+                    </p>
+                </div>
+            </section>
+        </main>
+    </Container>
+</BaseLayout>
