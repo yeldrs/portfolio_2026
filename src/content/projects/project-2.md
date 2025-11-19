@@ -5,7 +5,7 @@ projectImages:
 - "/images/project-2/conceptBrief.png" # Image 0: Context
 - "/images/project-2/crazy8.png" # Image 1: Role
 - "/images/project-2/packaging.jpg" # Image 2: Conception
-- "/images/project-2/image-04.jpg" # Image 3: Results
+- "/images/project-2/magazineCdc.png" # Image 3: Results
 # 💡 Images supplémentaires pour le Carrousel (index 4 et suivants)
 - "/images/project-2/storyBoardCdc.png"
 - "/images/project-2/kickoffCdc.png"
@@ -35,24 +35,39 @@ methodology: |
  2. Concept Alignment: Selected 'Architecture and Information Structure' as the core focus to create a centralized, synthesized reference model.
  3. Prototyping: Developed three concepts, ultimately selecting the modular 'Archipel' Design Tiles for their potential to facilitate collaborative, hands-on learning.
 
-designConception: |
- The retained concept, 'Archipel,' is a set of tangible, modular project construction tiles. It functions as a simple, and adaptive aid for cross-functional project conception (in this case covering Eco-design, Ethics, and Inclusivity). The tool is designed to be digitized for syncing with planning platforms (e.g., Jira, Trello), ensuring the physical alignment is mirrored in the digital backlog.
-
- Each tile is color-coded by category (Ethics/Inclusive/Eco) and includes:
-
- * The specific Notion and Task to perform.
- * The Responsible Stakeholder (Project Manager, Designer, or Developer).
- * The Priority and Timeline for implementation.
-
- This structural design ensures clarity, accountability, and seamless integration into framing and monitoring scenarios.
+designConception:
+  paragraph: |
+    The retained concept, 'Archipel,' is a set of tangible, modular project construction tiles. It functions as a simple, and adaptive aid for cross-functional project conception (in this case covering Eco-design, Ethics, and Inclusivity). The tool is designed to be digitized for syncing with planning platforms (e.g., Jira, Trello), ensuring the physical alignment is mirrored in the digital backlog. Each tile is color-coded by category (Ethics/Inclusive/Eco) and includes: This structural design ensures clarity, accountability, and seamless integration into framing and monitoring scenarios.
+  listItems:
+    - The specific Notion and Task to perform.
+    - The Responsible Stakeholder (Project Manager, Designer, or Developer).
+    - The Priority and Timeline for implementation.
 
 delivery: "The concept was selected by the CDC and green-lit for subsequent internal development. I presented the study at the Nantes Digital Week and we led a dedicated development workshop with the CDC's internal design team in Paris. Delivered a final, physical prototype (laser-cut tiles, graphic overlays, and magnetic backing) ready for scaling."
 
 metrics: 
-- "CDC winning award."
+- "CDC winning award and published in the EDNA magazine."
 - "Successfully delivered the prototype, including the production of 36 ready-to-use cards and a scalable database blueprint."
 - "Achieve a 70% implementation of the prioritized tasks from the theoretical plan into the project's backlog within the first month"
 - "User Satisfaction: Achieve a Net Promoter Score of 7/10 or higher from Project Managers who used Archipel."
 publishDate: "2022-05-15"
 isDraft: false
+
+# =================================================
+# NOUVEAUX CHAMPS POUR LA SECTION CRÉDITS
+# =================================================
+teamMembers:
+  - name: "Louis Richard Marschal"
+    link: "https://www.linkedin.com/in/louis-richard-marschal-3b073ab2/"
+  - name: "Duaa Ali"
+    link: "https://www.linkedin.com/in/duaa-ali-design/"
+clientDetails:
+  name: "Caisse des Dépôts et Consignations (CDC)"
+  link: "https://www.caissedesdepots.fr/"
+references:
+  - name: "L'École de Design Nantes Atlantique"
+    link: "https://lecolededesign.com/"
+  - name: "Matthieu Gioani"
+    link: "https://www.linkedin.com/in/matthieugioani/"
+    role: "Encadrement"
 ---

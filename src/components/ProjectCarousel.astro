@@ -4,9 +4,12 @@ import ArrowButton from './ArrowButton.astro';
 
 export interface Props {
 images: string[];
+// 🚨 1. Ajout de la nouvelle prop
+hideArrowsOnMobile?: boolean; 
 }
 
-const { images } = Astro.props;
+// 🚨 2. Destructuration de la nouvelle prop (par défaut à true pour appliquer le masquage)
+const { images, hideArrowsOnMobile = true } = Astro.props;
 
 if (!images || images.length === 0) return null;
 
@@ -25,6 +28,10 @@ disabledColor: 'stroke-disabled',
 
 const prevInitialVariant = 'disabled';
 const activeVariant = 'main';
+
+// 💡 CORRECTION TS(2306) : Ajout d'une simple exportation pour signaler le fichier comme un module
+// Il est courant d'exporter une constante pour satisfaire le service de langage TS.
+export const isAstroComponent = true;
 ---
 
 <section id="project-carousel" aria-label="Project Image Carousel" class="space-y-md my-3xl">
@@ -39,11 +46,17 @@ variant={prevInitialVariant as any}
 onClick="window.handleCarouselNavigation(-1)"
 isMobile={false}
 {...DS_CLASSES}
+class={hideArrowsOnMobile ? 'hidden md:block' : ''} 
 />
 
 {/* 🖼️ Conteneur principal de l'image */}
-<div class="relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video 
-mx-0 sm:mx-md">
+<div class:list={[
+    "relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video",
+    // Base: mx-0 (Full width sur mobile)
+    "mx-0", 
+    // Desktop (md): Applique une marge pour séparer des flèches latérales
+    { "md:mx-md": hideArrowsOnMobile } 
+]}>
 <img 
 id="carouselImage" 
 src={images[0]} 
@@ -64,10 +77,11 @@ variant={activeVariant as any}
 onClick="window.handleCarouselNavigation(1)"
 isMobile={false}
 {...DS_CLASSES}
+class={hideArrowsOnMobile ? 'hidden md:block' : ''} 
 />
 </div>
 
-{/* 🔴 Indicateurs de points (Dots) et Flèches Mobile */}
+{/* 🔴 Indicateurs de points (Dots) et Flèches Mobile (DOIVENT RESTER VISIBLES) */}
 <div class="flex items-center justify-center pt-4">
 
 {/* ⬅️ Flèche Mobile Précédente */}
@@ -83,11 +97,11 @@ isMobile={true}
 
 {/* Conteneur des Points */}
 <div id="carouselDots" class="flex justify-center space-x-2 mx-4">
-{dots.map((dot, index) => (
+{dots.map((dot) => (
 <button 
 data-index={dot.index} 
 aria-label={`Go to slide ${dot.index + 1}`}
-class={`w-3 h-3 rounded-full transition-colors ${index === 0 ? 'bg-background-accent-primary' : 'bg-background-disabled'}`}
+class={`w-3 h-3 rounded-full transition-colors ${dot.index === 0 ? 'bg-background-accent-primary' : 'bg-background-disabled'}`}
 onclick={`window.updateImageFromDot(${dot.index})`}
 ></button>
 ))}
