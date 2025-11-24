@@ -8,23 +8,167 @@ const navLinks = [
  { name: 'About me', href: '/about' },
  { name: 'Contact', href: '/contact' },
 ];
+
+// Récupération du chemin actuel (ex: '/', '/about', '/contact')
+const currentPath = Astro.url.pathname;
+
+// Fonction utilitaire pour déterminer si un lien est actif (Correction TypeScript intégrée)
+function isActive(href: string, current: string): boolean {
+    // Cas spécial pour la racine (Work)
+    if (href === '/') {
+        return current === '/' || current.endsWith('/index.html');
+    }
+    // Cas normal pour les autres pages
+    return current === href || current.startsWith(href + '/');
+}
 ---
 
-<nav class="py-md">
-  
-    <Container class="flex justify-center items-center">
+<nav class:list={[
+    "py-md", 
+    "sticky top-0", 
+    "z-[60]", // Z-index élevé pour rester au-dessus du menu mobile
+    "bg-background-primary/95 backdrop-blur-sm"
+]}>
     
-  
-
-    <div class="flex space-x-lg ml-xl">       {navLinks.map((link) => (
-        <a 
-          href={link.href} 
-          class="text-base font-normal text-text-body-primary hover:text-gray-600 transition duration-150"
-        >
-          {link.name}
+    <Container class="flex justify-between items-center">
+        
+        {/* ✅ Contenu réintégré : Nom cliquable vers la page d'accueil */}
+        <a href="/" class="text-xl font-extrabold text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase">
+            Yassine El Idrissi
         </a>
-      ))}
-    </div>
     
-  </Container>
+        {/* 💻 Menu Desktop (Visible sur MD+) */}
+        <div class="hidden md:flex space-x-lg">
+            {navLinks.map((link) => {
+                const isLinkActive = isActive(link.href, currentPath);
+                
+                return (
+                    <a 
+                        href={link.href} 
+                        class:list={[
+                            "text-base", 
+                            "text-text-body-primary", 
+                            "hover:text-text-body-secondary", 
+                            "transition duration-150",
+                            "uppercase",
+                            isLinkActive ? "font-extrabold" : "font-normal" 
+                        ]}
+                    >
+                        {link.name}
+                    </a>
+                );
+            })}
+        </div>
+
+        {/* ✅ Contenu réintégré : Bouton Hamburger/Close */}
+        <button 
+            id="mobile-menu-button" 
+            aria-label="Toggle navigation menu"
+            class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
+        >
+            {/* Icône Hamburger (Absolue) */}
+            <div id="burger-icon" class="w-6 h-6 absolute"> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </div>
+            {/* Icône Croix (Absolue, cachée par défaut) */}
+            <div id="close-icon" class="hidden w-6 h-6 absolute">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+        </button>
+        
+    </Container>
 </nav>
+
+{/* 📱 Menu Mobile (Overlay avec positionnement corrigé) */}
+<div 
+    id="mobile-menu" 
+    class="md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-background-primary/95 backdrop-blur-sm 
+           transition-opacity duration-300 ease-in-out opacity-0 invisible overflow-y-auto"
+>
+    <Container class="flex flex-col space-y-lg pt-lg pb-xl"> 
+        {navLinks.map((link) => {
+            const isLinkActive = isActive(link.href, currentPath);
+
+            return (
+                <a 
+                    href={link.href} 
+                    class:list={[
+                        "text-xl", 
+                        "text-text-body-primary", 
+                        "hover:text-text-body-secondary", 
+                        "transition duration-150",
+                        "uppercase",
+                        "w-full",
+                        isLinkActive ? "font-extrabold" : "font-normal" 
+                    ]}
+                >
+                    {link.name}
+                </a>
+            );
+        })}
+    </Container>
+</div>
+
+{/* 🧰 Script de Gestion du Menu Mobile (MIS À JOUR pour la transition) */}
+<script is:inline>
+    const TRANSITION_DURATION = 300; 
+
+    window.toggleMobileMenu = function() {
+        const menu = document.getElementById('mobile-menu');
+        const burgerIcon = document.getElementById('burger-icon');
+        const closeIcon = document.getElementById('close-icon');
+        
+        if (!menu || !burgerIcon || !closeIcon) return;
+
+        const isHidden = menu.classList.contains('invisible');
+        
+        if (isHidden) {
+            // OUVERTURE
+            menu.classList.remove('invisible');
+            
+            setTimeout(() => {
+                 menu.classList.add('opacity-100');
+            }, 10); 
+            
+            burgerIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+        } else {
+            // FERMETURE
+            menu.classList.remove('opacity-100');
+            
+            // Correction: Utiliser TRANSITION_DURATION du JavaScript (300ms) et non l'ancien 400ms
+            setTimeout(() => {
+                menu.classList.add('invisible');
+                document.body.style.overflow = ''; 
+            }, TRANSITION_DURATION); 
+            
+            burgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        }
+    };
+
+    function attachMenuHandler() {
+        const button = document.getElementById('mobile-menu-button');
+        if (button) {
+             button.removeEventListener('click', window.toggleMobileMenu);
+             button.addEventListener('click', window.toggleMobileMenu);
+        }
+        
+        const mobileLinks = document.querySelectorAll('#mobile-menu a');
+        mobileLinks.forEach(link => {
+            link.removeEventListener('click', window.toggleMobileMenu);
+            link.addEventListener('click', window.toggleMobileMenu);
+        });
+    }
+
+    attachMenuHandler();
+    document.addEventListener('astro:after-swap', attachMenuHandler);
+</script>

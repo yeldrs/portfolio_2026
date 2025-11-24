@@ -3,7 +3,7 @@ export interface Props {
 direction: 'left' | 'right';
 variant?: 'main' | 'tertiary' | 'disabled';
 onClick?: string; 
-id: string;
+id?: string; // <- made optional
 label: string;
 isMobile?: boolean; 
 isHidden?: boolean; 
@@ -26,7 +26,7 @@ id,
 label, 
 isMobile = false, 
 isHidden = false,
-class: className, 
+class: className = '', // default to empty string
 disabled = false,
 // Les props de couleur sont extraites mais ignorées pour le style
 mainDefault,
@@ -71,10 +71,10 @@ const baseClasses = `p-2 transition-opacity ${displayClasses} ${hiddenClass}`;
 ---
 
 <button 
-id={id} 
+id={id ?? undefined} 
 aria-label={label} 
 class={`${baseClasses} ${className || ''}`} 
-onclick={onClick || ''}
+onclick={onClick} 
 disabled={isDisabled} 
 data-variant={variant}
 >

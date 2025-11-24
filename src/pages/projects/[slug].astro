@@ -1,5 +1,5 @@
 ---
-// src/pages/projects/[slug].astro
+// src/pages/projects/[slug].astro (Contenu inchangé)
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/Container.astro';
@@ -8,471 +8,446 @@ import ArrowButton from '../../components/ArrowButton.astro';
 
 // Générer les chemins statiques à partir des fichiers MDX
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map(project => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+const projects = await getCollection('projects');
+return projects.map(project => ({
+params: { slug: project.slug },
+props: { project },
+}));
 }
 
 // Récupération de l'entrée de collection et du contenu rendu
 const { project } = Astro.props;
 const { Content } = await project.render();
 
-// --- Logique d'images (CORRECTION APPLIQUÉE : Réutilisation des index 0 à 3) ---
+// --- Logique d'images ---
 const projectImages = project.data.projectImages || [];
-const contextImage = projectImages[0] || project.data.cardImage || ''; // FIX: Utilise projectImages[0]
-const roleImage = projectImages[1] || ''; // Index [1]
-const conceptionImage = projectImages[2] || ''; // Index [2]
-const resultsImage = projectImages[3] || ''; // Index [3]
-const carouselImages = projectImages.slice(4); // Le carrousel commence à partir de l'index 4
+const contextImage = projectImages[0] || project.data.cardImage || ''; 
+const roleImage = projectImages[1] || ''; 
+const conceptionImage = projectImages[2] || ''; 
+const resultsImage = projectImages[3] || ''; 
+const carouselImages = projectImages.slice(4); 
 const allModalImages = projectImages;
 
-// --- Type Narrowing pour les champs optionnels (CORRECTION TS18048) ---
+// --- Type Narrowing pour les champs optionnels ---
 const teamMembers = project.data.teamMembers || [];
 const references = project.data.references || [];
+const designConceptionList = project.data.designConception?.listItems || [];
 
 // --- Classes du Design System (DS) pour les Props (Couleurs des flèches) ---
 const DS_CLASSES = {
-  mainDefault: 'stroke-primary',
-  mainHover: 'stroke-primary-hover',
-  tertiaryDefault: 'stroke-tertiary',
-  tertiaryHover: 'stroke-tertiary-hover',
-  disabledColor: 'stroke-disabled',
+mainDefault: 'stroke-primary',
+mainHover: 'stroke-primary-hover',
+tertiaryDefault: 'stroke-tertiary',
+tertiaryHover: 'stroke-tertiary-hover',
+disabledColor: 'stroke-disabled',
 };
 
 const tertiaryVariant = 'tertiary';
 const disabledVariant = 'disabled';
 ---
-
 <BaseLayout title={`Project | ${project.data.title}`}>
-  <Container>
-    <main class="py-3xl max-w-content mx-auto space-y-3xl">
-
-      <h1 class="text-4xl font-extrabold text-text-body-primary">
-        {project.data.title}
-      </h1>
-
-            <div class="prose prose-lg dark:prose-invert">
-        <Content />
-      </div>
-
-
-            <section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-3xl">
-        <h2 class="text-3xl font-normal text-text-body-primary mb-md">Diagnosis</h2>
-
-                <article id={`${project.slug}-context-problem`} role="article"
-          class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"
-        >
-          <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Context</h3>
-                            <p class="text-base text-text-body leading-relaxed text-justify">
-                {project.data.context}
-              </p>
-            </div>
-
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Problem</h3>
-              <p class="text-base text-text-body leading-relaxed text-justify">
-                {project.data.problem}
-              </p>
-            </div>
-          </div>
-
-                    <div
-            onclick={`showImageModal('${contextImage}')`}
-            class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
-          >
-            <img src={contextImage} alt="Context and problem visualization"
-              class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
-          </div>
-        </article>
-
-                <article
-          id={`${project.slug}-role-insights`}
-          role="article"
-          class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"
-        >
-          <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Role</h3>
-              <p class="text-base text-text-body leading-relaxed text-justify">
-                {project.data.roleDescription}
-              </p>
-            </div>
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Key insights</h3>
-              {
-                Array.isArray(project.data.keyInsights) ? (
-                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-justify">
-                    {project.data.keyInsights.map(insight => <li>{insight}</li>)}
-                  </ul>
-                ) : (
-                  <p class="text-base text-text-body leading-relaxed text-justify">
-                    {project.data.keyInsights}
-                  </p>
-                )
-              }
-            </div>
-          </div>
-
-                    <div
-            onclick={`showImageModal('${roleImage}')`}
-            class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
-          >
-            <img src={roleImage} alt="Role and insights visualization"
-              class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
-          </div>
-        </article>
-      </section>
-
-
-            <ProjectCarousel images={carouselImages} hideArrowsOnMobile={true} />
-
-
-            <section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-md">
-        <h2 class="text-3xl font-normal text-text-body-primary mb-md">Conception</h2>
-
-        <article id="conception-main" role="article"
-          class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"
-        >
-          <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Methodology</h3>
-              <p class="text-base text-text-body leading-relaxed text-justify">
-                {project.data.methodology}
-              </p>
-            </div>
-
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Design conception</h3>
-              {/* AFFICHAGE CONDITIONNEL DU PARAGRAPHE */}
-              {project.data.designConception?.paragraph && (
-                <p class="text-base text-text-body leading-relaxed text-justify">
-                  {project.data.designConception.paragraph}
-                </p>
-              )}
-
-              {/* AFFICHAGE CONDITIONNEL DE LA LISTE */}
-              {project.data.designConception?.listItems?.length > 0 && (
-                <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-justify">
-                  {/* Utilisation de l'opérateur de non-null assertion (!) après la vérification de la longueur */}
-                  {project.data.designConception.listItems!.map(item => <li>{item}</li>)}
-                </ul>
-              )}
-            </div>
-          </div>
-
-                    <div
-            onclick={`showImageModal('${conceptionImage}')`}
-            class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
-          >
-            <img src={conceptionImage} alt="Conception visualization"
-              class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
-          </div>
-        </article>
-      </section>
-
-
-            <section id={`${project.slug}-results`} role="region" aria-label="Results" class="space-y-md">
-        <h2 class="text-3xl font-normal text-text-body-primary mb-md">Results</h2>
-
-        <article id={`${project.slug}-results-main`} role="article"
-          class="grid grid-cols-1 md:grid-cols-2 gap-4xl items-start"
-        >
-          <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Delivery</h3>
-              <p class="text-base text-text-body leading-relaxed text-justify">
-                {project.data.delivery}
-              </p>
-            </div>
-
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">Metrics</h3>
-              {/* LOGIQUE CONDITIONNELLE pour Metrics */}
-              {
-                Array.isArray(project.data.metrics) ? (
-                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-justify">
-                    {project.data.metrics.map(metric => <li>{metric}</li>)}
-                  </ul>
-                ) : (
-                  <p class="text-base text-text-body leading-relaxed text-justify">
-                    {project.data.metrics}
-                  </p>
-                )
-              }
-            </div>
-          </div>
-
-                    <div
-            onclick={`showImageModal('${resultsImage}')`}
-            class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
-          >
-            <img src={resultsImage} alt="Results visualization"
-              class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
-          </div>
-        </article>
-      </section>
-
-
-            {project.data.clientDetails && (
-        <section id={`${project.slug}-credits`} role="contentinfo" aria-label="Crédits et Références"
-          class="space-y-sm text-text-body-secondary mt-3xl border-t border-border-secondary pt-3xl">
-
-          <h2 class="text-base font-semibold text-text-body-primary">Credits & References</h2>
-
-          <div class="text-xs space-y-xxs">
-            <p>
-              <strong>Author and conceptor : </strong><a href="https://www.linkedin.com/in/yassineelidrissi/" target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">Yassine El Idrissi
-              </a>
-            </p>
-
-            {/* Ligne 1 : Équipe (teamMembers) */}
-            {teamMembers.length > 0 && (
-              <p>
-                <strong>In collaboration with :</strong>
-                {teamMembers.map((member, index) => (
-                  <span>
-                    <a href={member.link} target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">
-                      {member.name}
-                    </a>
-                    {index < teamMembers.length - 2 ? ', ' : (index === teamMembers.length - 2 ? ' et ' : '')}
-                  </span>
-                ))}
-              </p>
-            )}
-
-            {/* Ligne 2 : Client */}
-            <p>
-              <strong>Client :</strong> <a href={project.data.clientDetails.link} target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">{project.data.clientDetails.name}</a>.
-            </p>
-
-            {/* Ligne 3 : Références/Mentors */}
-            {references.length > 0 && (
-              <p>
-                <strong>References :</strong>
-                {references.map((ref, index) => (
-                  <span>
-                    {ref.role && <span>{ref.role} : </span>}
-                    <a href={ref.link} target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">
-                      {ref.name}
-                    </a>
-                    {/* Sépare les références par un tiret vertical */}
-                    {index < references.length - 1 ? ' | ' : ''}
-                  </span>
-                ))}
-              </p>
-            )}
-          </div>
-
-        </section>
-      )}
-
-    </main>
-  </Container>
-
-
-    <div
-    id="imageModal"
-    class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out"
-    aria-modal="true"
-    role="dialog"
-    onclick="window.hideImageModal()"
-  >
-
-    {/* Bouton de fermeture */}
-    <button
-      id="closeModalBtn"
-      class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
-      aria-label="Fermer la modale"
-      onclick="event.stopPropagation(); window.hideImageModal();"
-    >
-      &times;
-    </button>
-
-    <div class="relative flex items-center justify-center w-full h-full" onclick="event.stopPropagation()">
-
-      {/* ⬅️ Flèche Précédente Modale (Composant ArrowButton) */}
-      <ArrowButton
-        id="modalPrevBtn"
-        label="Image précédente"
-        direction="left"
-        variant={disabledVariant as any} // Utilisation de as any pour le TS
-        onClick="window.navigateModal(-1)"
-        class="absolute left-0 z-10"
-        {...DS_CLASSES}
-      />
-
-      {/* L'image elle-même */}
-      <img
-        id="modalImage"
-        src=""
-        alt="Image agrandie du projet"
-        class="w-auto max-h-[95vh] max-w-[95vw] block object-contain cursor-default"
-        data-current-modal-index="0"
-      />
-
-      {/* ➡️ Flèche Suivante Modale (Composant ArrowButton) */}
-      <ArrowButton
-        id="modalNextBtn"
-        label="Image suivante"
-        direction="right"
-        variant={tertiaryVariant as any} // Utilisation de as any pour le TS
-        onClick="window.navigateModal(1)"
-        class="absolute right-0 z-10"
-        {...DS_CLASSES}
-      />
-    </div>
-  </div>
-
-    <script define:vars={{ allModalImages }} is:inline>
-    // Variables passées par Astro
-    const images = allModalImages;
-    const TOTAL_MODAL_IMAGES = images.length;
-
-    // Classes de référence (Utilisées pour le DOM, non les props)
-    const OPACITY_VISIBLE = 'opacity-100';
-    const OPACITY_HIDDEN = 'opacity-0';
-    const POINTER_DISABLED = 'pointer-events-none';
-
-    let isModalOpen = false;
-    let isInitialized = false;
-
-    // --- Fonctions globales exposées sur window (maintenant définies ici) ---
-
-    window.navigateModal = function(direction) {
-      const modalImg = document.getElementById('modalImage');
-      // Retourne si pas d'image, s'il n'y en a qu'une seule ou si la modale est fermée
-      if (!modalImg || TOTAL_MODAL_IMAGES <= 1 || !isModalOpen) return; 
-
-      let currentIndex = parseInt(modalImg.dataset.currentModalIndex) || 0;
-      let newIndex = currentIndex + direction;
-
-      if (direction === 1) {
-        // Logique de BOUCLE (dernière -> première)
-        if (newIndex >= TOTAL_MODAL_IMAGES) {
-          newIndex = 0; 
-        }
-      } else if (direction === -1) {
-        // Logique d'ARRÊT (s'arrête sur la première image)
-        if (newIndex < 0) {
-          return; 
-        }
-      }
-
-      modalImg.src = images[newIndex];
-      modalImg.dataset.currentModalIndex = newIndex.toString();
-
-      updateModalArrows(newIndex, TOTAL_MODAL_IMAGES);
-    };
-
-    window.showImageModal = function(imageUrl) {
-      const modal = document.getElementById('imageModal');
-      const modalImg = document.getElementById('modalImage');
-
-      if (!modal || !modalImg || !imageUrl || isModalOpen) return;
-
-      const initialIndex = images.indexOf(imageUrl);
-      let initialModalIndex = (initialIndex === -1) ? 0 : initialIndex;
-
-      modalImg.src = imageUrl;
-      modalImg.dataset.currentModalIndex = initialModalIndex.toString();
-
-      // 🚨 Logique clé : Afficher les flèches SEULEMENT si l'image est dans la liste navigable
-      if (initialIndex !== -1 && TOTAL_MODAL_IMAGES > 1) {
-        updateModalArrows(initialModalIndex, TOTAL_MODAL_IMAGES);
-      } else {
-        // Cacher les flèches (image non navigable)
-        updateModalArrows(-1, 0); 
-      }
-
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      isModalOpen = true;
-
-      // S'assurer que le focus n'est pas sur le carrousel mais sur la modale
-      modal.focus();
-    };
-
-    window.hideImageModal = function() {
-      const modal = document.getElementById('imageModal');
-      if (modal && isModalOpen) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        isModalOpen = false;
-      }
-    };
-
-    // --- Fonction d'aide interne (Applique les styles CSS de visibilité/interactivité) ---
-
-    function updateModalArrows(index, total) {
-      const prevBtn = document.getElementById('modalPrevBtn');
-      const nextBtn = document.getElementById('modalNextBtn');
-
-      if (!prevBtn || !nextBtn) return;
-
-      const hideAll = total <= 1;
-
-      if (hideAll) {
-        prevBtn.classList.add('hidden');
-        nextBtn.classList.add('hidden');
-        return;
-      } else {
-        prevBtn.classList.remove('hidden');
-        nextBtn.classList.remove('hidden');
-      }
-
-      // === Logique Flèche Précédente (Arrêt à la première image) ===
-      const isPrevDisabled = index <= 0;
-      const prevSpan = prevBtn.querySelector('span');
-
-      if (prevSpan) {
-        prevSpan.classList.toggle(OPACITY_HIDDEN, isPrevDisabled);
-        prevSpan.classList.toggle(POINTER_DISABLED, isPrevDisabled);
-        prevSpan.classList.toggle(OPACITY_VISIBLE, !isPrevDisabled);
-      }
-      prevBtn.disabled = isPrevDisabled; 
-
-      // === Logique Flèche Suivante (Boucle vers la première image, donc JAMAIS désactivée) ===
-      const isNextDisabled = false; // Toujours false
-      const nextSpan = nextBtn.querySelector('span');
-
-      if (nextSpan) {
-        // La flèche Suivant est toujours visible et cliquable
-        nextSpan.classList.remove(OPACITY_HIDDEN, POINTER_DISABLED);
-        nextSpan.classList.add(OPACITY_VISIBLE);
-      }
-      nextBtn.disabled = isNextDisabled; // Toujours false
-    }
-
-    function attachKeyboardHandler() {
-      if (isInitialized) return;
-
-      document.addEventListener('keydown', (event) => {
-        if (isModalOpen) {
-          if (event.key === 'Escape') {
-            window.hideImageModal();
-          } else if (event.key === 'ArrowLeft') {
-            window.navigateModal(-1);
-          } else if (event.key === 'ArrowRight') {
-            window.navigateModal(1);
-          }
-        }
-      });
-      isInitialized = true;
-    }
-
-    // --- Initialisation ---
-    attachKeyboardHandler();
-
-    document.addEventListener('astro:after-swap', attachKeyboardHandler);
-  </script>
-
-  <style>
-    .prose {
-      max-width: none;
-    }
-  </style>
+<Container>
+<main class="py-3xl max-w-content mx-auto space-y-3xl">
+
+<h1 class="text-4xl font-extrabold text-text-body-primary">
+ {project.data.title}
+</h1>
+
+<div class="prose prose-lg dark:prose-invert">
+ <Content />
+</div>
+
+<section id={`${project.slug}-diagnosis`} role="region" aria-label="Diagnosis" class="space-y-3xl">
+ <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">Diagnosis</h2>
+
+ <article id={`${project.slug}-context-problem`} role="article"
+ class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start" 
+   >
+ <div class="space-y-md">
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Context</h3>
+ <p class="text-base text-text-body leading-relaxed text-left">
+  {project.data.context}
+ </p>
+ </div>
+
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Problem</h3>
+ <p class="text-base text-text-body leading-relaxed text-left">
+  {project.data.problem}
+ </p>
+ </div>
+ </div>
+
+ <div
+ onclick={`showImageModal('${contextImage}')`}
+ class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+ >
+ <img src={contextImage} alt="Context and problem visualization"
+ class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+ </div>
+ </article>
+
+ <article
+ id={`${project.slug}-role-insights`}
+ role="article"
+ class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start" 
+   >
+ <div class="space-y-md"> 
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Role</h3>
+ <p class="text-base text-text-body leading-relaxed text-left">
+  {project.data.roleDescription}
+ </p>
+ </div>
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Key insights</h3>
+ {
+  Array.isArray(project.data.keyInsights) ? (
+  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+  {project.data.keyInsights.map(insight => <li set:html={insight} />)}
+  </ul>
+  ) : (
+  <div set:html={project.data.keyInsights} class="text-base text-text-body leading-relaxed text-left" />
+  )
+ }
+ </div>
+ </div>
+
+ <div
+ onclick={`showImageModal('${roleImage}')`}
+ class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+ >
+ <img src={roleImage} alt="Role and insights visualization"
+ class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+ </div>
+ </article>
+</section>
+
+
+<ProjectCarousel images={carouselImages} hideArrowsOnMobile={true} />
+
+
+<section id={`${project.slug}-conception`} role="region" aria-label="Conception" class="space-y-3xl">
+ <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">Conception</h2>
+
+ <article id="conception-main" role="article"
+ class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+ >
+ <div class="space-y-md"> 
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Methodology</h3>
+ <p class="text-base text-text-body leading-relaxed text-left">
+  {project.data.methodology}
+ </p>
+ </div>
+
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Design conception</h3>
+ {/* AFFICHAGE CONDITIONNEL DU PARAGRAPHE */}
+ {project.data.designConception?.paragraph && (
+  <div set:html={project.data.designConception.paragraph} 
+  class="text-base text-text-body leading-relaxed text-left" 
+  />
+ )}
+ {/* AFFICHAGE CONDITIONNEL DE LA LISTE */}
+ {designConceptionList.length > 0 && (
+  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+  {designConceptionList.map(item => <li set:html={item} />)}
+  </ul>
+ )}
+ </div>
+ </div>
+
+ <div
+ onclick={`showImageModal('${conceptionImage}')`}
+ class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+ >
+ <img src={conceptionImage} alt="Conception visualization"
+ class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+ </div>
+ </article>
+</section>
+
+
+<section id={`${project.slug}-results`} role="region" aria-label="Results" class="space-y-3xl">
+ <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">Results</h2>
+
+ <article id={`${project.slug}-results-main`} role="article"
+ class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+ >
+ <div class="space-y-md">
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Delivery</h3>
+ <p class="text-base text-text-body leading-relaxed text-left">
+  {project.data.delivery}
+ </p>
+ </div>
+
+ <div class="space-y-sm">
+ <h3 class="text-lg font-semibold text-text-body-secondary">Metrics</h3>
+ {/* LOGIQUE CONDITIONNELLE pour Metrics */}
+ {
+  Array.isArray(project.data.metrics) ? (
+  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+  {project.data.metrics.map(metric => <li set:html={metric} />)}
+  </ul>
+  ) : (
+  <div set:html={project.data.metrics} class="text-base text-text-body leading-relaxed text-left" />
+  )
+ }
+ </div>
+ </div>
+
+ <div
+ onclick={`showImageModal('${resultsImage}')`}
+ class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+ >
+ <img src={resultsImage} alt="Results visualization"
+ class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]" loading="lazy" />
+ </div>
+ </article>
+</section>
+
+
+{project.data.clientDetails && (
+ <section id={`${project.slug}-credits`} role="contentinfo" aria-label="Crédits et Références"
+ class="space-y-sm text-text-body-secondary mt-3xl border-t border-border-secondary pt-3xl">
+
+ <h2 class="text-base font-semibold text-text-body-primary">Credits & References</h2>
+
+ <div class="text-xs space-y-xxs">
+ <p>
+ <strong>Author and conceptor : </strong><a href="https://www.linkedin.com/in/yassineelidrissi/" target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">Yassine El Idrissi
+ </a>
+ </p>
+
+ {/* Ligne 1 : Équipe (teamMembers) */}
+ {teamMembers.length > 0 && (
+ <p>
+  <strong>In collaboration with :</strong>
+  {teamMembers.map((member, index) => (
+  <span>
+  <a href={member.link} target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">
+  {member.name}
+  </a>
+  {index < teamMembers.length - 2 ? ', ' : (index === teamMembers.length - 2 ? ' et ' : '')}
+  </span>
+  ))}
+ </p>
+ )}
+
+ {/* Ligne 2 : Client */}
+ <p>
+ <strong>Client :</strong> <a href={project.data.clientDetails.link} target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">{project.data.clientDetails.name}</a>.
+ </p>
+
+ {/* Ligne 3 : Références/Mentors */}
+ {references.length > 0 && (
+ <p>
+  <strong>References :</strong>
+  {references.map((ref, index) => (
+  <span>
+  {ref.role && <span>{ref.role} : </span>}
+  <a href={ref.link} target="_blank" rel="noopener noreferrer" class="underline hover:text-text-body-primary transition-colors">
+  {ref.name}
+  </a>
+  {/* Sépare les références par un tiret vertical */}
+  {index < references.length - 1 ? ' | ' : ''}
+  </span>
+  ))}
+ </p>
+ )}
+ </div>
+
+ </section>
+)}
+
+</main>
+</Container>
+
+
+<div
+id="imageModal"
+class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out"
+aria-modal="true"
+role="dialog"
+onclick="window.hideImageModal()"
+>
+
+{/* Bouton de fermeture */}
+<button
+id="closeModalBtn"
+class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
+aria-label="Fermer la modale"
+onclick="event.stopPropagation(); window.hideImageModal();"
+>
+&times;
+</button>
+
+<div class="relative flex items-center justify-center w-full h-full" onclick="event.stopPropagation()">
+
+{/* ⬅️ Flèche Précédente Modale (Ajout de classes de style pour la désactivation) */}
+<ArrowButton
+ id="modalPrevBtn"
+ label="Image précédente"
+ direction="left"
+ variant={disabledVariant as any} 
+ onClick="window.navigateModal(-1)"
+ class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none" 
+ {...DS_CLASSES}
+/>
+
+{/* L'image elle-même */}
+<img
+ id="modalImage"   
+ data-current-modal-index="0"
+ alt="Agrandissement de l'image du projet"
+ class="max-w-full max-h-full object-contain"
+/>
+
+{/* ➡️ Flèche Suivante Modale (Ajout de classes de style pour la désactivation) */}
+<ArrowButton
+ id="modalNextBtn"
+ label="Image suivante"
+ direction="right"
+ variant={tertiaryVariant as any}
+ onClick="window.navigateModal(1)"
+ class="absolute right-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
+ {...DS_CLASSES}
+/>
+</div>
+</div>
+
+<script define:vars={{ images: allModalImages }} is:inline>
+// --- Correction pour la Robustesse JS ---
+
+// 1. Définition des variables de portée globale (ou pseudo-globale)
+const projectImages = images; // Utiliser la variable passée par Astro
+const TOTAL_MODAL_IMAGES = projectImages.length;
+
+// Déclarer ces variables sur window pour Astro SPA view transitions / navigation
+window.isModalOpen = false;
+window.isInitialized = false;
+
+// 2. Définition des fonctions sur l'objet Window pour une accessibilité immédiate
+
+window.navigateModal = function(direction) {
+const modalImg = document.getElementById('modalImage');
+if (!modalImg || TOTAL_MODAL_IMAGES <= 1 || !window.isModalOpen) return; 
+
+let currentIndex = parseInt(modalImg.dataset.currentModalIndex) || 0;
+let newIndex = currentIndex + direction;
+
+// Logique d'ARRÊT aux extrémités
+if (newIndex >= TOTAL_MODAL_IMAGES || newIndex < 0) {
+ return; 
+}
+
+modalImg.src = projectImages[newIndex];
+modalImg.dataset.currentModalIndex = newIndex.toString();
+
+updateModalArrows(newIndex, TOTAL_MODAL_IMAGES);
+};
+
+window.showImageModal = function(imageUrl) {
+const modal = document.getElementById('imageModal');
+const modalImg = document.getElementById('modalImage');
+
+if (!modal || !modalImg || !imageUrl) return; // Arrêt si les éléments ne sont pas là
+
+// 🚨 Nouvelle logique : Si la modale est déjà ouverte, la cacher et réessayer pour éviter les problèmes d'état
+if (window.isModalOpen) {
+ window.hideImageModal();
+}
+
+const initialIndex = projectImages.indexOf(imageUrl);
+let initialModalIndex = (initialIndex === -1) ? 0 : initialIndex;
+
+modalImg.src = imageUrl;
+modalImg.dataset.currentModalIndex = initialModalIndex.toString();
+
+// Afficher la modale (important de le faire avant de modifier l'état)
+modal.classList.remove('hidden');
+modal.classList.add('flex');
+window.isModalOpen = true;
+
+// Gérer l'affichage des flèches
+if (initialIndex !== -1 && TOTAL_MODAL_IMAGES > 1) {
+ updateModalArrows(initialModalIndex, TOTAL_MODAL_IMAGES);
+} else {
+ // Cacher toutes les flèches (image seule ou non navigable)
+ updateModalArrows(-1, 0); 
+}
+
+modal.focus();
+};
+
+window.hideImageModal = function() {
+const modal = document.getElementById('imageModal');
+if (modal && window.isModalOpen) {
+ modal.classList.add('hidden');
+ modal.classList.remove('flex');
+ window.isModalOpen = false;
+}
+};
+
+// --- Fonction d'aide interne (Utilise les classes de désactivation CSS) ---
+
+function updateModalArrows(index, total) {
+const prevBtn = document.getElementById('modalPrevBtn');
+const nextBtn = document.getElementById('modalNextBtn');
+
+if (!prevBtn || !nextBtn) return;
+
+const hideAll = total <= 1 || index === -1;
+
+if (hideAll) {
+ prevBtn.classList.add('hidden');
+ nextBtn.classList.add('hidden');
+} else {
+ prevBtn.classList.remove('hidden');
+ nextBtn.classList.remove('hidden');
+}
+
+// Gestion de l'état 'disabled'
+const isPrevDisabled = index <= 0;
+prevBtn.disabled = isPrevDisabled;
+
+const isNextDisabled = index >= total - 1;
+nextBtn.disabled = isNextDisabled;
+}
+
+
+function attachKeyboardHandler() {
+if (window.isInitialized) return;
+
+document.addEventListener('keydown', (event) => {
+ if (window.isModalOpen) {
+ if (event.key === 'Escape') {
+ window.hideImageModal();
+ } else if (event.key === 'ArrowLeft') {
+ window.navigateModal(-1);
+ } else if (event.key === 'ArrowRight') {
+ window.navigateModal(1);
+ }
+ }
+});
+window.isInitialized = true;
+}
+
+// --- Initialisation ---
+// On utilise DOMContentLoaded pour s'assurer que les éléments sont dans le DOM avant d'attacher le handler
+document.addEventListener('DOMContentLoaded', () => {
+ attachKeyboardHandler();
+});
+// On attache aussi au swap pour Astro View Transitions
+document.addEventListener('astro:after-swap', attachKeyboardHandler);
+</script>
+
+<style>
+.prose {
+max-width: none;
+}
+</style>
 </BaseLayout>
