@@ -56,11 +56,10 @@
   --typography-body--size: var(--font-size-base); /* 16px */
   --typography-body--weight: var(--font-weight-normal); /* 400 */
   --typography-body--leading: 1.5; /* Ratio 1.5 */
-  
+
   /* Text-sm (Body-sm) */
   --typography-sm--size: var(--font-size-sm); /* 14px */
   --typography-sm--leading: 1.143; /* 16px / 14px */
-
 
   /* ========================================================================= */
   /* --- 📏 SPACING (Primitive) -------------------------------------------- */
@@ -68,7 +67,7 @@
   --spacing-none: 0px;
   --spacing-xxs: 2px;
   --spacing-xs: 4px;
-  --spacing-sm: 8px;   /* 💡 8px pour H3/P padding */
+  --spacing-sm: 8px; /* 💡 8px pour H3/P padding */
   --spacing-sm-d: 12px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
@@ -76,9 +75,8 @@
   --spacing-2xl: 48px;
   --spacing-3xl: 64px;
   --spacing-4xl: 80px;
-  --spacing-5xl: 96px;   /* Ajouté de tokens.js */
-  --spacing-6xl: 112px;  /* Ajouté de tokens.js */
-
+  --spacing-5xl: 96px; /* Ajouté de tokens.js */
+  --spacing-6xl: 112px; /* Ajouté de tokens.js */
 
   /* ========================================================================= */
   /* --- 📦 BORDER & RADIUS (Primitive) -------------------------------------- */
@@ -104,7 +102,6 @@
   --border-width-xxl: 4px;
   --border-width-xxxl: 8px;
 
-
   /* ========================================================================= */
   /* --- 🌑 SHADOWS (Styles Manuels) ---------------------------------------- */
   /* ========================================================================= */
@@ -112,11 +109,12 @@
   --shadow--xs: 0px 1px 2px rgba(0, 0, 0, 0.05);
   --shadow--sm: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
   --shadow--md: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow--lg: 0px 4px 6px rgba(0, 0, 0, 0.05), 0px 10px 15px rgba(0, 0, 0, 0.1);
-  --shadow--xl: 0px 10px 10px rgba(0, 0, 0, 0.04), 0px 20px 25px rgba(0, 0, 0, 0.1);
+  --shadow--lg:
+    0px 4px 6px rgba(0, 0, 0, 0.05), 0px 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow--xl:
+    0px 10px 10px rgba(0, 0, 0, 0.04), 0px 20px 25px rgba(0, 0, 0, 0.1);
   --shadow--2xl: 0px 25px 50px rgba(0, 0, 0, 0.25);
   --shadow--none: 0px 0px 0px rgba(0, 0, 0, 1);
-
 
   /* ========================================================================= */
   /* --- 🎨 COLORS (Primitives) -------------------------------------------- */
@@ -213,29 +211,28 @@
   --color-periwinkle-900: #2c3d83;
   --color-periwinkle-950: #1a244c;
 
-
   /* ========================================================================= */
   /* --- 🎨 COLORS (Sémantiques) ------------------------------------------- */
   /* ========================================================================= */
   /* Ces variables sémantiques font référence aux variables primitives définies ci-dessus. */
   --color-stroke-primary: var(--color-blue-chill-400);
   --color-stroke-primary-dark: var(--color-blue-chill-500);
-  
+
   --color-button-background-primary: var(--color-blue-chill-600);
   --color-button-text-primary: var(--color-base-white);
-  
+
   --color-text-body-primary: var(--color-base-black);
   --color-text-body-accent: var(--color-blue-chill-600);
   --color-text-body-secondary: var(--color-gray-600);
   --color-text-body-tertiary: var(--color-gray-400);
-  
+
   --color-background-primary: var(--color-base-white);
   --color-background-brand: var(--color-blue-chill-600); /* Ajouté pour Brand */
-  
+
   --color-background-accent-1: var(--color-blue-chill-100);
   --color-background-accent-2: var(--color-persian-blue-100);
   --color-background-accent-3: var(--color-periwinkle-100);
-  
+
   --color-text-body-accent-1: var(--color-periwinkle-950);
   --color-text-body-accent-2: var(--color-blue-chill-950);
   --color-text-body-accent-3: var(--color-persian-blue-950);

@@ -38,5 +38,8 @@ clientDetails:
 
 teamMembers: []
  
-references: []
+references:
+- name: "Pierre Raccaglia"
+  link: "https://fr.linkedin.com/in/praccaglia"
+  role: "Product Manager"
 ---
