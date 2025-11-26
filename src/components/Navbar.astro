@@ -1,46 +1,57 @@
 ---
-// Fichier : src/components/Navbar.astro
 import Container from './Container.astro';
 
-// Définition des liens pour la modularité future
+// Définition des liens de navigation
 const navLinks = [
- { name: 'Work', href: '/' },
- { name: 'About me', href: '/about' },
- { name: 'Contact', href: '/contact' },
+    { name: 'Work', href: '/#projects' }, 
+    { name: 'About me', href: '/about' },
+    { name: 'Contact', href: '/#contact-footer' }, 
 ];
 
-// Récupération du chemin actuel (ex: '/', '/about', '/contact')
 const currentPath = Astro.url.pathname;
 
-// Fonction utilitaire pour déterminer si un lien est actif (Correction TypeScript intégrée)
-function isActive(href: string, current: string): boolean {
-    // Cas spécial pour la racine (Work)
-    if (href === '/') {
+// Détermine si un lien doit être actif dans la barre de navigation.
+function isActive(link: { name: string, href: string }, current: string): boolean {
+    
+    if (link.name === 'Contact') {
+        return false;
+    }
+    
+    const linkPath = link.href.split('#')[0] || '/'; 
+
+    if (linkPath === '/') {
         return current === '/' || current.endsWith('/index.html');
     }
-    // Cas normal pour les autres pages
-    return current === href || current.startsWith(href + '/');
+
+    return current === linkPath || current.startsWith(linkPath + '/');
 }
 ---
 
-<nav class:list={[
-    "py-md", 
-    "sticky top-0", 
-    "z-[60]", // Z-index élevé pour rester au-dessus du menu mobile
-    "bg-background-primary/95 backdrop-blur-sm"
-]}>
+<nav 
+    id="main-navbar" 
+    class:list={[
+        "py-md", 
+        "sticky top-0", 
+        "z-[60]", 
+        "bg-background-primary/95 backdrop-blur-sm"
+    ]}
+    role="navigation" 
+    aria-label="Main navigation"
+>
     
     <Container class="flex justify-between items-center">
         
-        {/* ✅ Contenu réintégré : Nom cliquable vers la page d'accueil */}
-        <a href="/" class="text-xl font-extrabold text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase">
+        <a 
+            href="/" 
+            class="text-xl font-extrabold text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase"
+            aria-label="Yassine El Idrissi - Retour à l'accueil"
+        >
             Yassine El Idrissi
         </a>
     
-        {/* 💻 Menu Desktop (Visible sur MD+) */}
-        <div class="hidden md:flex space-x-lg">
+        <div class="hidden md:flex space-x-lg" role="menu">
             {navLinks.map((link) => {
-                const isLinkActive = isActive(link.href, currentPath);
+                const isLinkActive = isActive(link, currentPath);
                 
                 return (
                     <a 
@@ -53,6 +64,8 @@ function isActive(href: string, current: string): boolean {
                             "uppercase",
                             isLinkActive ? "font-extrabold" : "font-normal" 
                         ]}
+                        aria-current={isLinkActive ? 'page' : undefined}
+                        role="menuitem"
                     >
                         {link.name}
                     </a>
@@ -60,13 +73,13 @@ function isActive(href: string, current: string): boolean {
             })}
         </div>
 
-        {/* ✅ Contenu réintégré : Bouton Hamburger/Close */}
         <button 
             id="mobile-menu-button" 
             aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
             class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
         >
-            {/* Icône Hamburger (Absolue) */}
             <div id="burger-icon" class="w-6 h-6 absolute"> 
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -74,7 +87,6 @@ function isActive(href: string, current: string): boolean {
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </div>
-            {/* Icône Croix (Absolue, cachée par défaut) */}
             <div id="close-icon" class="hidden w-6 h-6 absolute">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -86,53 +98,86 @@ function isActive(href: string, current: string): boolean {
     </Container>
 </nav>
 
-{/* 📱 Menu Mobile (Overlay avec positionnement corrigé) */}
 <div 
     id="mobile-menu" 
     class="md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-background-primary/95 backdrop-blur-sm 
-           transition-opacity duration-300 ease-in-out opacity-0 invisible overflow-y-auto"
+            transition-opacity duration-300 ease-in-out opacity-0 invisible overflow-y-auto"
+    aria-hidden="true"
+    role="dialog"
 >
     <Container class="flex flex-col space-y-lg pt-lg pb-xl"> 
-        {navLinks.map((link) => {
-            const isLinkActive = isActive(link.href, currentPath);
+        <div role="menu" class="flex flex-col space-y-lg w-full"> {navLinks.map((link) => {
+                const isLinkActive = isActive(link, currentPath);
 
-            return (
-                <a 
-                    href={link.href} 
-                    class:list={[
-                        "text-xl", 
-                        "text-text-body-primary", 
-                        "hover:text-text-body-secondary", 
-                        "transition duration-150",
-                        "uppercase",
-                        "w-full",
-                        isLinkActive ? "font-extrabold" : "font-normal" 
-                    ]}
-                >
-                    {link.name}
-                </a>
-            );
-        })}
+                return (
+                    <a 
+                        href={link.href} 
+                        class:list={[
+                            "text-xl", 
+                            "text-text-body-primary", 
+                            "hover:text-text-body-secondary", 
+                            "transition duration-150",
+                            "uppercase",
+                            "w-full",
+                            isLinkActive ? "font-extrabold" : "font-normal" 
+                        ]}
+                        aria-current={isLinkActive ? 'page' : undefined}
+                        role="menuitem"
+                    >
+                        {link.name}
+                    </a>
+                );
+            })}
+        </div>
     </Container>
 </div>
 
-{/* 🧰 Script de Gestion du Menu Mobile (MIS À JOUR pour la transition) */}
 <script is:inline>
     const TRANSITION_DURATION = 300; 
+    const NAVBAR_ID = 'main-navbar';
+
+    function handleScrollAnchors(e) {
+        const targetLink = e.target.closest('a[href*="#"]');
+        if (!targetLink) return;
+
+        const hash = targetLink.hash;
+        const targetElement = hash ? document.querySelector(hash) : null;
+
+        if (targetElement) {
+            e.preventDefault();
+            
+            const navbar = document.getElementById(NAVBAR_ID);
+            const navbarHeight = navbar ? navbar.offsetHeight : 0;
+            
+            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+            const scrollPosition = targetPosition - navbarHeight - 20; 
+
+            window.scrollTo({
+                top: scrollPosition,
+                behavior: 'smooth'
+            });
+            
+            if (hash) {
+                 window.history.pushState(null, '', hash);
+            }
+        }
+    }
 
     window.toggleMobileMenu = function() {
         const menu = document.getElementById('mobile-menu');
+        const button = document.getElementById('mobile-menu-button');
         const burgerIcon = document.getElementById('burger-icon');
         const closeIcon = document.getElementById('close-icon');
         
-        if (!menu || !burgerIcon || !closeIcon) return;
+        if (!menu || !button || !burgerIcon || !closeIcon) return;
 
         const isHidden = menu.classList.contains('invisible');
         
+        button.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+        menu.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
+        
         if (isHidden) {
-            // OUVERTURE
             menu.classList.remove('invisible');
-            
             setTimeout(() => {
                  menu.classList.add('opacity-100');
             }, 10); 
@@ -141,10 +186,8 @@ function isActive(href: string, current: string): boolean {
             closeIcon.classList.remove('hidden');
             document.body.style.overflow = 'hidden'; 
         } else {
-            // FERMETURE
             menu.classList.remove('opacity-100');
             
-            // Correction: Utiliser TRANSITION_DURATION du JavaScript (300ms) et non l'ancien 400ms
             setTimeout(() => {
                 menu.classList.add('invisible');
                 document.body.style.overflow = ''; 
@@ -155,8 +198,9 @@ function isActive(href: string, current: string): boolean {
         }
     };
 
-    function attachMenuHandler() {
+    function attachHandlers() {
         const button = document.getElementById('mobile-menu-button');
+        
         if (button) {
              button.removeEventListener('click', window.toggleMobileMenu);
              button.addEventListener('click', window.toggleMobileMenu);
@@ -167,8 +211,11 @@ function isActive(href: string, current: string): boolean {
             link.removeEventListener('click', window.toggleMobileMenu);
             link.addEventListener('click', window.toggleMobileMenu);
         });
+        
+        document.removeEventListener('click', handleScrollAnchors);
+        document.addEventListener('click', handleScrollAnchors);
     }
 
-    attachMenuHandler();
-    document.addEventListener('astro:after-swap', attachMenuHandler);
+    attachHandlers();
+    document.addEventListener('astro:after-swap', attachHandlers);
 </script>

@@ -1,6 +1,4 @@
-﻿Export Variables
-Primitive.Mode 1.tokens.json
-{
+﻿{
   "font": {
     "size": {
       "xs": {
@@ -166,7 +164,7 @@ Primitive.Mode 1.tokens.json
         "$value": "#030712"
       }
     },
-    "gray": {
+    "neutral": {
       "50": {
         "$type": "color",
         "$value": "#f9fafb"
@@ -182,6 +180,10 @@ Primitive.Mode 1.tokens.json
       "300": {
         "$type": "color",
         "$value": "#d1d5dc"
+      },
+      "350": {
+        "$type": "color",
+        "$value": "#bbc1ca"
       },
       "400": {
         "$type": "color",
@@ -493,33 +495,91 @@ Primitive.Mode 1.tokens.json
 Semantic.Mode 1.tokens.json
 {
   "colors": {
-    "stroke-secondary": {
-      "$type": "color",
-      "$value": "{colors.blue-chill.400}"
+    "stroke": {
+      "stroke-primary": {
+        "$type": "color",
+        "$value": "{colors.blue-chill.400}"
+      },
+      "stroke-primary-hover": {
+        "$type": "color",
+        "$value": "{colors.blue-chill.200}"
+      },
+      "stroke-tertiary": {
+        "$type": "color",
+        "$value": "{colors.neutral.50}"
+      },
+      "stroke-tertiary-hover": {
+        "$type": "color",
+        "$value": "{colors.neutral.200}"
+      },
+      "stroke-neutral-primary": {
+        "$type": "color",
+        "$value": "{colors.neutral.300}"
+      },
+      "stroke-disabled": {
+        "$type": "color",
+        "$value": "{colors.neutral.300}"
+      },
+      "stroke-primary-dark": {
+        "$type": "color",
+        "$value": "{colors.blue-chill.500}"
+      }
     },
-    "button-background-primary": {
-      "$type": "color",
-      "$value": "{colors.blue-chill.600}"
+    "background": {
+      "button-background-primary": {
+        "$type": "color",
+        "$value": "{colors.blue-chill.600}"
+      },
+      "button-background-primary-hover": {
+        "$type": "color",
+        "$value": "{colors.blue-chill.400}"
+      },
+      "button-background-secondary": {
+        "$type": "color",
+        "$value": "{colors.neutral.950}"
+      },
+      "button-background-secondary-hover": {
+        "$type": "color",
+        "$value": "{colors.neutral.800}"
+      },
+      "background-primary": {
+        "$type": "color",
+        "$value": "{colors.base.White}"
+      },
+      "background-accent-primary": {
+        "$type": "color",
+        "$value": "{colors.blue-chill.600}"
+      },
+      "background-neutral-secondary": {
+        "$type": "color",
+        "$value": "{colors.neutral.900}"
+      },
+      "background-disabled": {
+        "$type": "color",
+        "$value": "{colors.neutral.400}"
+      }
     },
-    "button-text-primary": {
-      "$type": "color",
-      "$value": "{colors.base.White}"
-    },
-    "text-body-primary": {
-      "$type": "color",
-      "$value": "{colors.base.Black}"
-    },
-    "text-body-secondary": {
-      "$type": "color",
-      "$value": "{colors.gray.600}"
-    },
-    "text-body-tertiary": {
-      "$type": "color",
-      "$value": "{colors.gray.400}"
-    },
-    "background-primary": {
-      "$type": "color",
-      "$value": "{colors.base.White}"
+    "text": {
+      "text-body-primary": {
+        "$type": "color",
+        "$value": "{colors.base.Black}"
+      },
+      "text-button-primary": {
+        "$type": "color",
+        "$value": "{colors.base.White}"
+      },
+      "text-body-accent": {
+        "$type": "color",
+        "$value": "{colors.blue-chill.600}"
+      },
+      "text-body-secondary": {
+        "$type": "color",
+        "$value": "{colors.neutral.600}"
+      },
+      "text-body-tertiary": {
+        "$type": "color",
+        "$value": "{colors.neutral.400}"
+      }
     }
   },
   "Border": {

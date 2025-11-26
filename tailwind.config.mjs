@@ -35,9 +35,18 @@ export default {
         'text-body-accent': tokens.primitives.color['blue-chill'][600],
         'button-background-primary': tokens.primitives.color['blue-chill'][600],
         'button-text-primary': tokens.primitives.color.base.white,
+        // ✅ NOUVEAU : Couleurs Primary Hover et Active
+        'button-hover-primary': tokens.primitives.color['blue-chill'][400],
+        'button-active-primary': tokens.primitives.color['blue-chill'][500], // Utilisation du 500 pour l'état actif comme dans votre configuration précédente.
+        
+    // ✅ NOUVEAU : Couleurs Secondary
+        'button-background-secondary': tokens.primitives.color.gray[950],
+        'button-hover-secondary': tokens.primitives.color.gray[800],
+        'button-active-secondary': tokens.primitives.color.gray[800], // Ajout d'un état actif pour complétude
         'stroke-primary': tokens.primitives.color['blue-chill'][400],
         'stroke-primary-hover': tokens.primitives.color['blue-chill'][200],
         'stroke-primary-dark': tokens.primitives.color['blue-chill'][500],
+        'stroke-neutral-primary': tokens.primitives.color.gray[300],
         'stroke-tertiary': tokens.primitives.color.gray[50],
         'stroke-tertiary-hover': tokens.primitives.color.gray[200],
         'stroke-disabled': tokens.primitives.color.gray[300],

@@ -92,6 +92,7 @@ export const tokens = {
       'text-body-accent': '{primitives.color.blue-chill.600}',
       'button-background-primary': '{primitives.color.blue-chill.600}',
       'button-text-primary': '{primitives.color.base.white}',
+      'stroke-neutral-primary': '{primitives.color.gray.400}',
       'stroke-primary': '{primitives.color.blue-chill.400}',
       'stroke-primary-dark': '{primitives.color.blue-chill.500}',
     },
