@@ -1,0 +1,43 @@
+---
+// src/components/ProjectImage.astro
+
+// Importation du composant Image natif d'Astro
+import { Image } from 'astro:assets';
+
+const { src, alt, onClick } = Astro.props;
+
+// Configuration pour l'optimisation
+const formats = ['avif', 'webp', 'jpeg', 'png']; // Ordre de préférence pour les navigateurs
+
+// Si l'URL n'est pas un Asset (ex: "" ou lien externe), le composant Image plantera.
+// On utilise donc un bloc conditionnel pour gérer cette robustesse.
+const isInternalAsset = src && !src.startsWith('http');
+---
+
+{isInternalAsset && (
+  <div
+    onclick={onClick}
+    class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+  >
+    <Image
+      src={src}
+      alt={alt}
+      widths={[300, 600, 1200, 1920]} 
+      sizes="(max-width: 768px) 100vw, 50vw" 
+      formats={formats} 
+      // Styles de l'image (Tailwind)
+      class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+      loading="lazy"
+      // Note: `src` doit pointer vers un fichier dans le dossier `public/`
+    />
+  </div>
+)}
+
+{/* Fallback si l'asset n'est pas interne (ex: lien cassé ou chemin vide) */}
+{!isInternalAsset && (
+  <div class="relative w-full rounded-2xl overflow-hidden bg-background-primary block">
+    <div class="w-full h-full p-4 bg-gray-200 flex items-center justify-center text-sm text-gray-500 rounded-2xl">
+      [Image manquante ou chemin non valide]
+    </div>
+  </div>
+)}

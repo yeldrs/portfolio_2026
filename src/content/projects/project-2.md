@@ -16,7 +16,7 @@ projectImages:
   - "/images/project-2/editCdc.png"
   - "/images/project-2/degitalCdc.png"
 
-title: "Building an agile tool to design with ethics"
+title: "Designing an agile tool to design with ethics"
 client: "Caisse des Dépôts et Consignations (CDC)"
 description: "Designing a tangible, methodological toolkit to embed ethical, eco-design, and inclusive principles into major digital platform development across the organization."
 role: "Study Conceptor & Solution Designer (UX Strategist)"

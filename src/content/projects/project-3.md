@@ -1,10 +1,21 @@
 ---
 cardImage: "/images/coverProject-batchcooking.png"
 projectImages:
-- "/images/project-3/image-01.jpg"
-- "/images/project-3/image-02.jpg"
-- "/images/project-3/image-03.jpg"
-- "/images/project-3/image-04.jpg"
+# DIANOSTIC > CONTEXT
+- "/images/project-3/brainstorm.png" # Index 0 : Image 1 (Principale)
+- "" # Index 1 : Image 1 (Optionnelle)
+
+# DIANOSTIC > ROLE + INSIGHTS
+- "/images/project-3/diagram.png" # Index 2 : Image 2 (Principale)
+- "/images/project-3/wireframeBatchcooking.png" # Index 3 : Image 2 (Optionnelle)
+
+# CONCEPTION
+- "" # Index 4 : Image 3 (Principale)
+- "/images/project-3/mockupBatchcooking.png" # Index 5 : Image 3 (Optionnelle)
+
+# RÉSULTATS
+- "/images/project-3/coverProject-batchcooking.png" # Index 6 : Image 4 (Principale)
+- "" # Index 7 : Image 4 (Optionnelle)
 
 title: "Building an accessible solution for collaborative batchcooking."
 client: "Personal Social Innovation Project"
@@ -45,7 +56,7 @@ isDraft: false
 teamMembers: 
  - name: "Yannick Zelle" # <-- Correction: Indentation correcte
    role: "Data Scientist, backend developper" # <-- Correction: Indentation correcte
-   link: "https://yourportfolio.com/batchcooking" # <-- Correction: Indentation correcte
+   link: "https://github.com/Lazel102" # <-- Correction: Indentation correcte
 
 references: []
 ---
