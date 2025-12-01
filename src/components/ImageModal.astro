@@ -1,0 +1,198 @@
+---
+// src/components/ImageModal.astro
+import ArrowButton from "./ArrowButton.astro";
+
+export interface Props {
+  images: string[]; // Chemins bruts, utilisés pour la navigation interne du script (pas directement pour src)
+  DS_CLASSES: Record<string, string>;
+}
+
+const { images, DS_CLASSES } = Astro.props;
+
+const tertiaryVariant = "tertiary";
+const disabledVariant = "disabled";
+---
+
+<div
+  id="imageModal"
+  class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out overflow-hidden"
+  aria-modal="true"
+  role="dialog"
+  onclick="window.hideImageModal()"
+>
+  {/* Bouton de fermeture */}
+  <button
+    id="closeModalBtn"
+    class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
+    aria-label="Fermer la modale"
+    onclick="event.stopPropagation(); window.hideImageModal();"
+  >
+    &times;
+  </button>
+
+  <div
+    class="relative flex items-center justify-center w-full h-full"
+    onclick="event.stopPropagation()"
+  >
+    {/* Flèche Précédente Modale */}
+    <ArrowButton
+      {...DS_CLASSES}
+      id="modalPrevBtn"
+      label="Image précédente"
+      direction="left"
+      variant={disabledVariant as any}
+      onClick="event.stopPropagation(); window.navigateModal(-1)"
+      class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
+    />
+
+    {/* Conteneur d'image dynamique. */}
+    <img
+      id="modalImage"
+      data-current-modal-index="0"
+      alt="Agrandissement de l'image du projet"
+      class="max-w-full max-h-full object-contain cursor-pointer"
+      onclick="event.stopPropagation(); window.hideImageModal()"
+    />
+
+    {/* ➡️ Flèche Suivante Modale */}
+    <ArrowButton
+      {...DS_CLASSES}
+      id="modalNextBtn"
+      label="Image suivante"
+      direction="right"
+      variant={tertiaryVariant as any}
+      onClick="event.stopPropagation(); window.navigateModal(1)"
+      class="absolute right-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
+    />
+  </div>
+</div>
+
+<script define:vars={{ images: images }} is:inline>
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+
+  if (!modal || !modalImg) return;
+
+  window.isModalOpen = false;
+  window.isInitialized = false;
+  let scrollBarCompensation = 0;
+  let resolvedUrls = []; // Stocke les URLs résolues passées par le carrousel
+  let totalModalImages = 0;
+
+  // --- Gestion du scroll (Fix du Décalage) ---
+  function disableBodyScroll() {
+    scrollBarCompensation =
+      window.innerWidth - document.documentElement.clientWidth;
+    if (scrollBarCompensation > 0) {
+      document.body.style.paddingRight = `${scrollBarCompensation}px`;
+    }
+    document.body.style.overflow = "hidden";
+  }
+
+  function enableBodyScroll() {
+    document.body.style.overflow = "";
+    if (scrollBarCompensation > 0) {
+      document.body.style.paddingRight = "";
+    }
+    scrollBarCompensation = 0;
+  }
+
+  // --- Fonctions de navigation et d'affichage ---
+
+  window.navigateModal = function (direction) {
+    if (
+      totalModalImages <= 1 ||
+      !window.isModalOpen ||
+      resolvedUrls.length === 0
+    )
+      return;
+
+    let currentIndex = parseInt(modalImg.dataset.currentModalIndex) || 0;
+    let newIndex = currentIndex + direction;
+
+    if (newIndex >= totalModalImages) {
+      newIndex = 0; // Boucle au début (si vous ne voulez pas, changez 'return' pour 'newIndex = 0')
+    } else if (newIndex < 0) {
+      newIndex = totalModalImages - 1; // Boucle à la fin
+    }
+
+    modalImg.src = resolvedUrls[newIndex];
+    modalImg.dataset.currentModalIndex = newIndex.toString();
+
+    updateModalArrows(newIndex, totalModalImages);
+  };
+
+  // ⭐ Fonction principale mise à jour pour recevoir l'URL résolue
+  window.showImageModal = function (
+    initialResolvedUrl,
+    initialIndex,
+    allResolvedUrls
+  ) {
+    if (window.isModalOpen) {
+      window.hideImageModal();
+    }
+
+    resolvedUrls = allResolvedUrls;
+    totalModalImages = resolvedUrls.length;
+
+    modalImg.src = initialResolvedUrl; // L'URL fonctionne car elle est résolue
+    modalImg.dataset.currentModalIndex = initialIndex.toString();
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+
+    disableBodyScroll();
+
+    window.isModalOpen = true;
+
+    if (totalModalImages > 1) {
+      updateModalArrows(initialIndex, totalModalImages);
+    } else {
+      updateModalArrows(-1, 0);
+    }
+
+    modal.focus();
+  };
+
+  window.hideImageModal = function () {
+    if (window.isModalOpen) {
+      enableBodyScroll();
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      window.isModalOpen = false;
+    }
+  };
+
+  // --- Fonctions utilitaires ---
+  function updateModalArrows(index, total) {
+    const prevBtn = document.getElementById("modalPrevBtn");
+    const nextBtn = document.getElementById("modalNextBtn");
+
+    if (!prevBtn || !nextBtn) return;
+
+    const hideAll = total <= 1 || index === -1;
+
+    prevBtn.disabled = hideAll || index === 0;
+    nextBtn.disabled = hideAll || index === total - 1;
+  }
+
+  function attachKeyboardHandler() {
+    if (window.isInitialized) return;
+
+    document.addEventListener("keydown", (event) => {
+      if (window.isModalOpen) {
+        if (event.key === "Escape") {
+          window.hideImageModal();
+        } else if (event.key === "ArrowLeft") {
+          window.navigateModal(-1);
+        } else if (event.key === "ArrowRight") {
+          window.navigateModal(1);
+        }
+      }
+    });
+    window.isInitialized = true;
+  }
+
+  document.addEventListener("DOMContentLoaded", attachKeyboardHandler);
+  document.addEventListener("astro:after-swap", attachKeyboardHandler);
+</script>

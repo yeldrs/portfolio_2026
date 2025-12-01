@@ -5,8 +5,9 @@ import Container from "../../components/Container.astro";
 import ProjectCarousel from "../../components/ProjectCarousel.astro";
 import ArrowButton from "../../components/ArrowButton.astro";
 
-// 💡 Importation simple de la composante Image
+// 💡 Importation de la composante Image et du NOUVEAU composant Modale
 import { Image } from "astro:assets";
+import ImageModal from "../../components/ImageModal.astro";
 
 // Générer les chemins statiques à partir des fichiers MDX
 export async function getStaticPaths() {
@@ -21,7 +22,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 
-// --- LOGIQUE D'IMAGES OPTIMISÉE (Astro Assets) ---
+// --- LOGIQUE D'IMAGES OPTIMISÉE POUR TOUTES LES IMAGES (Astro Assets) ---
 
 const projectImagesPaths = project.data.projectImages || [];
 
@@ -33,58 +34,50 @@ const assetsGlob = import.meta.glob(
 // 2. Fonction utilitaire pour résoudre le chemin stocké en fonction de chargement
 const getOptimizedImageLoader = (path: string) => {
   if (!path.startsWith("/images/")) return null;
-
-  // Construction du chemin d'asset réel
   const modulePath = `/src/assets/projects/${path.substring("/images/".length)}`;
-
-  // Retourne la fonction de chargement ou null
   return assetsGlob[modulePath] || null;
 };
 
-// 3. Collecter et exécuter les Promises
-const imagePromises = projectImagesPaths.slice(0, 8).map((path) => {
+// 3. Collecter et exécuter les Promises pour TOUTES les images (PAS seulement les 8 premières)
+const imagePromises = projectImagesPaths.map((path) => {
   if (!path) return null; // Placeholders vides
   const loaderFunction = getOptimizedImageLoader(path);
-
-  // Si la fonction de chargement existe, on l'appelle pour obtenir la Promise
   return loaderFunction ? loaderFunction() : null;
 });
 
 // 4. Attendre que toutes les promesses d'importation soient résolues
 const resolvedModulesRaw = await Promise.all(imagePromises.filter(Boolean));
 
-// Reconstruire le tableau en gardant les emplacements vides (undefined) pour l'assignation ordonnée
+// Reconstruire le tableau complet des modules d'images résolus
 let resolvedIndex = 0;
-// 🚨 CORRECTION CRITIQUE: Nous forçons le type résolu à avoir la propriété 'default'
-const resolvedImageModules = imagePromises.map((p) => {
+const allResolvedImageModules = imagePromises.map((p) => {
   if (p === null) {
     return undefined;
   }
-
-  // Utilisation de `as any` pour désactiver l'erreur 'Property 'default' does not exist on type '{}'.'
+  // @ts-ignore : on sait que le module résolu aura un `default` contenant les métadonnées de l'image.
   const module = resolvedModulesRaw[resolvedIndex++] as any;
-
   return module?.default;
 });
 
-// Assigner les modules résolus aux variables
-// Note: Si le module est undefined, le && dans le template ignorera la balise <Image />
-const contextImageModule = resolvedImageModules[0];
-const contextImage2Module = resolvedImageModules[1];
-const roleImageModule = resolvedImageModules[2];
-const roleImage2Module = resolvedImageModules[3];
-const conceptionImageModule = resolvedImageModules[4];
-const conceptionImage2Module = resolvedImageModules[5];
-const resultsImageModule = resolvedImageModules[6];
-const resultsImage2Module = resolvedImageModules[7];
+// Assigner les 8 premiers modules résolus aux variables d'affichage direct
+const contextImageModule = allResolvedImageModules[0];
+const contextImage2Module = allResolvedImageModules[1];
+const roleImageModule = allResolvedImageModules[2];
+const roleImage2Module = allResolvedImageModules[3];
+const conceptionImageModule = allResolvedImageModules[4];
+const conceptionImage2Module = allResolvedImageModules[5];
+const resultsImageModule = allResolvedImageModules[6];
+const resultsImage2Module = allResolvedImageModules[7];
 
-// Le carrousel et la modale continuent d'utiliser les chemins originaux
+// Le carrousel utilise les chemins bruts pour le composant ProjectCarousel.
+// (Sauf si vous mettez à jour ProjectCarousel pour utiliser des modules résolus)
 const carouselImages = projectImagesPaths.slice(8);
 
-// La liste des images modales doit inclure les chemins résolus pour les 8 premières images
-// si elles utilisent <Image /> et leurs chemins bruts (pour la navigation JS)
-// ATTENTION: Le JS utilise `projectImagesPaths` (les chemins bruts) comme liste de référence.
-const allModalImages = projectImagesPaths; // Le JS dépend de cette liste de chemins bruts pour l'index
+// La liste d'images pour la modale doit contenir TOUS les modules résolus (les URLs optimisées).
+// C'est cette liste que nous passons au composant ImageModal.
+const allModalImagesURLs = allResolvedImageModules
+  .filter(Boolean)
+  .map((mod) => mod.src);
 
 // --- Fin de la Logique d'images optimisée ---
 
@@ -153,7 +146,7 @@ const disabledVariant = "disabled";
           </div>
 
           {
-            /* NOUVEAU CONTENEUR D'IMAGES pour Context/Problem (Utilise <Image />) */
+            /* NOUVEAU CONTENEUR D'IMAGES pour Context/Problem (Utilise <Image /> et appelle la modale avec l'URL résolue) */
           }
           <div class="space-y-md">
             {
@@ -229,7 +222,7 @@ const disabledVariant = "disabled";
           </div>
 
           {
-            /* NOUVEAU CONTENEUR D'IMAGES pour Role/Insights (Utilise <Image />) */
+            /* NOUVEAU CONTENEUR D'IMAGES pour Role/Insights (Utilise <Image /> et appelle la modale avec l'URL résolue) */
           }
           <div class="space-y-md">
             {
@@ -270,6 +263,9 @@ const disabledVariant = "disabled";
         </article>
       </section>
 
+      {
+        /* Le carrousel garde les chemins bruts et le onclick devra être géré dans ProjectCarousel pour utiliser l'URL optimisée */
+      }
       <ProjectCarousel images={carouselImages} hideArrowsOnMobile={true} />
 
       <section
@@ -301,7 +297,6 @@ const disabledVariant = "disabled";
               <h3 class="text-lg font-semibold text-text-body-secondary">
                 Design conception
               </h3>
-              {/* AFFICHAGE CONDITIONNEL DU PARAGRAPHE */}
               {
                 project.data.designConception?.paragraph && (
                   <div
@@ -310,7 +305,6 @@ const disabledVariant = "disabled";
                   />
                 )
               }
-              {/* AFFICHAGE CONDITIONNEL DE LA LISTE */}
               {
                 designConceptionList.length > 0 && (
                   <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
@@ -323,7 +317,9 @@ const disabledVariant = "disabled";
             </div>
           </div>
 
-          {/* NOUVEAU CONTENEUR D'IMAGES pour Conception (Utilise <Image />) */}
+          {
+            /* NOUVEAU CONTENEUR D'IMAGES pour Conception (Utilise <Image /> et appelle la modale avec l'URL résolue) */
+          }
           <div class="space-y-md">
             {
               conceptionImageModule && (
@@ -392,7 +388,6 @@ const disabledVariant = "disabled";
               <h3 class="text-lg font-semibold text-text-body-secondary">
                 Metrics
               </h3>
-              {/* LOGIQUE CONDITIONNELLE pour Metrics */}
               {
                 Array.isArray(project.data.metrics) ? (
                   <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
@@ -410,7 +405,9 @@ const disabledVariant = "disabled";
             </div>
           </div>
 
-          {/* NOUVEAU CONTENEUR D'IMAGES pour Results (Utilise <Image />) */}
+          {
+            /* NOUVEAU CONTENEUR D'IMAGES pour Results (Utilise <Image /> et appelle la modale avec l'URL résolue) */
+          }
           <div class="space-y-md">
             {
               resultsImageModule && (
@@ -555,175 +552,10 @@ const disabledVariant = "disabled";
     </main>
   </Container>
 
-  <div
-    id="imageModal"
-    class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out"
-    aria-modal="true"
-    role="dialog"
-    onclick="window.hideImageModal()"
-  >
-    {/* Bouton de fermeture */}
-    <button
-      id="closeModalBtn"
-      class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
-      aria-label="Fermer la modale"
-      onclick="event.stopPropagation(); window.hideImageModal();"
-    >
-      &times;
-    </button>
-
-    <div
-      class="relative flex items-center justify-center w-full h-full"
-      onclick="event.stopPropagation()"
-    >
-      {/* ⬅️ Flèche Précédente Modale (Aucun changement) */}
-      <ArrowButton
-        id="modalPrevBtn"
-        label="Image précédente"
-        direction="left"
-        variant={disabledVariant as any}
-        onClick="window.navigateModal(-1)"
-        class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
-        {...DS_CLASSES}
-      />
-
-      {
-        /* CORRECTION CRITIQUE: Réintroduction de la balise <img> avec l'ID "modalImage" */
-      }
-      <img
-        id="modalImage"
-        data-current-modal-index="0"
-        alt="Agrandissement de l'image du projet"
-        class="max-w-full max-h-full object-contain"
-      />
-
-      {/* ➡️ Flèche Suivante Modale (Aucun changement) */}
-      <ArrowButton
-        id="modalNextBtn"
-        label="Image suivante"
-        direction="right"
-        variant={tertiaryVariant as any}
-        onClick="window.navigateModal(1)"
-        class="absolute right-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
-        {...DS_CLASSES}
-      />
-    </div>
-  </div>
-
-  <script define:vars={{ images: allModalImages }} is:inline>
-    // --- Le JavaScript n'a pas été modifié car il est correct. ---
-
-    const projectImages = images;
-    const TOTAL_MODAL_IMAGES = projectImages.length;
-
-    window.isModalOpen = false;
-    window.isInitialized = false;
-
-    window.navigateModal = function (direction) {
-      const modalImg = document.getElementById("modalImage");
-      if (!modalImg || TOTAL_MODAL_IMAGES <= 1 || !window.isModalOpen) return;
-
-      let currentIndex = parseInt(modalImg.dataset.currentModalIndex) || 0;
-      let newIndex = currentIndex + direction;
-
-      if (newIndex >= TOTAL_MODAL_IMAGES || newIndex < 0) {
-        return;
-      }
-
-      modalImg.src = projectImages[newIndex];
-      modalImg.dataset.currentModalIndex = newIndex.toString();
-
-      updateModalArrows(newIndex, TOTAL_MODAL_IMAGES);
-    };
-
-    window.showImageModal = function (imageUrl) {
-      const modal = document.getElementById("imageModal");
-      const modalImg = document.getElementById("modalImage");
-
-      if (!modal || !modalImg || !imageUrl) return;
-
-      if (window.isModalOpen) {
-        window.hideImageModal();
-      }
-
-      // La recherche de l'index dans la liste de chemins bruts est correcte.
-      const initialIndex = projectImages.indexOf(imageUrl);
-      let initialModalIndex = initialIndex === -1 ? 0 : initialIndex;
-
-      modalImg.src = imageUrl;
-      modalImg.dataset.currentModalIndex = initialModalIndex.toString();
-
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-      window.isModalOpen = true;
-
-      if (initialIndex !== -1 && TOTAL_MODAL_IMAGES > 1) {
-        updateModalArrows(initialModalIndex, TOTAL_MODAL_IMAGES);
-      } else {
-        updateModalArrows(-1, 0);
-      }
-
-      modal.focus();
-    };
-
-    window.hideImageModal = function () {
-      const modal = document.getElementById("imageModal");
-      if (modal && window.isModalOpen) {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-        window.isModalOpen = false;
-      }
-    };
-
-    function updateModalArrows(index, total) {
-      const prevBtn = document.getElementById("modalPrevBtn");
-      const nextBtn = document.getElementById("modalNextBtn");
-
-      if (!prevBtn || !nextBtn) return;
-
-      const hideAll = total <= 1 || index === -1;
-
-      if (hideAll) {
-        prevBtn.classList.add("hidden");
-        nextBtn.classList.add("hidden");
-      } else {
-        prevBtn.classList.remove("hidden");
-        nextBtn.classList.remove("hidden");
-      }
-
-      const isPrevDisabled = index <= 0;
-      prevBtn.disabled = isPrevDisabled;
-
-      const isNextDisabled = index >= total - 1;
-      nextBtn.disabled = isNextDisabled;
-    }
-
-    function attachKeyboardHandler() {
-      if (window.isInitialized) return;
-
-      document.addEventListener("keydown", (event) => {
-        if (window.isModalOpen) {
-          if (event.key === "Escape") {
-            window.hideImageModal();
-          } else if (event.key === "ArrowLeft") {
-            window.navigateModal(-1);
-          } else if (event.key === "ArrowRight") {
-            window.navigateModal(1);
-          }
-        }
-      });
-      window.isInitialized = true;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      attachKeyboardHandler();
-    });
-    document.addEventListener("astro:after-swap", attachKeyboardHandler);
-  </script>
-
-  <style>
-    .prose {
-      max-width: none;
-    }
-  </style>
+  {
+    /* 🚨 NOUVEAU: Inclusion du composant modale en lui passant la liste d'URLs optimisées */
+  }
+  <ImageModal images={allModalImagesURLs} DS_CLASSES={DS_CLASSES} />
 </BaseLayout>
+
+{/* 🚨 SUPPRESSION de l'ancien bloc div#imageModal et du <script> associé */}
