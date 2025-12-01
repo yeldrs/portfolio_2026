@@ -2,19 +2,27 @@
 # src/content/projects/project-2.md
 cardImage: "/images/coverProject-cdc.png"
 projectImages:
-  - "/images/project-2/conceptBrief.png" # Image 0: Context
-  - "/images/project-2/crazy8.png" # Image 1: Role
-  - "/images/project-2/packaging.jpg" # Image 2: Conception
-  - "/images/project-2/magazineCdc.png" # Image 3: Results
-  # 💡 Images supplémentaires pour le Carrousel (index 4 et suivants)
-  - "/images/project-2/storyBoardCdc.png"
-  - "/images/project-2/kickoffCdc.png"
-  - "/images/project-2/distributeCdc.png"
-  - "/images/project-2/fillTilesCdc.png"
-  - "/images/project-2/mapCdc.png"
-  - "/images/project-2/reviewsCdc.png"
-  - "/images/project-2/editCdc.png"
-  - "/images/project-2/degitalCdc.png"
+ # DIAGNOSIS (Context/Problem)
+ - "/images/project-2/conceptBrief.png" # Index 0 : contextImage (Principal)
+ - "" # Index 1 : contextImage2 (Optionnel)
+ # DIAGNOSIS (Role/Insights)
+ - "/images/project-2/crazy8.png" # Index 2 : roleImage (Principal)
+ - "" # Index 3 : roleImage2 (Optionnel)
+ # CONCEPTION
+ - "/images/project-2/packaging.jpg" # Index 4 : conceptionImage (Principal)
+ - "" # Index 5 : conceptionImage2 (Optionnel)
+ # RESULTS
+ - "/images/project-2/magazineCdc.png" # Index 6 : resultsImage (Principal)
+ - "" # Index 7 : resultsImage2 (Optionnel)
+ # 💡 Images supplémentaires pour le Carrousel (index 8 et suivants)
+ - "/images/project-2/storyBoardCdc.png" # Index 8 (Début du carrousel)
+ - "/images/project-2/kickoffCdc.png"
+ - "/images/project-2/distributeCdc.png"
+ - "/images/project-2/fillTilesCdc.png"
+ - "/images/project-2/mapCdc.png"
+ - "/images/project-2/reviewsCdc.png"
+ - "/images/project-2/editCdc.png"
+ - "/images/project-2/degitalCdc.png"
 
 title: "Designing an agile tool to design with ethics"
 client: "Caisse des Dépôts et Consignations (CDC)"

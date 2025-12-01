@@ -1,10 +1,19 @@
 ---
 cardImage: "/images/coverProject-900care.png"
 projectImages:
- - "/images/project-1/mockupDesktop.png"
- - "/images/project-1/research.png"
- - "/images/project-1/conception.png"
- - "/images/project-1/metricsHomepage.png"
+ # DIAGNOSIS (Context/Problem)
+ - "/images/project-1/mockupDesktop.png" # Index 0 : contextImage (Principal)
+ - "" # Index 1 : contextImage2 (Optionnel)
+ # DIAGNOSIS (Role/Insights)
+ - "/images/project-1/research.png" # Index 2 : roleImage (Principal)
+ - "" # Index 3 : roleImage2 (Optionnel)
+ # CONCEPTION
+ - "/images/project-1/conception.png" # Index 4 : conceptionImage (Principal)
+ - "" # Index 5 : conceptionImage2 (Optionnel)
+ # RESULTS
+ - "/images/project-1/metricsHomepage.png" # Index 6 : resultsImage (Principal)
+ - "" # Index 7 : resultsImage2 (Optionnel)
+ # 💡 Le carrousel commencera à l'index 8 (et sera vide)
 
 title: "Optimizing retention and growth for a green e-commerce"
 client: "900.care"
