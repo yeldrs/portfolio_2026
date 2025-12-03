@@ -8,176 +8,321 @@ import Button from "../components/Button.astro"; // Pour le bouton Contact
 // Vos données pour la page
 const profileImageUrl = "/images/profile-pic.jpg"; // ASSUREZ-VOUS QUE CE CHEMIN EST CORRECT
 
-// ✅ CORRECTION TS: Définir le type du tableau pour rendre 'highlights' optionnel
-const professionalExperience: Array<{ 
-    title: string; 
-    company: string; 
-    duration: string;
-    highlights?: string[]; 
+// ✅ Données du CV : EXPÉRIENCES PROFESSIONNELLES
+const professionalExperience: Array<{
+  title: string;
+  company: string;
+  duration: string;
+  highlights?: string[];
 }> = [
- {
-  title: "UX Product Designer",
-  company: "900.care - D2C Startup",
-  duration: "Paris, Sept. 2024 - Sept. 2025",
-  // highlights: est commenté (correctement géré ci-dessous)
- /* highlights: [
-   "Collaborated closely with the PM and dev team to optimize user journeys for conversion, retention, and product discovery.",
-   "Increased Average Basket Value by +47% through the design and A/B testing of cross-sell modals and a funnel redesign.",
-   "Contributed to stabilizing the 4-week retention rate above 70% by designing a new order management space and optimizing the churn flow.",
-   "Spearheaded the entire Diagnosis Phase (Quantitative research on 400 clients, 27 qualitative interviews, moderated tests) and developed a Design System aligned with developer needs.",
-  ],*/
- },
- {
-  title: "Independent Designer & Web Consultant",
-  company: "Freelance",
-  duration: "Paris, 2023 - 2024",
-  // highlights: est commenté
-  /*highlights: [
-   "Provided consulting on visual identity conception for various clients, including Maison Le Roux.",
-   "Delivered services in digital strategy and Search Engine Optimization (SEO).",
-  ],*/
- },
- {
-  title: "Art Director",
-  company: "Maison Le Roux (Agri-Food Sector)",
-  duration: "Paris, Mar. - Sept. 2022",
-  // highlights: est commenté
-  /*highlights: [
-   "Contributed to brand strategy development alongside the marketing department.",
-   "Developed creative concepts for digital and print communication materials.",
-   "Managed the visual identity application across Paris retail boutiques and designed the point-de-vente stand for the Salon du Chocolat.",
-  ],*/
- },
+  {
+    title: "UX Product Designer",
+    company: "900.care - Startup D2C",
+    duration: "Paris, Sept. 2024 - Sept. 2025",
+    highlights: [
+      "End-to-End role in an Agile team. Maximize conversion, retention, and product discovery",
+    ],
+  },
+  {
+    title: "Web Designer",
+    company: "Freelance",
+    duration: "Remote, 2023 - 2024",
+    highlights: [
+      "WordPress, WebFlow consulting services in digital strategy and Search Engine Optimization",
+    ],
+  },
+  {
+    title: "Art Director",
+    company: "Freelance",
+    duration: "Paris, June. 2022 - Jan. 2023",
+    highlights: [
+      "Supported clients, including Maison Le Roux, on visual identity conception and brand strategy",
+    ],
+  },
+  {
+    title: "Art Director",
+    company: "Maison Le Roux - Food industry",
+    duration: "Paris, Mar. 2021 - Jul. 2022",
+    highlights: [
+      "Led brand strategy across digital and retail channels, ensuring consistency across all customer touchpoints",
+    ],
+  },
 ];
 
-const toolkit = {
- hardSkills: [
-  "End-to-End Design: From research (quali/quanti) to final design delivery.",
-  "Figma (Expert): High-fidelity prototyping, advanced Design System management and maintenance.",
-  "Data & Analytics: Reading and analyzing behavioral data (Metabase, Clarity, NPS, A/B testing).",
- ],
- softSkills: [
-  "Data-Driven Rigor: Justifying design choices with metrics (A/B tests, KPIs).",
-  "Agile & Autonomy: Mastery of Scrum rituals and the ability to autonomously lead the Discovery process.",
-  "Influence & Communication: Ability to align design with technical constraints (HTML/CSS) and business goals (OKR).",
- ],
- interests: [
-  "GreenTech & Responsible Design: Linking modern tools to fundamental environmental and societal needs.",
-  "Health & Well-being: Interest in accessibility and designing positive, well-being-focused experiences.",
-  "Emerging Technologies: Pragmatic use of AI (Gemini, ChatGPT) and automation (N8N, Make) for efficiency gains.",
- ],
+// ✅ MODIFIÉ : Données du CV : COMPÉTENCES, IA & AUTOMATISATION, MÉTHODOLOGIES
+const toolkit: {
+  hardSkills: { title: string; description: string }[];
+  softSkills: { title: string; description: string }[];
+  interests: { title: string; description: string }[];
+} = {
+  hardSkills: [
+    {
+      title: "End-to-End Design",
+      description:
+        "De la recherche (quali/quanti) à la livraison du design final.",
+    },
+    {
+      title: "Figma (Expert)",
+      description:
+        "Prototypage haute fidélité, gestion et maintenance avancée de Design System.",
+    },
+    {
+      title: "Data & Analytics",
+      description:
+        "Lecture et analyse de données comportementales (Metabase, Clarity, NPS, A/B testing).",
+    },
+    {
+      title: "IA & Automatisation",
+      description: "Utilisation de Bolt, Loveable, N8N.",
+    },
+    { title: "Suite Adobe (Expert)", description: "" }, // La description est vide comme dans la donnée initiale
+  ],
+  softSkills: [
+    {
+      title: "Rigueur Data-Driven",
+      description:
+        "Justification des choix design par la métrique (A/B tests, KPIs).",
+    },
+    {
+      title: "Agile & Autonomie",
+      description:
+        "Maîtrise des rituels Scrum et capacité à mener le processus Discovery de manière autonome.",
+    },
+    {
+      title: "Influence & Communication",
+      description:
+        "Alignement du design avec les contraintes techniques (HTML/CSS) et les objectifs business (OKR).",
+    },
+  ],
+  interests: [
+    {
+      title: "GreenTech & Design Responsable",
+      description:
+        "Lier outils modernes aux enjeux environnementaux et sociétaux.",
+    },
+    {
+      title: "Santé & Bien-être",
+      description:
+        "Intérêt pour l'accessibilité et le design d'expériences positives et axées sur le bien-être.",
+    },
+    {
+      title: "Autres Projets Significatifs",
+      description:
+        "(FoodTech, Numérique Responsable Caisse des Dépôts, Santé Animale).",
+    },
+  ],
 };
+
+// ✅ Données du CV : FORMATION
+const education = [
+  {
+    year: "2024-2025",
+    title:
+      "Mastère UX Design & Management de Projets Digitaux (Titre RNCP Niveau 7)",
+    school:
+      "ISCOD, France (Formation intensive réalisée sur 12 mois en contrat d'alternance)",
+  },
+  {
+    year: "2022",
+    title: "Master en Design Digital (Bac+5)",
+    school: "École de Design Nantes Atlantique, France",
+  },
+  {
+    year: "2019",
+    title: "Bachelor en Design Graphique (Bac+3)",
+    school: "Quasar Institute for Advanced Design, Rome, Italie",
+  },
+];
 ---
 
-<BaseLayout title="À Propos de Yassine El Idrissi - Product Designer">
- <main>
-  <Container class="pt-xl pb-3xl px-lg flex flex-col gap-3xl md:gap-4xl">
-   
-     <section class="flex flex-col md:flex-row md:items-start gap-lg md:gap-xl max-w-5xl mx-auto mt-[6rem]">
-  
-  <div class="flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden self-center md:self-auto">
-  <img 
-   src={profileImageUrl} 
-   alt="Yassine El Idrissi - Profile Picture" 
-   class="w-full h-full object-cover" 
-  />
-  </div>
-
-  <div class="space-y-md flex-1">
-  <h1 class="text-4xl font-extrabold text-text-body-primary">Hello, I'm Yassine 👋</h1>
-  <p class="text-xl font-normal text-text-body-primary">
-   I’m a **Product Designer** who loves translating user insights into genuine experiences that are measurable, valuable, and most importantly... **built for people.**
-  </p>
-  <p class="text-base text-text-body-secondary leading-relaxed">
-   As a Product Designer, my mission goes beyond pixel perfection: **I position myself at the intersection of user research, data, and business performance.** With solid experience in a demanding D2C environment (900.care startup), I excel at transforming precise user diagnostics into concrete solutions that improve conversion, increase retention, and maximize customer value.
-  </p>
-  <p class="text-base text-text-body-secondary leading-relaxed">
-   I design useful and accessible products, ensuring that every design decision serves as a growth lever, while always being mindful of the societal and environmental impact of technology.
-  </p>
-  <Button href="/contact" class="mt-lg">Let's Connect</Button>
-  </div>
- </section>
-
-   <Divider />
-      
-      <section class="max-w-6xl mx-auto w-full space-y-xl">
-          <h2 class="text-3xl font-bold text-text-body-primary text-center">The Toolkit for Impact</h2>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-xl">
-              
-              <div class="space-y-md">
-                  <h3 class="text-xl font-bold text-text-body-primary flex items-center gap-2">🛠️ Hard Skills (Tech & Tools)</h3>
-                  <ul class="space-y-2 text-base text-text-body-primary">
-                    {toolkit.hardSkills.map((skill) => (
-                      <li class="p-3 bg-gray-50 rounded-lg">{skill}</li>
-                    ))}
-                  </ul>
-              </div>
-              
-              <div class="space-y-md">
-                  <h3 class="text-xl font-bold text-text-body-primary flex items-center gap-2">💬 Soft Skills (Behavior & Process)</h3>
-                  <ul class="space-y-2 text-base text-text-body-primary">
-                    {toolkit.softSkills.map((skill) => (
-                      <li class="p-3 bg-gray-50 rounded-lg">{skill}</li>
-                    ))}
-                  </ul>
-              </div>
-              
-              <div class="space-y-md">
-                  <h3 class="text-xl font-bold text-text-body-primary flex items-center gap-2">🧠 Key Interests & Values</h3>
-                  <ul class="space-y-2 text-base text-text-body-primary">
-                    {toolkit.interests.map((interest) => (
-                      <li class="p-3 bg-gray-50 rounded-lg">{interest}</li>
-                    ))}
-                  </ul>
-              </div>
-              
-          </div>
+<BaseLayout title="About Yassine El Idrissi - Product Designer">
+  <main>
+    {
+      /* MODIFIÉ : Retrait de px-lg pour utiliser les marges par défaut / cohérentes */
+    }
+    <Container class="mt-xl py-3xl px-lg flex flex-col gap-3xl">
+      {/* ⭐ SECTION 1: PROFIL & INTRODUCTION */}
+      <section
+        class="flex flex-col md:flex-row md:items-start gap-lg md:gap-xl max-w-3xl mt-[6rem]"
+      >
+        <div class="space-y-md flex-1">
+          <h2 class="text-3xl font-extrabold text-text-body-primary">
+            Hi, I'm Yassine 👋
+          </h2>
+          <p class="text-base text-text-body-secondary leading-relaxed">
+            I’m a Product Designer and I position myself at the intersection of
+            user research and business performance. I like to transform precise
+            user diagnostics into concrete solutions that improve conversion,
+            increase retention, and maximize customer value.
+          </p>
+          <p class="text-base text-text-body-secondary leading-relaxed">
+            I design useful and accessible products, ensuring that every design
+            decision serves as a growth lever, while always being mindful of our
+            societal and environmental impact.
+          </p>
+          <Button href="/contact" class="mt-lg">Let's Connect</Button>
+        </div>
+        {
+          /* CHANGEMENT 1: Image de profil mise sur la droite (deuxième élément du flex) avec le contenu restauré */
+        }
+        <div
+          class="flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden self-center md:self-auto"
+        >
+          <img
+            src={profileImageUrl}
+            alt="Yassine El Idrissi - Profile Picture"
+            class="w-full h-full object-cover"
+          />
+        </div>
       </section>
-  
-   <Divider />
 
-         <section class="max-w-5xl mx-auto w-full space-y-xl">
-    <h2 class="text-3xl font-bold text-text-body-primary">Professional Experience Highlights</h2>
+      <Divider />
 
-    {professionalExperience.map((exp) => (
-     <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
-      <div class="flex flex-col md:flex-row md:justify-between md:items-start">
-       <h3 class="text-lg font-semibold text-text-body-primary">{exp.title}</h3>
-       <span class="text-sm font-medium text-text-body-tertiary md:text-right">{exp.duration}</span>
-      </div>
-      <p class="text-base font-normal text-text-body-secondary mb-md">{exp.company}</p>
-      
-            {exp.highlights && exp.highlights.length > 0 && (
-                <ul class="list-disc ml-6 space-y-2 text-base text-text-body-primary">
-                    {exp.highlights.map((highlight) => (
-                        <li>{highlight}</li>
-                    ))}
-                </ul>
-            )}
-            
-     </div>
-    ))}
-   </section>
+      {/* ⭐ SECTION 3: EXPÉRIENCES PROFESSIONNELLES */}
 
-   <Divider />
-   
-        <section class="max-w-5xl mx-auto w-full text-center space-y-md">
-    <h2 class="text-3xl font-extrabold text-text-body-primary uppercase">Yassine El Idrissi</h2>
-    <p class="text-lg font-normal text-text-body-secondary">Product Designer • Paris</p>
-    
-    <div class="flex flex-col sm:flex-row justify-center items-center gap-md pt-md">
-     <a href="https://linkedin.com/in/yassineelidrissi" target="_blank" class="text-sm font-medium text-background-brand hover:underline">
-      LinkedIn
-     </a>
-     <span class="hidden sm:block text-text-body-tertiary">|</span>
-     <a href="mailto:yass.elidrissi97@gmail.com" class="text-sm font-medium text-background-brand hover:underline">
-      yass.elidrissi97@gmail.com
-     </a>
-    </div>
-   </section>
-  
+      <section class="w-full max-w-sm space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary">Experience</h2>
 
-  </Container>
- </main>
+        {
+          professionalExperience.map((exp) => (
+            <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+              {" "}
+              <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                {" "}
+                <h3 class="text-base font-semibold text-text-body-primary">
+                  {exp.title}{" "}
+                </h3>{" "}
+              </div>{" "}
+              {/* Company: Remplacé l'ancienne div flex qui contenait aussi la durée */}{" "}
+              <p class="text-sm font-normal text-text-body-primary mb-md">
+                {exp.company}{" "}
+              </p>{" "}
+              {/* Affichage des highlights en un seul paragraphe (Description) */}{" "}
+              {exp.highlights && exp.highlights.length > 0 && (
+                <p class="text-sm font-normal text-text-body-secondary leading-relaxed">
+                  {" "}
+                  {/* Jointure des éléments du tableau avec point et espace, plus un point final */}
+                  {exp.highlights.join(". ") + "."}{" "}
+                </p>
+              )}{" "}
+              {/* CHANGEMENT 2: Duration/Location moved HERE, under the description */}
+              <p class="text-xs font-normal text-text-body-tertiary mt-1">
+                {exp.duration}
+              </p>{" "}
+            </div>
+          ))
+        }
+      </section>
+
+      <Divider />
+
+      {/* ⭐ SECTION 2: TOOLKIT (Compétences - Aligné sur le CV) */}
+      <section class="w-full max-w-3xl space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary text-center">
+          My toolkit for impact
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-xl">
+          <div class="space-y-md">
+            <h3
+              class="text-lg font-bold text-text-body-primary flex items-center gap-2"
+            >
+              Hard skills
+            </h3>
+            {/* CORRIGÉ : Ajout du ')' manquant après la fonction map */}
+            <ul class="space-y-2 text-text-body-primary">
+              {
+                toolkit.hardSkills.map((skill) => (
+                  <li class="p-3 bg-gray-50 rounded-lg">
+                    {" "}
+                    <p class="font-semibold text-sm">{skill.title}</p>{" "}
+                    {skill.description && (
+                      <p class="mt-1 text-xs text-text-body-secondary">
+                        {skill.description}{" "}
+                      </p>
+                    )}{" "}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="space-y-md">
+            <h3
+              class="text-lg font-bold text-text-body-primary flex items-center gap-2"
+            >
+              Soft Skills
+            </h3>
+            {/* CORRIGÉ : Ajout du ')' manquant après la fonction map */}
+            <ul class="space-y-2 text-text-body-primary">
+              {
+                toolkit.softSkills.map((skill) => (
+                  <li class="p-3 bg-gray-50 rounded-lg">
+                    {" "}
+                    <p class="font-semibold text-sm">{skill.title}</p>{" "}
+                    {skill.description && (
+                      <p class="mt-1 text-xs text-text-body-secondary">
+                        {skill.description}{" "}
+                      </p>
+                    )}{" "}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="space-y-md">
+            <h3
+              class="text-lg font-bold text-text-body-primary flex items-center gap-2"
+            >
+              Interests
+            </h3>
+            {/* CORRIGÉ : Ajout du ')' manquant après la fonction map */}
+            <ul class="space-y-2 text-text-body-primary">
+              {
+                toolkit.interests.map((interest) => (
+                  <li class="p-3 bg-gray-50 rounded-lg">
+                    {" "}
+                    <p class="font-semibold text-sm">{interest.title}</p>{" "}
+                    {interest.description && (
+                      <p class="mt-1 text-xs text-text-body-secondary">
+                        {interest.description}{" "}
+                      </p>
+                    )}{" "}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+      <Divider />
+      {/* ⭐ SECTION 4: FORMATION (Nouvelle section ajoutée du CV) */}
+      <section class="w-full space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary">
+          Education & Background
+        </h2>
+
+        {
+          education.map((edu) => (
+            <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+              {" "}
+              <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                {" "}
+                <h3 class="text-lg font-semibold text-text-body-primary">
+                  {edu.title}{" "}
+                </h3>{" "}
+                <span class="text-sm font-medium text-text-body-tertiary md:text-right">
+                  {edu.year}{" "}
+                </span>{" "}
+              </div>{" "}
+              <p class="text-base font-normal text-text-body-secondary mb-md">
+                {edu.school}{" "}
+              </p>{" "}
+            </div>
+          ))
+        }
+      </section>
+    </Container>
+  </main>
 </BaseLayout>

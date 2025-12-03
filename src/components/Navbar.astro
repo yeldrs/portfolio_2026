@@ -1,221 +1,246 @@
 ---
-import Container from './Container.astro';
+import Container from "./Container.astro";
 
 // Définition des liens de navigation
 const navLinks = [
-    { name: 'Work', href: '/#projects' }, 
-    { name: 'About me', href: '/about' },
-    { name: 'Contact', href: '/#contact-footer' }, 
+  { name: "Work", href: "/#projects" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/#contact-footer" },
 ];
 
 const currentPath = Astro.url.pathname;
 
 // Détermine si un lien doit être actif dans la barre de navigation.
-function isActive(link: { name: string, href: string }, current: string): boolean {
-    
-    if (link.name === 'Contact') {
-        return false;
-    }
-    
-    const linkPath = link.href.split('#')[0] || '/'; 
+function isActive(
+  link: { name: string; href: string },
+  current: string
+): boolean {
+  if (link.name === "Contact") {
+    return false;
+  }
 
-    if (linkPath === '/') {
-        return current === '/' || current.endsWith('/index.html');
-    }
+  const linkPath = link.href.split("#")[0] || "/";
 
-    return current === linkPath || current.startsWith(linkPath + '/');
+  if (linkPath === "/") {
+    return current === "/" || current.endsWith("/index.html");
+  }
+
+  return current === linkPath || current.startsWith(linkPath + "/");
 }
 ---
 
-<nav 
-    id="main-navbar" 
-    class:list={[
-        "py-md", 
-        "sticky top-0", 
-        "z-[60]", 
-        "bg-background-primary/95 backdrop-blur-sm"
-    ]}
-    role="navigation" 
-    aria-label="Main navigation"
+<nav
+  id="main-navbar"
+  class:list={[
+    "py-md",
+    "sticky top-0",
+    "z-[60]",
+    "bg-background-primary/95 backdrop-blur-sm",
+  ]}
+  role="navigation"
+  aria-label="Main navigation"
 >
-    
-    <Container class="flex justify-between items-center">
-        
-        <a 
-            href="/" 
-            class="text-xl font-extrabold text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase"
-            aria-label="Yassine El Idrissi - Retour à l'accueil"
-        >
-            Yassine El Idrissi
-        </a>
-    
-        <div class="hidden md:flex space-x-lg" role="menu">
-            {navLinks.map((link) => {
-                const isLinkActive = isActive(link, currentPath);
-                
-                return (
-                    <a 
-                        href={link.href} 
-                        class:list={[
-                            "text-base", 
-                            "text-text-body-primary", 
-                            "hover:text-text-body-secondary", 
-                            "transition duration-150",
-                            "uppercase",
-                            isLinkActive ? "font-extrabold" : "font-normal" 
-                        ]}
-                        aria-current={isLinkActive ? 'page' : undefined}
-                        role="menuitem"
-                    >
-                        {link.name}
-                    </a>
-                );
-            })}
-        </div>
+  <Container class="flex justify-between items-center">
+    <a
+      href="/"
+      class="text-xl font-extrabold text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase"
+      aria-label="Yassine El Idrissi - Retour à l'accueil"
+    >
+      Yassine El Idrissi
+    </a>
 
-        <button 
-            id="mobile-menu-button" 
-            aria-label="Toggle navigation menu"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
+    <div class="hidden md:flex space-x-lg" role="menu">
+      {
+        navLinks.map((link) => {
+          const isLinkActive = isActive(link, currentPath);
+
+          return (
+            <a
+              href={link.href}
+              class:list={[
+                "text-base",
+                "text-text-body-primary",
+                "hover:text-text-body-secondary",
+                "transition duration-150",
+                "uppercase",
+                isLinkActive ? "font-extrabold" : "font-normal",
+              ]}
+              aria-current={isLinkActive ? "page" : undefined}
+              role="menuitem"
+            >
+              {link.name}
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <button
+      id="mobile-menu-button"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
+    >
+      <div id="burger-icon" class="w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
-            <div id="burger-icon" class="w-6 h-6 absolute"> 
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </div>
-            <div id="close-icon" class="hidden w-6 h-6 absolute">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </div>
-        </button>
-        
-    </Container>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </div>
+      <div id="close-icon" class="hidden w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+    </button>
+  </Container>
 </nav>
 
-<div 
-    id="mobile-menu" 
-    class="md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-background-primary/95 backdrop-blur-sm 
+<div
+  id="mobile-menu"
+  class="md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-background-primary/95 backdrop-blur-sm
             transition-opacity duration-300 ease-in-out opacity-0 invisible overflow-y-auto"
-    aria-hidden="true"
-    role="dialog"
+  aria-hidden="true"
+  role="dialog"
 >
-    <Container class="flex flex-col space-y-lg pt-lg pb-xl"> 
-        <div role="menu" class="flex flex-col space-y-lg w-full"> {navLinks.map((link) => {
-                const isLinkActive = isActive(link, currentPath);
+  <Container class="flex flex-col space-y-lg pt-lg pb-xl">
+    <div role="menu" class="flex flex-col space-y-lg w-full">
+      {
+        navLinks.map((link) => {
+          const isLinkActive = isActive(link, currentPath);
 
-                return (
-                    <a 
-                        href={link.href} 
-                        class:list={[
-                            "text-xl", 
-                            "text-text-body-primary", 
-                            "hover:text-text-body-secondary", 
-                            "transition duration-150",
-                            "uppercase",
-                            "w-full",
-                            isLinkActive ? "font-extrabold" : "font-normal" 
-                        ]}
-                        aria-current={isLinkActive ? 'page' : undefined}
-                        role="menuitem"
-                    >
-                        {link.name}
-                    </a>
-                );
-            })}
-        </div>
-    </Container>
+          return (
+            <a
+              href={link.href}
+              class:list={[
+                "text-xl",
+                "text-text-body-primary",
+                "hover:text-text-body-secondary",
+                "transition duration-150",
+                "uppercase",
+                "w-full",
+                isLinkActive ? "font-extrabold" : "font-normal",
+              ]}
+              aria-current={isLinkActive ? "page" : undefined}
+              role="menuitem"
+            >
+              {link.name}
+            </a>
+          );
+        })
+      }
+    </div>
+  </Container>
 </div>
 
 <script is:inline>
-    const TRANSITION_DURATION = 300; 
-    const NAVBAR_ID = 'main-navbar';
+  const TRANSITION_DURATION = 300;
+  const NAVBAR_ID = "main-navbar";
 
-    function handleScrollAnchors(e) {
-        const targetLink = e.target.closest('a[href*="#"]');
-        if (!targetLink) return;
+  function handleScrollAnchors(e) {
+    const targetLink = e.target.closest('a[href*="#"]');
+    if (!targetLink) return;
 
-        const hash = targetLink.hash;
-        const targetElement = hash ? document.querySelector(hash) : null;
+    const hash = targetLink.hash;
+    const targetElement = hash ? document.querySelector(hash) : null;
 
-        if (targetElement) {
-            e.preventDefault();
-            
-            const navbar = document.getElementById(NAVBAR_ID);
-            const navbarHeight = navbar ? navbar.offsetHeight : 0;
-            
-            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
-            const scrollPosition = targetPosition - navbarHeight - 20; 
+    if (targetElement) {
+      e.preventDefault();
 
-            window.scrollTo({
-                top: scrollPosition,
-                behavior: 'smooth'
-            });
-            
-            if (hash) {
-                 window.history.pushState(null, '', hash);
-            }
-        }
+      const navbar = document.getElementById(NAVBAR_ID);
+      const navbarHeight = navbar ? navbar.offsetHeight : 0;
+
+      const targetPosition =
+        targetElement.getBoundingClientRect().top + window.scrollY;
+      const scrollPosition = targetPosition - navbarHeight - 20;
+
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: "smooth",
+      });
+
+      if (hash) {
+        window.history.pushState(null, "", hash);
+      }
+    }
+  }
+
+  window.toggleMobileMenu = function () {
+    const menu = document.getElementById("mobile-menu");
+    const button = document.getElementById("mobile-menu-button");
+    const burgerIcon = document.getElementById("burger-icon");
+    const closeIcon = document.getElementById("close-icon");
+
+    if (!menu || !button || !burgerIcon || !closeIcon) return;
+
+    const isHidden = menu.classList.contains("invisible");
+
+    button.setAttribute("aria-expanded", isHidden ? "true" : "false");
+    menu.setAttribute("aria-hidden", isHidden ? "false" : "true");
+
+    if (isHidden) {
+      menu.classList.remove("invisible");
+      setTimeout(() => {
+        menu.classList.add("opacity-100");
+      }, 10);
+
+      burgerIcon.classList.add("hidden");
+      closeIcon.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    } else {
+      menu.classList.remove("opacity-100");
+
+      setTimeout(() => {
+        menu.classList.add("invisible");
+        document.body.style.overflow = "";
+      }, TRANSITION_DURATION);
+
+      burgerIcon.classList.remove("hidden");
+      closeIcon.classList.add("hidden");
+    }
+  };
+
+  function attachHandlers() {
+    const button = document.getElementById("mobile-menu-button");
+
+    if (button) {
+      button.removeEventListener("click", window.toggleMobileMenu);
+      button.addEventListener("click", window.toggleMobileMenu);
     }
 
-    window.toggleMobileMenu = function() {
-        const menu = document.getElementById('mobile-menu');
-        const button = document.getElementById('mobile-menu-button');
-        const burgerIcon = document.getElementById('burger-icon');
-        const closeIcon = document.getElementById('close-icon');
-        
-        if (!menu || !button || !burgerIcon || !closeIcon) return;
+    const mobileLinks = document.querySelectorAll("#mobile-menu a");
+    mobileLinks.forEach((link) => {
+      link.removeEventListener("click", window.toggleMobileMenu);
+      link.addEventListener("click", window.toggleMobileMenu);
+    });
 
-        const isHidden = menu.classList.contains('invisible');
-        
-        button.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-        menu.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
-        
-        if (isHidden) {
-            menu.classList.remove('invisible');
-            setTimeout(() => {
-                 menu.classList.add('opacity-100');
-            }, 10); 
-            
-            burgerIcon.classList.add('hidden');
-            closeIcon.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; 
-        } else {
-            menu.classList.remove('opacity-100');
-            
-            setTimeout(() => {
-                menu.classList.add('invisible');
-                document.body.style.overflow = ''; 
-            }, TRANSITION_DURATION); 
-            
-            burgerIcon.classList.remove('hidden');
-            closeIcon.classList.add('hidden');
-        }
-    };
+    document.removeEventListener("click", handleScrollAnchors);
+    document.addEventListener("click", handleScrollAnchors);
+  }
 
-    function attachHandlers() {
-        const button = document.getElementById('mobile-menu-button');
-        
-        if (button) {
-             button.removeEventListener('click', window.toggleMobileMenu);
-             button.addEventListener('click', window.toggleMobileMenu);
-        }
-        
-        const mobileLinks = document.querySelectorAll('#mobile-menu a');
-        mobileLinks.forEach(link => {
-            link.removeEventListener('click', window.toggleMobileMenu);
-            link.addEventListener('click', window.toggleMobileMenu);
-        });
-        
-        document.removeEventListener('click', handleScrollAnchors);
-        document.addEventListener('click', handleScrollAnchors);
-    }
-
-    attachHandlers();
-    document.addEventListener('astro:after-swap', attachHandlers);
+  attachHandlers();
+  document.addEventListener("astro:after-swap", attachHandlers);
 </script>
