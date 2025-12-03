@@ -8,7 +8,7 @@ import Button from "../components/Button.astro"; // Pour le bouton Contact
 // Vos données pour la page
 const profileImageUrl = "/images/profile-pic.jpg"; // ASSUREZ-VOUS QUE CE CHEMIN EST CORRECT
 
-// ✅ Données du CV : EXPÉRIENCES PROFESSIONNELLES
+// ✅ Données du CV : EXPÉRIENCES PROFESSIONNELLES (Rédaction anglaise mise à jour)
 const professionalExperience: Array<{
   title: string;
   company: string;
@@ -16,130 +16,157 @@ const professionalExperience: Array<{
   highlights?: string[];
 }> = [
   {
-    title: "UX Product Designer",
-    company: "900.care - Startup D2C",
-    duration: "Paris, Sept. 2024 - Sept. 2025",
+    title: "UX Product Designer (Apprenticeship)",
+    company: "900.care - D2C Startup",
+    duration: "Sept. 2024 - Sept. 2025 (Paris)",
     highlights: [
-      "End-to-End role in an Agile team. Maximize conversion, retention, and product discovery",
+      "End-to-End role in an Agile team to maximize conversion, retention, and product discovery.",
     ],
   },
   {
-    title: "Web Designer",
+    title: "Web Designer (Freelance)",
     company: "Freelance",
-    duration: "Remote, 2023 - 2024",
+    duration: "2023 - 2024 (Remote)",
     highlights: [
-      "WordPress, WebFlow consulting services in digital strategy and Search Engine Optimization",
+      "Consulting services in digital strategy and Search Engine Optimization (SEO) using WordPress and WebFlow.",
+    ],
+  },
+  {
+    title: "Art Director (Freelance)",
+    company: "Freelance",
+    duration: "June. 2022 - Jan. 2023 (Paris)",
+    highlights: [
+      "Supported clients, including Maison Le Roux, on visual identity conception and brand strategy.",
     ],
   },
   {
     title: "Art Director",
-    company: "Freelance",
-    duration: "Paris, June. 2022 - Jan. 2023",
+    company: "Maison Le Roux - Food Industry",
+    duration: "Mar. 2021 - Jul. 2022 (Paris)",
     highlights: [
-      "Supported clients, including Maison Le Roux, on visual identity conception and brand strategy",
-    ],
-  },
-  {
-    title: "Art Director",
-    company: "Maison Le Roux - Food industry",
-    duration: "Paris, Mar. 2021 - Jul. 2022",
-    highlights: [
-      "Led brand strategy across digital and retail channels, ensuring consistency across all customer touchpoints",
+      "Led brand strategy across digital and retail channels, ensuring consistency across all customer touchpoints.",
     ],
   },
 ];
 
-// ✅ MODIFIÉ : Données du CV : COMPÉTENCES, IA & AUTOMATISATION, MÉTHODOLOGIES
+// ✅ Données du CV : TOOLKIT (Mise à jour et ajout de compétences)
 const toolkit: {
   hardSkills: { title: string; description: string }[];
   softSkills: { title: string; description: string }[];
-  interests: { title: string; description: string }[];
+  personalInterests: { title: string; description: string }[];
 } = {
   hardSkills: [
     {
       title: "End-to-End Design",
       description:
-        "De la recherche (quali/quanti) à la livraison du design final.",
+        "From research (qualitative/quantitative) to final design delivery.",
     },
     {
       title: "Figma (Expert)",
       description:
-        "Prototypage haute fidélité, gestion et maintenance avancée de Design System.",
+        "High-fidelity prototyping, advanced Design System management and maintenance.",
     },
     {
       title: "Data & Analytics",
       description:
-        "Lecture et analyse de données comportementales (Metabase, Clarity, NPS, A/B testing).",
+        "Reading and analysis of behavioral data (Metabase, Clarity, NPS, A/B testing).",
     },
     {
-      title: "IA & Automatisation",
-      description: "Utilisation de Bolt, Loveable, N8N.",
+      title: "AI & Automation",
+      description:
+        "Use of AI tools (Gemini, ChatGPT) and automation (N8N, Make) to accelerate the design process.",
     },
-    { title: "Suite Adobe (Expert)", description: "" }, // La description est vide comme dans la donnée initiale
+    { title: "Suite Adobe (Expert)", description: "" },
+    {
+      title: "Accessibility",
+      description:
+        "Proficiency in digital accessibility standards (RGAA, WCAG).",
+    },
+    {
+      title: "Technical Knowledge",
+      description:
+        "Solid knowledge of HTML/CSS, valuable for communicating with developers.",
+    },
   ],
   softSkills: [
     {
-      title: "Rigueur Data-Driven",
-      description:
-        "Justification des choix design par la métrique (A/B tests, KPIs).",
+      title: "Data-Driven Rigor",
+      description: "Justifying design choices by metrics (A/B tests, KPIs).",
     },
     {
-      title: "Agile & Autonomie",
+      title: "Agile & Autonomy",
       description:
-        "Maîtrise des rituels Scrum et capacité à mener le processus Discovery de manière autonome.",
+        "Mastery of Scrum rituals and capacity to autonomously lead the Discovery process.",
     },
     {
       title: "Influence & Communication",
       description:
-        "Alignement du design avec les contraintes techniques (HTML/CSS) et les objectifs business (OKR).",
+        "Aligning design with technical constraints (HTML/CSS) and business objectives (OKR).",
     },
   ],
-  interests: [
+  personalInterests: [
     {
-      title: "GreenTech & Design Responsable",
-      description:
-        "Lier outils modernes aux enjeux environnementaux et sociétaux.",
+      title: "GreenTech & Responsible Design",
+      description: "Linking modern tools to environmental and societal issues.",
     },
     {
-      title: "Santé & Bien-être",
+      title: "Health & Well-being",
       description:
-        "Intérêt pour l'accessibilité et le design d'expériences positives et axées sur le bien-être.",
-    },
-    {
-      title: "Autres Projets Significatifs",
-      description:
-        "(FoodTech, Numérique Responsable Caisse des Dépôts, Santé Animale).",
+        "Interest in accessibility and designing positive, well-being-focused experiences.",
     },
   ],
 };
 
-// ✅ Données du CV : FORMATION
-const education = [
+// ✅ NOUVELLE SECTION : Significant Work
+const significantWork: Array<{
+  title: string;
+  description: string;
+}> = [
+  {
+    title: "FoodTech - Food Autonomy",
+    description:
+      "Co-developed a digital service with a Data Scientist to enhance social connection and food autonomy for urban students.",
+  },
+  {
+    title: "Responsible Digital - Caisse des Dépôts",
+    description:
+      "Created a methodological tool to systematize the integration of ethical, ecological, and inclusive principles into web design processes.",
+  },
+  {
+    title: "Animal Health & Digital",
+    description:
+      "Designed and prototyped a digital support service for domestic animal owners (Final Project).",
+  },
+];
+
+// ✅ Données du CV : FORMATION (Rédaction anglaise mise à jour)
+const educationExperience: Array<{
+  year: string;
+  title: string;
+  school: string;
+}> = [
   {
     year: "2024-2025",
     title:
-      "Mastère UX Design & Management de Projets Digitaux (Titre RNCP Niveau 7)",
+      "Master's Degree in UX Design & Digital Project Management (RNCP Level 7)",
     school:
-      "ISCOD, France (Formation intensive réalisée sur 12 mois en contrat d'alternance)",
+      "ISCOD, France (Intensive 12-month program under an apprenticeship contract)",
   },
   {
     year: "2022",
-    title: "Master en Design Digital (Bac+5)",
+    title: "Master in Digital Design (Bac+5 / M.A. equivalent)",
     school: "École de Design Nantes Atlantique, France",
   },
   {
     year: "2019",
-    title: "Bachelor en Design Graphique (Bac+3)",
-    school: "Quasar Institute for Advanced Design, Rome, Italie",
+    title: "Bachelor in Graphic Design (Bac+3 / B.A. equivalent)",
+    school: "Quasar Institute for Advanced Design, Rome, Italy",
   },
 ];
 ---
 
 <BaseLayout title="About Yassine El Idrissi - Product Designer">
   <main>
-    {
-      /* MODIFIÉ : Retrait de px-lg pour utiliser les marges par défaut / cohérentes */
-    }
     <Container class="mt-xl py-3xl px-lg flex flex-col gap-3xl">
       {/* ⭐ SECTION 1: PROFIL & INTRODUCTION */}
       <section
@@ -151,7 +178,7 @@ const education = [
           </h2>
           <p class="text-base text-text-body-secondary leading-relaxed">
             I’m a Product Designer and I position myself at the intersection of
-            user research and business performance. I like to transform precise
+            user research and business performance. I enjoy transforming precise
             user diagnostics into concrete solutions that improve conversion,
             increase retention, and maximize customer value.
           </p>
@@ -162,9 +189,6 @@ const education = [
           </p>
           <Button href="/contact" class="mt-lg">Let's Connect</Button>
         </div>
-        {
-          /* CHANGEMENT 1: Image de profil mise sur la droite (deuxième élément du flex) avec le contenu restauré */
-        }
         <div
           class="flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden self-center md:self-auto"
         >
@@ -178,37 +202,29 @@ const education = [
 
       <Divider />
 
-      {/* ⭐ SECTION 3: EXPÉRIENCES PROFESSIONNELLES */}
-
-      <section class="w-full max-w-sm space-y-xl">
+      {/* ⭐ SECTION 2: EXPÉRIENCES PROFESSIONNELLES */}
+      <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">Experience</h2>
-
         {
           professionalExperience.map((exp) => (
             <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
-              {" "}
               <div class="flex flex-col md:flex-row md:justify-between md:items-start">
-                {" "}
                 <h3 class="text-base font-semibold text-text-body-primary">
-                  {exp.title}{" "}
-                </h3>{" "}
-              </div>{" "}
-              {/* Company: Remplacé l'ancienne div flex qui contenait aussi la durée */}{" "}
+                  {exp.title}
+                </h3>
+              </div>
               <p class="text-sm font-normal text-text-body-primary mb-md">
-                {exp.company}{" "}
-              </p>{" "}
-              {/* Affichage des highlights en un seul paragraphe (Description) */}{" "}
+                {exp.company}
+              </p>
+              {/* Affichage des highlights en un seul paragraphe (Description) */}
               {exp.highlights && exp.highlights.length > 0 && (
                 <p class="text-sm font-normal text-text-body-secondary leading-relaxed">
-                  {" "}
-                  {/* Jointure des éléments du tableau avec point et espace, plus un point final */}
-                  {exp.highlights.join(". ") + "."}{" "}
+                  {exp.highlights.join(". ") + "."}
                 </p>
-              )}{" "}
-              {/* CHANGEMENT 2: Duration/Location moved HERE, under the description */}
+              )}
               <p class="text-xs font-normal text-text-body-tertiary mt-1">
                 {exp.duration}
-              </p>{" "}
+              </p>
             </div>
           ))
         }
@@ -216,7 +232,7 @@ const education = [
 
       <Divider />
 
-      {/* ⭐ SECTION 2: TOOLKIT (Compétences - Aligné sur le CV) */}
+      {/* ⭐ SECTION 3: TOOLKIT (Compétences) */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary text-center">
           My toolkit for impact
@@ -229,18 +245,16 @@ const education = [
             >
               Hard skills
             </h3>
-            {/* CORRIGÉ : Ajout du ')' manquant après la fonction map */}
             <ul class="space-y-2 text-text-body-primary">
               {
                 toolkit.hardSkills.map((skill) => (
                   <li class="p-3 bg-gray-50 rounded-lg">
-                    {" "}
-                    <p class="font-semibold text-sm">{skill.title}</p>{" "}
+                    <p class="font-semibold text-sm">{skill.title}</p>
                     {skill.description && (
                       <p class="mt-1 text-xs text-text-body-secondary">
-                        {skill.description}{" "}
+                        {skill.description}
                       </p>
-                    )}{" "}
+                    )}
                   </li>
                 ))
               }
@@ -253,18 +267,16 @@ const education = [
             >
               Soft Skills
             </h3>
-            {/* CORRIGÉ : Ajout du ')' manquant après la fonction map */}
             <ul class="space-y-2 text-text-body-primary">
               {
                 toolkit.softSkills.map((skill) => (
                   <li class="p-3 bg-gray-50 rounded-lg">
-                    {" "}
-                    <p class="font-semibold text-sm">{skill.title}</p>{" "}
+                    <p class="font-semibold text-sm">{skill.title}</p>
                     {skill.description && (
                       <p class="mt-1 text-xs text-text-body-secondary">
-                        {skill.description}{" "}
+                        {skill.description}
                       </p>
-                    )}{" "}
+                    )}
                   </li>
                 ))
               }
@@ -277,18 +289,16 @@ const education = [
             >
               Interests
             </h3>
-            {/* CORRIGÉ : Ajout du ')' manquant après la fonction map */}
             <ul class="space-y-2 text-text-body-primary">
               {
-                toolkit.interests.map((interest) => (
+                toolkit.personalInterests.map((interest) => (
                   <li class="p-3 bg-gray-50 rounded-lg">
-                    {" "}
-                    <p class="font-semibold text-sm">{interest.title}</p>{" "}
+                    <p class="font-semibold text-sm">{interest.title}</p>
                     {interest.description && (
                       <p class="mt-1 text-xs text-text-body-secondary">
-                        {interest.description}{" "}
+                        {interest.description}
                       </p>
-                    )}{" "}
+                    )}
                   </li>
                 ))
               }
@@ -296,29 +306,55 @@ const education = [
           </div>
         </div>
       </section>
+
       <Divider />
-      {/* ⭐ SECTION 4: FORMATION (Nouvelle section ajoutée du CV) */}
-      <section class="w-full space-y-xl">
+
+      {/* ⭐ SECTION 4: SIGNIFICANT WORK (NOUVEAU) */}
+      <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">
-          Education & Background
+          Significant Work
         </h2>
 
         {
-          education.map((edu) => (
+          significantWork.map((project) => (
+            // Utilise une structure simplifiée similaire à l'expérience
             <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
-              {" "}
               <div class="flex flex-col md:flex-row md:justify-between md:items-start">
-                {" "}
-                <h3 class="text-lg font-semibold text-text-body-primary">
-                  {edu.title}{" "}
-                </h3>{" "}
-                <span class="text-sm font-medium text-text-body-tertiary md:text-right">
-                  {edu.year}{" "}
-                </span>{" "}
-              </div>{" "}
-              <p class="text-base font-normal text-text-body-secondary mb-md">
-                {edu.school}{" "}
-              </p>{" "}
+                <h3 class="text-base font-semibold text-text-body-primary">
+                  {project.title}
+                </h3>
+              </div>
+              <p class="text-sm font-normal text-text-body-secondary leading-relaxed mt-2">
+                {project.description}
+              </p>
+            </div>
+          ))
+        }
+      </section>
+
+      <Divider />
+
+      {/* ⭐ SECTION 5: FORMATION (Structure mise à jour) */}
+      <section class="w-full max-w-3xl space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary">
+          Education & Background
+        </h2>
+        {
+          educationExperience.map((edu) => (
+            <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+              <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                <h3 class="text-base font-semibold text-text-body-primary">
+                  {edu.title}
+                </h3>
+              </div>
+              {/* School (agit comme 'company' dans la structure) */}
+              <p class="text-sm font-normal text-text-body-primary mb-md">
+                {edu.school}
+              </p>
+              {/* Year/Duration (agit comme 'duration' dans la structure) */}
+              <p class="text-xs font-normal text-text-body-tertiary mt-1">
+                {edu.year}
+              </p>
             </div>
           ))
         }
