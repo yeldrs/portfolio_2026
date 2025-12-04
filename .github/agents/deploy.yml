@@ -1,0 +1,43 @@
+# .github/workflows/deploy.yml
+name: Deploy Astro to GitHub Pages
+
+on:
+  push:
+    # Déclenche le workflow UNIQUEMENT sur la branche de test
+    branches:
+      - deploy/test
+  # Permet d'exécuter manuellement le workflow
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your code
+        uses: actions/checkout@v4
+        
+      # Configuration de Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Utilisez la version stable recommandée par Astro
+          cache: 'npm'
+          
+      # 1. Installation des dépendances
+      - name: Install dependencies
+        run: npm install
+
+      # 2. Exécution du build Astro
+      # La commande génère le site dans le dossier 'dist/'
+      - name: Build Astro site
+        run: npm run build
+        
+      # 3. Déploiement du contenu du dossier 'dist/'
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Dépôt de sortie : le dossier 'dist/' créé par 'npm run build'
+          publish_dir: ./dist
+          # Branche de sortie : utilise 'gh-pages' pour la publication
+          publish_branch: gh-pages
