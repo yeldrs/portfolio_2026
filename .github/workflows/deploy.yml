@@ -1,0 +1,46 @@
+# .github/workflows/deploy.yml
+name: Astro Deployment on GitHub Pages
+
+on:
+  push:
+    # 🚨 DÉCLENCHE UNIQUEMENT SUR LA BRANCHE DE TEST
+    branches: [ deploy/test ]
+  workflow_dispatch:
+
+# Permet d'accorder les permissions nécessaires au build et au déploiement
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository
+        uses: actions/checkout@v5
+        
+      # ⭐ Action Astro pour Build
+      - name: Install, build, and upload your site
+        uses: withastro/action@v5 # ✅ Utilisation de la v5, correcte pour Astro v5
+        with:
+          node-version: 20 
+          build-cmd: npm run build 
+          
+      # L'action 'withastro/action' crée un artefact de build nommé 'github-pages'
+      
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          # Utilise l'artefact créé par l'étape 'build'
+          artifact_name: github-pages 
+          # Le dossier de sortie est 'dist/' dans l'artefact par défaut
+          path: ./dist
