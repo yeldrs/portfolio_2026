@@ -2,39 +2,59 @@
 import "../styles/global.css";
 
 // Fichier : src/layouts/BaseLayout.astro
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
 
 export interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Un portfolio moderne développé par un expert Figma to Code." } = Astro.props;
+const {
+  title,
+  description = "Un portfolio moderne développé par un expert Figma to Code.",
+} = Astro.props;
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
-    
-</head>
-<body class="bg-background-body text-text-body-primary min-h-screen flex flex-col font-sans">
-  
-  <header class="fixed inset-x-0 top-0 z-50 bg-background-primary border-b border-gray-200">
-    <Navbar />
-  </header>
 
-  <main class="flex-1">
-    <slot />
-  </main>
-  
-  <Footer />
-</body>
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://t.contentsquare.net/uxa/1027ad213768f.js"></script>
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        /* Force l'espace de la barre de défilement à être toujours présent */
+        overflow-y: scroll;
+        overflow-x: hidden; /* Empêche tout défilement horizontal */
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-body text-text-body-primary min-h-screen flex flex-col font-sans"
+  >
+    <header
+      class="fixed inset-x-0 top-0 z-50 bg-background-primary border-b border-gray-200"
+    >
+      <Navbar />
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
 </html>
