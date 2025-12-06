@@ -9,7 +9,7 @@ projectImages:
  - "/images/project-2/crazy8.webp" # Index 2 : roleImage (Principal)
  - "" # Index 3 : roleImage2 (Optionnel)
  # CONCEPTION
- - "/images/project-2/packaging.jpg" # Index 4 : conceptionImage (Principal)
+ - "/images/project-2/packaging.webp" # Index 4 : conceptionImage (Principal)
  - "" # Index 5 : conceptionImage2 (Optionnel)
  # RESULTS
  - "/images/project-2/magazineCdc.webp" # Index 6 : resultsImage (Principal)
