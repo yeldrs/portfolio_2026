@@ -1,20 +1,20 @@
 ---
-cardImage: "/images/coverProject-batchcooking.png"
+cardImage: "/images/coverProject-batchcooking.webp"
 projectImages:
 # DIANOSTIC > CONTEXT
-- "/images/project-3/brainstorm.png" # Index 0 : Image 1 (Principale)
+- "/images/project-3/brainstorm.webp" # Index 0 : Image 1 (Principale)
 - "" # Index 1 : Image 1 (Optionnelle)
 
 # DIANOSTIC > ROLE + INSIGHTS
-- "/images/project-3/diagram.png" # Index 2 : Image 2 (Principale)
-- "/images/project-3/wireframeBatchcooking.png" # Index 3 : Image 2 (Optionnelle)
+- "/images/project-3/diagram.webp" # Index 2 : Image 2 (Principale)
+- "/images/project-3/wireframeBatchcooking.webp" # Index 3 : Image 2 (Optionnelle)
 
 # CONCEPTION
 - "" # Index 4 : Image 3 (Principale)
-- "/images/project-3/mockupBatchcooking.png" # Index 5 : Image 3 (Optionnelle)
+- "/images/project-3/mockupBatchcooking.webp" # Index 5 : Image 3 (Optionnelle)
 
 # RÉSULTATS
-- "/images/project-3/coverProject-batchcooking.png" # Index 6 : Image 4 (Principale)
+- "/images/project-3/coverProject-batchcooking.webp" # Index 6 : Image 4 (Principale)
 - "" # Index 7 : Image 4 (Optionnelle)
 
 title: "Building an accessible solution for collaborative batchcooking."

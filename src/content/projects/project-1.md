@@ -1,17 +1,17 @@
 ---
-cardImage: "/images/coverProject-900care.png"
+cardImage: "/images/coverProject-900care.webp"
 projectImages:
  # DIAGNOSIS (Context/Problem)
- - "/images/project-1/mockupDesktop.png" # Index 0 : contextImage (Principal)
+ - "/images/project-1/mockupDesktop.webp" # Index 0 : contextImage (Principal)
  - "" # Index 1 : contextImage2 (Optionnel)
  # DIAGNOSIS (Role/Insights)
- - "/images/project-1/research.png" # Index 2 : roleImage (Principal)
+ - "/images/project-1/research.webp" # Index 2 : roleImage (Principal)
  - "" # Index 3 : roleImage2 (Optionnel)
  # CONCEPTION
- - "/images/project-1/conception.png" # Index 4 : conceptionImage (Principal)
+ - "/images/project-1/conception.webp" # Index 4 : conceptionImage (Principal)
  - "" # Index 5 : conceptionImage2 (Optionnel)
  # RESULTS
- - "/images/project-1/metricsHomepage.png" # Index 6 : resultsImage (Principal)
+ - "/images/project-1/metricsHomepage.webp" # Index 6 : resultsImage (Principal)
  - "" # Index 7 : resultsImage2 (Optionnel)
  # 💡 Le carrousel commencera à l'index 8 (et sera vide)
 
