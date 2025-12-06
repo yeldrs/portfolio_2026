@@ -14,7 +14,7 @@ projectImages:
  - "/images/project-1/metricsHomepage.webp" # Index 6 : resultsImage (Principal)
  - "" # Index 7 : resultsImage2 (Optionnel)
  # 💡 Le carrousel commencera à l'index 8 (et sera vide)
-
+semanticSlug: "900care"
 title: "Optimizing retention and growth for a green e-commerce"
 client: "900.care"
 description: "Full-cycle Product Design on a D2C subscription model focused on improving first-order profitability and long term retention."

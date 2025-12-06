@@ -16,7 +16,7 @@ projectImages:
 # RÉSULTATS
 - "/images/project-3/coverProject-batchcooking.webp" # Index 6 : Image 4 (Principale)
 - "" # Index 7 : Image 4 (Optionnelle)
-
+semanticSlug: "batchcooking"
 title: "Building an accessible solution for collaborative batchcooking."
 client: "Personal Social Innovation Project"
 role: "UX/Product Designer"

@@ -80,7 +80,7 @@ const allProjects = (
                 client={project.data.client}
                 description={project.data.description}
                 role={project.data.role}
-                projectLink={`/projects/${project.slug}`}
+                projectLink={`/work/${project.data.semanticSlug}`}
                 imageAlt={`Aperçu du projet ${project.data.title}`}
                 imageUrl={project.data.cardImage}
                 direction={index % 2 === 0 ? "reverse" : "default"}
