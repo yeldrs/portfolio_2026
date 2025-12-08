@@ -15,7 +15,7 @@ projectImages:
  - "" # Index 7 : resultsImage2 (Optionnel)
  # 💡 Le carrousel commencera à l'index 8 (et sera vide)
 semanticSlug: "900care"
-title: "Optimizing retention and growth for a sustainable e-commerce"
+title: "Optimizing growth for a sustainable e-commerce"
 client: "900.care"
 description: "Full-cycle product design on subscription model focused on improving first-order conversion and long term retention."
 role: "Product Design Manager"

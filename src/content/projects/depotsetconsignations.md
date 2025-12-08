@@ -24,17 +24,17 @@ projectImages:
  - "/images/project-2/editCdc.webp"
  - "/images/project-2/degitalCdc.webp"
 semanticSlug: "depostetconsignations"
-title: "Designing an agile tool to design with ethics"
+title: "Building an agile tool to design with ethics"
 client: "Caisse des Dépôts et Consignations (CDC)"
-description: "Designing a tangible, methodological toolkit to embed ethical, eco-design, and inclusive principles into major digital platform development across the organization."
-role: "Study Conceptor & Solution Designer (UX Strategist)"
-roleDescription: "I was part of a 2 to 5 person team for 8 months, handling the full spectrum: deep research, strategic concept, testing, and prototyping the final solution. The client selected our project for subsequent development."
-context: "In 2021, the environmental impact of digital technology surpassed that of the airline industry. This was a critical strategic imperative for the CDC. As a key financial institution, the CDC, through its Digital Factory's Design Studio, sought a proactive shift from a 'techno-vorous' approach to 'Thoughtful Digital.' (The Frugal Design principle)."
-problem: "'How to do better with less?' How can we create a cohesive, adaptive, and engaging methodological tool to harmonize ethical, eco-design, and inclusive principles across diverse project teams, effectively translating abstract concepts into tangible, actionable steps? The main barrier was a critical lack of a common, shared vocabulary across teams."
+description: "Designing a tangible, methodological toolkit to embed ethical, sustainability, and inclusive principles into major digital platform development."
+role: "Product designer, UX strategist"
+roleDescription: "I was part of a 2 to 5 person team for 8 months, handling the full spectrum: deep research, strategic concept, testing, and prototyping the final solution. The client 'Caisse des Dépots et Consignation' selected our project for subsequent development."
+context: "According to IDC, in 2022, the environmental impact of digital technology was exacerbated by the growth of data creation, estimated at 22.8%. This trend pushed the sector's carbon footprint toward an estimated 4% of global greenhouse gas emissions. This context triggered a conscious approach for the CDC. As a key financial institution, the CDC, through its Digital Factory's Design Studio, launched a proactive shift from a 'techno-vorous' approach to 'Thoughtful Digital.'"
+problem: "'How to do better with less?' How can we create a cohesive, adaptive, and engaging methodological tool to harmonize ethical, eco-design, and inclusive principles across diverse projects. How to effectively translate abstract concepts into tangible, actionable steps? The main barrier was a critical lack of a common, shared vocabulary across teams."
 keyInsights:
-  - "Strategic Alignment: The core challenge was overcoming the critical lack of a shared vocabulary and securing formal buy-in from decision-makers to enforce mandatory adoption."
+  - "Strategic Alignment: Overcoming the lack of a shared vocabulary and securing formal decision-making."
   - "Frugal & Scalable Design: The solution had to ensure scalability to save time, money, and energy."
-  - "Tangible Learning: Hands-on manipulation (gamification) was required over documentation to ensure high knowledge retention and embed principles directly into team behavior."
+  - "Tangible Learning: Physical manipulation, was required in addition to digital support to encourage knowledge retention and interactions during team meetings."
 
 methodology: |
   We adopted a structured, double diamond approach:
