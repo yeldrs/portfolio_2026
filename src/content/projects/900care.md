@@ -15,26 +15,26 @@ projectImages:
  - "" # Index 7 : resultsImage2 (Optionnel)
  # 💡 Le carrousel commencera à l'index 8 (et sera vide)
 semanticSlug: "900care"
-title: "Optimizing retention and growth for a green e-commerce"
+title: "Optimizing retention and growth for a sustainable e-commerce"
 client: "900.care"
-description: "Full-cycle Product Design on a D2C subscription model focused on improving first-order profitability and long term retention."
+description: "Full-cycle product design on subscription model focused on improving first-order conversion and long term retention."
 role: "Product Design Manager"
-roleDescription: "As a Product Designer, I was responsible for the entire cycle, from user research to the delivery of the final mockups, working closely with the Product Manager to define the A/B test hypotheses."
-context: "900.care is a D2C startup with a subscription-based business model. Its profitability strongly depends on the value of the first order to encourage retention and offset the Customer Acquisition Cost (CAC). The homepage and sales funnel were major friction points, not converting visitors efficiently enough and not sufficiently encouraging product range discovery."
-problem: "How to redesign the critical entry points of the user journey to stabilize a conversion rate above 5% and increase the Average Order Value (AOV), all while reinforcing the brand's value proposition?"
+roleDescription: "As a product designer, I was responsible for the entire cycle, from user research to the delivery of the final mockups, working closely with the Product Manager to define the objectives and deploy solutions with the developers team."
+context: "900.care is a D2C startup with a subscription-based business model for homecare and hygiene products. Its profitability strongly depends on the value of the first order to encourage retention and offset the customer acquisition cost (CAC). The homepage and sales funnel were major friction points, not converting visitors efficiently enough and not sufficiently encouraging product range discovery."
+problem: "How to design the user journey to stabilize a conversion rate above 5% and increase the average order Value (AOV), all while reinforcing the brand's value proposition?"
 
 keyInsights:
- - "Data analysis (Metabase, Datadog) revealed underperformance in the catalog and product discoverability."
- - "Qualitative interviews (27 conducted) confirmed cognitive overload due to non-intuitive navigation and an overly extended sales funnel."
- - "The fundamental issue was therefore linked to the site's economic performance."
+ - "Data analysis (Metabase, Datadog) revealed underperformance in the product discoverability."
+ - "Qualitative interviews (27 conducted) confirmed cognitive overload, counter-intuitive navigation and an overly extended sales funnel."
+ - "The fundamental issue was therefore linked to the site's complexity and lack of smart functionalities."
 
-methodology: "I adopted a data-informed approach. Each design decision was based on a hypothesis derived from user research (qualitative and quantitative). My process included journey mapping (UX mapping), prototyping on Figma, and regular user testing."
+methodology: "I adopted a data-informed approach. Each design decision was based on a hypothesis derived from user research (qualitative and quantitative). My process included journey mapping (UX mapping), prototyping on Figma, and regular user testing. Collaboration with the product manager and developpers throught sprint planning was essential for quick deliveries."
 designConception:
   paragraph: |
-    I designed a new homepage structure, prioritizing a clear value proposition and the strategic highlighting of bundles, which generate a higher AOV. To increase the AOV, I prototyped several low-fidelity versions of Upsell/Cross-sell Modals to challenge them during user testing and with general management. The goal was to suggest complementary products smoothly, without interrupting the main purchase path.
+    I designed a new homepage structure, prioritizing a clear value proposition and the strategic highlighting of bundles, which generate a higher AOV. I prototyped several low-fidelity versions of ppsell/cross-sell modals for users testing and challenge our hypothesis. The goal was to suggest complementary products smoothly, without interrupting the main purchase path.
   # listItems: (optionnel, peut être omis si vide)
-delivery: "We successfully launched the new checkout flow and a revamped homepage simultaneously. The delivery included fully documented designs, a design system update, and collaboration with the development team for implementation."
-metrics: "Achieved a +47% increase in Average Basket Value (ABV) and reduced checkout abandonment by 25% within the first month post-launch."
+delivery: "We successfully launched the new upsell flow, revamped the homepage, the product catalog and implemented a new section to manage incoming orders. The delivery included fully documented designs, interactive prototypes, an advanced design system update, user insights and reseach protocol."
+metrics: "Achieved a +47% increase in Average Basket Value (ABV) and reduced churn by 25% post-launch."
 publishDate: "2024-10-25"
 isDraft: false
 # =================================================

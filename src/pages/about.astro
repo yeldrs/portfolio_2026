@@ -2,7 +2,7 @@
 // Importez vos Layout et composants
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
-import Divider from "../components/Divider.astro";
+//import Divider from "../components/Divider.astro";
 import Button from "../components/Button.astro"; // Pour le bouton Contact
 
 // Vos données pour la page
@@ -16,7 +16,7 @@ const professionalExperience: Array<{
   highlights?: string[];
 }> = [
   {
-    title: "UX Product Designer (Apprenticeship)",
+    title: "UX Product Designer",
     company: "900.care - D2C Startup",
     duration: "Sept. 2024 - Sept. 2025 (Paris)",
     highlights: [
@@ -24,15 +24,15 @@ const professionalExperience: Array<{
     ],
   },
   {
-    title: "Web Designer (Freelance)",
+    title: "Web Designer",
     company: "Freelance",
     duration: "2023 - 2024 (Remote)",
     highlights: [
-      "Consulting services in digital strategy and Search Engine Optimization (SEO) using WordPress and WebFlow.",
+      "Consulting services in digital strategy, Search Engine Optimization (SEO), WordPress and WebFlow.",
     ],
   },
   {
-    title: "Art Director (Freelance)",
+    title: "Art Director",
     company: "Freelance",
     duration: "June. 2022 - Jan. 2023 (Paris)",
     highlights: [
@@ -57,62 +57,70 @@ const toolkit: {
 } = {
   hardSkills: [
     {
-      title: "End-to-End Design",
+      title: "End-to-end design",
       description:
         "From research (qualitative/quantitative) to final design delivery.",
     },
     {
-      title: "Figma (Expert)",
+      title: "Figma / Loveable / Framer",
       description:
-        "High-fidelity prototyping, advanced Design System management and maintenance.",
+        "High-fidelity prototyping, advanced Design System management.",
     },
     {
-      title: "Data & Analytics",
+      title: "Data & UX analytics",
       description:
-        "Reading and analysis of behavioral data (Metabase, Clarity, NPS, A/B testing).",
+        "Tracking and analysis of behavioral data (Metabase, Clarity, Datadog, Hotjar).",
     },
     {
-      title: "AI & Automation",
+      title: "AI & automation",
       description:
-        "Use of AI tools (Gemini, ChatGPT) and automation (N8N, Make) to accelerate the design process.",
+        "LLM assistance (Gemini, ChatGPT, Claude) and automation (N8N, Make).",
     },
-    { title: "Suite Adobe (Expert)", description: "" },
+    {
+      title: "Adobe Suite / Affinity",
+      description: "Photoshop expert, vector design and more.   ",
+    },
     {
       title: "Accessibility",
       description:
         "Proficiency in digital accessibility standards (RGAA, WCAG).",
     },
     {
-      title: "Technical Knowledge",
+      title: "Web coding",
       description:
-        "Solid knowledge of HTML/CSS, valuable for communicating with developers.",
+        "Solid knowledge of HTML/CSS, GitHub, web frameworks, communication with developers.",
     },
   ],
   softSkills: [
     {
-      title: "Data-Driven Rigor",
-      description: "Justifying design choices by metrics (A/B tests, KPIs).",
+      title: "Data-driven design",
+      description: "Justifying design choices by metrics (UX testing, ROI).",
     },
     {
-      title: "Agile & Autonomy",
+      title: "Agile & autonomy",
       description:
-        "Mastery of Scrum rituals and capacity to autonomously lead the Discovery process.",
+        "Mastery of Scrum rituals and capacity to autonomously lead design processes.",
     },
     {
-      title: "Influence & Communication",
+      title: "Communication & collaboration",
       description:
-        "Aligning design with technical constraints (HTML/CSS) and business objectives (OKR).",
+        "Aligning design with technical constraints and business objectives (OKR, KPI).",
     },
   ],
   personalInterests: [
     {
-      title: "GreenTech & Responsible Design",
+      title: "Sustainable & responsible design",
       description: "Linking modern tools to environmental and societal issues.",
     },
     {
-      title: "Health & Well-being",
+      title: "Care-design & health-tech",
       description:
-        "Interest in accessibility and designing positive, well-being-focused experiences.",
+        "Interest in accessibility, food-tech, health-focused problematics.",
+    },
+    {
+      title: "Sports & Outdoors",
+      description:
+        "Hiking, climbing, biketouring and really anything nature-oriented !!",
     },
   ],
 };
@@ -123,19 +131,19 @@ const significantWork: Array<{
   description: string;
 }> = [
   {
-    title: "FoodTech - Food Autonomy",
+    title: "FoodTech - Batchcooking plateform",
     description:
-      "Co-developed a digital service with a Data Scientist to enhance social connection and food autonomy for urban students.",
+      "Co-developed the MVP of a digital service that enhances social connection and food autonomy for students.",
   },
   {
-    title: "Responsible Digital - Caisse des Dépôts",
+    title: "Sustainable agile toolkit - Caisse des Dépôts",
     description:
-      "Created a methodological tool to systematize the integration of ethical, ecological, and inclusive principles into web design processes.",
+      "Created a project management tool to develop products that integrate ethics, sustainability, and inclusive principles. Team of 3 designers.",
   },
   {
-    title: "Animal Health & Digital",
+    title: "Animal Health - Digital Support Service",
     description:
-      "Designed and prototyped a digital support service for domestic animal owners (Final Project).",
+      "Designed and prototyped an app in sync with connected devices to help users care for animals with special needs.",
   },
 ];
 
@@ -147,19 +155,18 @@ const educationExperience: Array<{
 }> = [
   {
     year: "2024-2025",
-    title:
-      "Master's Degree in UX Design & Digital Project Management (RNCP Level 7)",
+    title: "Master in Project Management & UX Design",
     school:
       "ISCOD, France (Intensive 12-month program under an apprenticeship contract)",
   },
   {
-    year: "2022",
-    title: "Master in Digital Design (Bac+5 / M.A. equivalent)",
+    year: "2020-2022",
+    title: "Master in Digital Design",
     school: "École de Design Nantes Atlantique, France",
   },
   {
-    year: "2019",
-    title: "Bachelor in Graphic Design (Bac+3 / B.A. equivalent)",
+    year: "2016-2019",
+    title: "Bachelor in Graphic Design",
     school: "Quasar Institute for Advanced Design, Rome, Italy",
   },
 ];
@@ -174,20 +181,20 @@ const educationExperience: Array<{
       >
         <div class="space-y-md flex-1">
           <h2 class="text-3xl font-extrabold text-text-body-primary">
-            Hi, I'm Yassine 👋
+            My name's Yassine
           </h2>
           <p class="text-base text-text-body-secondary leading-relaxed">
             I’m a Product Designer and I position myself at the intersection of
             user research and business performance. I enjoy transforming precise
             user diagnostics into concrete solutions that improve conversion,
-            increase retention, and maximize customer value.
+            increase retention, and maximize customer value. I'm learning to
+            value sustainability as part of innovative design.
           </p>
           <p class="text-base text-text-body-secondary leading-relaxed">
-            I design useful and accessible products, ensuring that every design
-            decision serves as a growth lever, while always being mindful of our
-            societal and environmental impact.
+            <bold>TL;DR :</bold> I design useful, sustainable products while tracking
+            growth and analytics.
           </p>
-          <Button href="/contact" class="mt-lg">Let's Connect</Button>
+          <Button href="#contact-footer" class="mt-lg">Let's Connect</Button>
         </div>
         <div
           class="flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden self-center md:self-auto"
@@ -199,8 +206,6 @@ const educationExperience: Array<{
           />
         </div>
       </section>
-
-      <Divider />
 
       {/* ⭐ SECTION 2: EXPÉRIENCES PROFESSIONNELLES */}
       <section class="w-full max-w-3xl space-y-xl">
@@ -230,11 +235,9 @@ const educationExperience: Array<{
         }
       </section>
 
-      <Divider />
-
       {/* ⭐ SECTION 3: TOOLKIT (Compétences) */}
       <section class="w-full max-w-3xl space-y-xl">
-        <h2 class="text-3xl font-bold text-text-body-primary text-center">
+        <h2 class="text-3xl font-bold text-text-body-primary">
           My toolkit for impact
         </h2>
 
@@ -307,8 +310,6 @@ const educationExperience: Array<{
         </div>
       </section>
 
-      <Divider />
-
       {/* ⭐ SECTION 4: SIGNIFICANT WORK (NOUVEAU) */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">
@@ -331,8 +332,6 @@ const educationExperience: Array<{
           ))
         }
       </section>
-
-      <Divider />
 
       {/* ⭐ SECTION 5: FORMATION (Structure mise à jour) */}
       <section class="w-full max-w-3xl space-y-xl">
