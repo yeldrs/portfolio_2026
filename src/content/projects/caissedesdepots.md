@@ -38,13 +38,13 @@ keyInsights:
 
 methodology: |
   We adopted a structured, double diamond approach:
-  1. Research & Definition: Identified problems and solutions across Eco-Design, Inclusive Design, and Ethical Design pillars.
-  2. Concept Alignment: Selected 'Architecture and Information Structure' as the core focus to create a centralized, synthesized reference model.
-  3. Prototyping: Developed three concepts, ultimately selecting the modular 'Archipel' Design Tiles for their potential to facilitate collaborative, hands-on learning.
+  1. Research & definition: Identified problems and solutions across Eco-Design, Inclusive Design, and Ethical Design pillars.
+  2. Concept alignment: Formalised a vision focused on 'Architecture and Information Structure' to create a centralized, scalable synthesized reference model.
+  3. Refining: Developed three concepts, ultimately selecting the modular 'Archipel' design tiles for their potential to facilitate collaborative, hands-on learning.
 
 designConception:
   paragraph: |
-    The retained concept, 'Archipel,' is a set of tangible, modular project construction tiles. It functions as a simple, and adaptive aid for cross-functional project conception (in this case covering Eco-design, Ethics, and Inclusivity). The tool is designed to be digitized for syncing with planning platforms (e.g., Jira, Trello), ensuring the physical alignment is mirrored in the digital backlog. Each tile is color-coded by category (Ethics/Inclusive/Eco) and includes: This structural design ensures clarity, accountability, and seamless integration into framing and monitoring scenarios.
+    The retained concept, 'Archipel,' is a set of tangible project construction tiles. It functions as a simple, and adaptive aid for cross-functional project conception. In this specific case covering sustainability, ethics, and inclusivity. The tool physical map can be digitized and synched with planning platforms (e.g., Jira, Trello). Each tile is color-coded by category (ethics/inclusive/eco), role attibution, and dedicates space for custom details to help managers frame and monitor their projects.
   listItems:
     - The specific Notion and Task to perform.
     - The Responsible Stakeholder (Project Manager, Designer, or Developer).

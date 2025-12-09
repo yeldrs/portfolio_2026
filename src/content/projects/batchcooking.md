@@ -17,19 +17,17 @@ projectImages:
 - "/images/project-3/coverProject-batchcooking.webp" # Index 6 : Image 4 (Principale)
 - "" # Index 7 : Image 4 (Optionnelle)
 semanticSlug: "batchcooking"
-title: "Building an accessible solution for collaborative batchcooking."
-client: "Personal Social Innovation Project"
-role: "UX/Product Designer"
-roleDescription: "As the lead UX/Product Designer and partnering closely with a Data Scientist, I drove the discovery phase, from primary user research and non-digital Proof of Concept to low-fidelity prototyping. My job was to ensure the user experience came first, and that our project evolves towards building an economical model serving genuine human connection."
+title: "An accessible solution for collaborative cooking."
+client: "Personal social innovation project"
+role: "UX product designer"
+roleDescription: "As the lead UX product designer and partnering with a Data Scientist, I drove the discovery phase, from primary user research and physical proof of concept to low-fidelity prototyping. My job was to ensure the user experience came first, and that our project evolves towards building an economical model serving genuine human connection."
 description: "Designing a data-informed marketplace to explore student food insecurity and social isolation by turning underutilized kitchens into collaborative learning spaces."
-context: "The project was based on our direct observation in major cities like Paris: student food insecurity and the underutilization of existing spaces. Students lack adequate space, ressources, tools, organization, and knowledge to cook healthy, diversified meals. Our vision was to transform unused kitchens into low-cost hubs for social exchange and practical culinary learning, increasing the accessibility of real food."
-problem: "How can an accessible digital service provide students in major cities with the necessary kitchen resources to foster healthy, consistent food habits? Thereby transforming a logistic constraint into a social opportunity?"
+context: "The project was based on our direct observation in major cities like Paris: student food insecurity and the underutilization of existing spaces. Students lack adequate space, ressources, tools, organization, and knowledge to cook healthy, diversified meals. Our vision was to transform unused kitchens into low-cost hubs for social exchange and practical culinary learning."
+problem: "How can a digital service provide students in major cities with the necessary resources to foster healthy, consistent food habits? Thereby transforming a logistic constraint into a social opportunity?"
 keyInsights:
- - "Initial research identified cumulative barriers to student autonomy: not just cost and space, but critical deficits in organization and culinary knowledge."
- - "The service’s true value proposition is social engagement and learning, not just logistics. Users were highly motivated by the chance to meet, share culture, and learn new cooking skills."
- - "Adoption required solving a knowledge deficit (budgeting, healthy sourcing) alongside a resource deficit (tools/space), proving the service needed a pedagogical component."
- - "A Gap Analysis was essential to define the minimum required standard of equipment, proving the service must guarantee quality resources, not just access."
- - "The matching algorithm must be human-centered, prioritizing affinities (shared values, desire to teach/learn) over simple distance to build the trust necessary for successful exchanges."
+ - "Initial research identified the barriers to student autonomy: not just cost and space, but critical deficits in organization, nutrition and cooking knowledge."
+ - "The service’s value proposition are social engagement and learning. Users semmed highly motivated by the chance to meet, share culture, and learn new cooking skills."
+ - "The matching algorithm must be human-centered, prioritizing affinities like shared values, desire to teach/learn, and of course food habits."
 
 methodology: "I adopted a terrain-validated, service-first approach. The project prioritized non-digital Proof of Concept (PoC) before any interface development to ensure the core concept was viable. This saved development resources and focused the MVP scope."
 
