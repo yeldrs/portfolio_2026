@@ -1,8 +1,5 @@
 /* src/styles/global.css (Correction Finale) */
 
-/* 1. IMPORTS : Vos tokens.css doit être le premier import si vous utilisez @import */
-@import "./tokens.css";
-
 /* 2. TAILWIND LAYERS : Ils doivent suivre les imports */
 @tailwind base;
 @tailwind components;
