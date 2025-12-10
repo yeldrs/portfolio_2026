@@ -2,94 +2,91 @@
 import Button from "./Button.astro";
 
 export interface Props {
-headline: string;
-client: string;
-description?: string;
-role: string;
-projectLink: string; // Lien vers la page du projet
-imageAlt: string;
-imageUrl: string;
-direction?: "default" | "reverse";
-id?: string;
+  headline: string;
+  client: string;
+  description?: string;
+  role: string;
+  projectLink: string; // Lien vers la page du projet
+  imageAlt: string;
+  imageUrl: string;
+  direction?: "default" | "reverse";
+  id?: string;
 }
 
 const {
-headline,
-client,
-description,
-role,
-projectLink,
-imageAlt,
-imageUrl,
-direction = "default",
-id,
+  headline,
+  client,
+  description,
+  role,
+  projectLink,
+  imageAlt,
+  imageUrl,
+  direction = "default",
+  id,
 } = Astro.props;
 
 const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 ---
 
 <article
-id={id ?? undefined}
-role="article"
-aria-label={headline}
-class={`flex flex-col md:flex-row gap-xl md:gap-3xl bg-background-primary ${directionClass} md:items-start`}
+  id={id ?? undefined}
+  role="article"
+  aria-label={headline}
+  class={`flex flex-col md:flex-row gap-xl md:gap-3xl bg-background-primary ${directionClass} md:items-start`}
 >
-<h1 class="text-4xl font-extrabold text-text-body-primary md:hidden">
-{headline}
-</h1>
+  <h1
+    class="text-4xl font-extrabold text-text-body-primary md:hidden **m-0**"
+    set:html={headline}
+  />
 
- <a 
- href={projectLink} 
- aria-label={`Voir le projet : ${headline}`}
- class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
->
-<img 
-src={imageUrl} alt={imageAlt} 
-class="absolute inset-0 w-full h-full object-cover block rounded-2xl transition-transform duration-500 group-hover:scale-90"
-loading="lazy"
-/>
-</a>
-
-<section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
- <h1
- class="text-4xl font-extrabold text-text-body-primary hidden md:block mb-xl"
- >
- {headline}
- </h1>
-
- <div class="space-y-lg">
- <div>
-  <span
-  class="block textbase font-normal text-text-body-tertiary  mb-xxs"
-  >Client</span
+  <a
+    href={projectLink}
+    aria-label={`Voir le projet : ${headline}`}
+    class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
   >
-  <p class="text-base font-normal text-text-body-primary">
-  {client}
-  </p>
- </div>
+    <img
+      src={imageUrl}
+      alt={imageAlt}
+      class="absolute inset-0 w-full h-full object-cover block rounded-2xl transition-transform duration-500 group-hover:scale-90"
+      loading="lazy"
+    />
+  </a>
 
- <div>
-  <span
-  class="block textbase font-normal text-text-body-tertiary  mb-xxs"
-  >Description</span
-  >
-  <p class="text-base font-normal text-text-body-primary leading-normal">
-  {description}
-  </p>
- </div>
+  <section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
+    <h1
+      class="text-4xl font-extrabold text-text-body-primary hidden md:block *m-0*"
+      set:html={headline}
+    />
+    <div class="space-y-lg">
+      <div>
+        <span class="block textbase font-normal text-text-body-tertiary mb-xxs"
+          >Client</span
+        >
+        <p class="text-base font-normal text-text-body-primary">
+          {client}
+        </p>
+      </div>
 
- <div class="mb-xl">
-  <span
-  class="block textbase font-normal text-text-body-tertiary  mb-xxs"
-  >Role</span
-  >
-  <p class="text-base font-normal text-text-body-primary">
-  {role}
-  </p>
- </div>
- </div>
- <div>
- <Button href={projectLink}> View project </Button>
- </div>
-</section>
+      <div>
+        <span class="block textbase font-normal text-text-body-tertiary mb-xxs"
+          >Description</span
+        >
+        <p class="text-base font-normal text-text-body-primary leading-normal">
+          {description}
+        </p>
+      </div>
+
+      <div>
+        <span class="block textbase font-normal text-text-body-tertiary mb-xxs"
+          >Role</span
+        >
+        <p class="text-base font-normal text-text-body-primary">
+          {role}
+        </p>
+      </div>
+    </div>
+    <div>
+      <Button href={projectLink}> View project </Button>
+    </div>
+  </section>
 </article>

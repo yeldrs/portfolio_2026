@@ -1,11 +1,11 @@
 ---
 // src/components/ProjectCarousel.astro
-import ArrowButton from './ArrowButton.astro'; 
+import ArrowButton from "./ArrowButton.astro";
 
 export interface Props {
-images: string[];
-// 🚨 1. Ajout de la nouvelle prop
-hideArrowsOnMobile?: boolean; 
+  images: string[];
+  // 🚨 1. Ajout de la nouvelle prop
+  hideArrowsOnMobile?: boolean;
 }
 
 // 🚨 2. Destructuration de la nouvelle prop (par défaut à true pour appliquer le masquage)
@@ -14,199 +14,214 @@ const { images, hideArrowsOnMobile = true } = Astro.props;
 if (!images || images.length === 0) return null;
 
 const dots = images.map((_, index) => ({
-index: index,
+  index: index,
 }));
 
 // Classes du Design System (DS) pour les Props
 const DS_CLASSES = {
-mainDefault: 'stroke-primary', 
-mainHover: 'stroke-primary-hover', 
-tertiaryDefault: 'stroke-tertiary', 
-tertiaryHover: 'stroke-tertiary-hover', 
-disabledColor: 'stroke-disabled',
+  mainDefault: "stroke-primary",
+  mainHover: "stroke-primary-hover",
+  tertiaryDefault: "stroke-tertiary",
+  tertiaryHover: "stroke-tertiary-hover",
+  disabledColor: "stroke-disabled",
 } as const;
 
-const prevInitialVariant = 'disabled';
-const activeVariant = 'main';
+const prevInitialVariant = "disabled";
+const activeVariant = "main";
 
 // 💡 CORRECTION TS(2306) : Ajout d'une simple exportation pour signaler le fichier comme un module
 // Il est courant d'exporter une constante pour satisfaire le service de langage TS.
 export const isAstroComponent = true;
 ---
 
-<section id="project-carousel" aria-label="Project Image Carousel" class="space-y-md my-3xl">
-<div class="flex items-center justify-between">
+<section
+  id="project-carousel"
+  aria-label="Project Image Carousel"
+  class="space-y-md my-3xl"
+>
+  <div class="flex items-center justify-between">
+    {/* ⬅️ Flèche Précédente (Desktop) */}
+    <ArrowButton
+      id="prevBtn"
+      label="Image précédente"
+      direction="left"
+      variant={prevInitialVariant as any}
+      onClick="window.handleCarouselNavigation(-1)"
+      isMobile={false}
+      {...DS_CLASSES}
+      class={hideArrowsOnMobile ? "hidden md:block" : ""}
+    />
 
-{/* ⬅️ Flèche Précédente (Desktop) */}
-<ArrowButton
-id="prevBtn"
-label="Image précédente"
-direction="left"
-variant={prevInitialVariant as any}
-onClick="window.handleCarouselNavigation(-1)"
-isMobile={false}
-{...DS_CLASSES}
-class={hideArrowsOnMobile ? 'hidden md:block' : ''} 
-/>
+    {/* 🖼️ Conteneur principal de l'image */}
+    <div
+      class:list={[
+        "relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video",
+        // Base: mx-0 (Full width sur mobile)
+        "mx-0",
+        // Desktop (md): Applique une marge pour séparer des flèches latérales
+        { "md:mx-md": hideArrowsOnMobile },
+      ]}
+    >
+      <img
+        id="carouselImage"
+        src={images[0]}
+        alt="Image détaillée du projet"
+        class="w-full h-full object-contain object-center block rounded-2xl cursor-pointer"
+        loading="lazy"
+        onclick={`showImageModal('${images[0]}')`}
+        data-current-index="0"
+      />
+    </div>
 
-{/* 🖼️ Conteneur principal de l'image */}
-<div class:list={[
-    "relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video",
-    // Base: mx-0 (Full width sur mobile)
-    "mx-0", 
-    // Desktop (md): Applique une marge pour séparer des flèches latérales
-    { "md:mx-md": hideArrowsOnMobile } 
-]}>
-<img 
-id="carouselImage" 
-src={images[0]} 
-alt="Image détaillée du projet" 
-class="w-full h-full object-contain object-center block rounded-2xl cursor-pointer" 
-loading="lazy"
-onclick={`showImageModal('${images[0]}')`}
-data-current-index="0"
-/>
-</div>
+    {/* ➡️ Flèche Suivante (Desktop) */}
+    <ArrowButton
+      id="nextBtn"
+      label="Image suivante"
+      direction="right"
+      variant={activeVariant as any}
+      onClick="window.handleCarouselNavigation(1)"
+      isMobile={false}
+      {...DS_CLASSES}
+      class={hideArrowsOnMobile ? "hidden md:block" : ""}
+    />
+  </div>
 
-{/* ➡️ Flèche Suivante (Desktop) */}
-<ArrowButton
-id="nextBtn"
-label="Image suivante"
-direction="right"
-variant={activeVariant as any}
-onClick="window.handleCarouselNavigation(1)"
-isMobile={false}
-{...DS_CLASSES}
-class={hideArrowsOnMobile ? 'hidden md:block' : ''} 
-/>
-</div>
+  {
+    /* 🔴 Indicateurs de points (Dots) et Flèches Mobile (DOIVENT RESTER VISIBLES) */
+  }
+  <div class="flex items-center justify-center pt-4">
+    {/* ⬅️ Flèche Mobile Précédente */}
+    <ArrowButton
+      id="prevBtnMobile"
+      label="Image précédente"
+      direction="left"
+      variant={prevInitialVariant as any}
+      onClick="window.handleCarouselNavigation(-1)"
+      isMobile={true}
+      {...DS_CLASSES}
+    />
 
-{/* 🔴 Indicateurs de points (Dots) et Flèches Mobile (DOIVENT RESTER VISIBLES) */}
-<div class="flex items-center justify-center pt-4">
+    {/* Conteneur des Points */}
+    <div id="carouselDots" class="flex justify-center space-x-2 mx-4">
+      {
+        dots.map((dot) => (
+          <button
+            data-index={dot.index}
+            aria-label={`Go to slide ${dot.index + 1}`}
+            class={`w-3 h-3 rounded-full transition-colors ${dot.index === 0 ? "bg-background-accent-primary" : "bg-background-disabled"}`}
+            onclick={`window.updateImageFromDot(${dot.index})`}
+          />
+        ))
+      }
+    </div>
 
-{/* ⬅️ Flèche Mobile Précédente */}
-<ArrowButton
-id="prevBtnMobile"
-label="Image précédente"
-direction="left"
-variant={prevInitialVariant as any}
-onClick="window.handleCarouselNavigation(-1)"
-isMobile={true}
-{...DS_CLASSES}
-/>
-
-{/* Conteneur des Points */}
-<div id="carouselDots" class="flex justify-center space-x-2 mx-4">
-{dots.map((dot) => (
-<button 
-data-index={dot.index} 
-aria-label={`Go to slide ${dot.index + 1}`}
-class={`w-3 h-3 rounded-full transition-colors ${dot.index === 0 ? 'bg-background-accent-primary' : 'bg-background-disabled'}`}
-onclick={`window.updateImageFromDot(${dot.index})`}
-></button>
-))}
-</div>
-
-{/* ➡️ Flèche Mobile Suivante */}
-<ArrowButton
-id="nextBtnMobile"
-label="Image suivante"
-direction="right"
-variant={activeVariant as any}
-onClick="window.handleCarouselNavigation(1)"
-isMobile={true}
-{...DS_CLASSES}
-/>
-</div>
+    {/* ➡️ Flèche Mobile Suivante */}
+    <ArrowButton
+      id="nextBtnMobile"
+      label="Image suivante"
+      direction="right"
+      variant={activeVariant as any}
+      onClick="window.handleCarouselNavigation(1)"
+      isMobile={true}
+      {...DS_CLASSES}
+    />
+  </div>
 </section>
 
 <script define:vars={{ images }} is:inline>
+  let isInitialized = false;
+  const TOTAL_IMAGES = images.length;
 
-let isInitialized = false;
-const TOTAL_IMAGES = images.length;
+  // Classes de référence pour la JS
+  const VARIANT_ACTIVE = "main";
+  const VARIANT_DISABLED = "disabled";
 
-// Classes de référence pour la JS
-const VARIANT_ACTIVE = 'main';
-const VARIANT_DISABLED = 'disabled';
+  // EXPOSEZ LA FONCTION GLOBALEMENT
+  window.updateImageFromDot = function (index) {
+    updateImage(index);
+  };
 
-// EXPOSEZ LA FONCTION GLOBALEMENT
-window.updateImageFromDot = function(index) {
-updateImage(index);
-}
+  // EXPOSEZ LA FONCTION GLOBALEMENT SOUS UN NOM UNIQUE
+  window.handleCarouselNavigation = function (direction) {
+    const carouselImg = document.getElementById("carouselImage");
+    if (!carouselImg || TOTAL_IMAGES === 0) return;
 
-// EXPOSEZ LA FONCTION GLOBALEMENT SOUS UN NOM UNIQUE
-window.handleCarouselNavigation = function(direction) {
-const carouselImg = document.getElementById('carouselImage');
-if (!carouselImg || TOTAL_IMAGES === 0) return;
+    let currentIndex = carouselImg.dataset.currentIndex
+      ? parseInt(carouselImg.dataset.currentIndex)
+      : 0;
+    let newIndex = currentIndex + direction;
 
-let currentIndex = carouselImg.dataset.currentIndex ? parseInt(carouselImg.dataset.currentIndex) : 0;
-let newIndex = currentIndex + direction;
+    if (direction === 1) {
+      if (newIndex >= TOTAL_IMAGES) {
+        newIndex = 0; // Loop vers la première image
+      }
+    } else if (direction === -1) {
+      if (newIndex < 0) {
+        return; // Arrête la navigation
+      }
+    }
 
-if (direction === 1) {
-if (newIndex >= TOTAL_IMAGES) {
-newIndex = 0; // Loop vers la première image
-}
-} else if (direction === -1) {
-if (newIndex < 0) {
-return; // Arrête la navigation
-}
-}
+    updateImage(newIndex);
+  };
 
-updateImage(newIndex);
-}
+  // FONCTION DE MISE À JOUR (Portée Locale)
+  function updateImage(index) {
+    const carouselImg = document.getElementById("carouselImage");
+    const dotsContainer = document.getElementById("carouselDots");
+    if (!carouselImg || TOTAL_IMAGES === 0 || !dotsContainer) return;
 
-// FONCTION DE MISE À JOUR (Portée Locale)
-function updateImage(index) {
-const carouselImg = document.getElementById('carouselImage');
-const dotsContainer = document.getElementById('carouselDots');
-if (!carouselImg || TOTAL_IMAGES === 0 || !dotsContainer) return;
+    // 1. Mise à jour de l'image et de l'état
+    const imageUrl = images[index];
+    carouselImg.src = imageUrl;
+    carouselImg.setAttribute("onclick", `showImageModal('${imageUrl}')`);
+    carouselImg.dataset.currentIndex = index.toString();
 
-// 1. Mise à jour de l'image et de l'état
-const imageUrl = images[index];
-carouselImg.src = imageUrl;
-carouselImg.setAttribute('onclick', `showImageModal('${imageUrl}')`);
-carouselImg.dataset.currentIndex = index.toString();
+    // 2. Mise à jour des points
+    dotsContainer.querySelectorAll("button").forEach((dot, dotIndex) => {
+      const isActive = dotIndex === index;
+      dot.classList.toggle("bg-background-accent-primary", isActive);
+      dot.classList.toggle("bg-background-disabled", !isActive);
+    });
 
-// 2. Mise à jour des points
-dotsContainer.querySelectorAll('button').forEach((dot, dotIndex) => {
-const isActive = dotIndex === index;
-dot.classList.toggle('bg-background-accent-primary', isActive);
-dot.classList.toggle('bg-background-disabled', !isActive);
-});
+    // 3. Mise à jour des États des Flèches (Précédent)
+    const prevArrows = [
+      document.getElementById("prevBtn"),
+      document.getElementById("prevBtnMobile"),
+    ];
+    const isPrevDisabled = index === 0;
 
-// 3. Mise à jour des États des Flèches (Précédent)
-const prevArrows = [document.getElementById('prevBtn'), document.getElementById('prevBtnMobile')];
-const isPrevDisabled = index === 0;
+    prevArrows.forEach((btn) => {
+      if (!btn) return;
 
-prevArrows.forEach(btn => {
-if (!btn) return;
+      // Mettre à jour la prop 'disabled' de l'ArrowButton
+      btn.disabled = isPrevDisabled;
 
-// Mettre à jour la prop 'disabled' de l'ArrowButton
-btn.disabled = isPrevDisabled; 
+      // 🚨 CORRECTION : Gérer la visibilité/interactivité via les classes du SPAN interne
+      const span = btn.querySelector("span");
+      if (span) {
+        span.classList.toggle("opacity-0", isPrevDisabled);
+        span.classList.toggle("pointer-events-none", isPrevDisabled);
+        span.classList.toggle("opacity-100", !isPrevDisabled);
 
-// 🚨 CORRECTION : Gérer la visibilité/interactivité via les classes du SPAN interne
-const span = btn.querySelector('span');
-if (span) {
-span.classList.toggle('opacity-0', isPrevDisabled);
-span.classList.toggle('pointer-events-none', isPrevDisabled);
-span.classList.toggle('opacity-100', !isPrevDisabled);
+        // Si vous utilisez la méthode de couleur par classe de stroke injectée :
+        // span.classList.toggle('stroke-disabled', isPrevDisabled);
+        // span.classList.toggle('stroke-primary', !isPrevDisabled);
+      }
+    });
 
-// Si vous utilisez la méthode de couleur par classe de stroke injectée :
-// span.classList.toggle('stroke-disabled', isPrevDisabled);
-// span.classList.toggle('stroke-primary', !isPrevDisabled);
-}
-});
+    // 4. Mise à jour des États des Flèches (Suivant) - Gère la boucle
+    const nextArrows = [
+      document.getElementById("nextBtn"),
+      document.getElementById("nextBtnMobile"),
+    ];
+    const isNextDisabled = index === TOTAL_IMAGES - 1;
 
-// 4. Mise à jour des États des Flèches (Suivant) - Gère la boucle
-const nextArrows = [document.getElementById('nextBtn'), document.getElementById('nextBtnMobile')];
-const isNextDisabled = index === TOTAL_IMAGES - 1;
+    nextArrows.forEach((btn) => {
+      if (!btn) return;
 
-nextArrows.forEach(btn => {
-if (!btn) return;
-
-// Si la navigation est en boucle (loop), on ne désactive jamais le bouton suivant.
-// Si vous ne voulez PAS de boucle, décommentez la logique ci-dessous :
-/*
+      // Si la navigation est en boucle (loop), on ne désactive jamais le bouton suivant.
+      // Si vous ne voulez PAS de boucle, décommentez la logique ci-dessous :
+      /*
 btn.disabled = isNextDisabled;
 
 const span = btn.querySelector('span');
@@ -216,57 +231,57 @@ span.classList.toggle('pointer-events-none', isNextDisabled);
 span.classList.toggle('opacity-100', !isNextDisabled);
 }
 */
-});
-} 
+    });
+  }
 
-// GESTION DU SWIPE (Portée Locale)
-function attachSwipeHandler() {
-const carouselImg = document.getElementById('carouselImage');
-if (!carouselImg) return;
+  // GESTION DU SWIPE (Portée Locale)
+  function attachSwipeHandler() {
+    const carouselImg = document.getElementById("carouselImage");
+    if (!carouselImg) return;
 
-let touchstartX = 0;
-let touchendX = 0;
-const minSwipeDistance = 50; 
+    let touchstartX = 0;
+    let touchendX = 0;
+    const minSwipeDistance = 50;
 
-carouselImg.addEventListener('touchstart', e => {
-touchstartX = e.changedTouches[0].screenX;
-});
+    carouselImg.addEventListener("touchstart", (e) => {
+      touchstartX = e.changedTouches[0].screenX;
+    });
 
-carouselImg.addEventListener('touchend', e => {
-touchendX = e.changedTouches[0].screenX;
-handleSwipeGesture();
-});
+    carouselImg.addEventListener("touchend", (e) => {
+      touchendX = e.changedTouches[0].screenX;
+      handleSwipeGesture();
+    });
 
-function handleSwipeGesture() {
-const distance = touchendX - touchstartX;
+    function handleSwipeGesture() {
+      const distance = touchendX - touchstartX;
 
-if (Math.abs(distance) < minSwipeDistance) {
-return; 
-}
+      if (Math.abs(distance) < minSwipeDistance) {
+        return;
+      }
 
-if (distance < 0) {
-// Swipe vers la gauche (passe à l'image suivante: direction 1)
-window.handleCarouselNavigation(1);
-} else {
-// Swipe vers la droite (passe à l'image précédente: direction -1)
-window.handleCarouselNavigation(-1);
-}
-}
-}
+      if (distance < 0) {
+        // Swipe vers la gauche (passe à l'image suivante: direction 1)
+        window.handleCarouselNavigation(1);
+      } else {
+        // Swipe vers la droite (passe à l'image précédente: direction -1)
+        window.handleCarouselNavigation(-1);
+      }
+    }
+  }
 
-// Fonction d'initialisation (Portée Locale)
-function initializeCarousel() {
-if (isInitialized || images.length === 0) return;
+  // Fonction d'initialisation (Portée Locale)
+  function initializeCarousel() {
+    if (isInitialized || images.length === 0) return;
 
-// Mise à jour initiale des flèches et des points (s'assure que la flèche "prev" est désactivée)
-updateImage(0); 
+    // Mise à jour initiale des flèches et des points (s'assure que la flèche "prev" est désactivée)
+    updateImage(0);
 
-// Attacher l'écouteur de swipe
-attachSwipeHandler();
+    // Attacher l'écouteur de swipe
+    attachSwipeHandler();
 
-isInitialized = true;
-}
+    isInitialized = true;
+  }
 
-document.addEventListener('DOMContentLoaded', initializeCarousel);
-document.addEventListener('astro:after-swap', initializeCarousel);
+  document.addEventListener("DOMContentLoaded", initializeCarousel);
+  document.addEventListener("astro:after-swap", initializeCarousel);
 </script>

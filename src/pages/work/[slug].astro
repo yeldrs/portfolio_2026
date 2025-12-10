@@ -61,9 +61,10 @@ const disabledVariant = "disabled";
 <BaseLayout title={`Project | ${project.data.title}`}>
   <Container>
     <main class="py-3xl max-w-content mx-auto space-y-3xl">
-      <h1 class="text-4xl font-extrabold text-text-body-primary">
-        {project.data.title}
-      </h1>
+      <h1
+        class="text-4xl font-extrabold text-text-body-primary"
+        set:html={project.data.title}
+      />
 
       <div class="prose prose-lg dark:prose-invert">
         <Content />
