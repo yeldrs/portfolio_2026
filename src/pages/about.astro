@@ -49,13 +49,14 @@ const professionalExperience: Array<{
   },
 ];
 
-// ✅ Données du CV : TOOLKIT (Mise à jour et ajout de compétences)
+// ✅ Données du CV : TOOLKIT (Structure 3.b: Réorganisation des compétences en 3 groupes professionnels)
 const toolkit: {
-  hardSkills: { title: string; description: string }[];
-  softSkills: { title: string; description: string }[];
+  coreDesign: { title: string; description: string }[];
+  methodology: { title: string; description: string }[];
+  modernImperatives: { title: string; description: string }[];
   personalInterests: { title: string; description: string }[];
 } = {
-  hardSkills: [
+  coreDesign: [
     {
       title: "End-to-end design",
       description:
@@ -67,23 +68,8 @@ const toolkit: {
         "High-fidelity prototyping, advanced Design System management.",
     },
     {
-      title: "Data & UX analytics",
-      description:
-        "Tracking and analysis of behavioral data (Metabase, Clarity, Datadog, Hotjar).",
-    },
-    {
-      title: "AI & automation",
-      description:
-        "LLM assistance (Gemini, ChatGPT, Claude) and automation (N8N, Make).",
-    },
-    {
       title: "Adobe Suite / Affinity",
-      description: "Photoshop expert, vector design and more.   ",
-    },
-    {
-      title: "Accessibility",
-      description:
-        "Proficiency in digital accessibility standards (RGAA, WCAG).",
+      description: "Photoshop expert, vector design and more.",
     },
     {
       title: "Web coding",
@@ -91,7 +77,12 @@ const toolkit: {
         "Solid knowledge of HTML/CSS, GitHub, web frameworks, communication with developers.",
     },
   ],
-  softSkills: [
+  methodology: [
+    {
+      title: "Data & UX analytics",
+      description:
+        "Tracking and analysis of behavioral data (Metabase, Clarity, Datadog, Hotjar).",
+    },
     {
       title: "Data-driven design",
       description: "Justifying design choices by metrics (UX testing, ROI).",
@@ -107,7 +98,17 @@ const toolkit: {
         "Aligning design with technical constraints and business objectives (OKR, KPI).",
     },
   ],
-  personalInterests: [
+  modernImperatives: [
+    {
+      title: "Accessibility",
+      description:
+        "Proficiency in digital accessibility standards (RGAA, WCAG).",
+    },
+    {
+      title: "AI & automation",
+      description:
+        "LLM assistance (Gemini, ChatGPT, Claude) and automation (N8N, Make).",
+    },
     {
       title: "Sustainable & responsible design",
       description: "Linking modern tools to environmental and societal issues.",
@@ -117,6 +118,8 @@ const toolkit: {
       description:
         "Interest in accessibility, food-tech, health-focused problematics.",
     },
+  ],
+  personalInterests: [
     {
       title: "Sports & Outdoors",
       description:
@@ -124,6 +127,13 @@ const toolkit: {
     },
   ],
 };
+
+// Définition de la structure de rendu pour les 3 colonnes principales
+const skillSections = [
+  { title: "Core Design & Tools", skills: toolkit.coreDesign },
+  { title: "Methodology & Business", skills: toolkit.methodology },
+  { title: "Tech Imperatives", skills: toolkit.modernImperatives },
+];
 
 // ✅ NOUVELLE SECTION : Significant Work
 const significantWork: Array<{
@@ -155,7 +165,7 @@ const educationExperience: Array<{
 }> = [
   {
     year: "2024-2025",
-    title: "Master in Project Management & UX Design",
+    title: "Master in Project Management and UX Design",
     school:
       "ISCOD, France (Intensive 12-month program under an apprenticeship contract)",
   },
@@ -184,27 +194,31 @@ const educationExperience: Array<{
             My name's Yassine
           </h2>
           <p class="text-base text-text-body-secondary leading-relaxed">
-            I’m a Product Designer and I position myself at the intersection of
+            I’m a product designer and I position myself at the intersection of
             user research and business performance. I enjoy transforming precise
             user diagnostics into concrete solutions that improve conversion,
             increase retention, and maximize customer value. I'm learning to
             value sustainability as part of innovative design.
           </p>
-          <p class="text-base text-text-body-secondary leading-relaxed">
-            <bold>TL;DR :</bold> I design useful, sustainable products while tracking
-            growth and analytics.
+          <p
+            class="text-base font-semibold text-text-body-secondary leading-relaxed"
+          >
+            I design useful, sustainable products while tracking useful business
+            and user insights.
           </p>
           <Button href="#contact-footer" class="mt-lg">Let's Connect</Button>
         </div>
-        <div
-          class="flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden self-center md:self-auto"
-        >
-          <img
-            src={profileImageUrl}
-            alt="Yassine El Idrissi - Profile Picture"
-            class="w-full h-full object-cover"
-          />
-        </div>
+        {
+          /* <div
+     class="flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden self-center md:self-auto"
+    >
+     <img
+      src={profileImageUrl}
+      alt="Yassine El Idrissi - Profile Picture"
+      class="w-full h-full object-cover"
+     />
+    </div>*/
+        }
       </section>
 
       {/* ⭐ SECTION 2: EXPÉRIENCES PROFESSIONNELLES */}
@@ -235,22 +249,23 @@ const educationExperience: Array<{
         }
       </section>
 
-      {/* ⭐ SECTION 3: TOOLKIT (Compétences) */}
+      {/* ⭐ SECTION 3: TOOLKIT (Compétences - Structure 3.b) */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">
           My toolkit for impact
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-xl">
+          {/* Colonne 1: Core Design & Tools */}
           <div class="space-y-md">
             <h3
               class="text-lg font-bold text-text-body-primary flex items-center gap-2"
             >
-              Hard skills
+              {skillSections[0].title}
             </h3>
             <ul class="space-y-2 text-text-body-primary">
               {
-                toolkit.hardSkills.map((skill) => (
+                skillSections[0].skills.map((skill) => (
                   <li class="p-3 bg-gray-50 rounded-lg">
                     <p class="font-semibold text-sm">{skill.title}</p>
                     {skill.description && (
@@ -264,15 +279,16 @@ const educationExperience: Array<{
             </ul>
           </div>
 
+          {/* Colonne 2: Methodology & Business */}
           <div class="space-y-md">
             <h3
               class="text-lg font-bold text-text-body-primary flex items-center gap-2"
             >
-              Soft Skills
+              {skillSections[1].title}
             </h3>
             <ul class="space-y-2 text-text-body-primary">
               {
-                toolkit.softSkills.map((skill) => (
+                skillSections[1].skills.map((skill) => (
                   <li class="p-3 bg-gray-50 rounded-lg">
                     <p class="font-semibold text-sm">{skill.title}</p>
                     {skill.description && (
@@ -286,20 +302,23 @@ const educationExperience: Array<{
             </ul>
           </div>
 
+          {
+            /* Colonne 3: Modern Imperatives & Tech (remplace 'Interests' pour les compétences pro) */
+          }
           <div class="space-y-md">
             <h3
               class="text-lg font-bold text-text-body-primary flex items-center gap-2"
             >
-              Interests
+              {skillSections[2].title}
             </h3>
             <ul class="space-y-2 text-text-body-primary">
               {
-                toolkit.personalInterests.map((interest) => (
+                skillSections[2].skills.map((skill) => (
                   <li class="p-3 bg-gray-50 rounded-lg">
-                    <p class="font-semibold text-sm">{interest.title}</p>
-                    {interest.description && (
+                    <p class="font-semibold text-sm">{skill.title}</p>
+                    {skill.description && (
                       <p class="mt-1 text-xs text-text-body-secondary">
-                        {interest.description}
+                        {skill.description}
                       </p>
                     )}
                   </li>
@@ -308,6 +327,26 @@ const educationExperience: Array<{
             </ul>
           </div>
         </div>
+
+        {
+          /* Intérêts Personnels (déplacé sous la grille de compétences pro) 
+        {
+          toolkit.personalInterests.length > 0 && (
+            <div class="space-y-md pt-xl border-t border-stroke-secondary">
+              <h3 class="text-lg font-bold text-text-body-primary">
+                Personal Interests
+              </h3>
+              <div class="flex flex-wrap gap-md">
+                {toolkit.personalInterests.map((interest) => (
+                  <span class="px-3 py-1 bg-gray-50 rounded-full text-sm font-medium text-text-body-primary">
+                    {interest.title}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )
+        }*/
+        }
       </section>
 
       {/* ⭐ SECTION 4: SIGNIFICANT WORK (NOUVEAU) */}
@@ -335,9 +374,7 @@ const educationExperience: Array<{
 
       {/* ⭐ SECTION 5: FORMATION (Structure mise à jour) */}
       <section class="w-full max-w-3xl space-y-xl">
-        <h2 class="text-3xl font-bold text-text-body-primary">
-          Education & Background
-        </h2>
+        <h2 class="text-3xl font-bold text-text-body-primary">Education</h2>
         {
           educationExperience.map((edu) => (
             <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">

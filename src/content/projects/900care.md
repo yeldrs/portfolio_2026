@@ -17,7 +17,7 @@ projectImages:
 semanticSlug: "900care"
 title: "UX & growth for a sustainable e&#8209;commerce"
 client: "900.care"
-description: "Full-cycle product design on subscription model focused on improving first-order conversion and long term retention."
+description: "Full-cycle product design at 900.care, focused on improving first-order conversion and long term retention."
 role: "Product Design Manager"
 roleDescription: "As a product designer, I was responsible for the entire cycle, from user research to the delivery of the final mockups, working closely with the Product Manager to define the objectives and deploy solutions with the developers team."
 context: "900.care is a D2C startup with a subscription-based business model for homecare and hygiene products. Its profitability strongly depends on the value of the first order to encourage retention and offset the customer acquisition cost (CAC). The homepage and sales funnel were major friction points, not converting visitors efficiently enough and not sufficiently encouraging product range discovery."

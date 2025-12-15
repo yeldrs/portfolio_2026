@@ -17,7 +17,7 @@ projectImages:
 - "/images/project-3/coverProject-batchcooking.webp" # Index 6 : Image 4 (Principale)
 - "" # Index 7 : Image 4 (Optionnelle)
 semanticSlug: "batchcooking"
-title: "An accessible solution for collaborative cooking."
+title: "Building an accessible solution for collaborative cooking."
 client: "Personal social innovation project"
 role: "UX product designer"
 roleDescription: "As the lead UX product designer and partnering with a Data Scientist, I drove the discovery phase, from primary user research and physical proof of concept to low-fidelity prototyping. My job was to ensure the user experience came first, and that our project evolves towards building an economical model serving genuine human connection."
