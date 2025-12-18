@@ -43,7 +43,7 @@ function isActive(
   <Container class="flex justify-between items-center">
     <a
       href="/"
-      class="text-xl font-normal text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase"
+      class="text-xl font-normal font-cambria text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase"
       aria-label="Yassine El Idrissi - Retour à l'accueil"
     >
       Yassine El Idrissi
@@ -244,3 +244,11 @@ function isActive(
   attachHandlers();
   document.addEventListener("astro:after-swap", attachHandlers);
 </script>
+
+<style is:inline>
+  /* filepath: c:\Users\yasse\Documents\Work\Website\Astro\src\components\Navbar.astro
+     Apply Cambria only to the site title (fallbacks included). */
+  .font-cambria {
+    font-family: Cambria, "Times New Roman", serif;
+  }
+</style>
