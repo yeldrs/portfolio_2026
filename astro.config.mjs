@@ -14,8 +14,10 @@ export default defineConfig({
   
   // Remplacement du .htaccess pour GitHub Pages
   redirects: {
-    '/work': '/#projects',
-    '/work/': '/#projects',
+'/work': {
+      status: 301,
+      destination: '/#projects'
+    },
     '/projects': '/#projects',
     '/aboutme': '/about',
     '/logos': '/',
