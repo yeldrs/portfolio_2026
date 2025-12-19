@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yassineelidrissi.com/sitemap.xml

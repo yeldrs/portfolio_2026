@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   // ✅ 1. Définir le domaine final pour le SEO (sitemap et URL canoniques)
@@ -13,5 +14,5 @@ export default defineConfig({
   // 🚫 3. SUPPRIMER 'base'. Le domaine personnalisé annule le besoin de ce préfixe.
   // base: '/', // <-- C'EST SUPPRIMÉ
 
-  integrations: [tailwind(), mdx()],
+  integrations: [tailwind(), mdx(), sitemap()],
 });
