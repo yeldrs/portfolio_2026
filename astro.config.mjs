@@ -5,22 +5,19 @@ import mdx from "@astrojs/mdx";
 
 export default defineConfig({
   site: 'https://yassineelidrissi.com',
-  trailingSlash: 'never', // Gère nativement le retrait du slash final
+  trailingSlash: 'never',
   build: {
-    format: 'file' // Génère 'about.html' au lieu de 'about/index.html' pour éviter les slashes
+    format: 'file',
+    redirects: true // Force la génération des fichiers HTML de redirection
   },
   output: 'static',
   integrations: [tailwind(), mdx()],
-  
-  // Remplacement du .htaccess pour GitHub Pages
   redirects: {
-'/work': {
-      status: 301,
-      destination: '/#projects'
-    },
+    '/work': '/#projects',
     '/projects': '/#projects',
     '/aboutme': '/about',
     '/logos': '/',
     '/photography': '/',
   }
 });
+// Fichier : astro.config.mjs
