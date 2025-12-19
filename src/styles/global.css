@@ -13,7 +13,11 @@ body {
   color: var(--color-text);
 }
 
-/* ✅ AJOUT : Défilement fluide pour tous les liens d'ancre */
+#projects, #contact {
+  scroll-margin-top: 80px; /* Ajustez selon la hauteur réelle de votre Navbar */
+}
+
+/* Optionnel : Smooth scroll pour toute la page */
 html {
   scroll-behavior: smooth;
 }
