@@ -2,17 +2,24 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
+// On ne l'importe plus car on utilise un sitemap manuel dans /public
+// import sitemap from "@astrojs/sitemap"; 
 
 export default defineConfig({
-  // ✅ 1. Définir le domaine final pour le SEO (sitemap et URL canoniques)
+  // ✅ 1. Domaine final
   site: 'https://yassineelidrissi.com',
   
-  // ✅ 2. Assure la génération statique (Obligatoire pour l'hébergement de fichiers)
+  // ✅ 2. Forcer l'absence de slash final
+  trailingSlash: 'never',
+
+  // ✅ 3. Configuration du build pour les URLs propres
+  build: {
+    format: 'file'
+  },
+  
+  // ✅ 4. Sortie statique
   output: 'static', 
   
-  // 🚫 3. SUPPRIMER 'base'. Le domaine personnalisé annule le besoin de ce préfixe.
-  // base: '/', // <-- C'EST SUPPRIMÉ
-
-  integrations: [tailwind(), mdx(), sitemap()],
+  // ✅ 5. Intégrations (sitemap retiré pour éviter les doublons)
+  integrations: [tailwind(), mdx()],
 });
