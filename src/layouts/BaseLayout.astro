@@ -31,6 +31,27 @@ const {
       rel="stylesheet"
     />
 
+    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"
+    ></script>
+    <script async src="https://t.contentsquare.net/uxa/1027ad213768f.js"
+    ></script>
+
+    <script is:inline>
+      (function (h, o, t, j, a, r) {
+        h.hj =
+          h.hj ||
+          function () {
+            (h.hj.q = h.hj.q || []).push(arguments);
+          };
+        h._hjSettings = { hjid: 3866151, hjsv: 6 };
+        a = o.getElementsByTagName("head")[0];
+        r = o.createElement("script");
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
+    </script>
+
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
@@ -49,27 +70,15 @@ const {
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#367984" />
 
-    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"
-    ></script>
-
-    <script is:inline src="https://t.contentsquare.net/uxa/1027ad213768f.js"
-    ></script>
-
-    <script is:inline>
-      (function (h, o, t, j, a, r) {
-        h.hj =
-          h.hj ||
-          function () {
-            (h.hj.q = h.hj.q || []).push(arguments);
-          };
-        h._hjSettings = { hjid: 5250495, hjsv: 6 }; // Remplacez par votre ID réel
-        a = o.getElementsByTagName("head")[0];
-        r = o.createElement("script");
-        r.async = 1;
-        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-        a.appendChild(r);
-      })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
-    </script>
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+    </style>
   </head>
 
   <body
