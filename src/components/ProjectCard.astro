@@ -6,7 +6,7 @@ export interface Props {
   client: string;
   description?: string;
   role: string;
-  projectLink: string; // Lien vers la page du projet
+  projectLink: string;
   imageAlt: string;
   imageUrl: string;
   direction?: "default" | "reverse";
@@ -25,6 +25,13 @@ const {
   id,
 } = Astro.props;
 
+// Génération automatique du nom d'événement pour Simple Analytics
+const projectSlug = client
+  .toLowerCase()
+  .replace(/\s+/g, "_")
+  .replace(/[^\w]/g, "");
+const eventName = `view_project_${projectSlug}`;
+
 const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 ---
 
@@ -35,12 +42,13 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
   class={`flex flex-col md:flex-row gap-xl md:gap-3xl bg-background-primary ${directionClass} md:items-start`}
 >
   <h1
-    class="text-4xl font-extrabold text-text-body-primary md:hidden **m-0**"
+    class="text-4xl font-extrabold text-text-body-primary md:hidden m-0"
     set:html={headline}
   />
 
   <a
     href={projectLink}
+    data-sa-event={eventName}
     aria-label={`Voir le projet : ${headline}`}
     class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
   >
@@ -54,12 +62,12 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 
   <section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
     <h1
-      class="text-4xl font-extrabold text-text-body-primary hidden md:block *m-0*"
+      class="text-4xl font-extrabold text-text-body-primary hidden md:block m-0"
       set:html={headline}
     />
     <div class="space-y-lg">
       <div>
-        <span class="block textbase font-normal text-text-body-tertiary mb-xxs"
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
           >Client</span
         >
         <p class="text-base font-normal text-text-body-primary">
@@ -68,7 +76,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
       </div>
 
       <div>
-        <span class="block textbase font-normal text-text-body-tertiary mb-xxs"
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
           >Description</span
         >
         <p class="text-base font-normal text-text-body-primary leading-normal">
@@ -77,7 +85,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
       </div>
 
       <div>
-        <span class="block textbase font-normal text-text-body-tertiary mb-xxs"
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
           >Role</span
         >
         <p class="text-base font-normal text-text-body-primary">
@@ -86,7 +94,9 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
       </div>
     </div>
     <div>
-      <Button href={projectLink}> View project </Button>
+      <Button href={projectLink} data-sa-event={eventName}>
+        View project
+      </Button>
     </div>
   </section>
 </article>

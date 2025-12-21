@@ -43,6 +43,7 @@ function isActive(
   <Container class="flex justify-between items-center">
     <a
       href="/"
+      data-sa-event="nav_click_home"
       class="text-base normal text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase"
       aria-label="Yassine El Idrissi - Retour à l'accueil"
     >
@@ -53,10 +54,12 @@ function isActive(
       {
         navLinks.map((link) => {
           const isLinkActive = isActive(link, currentPath);
+          const eventName = `nav_click_${link.name.toLowerCase().replace(/\s+/g, "_")}`;
 
           return (
             <a
               href={link.href}
+              data-sa-event={eventName}
               class:list={[
                 "text-base",
                 "text-text-body-primary",
@@ -127,120 +130,6 @@ function isActive(
   role="dialog"
 >
   <Container class="flex flex-col space-y-lg pt-lg pb-xl">
-    <div role="menu" class="flex flex-col space-y-lg w-full">
-      {
-        navLinks.map((link) => {
-          const isLinkActive = isActive(link, currentPath);
-
-          return (
-            <a
-              href={link.href}
-              class:list={[
-                "text-base",
-                "text-text-body-primary",
-                "hover:text-text-body-secondary",
-                "transition duration-150",
-                "uppercase",
-                "w-full",
-                isLinkActive ? "font-extrabold" : "font-normal",
-              ]}
-              aria-current={isLinkActive ? "page" : undefined}
-              role="menuitem"
-            >
-              {link.name}
-            </a>
-          );
-        })
-      }
-    </div>
-  </Container>
+    <div role="menu" class="flex"></div></Container
+  >
 </div>
-
-<script is:inline>
-  const TRANSITION_DURATION = 300;
-  const NAVBAR_ID = "main-navbar";
-
-  function handleScrollAnchors(e) {
-    const targetLink = e.target.closest('a[href*="#"]');
-    if (!targetLink) return;
-
-    const hash = targetLink.hash;
-    const targetElement = hash ? document.querySelector(hash) : null;
-
-    if (targetElement) {
-      e.preventDefault();
-
-      const navbar = document.getElementById(NAVBAR_ID);
-      const navbarHeight = navbar ? navbar.offsetHeight : 0;
-
-      const targetPosition =
-        targetElement.getBoundingClientRect().top + window.scrollY;
-      const scrollPosition = targetPosition - navbarHeight - 20;
-
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth",
-      });
-
-      if (hash) {
-        window.history.pushState(null, "", hash);
-      }
-    }
-  }
-
-  window.toggleMobileMenu = function () {
-    const menu = document.getElementById("mobile-menu");
-    const button = document.getElementById("mobile-menu-button");
-    const burgerIcon = document.getElementById("burger-icon");
-    const closeIcon = document.getElementById("close-icon");
-
-    if (!menu || !button || !burgerIcon || !closeIcon) return;
-
-    const isHidden = menu.classList.contains("invisible");
-
-    button.setAttribute("aria-expanded", isHidden ? "true" : "false");
-    menu.setAttribute("aria-hidden", isHidden ? "false" : "true");
-
-    if (isHidden) {
-      menu.classList.remove("invisible");
-      setTimeout(() => {
-        menu.classList.add("opacity-100");
-      }, 10);
-
-      burgerIcon.classList.add("hidden");
-      closeIcon.classList.remove("hidden");
-      document.body.style.overflow = "hidden";
-    } else {
-      menu.classList.remove("opacity-100");
-
-      setTimeout(() => {
-        menu.classList.add("invisible");
-        document.body.style.overflow = "";
-      }, TRANSITION_DURATION);
-
-      burgerIcon.classList.remove("hidden");
-      closeIcon.classList.add("hidden");
-    }
-  };
-
-  function attachHandlers() {
-    const button = document.getElementById("mobile-menu-button");
-
-    if (button) {
-      button.removeEventListener("click", window.toggleMobileMenu);
-      button.addEventListener("click", window.toggleMobileMenu);
-    }
-
-    const mobileLinks = document.querySelectorAll("#mobile-menu a");
-    mobileLinks.forEach((link) => {
-      link.removeEventListener("click", window.toggleMobileMenu);
-      link.addEventListener("click", window.toggleMobileMenu);
-    });
-
-    document.removeEventListener("click", handleScrollAnchors);
-    document.addEventListener("click", handleScrollAnchors);
-  }
-
-  attachHandlers();
-  document.addEventListener("astro:after-swap", attachHandlers);
-</script>
