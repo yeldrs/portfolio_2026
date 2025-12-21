@@ -24,7 +24,7 @@ projectImages:
  - "/images/project-2/editCdc.webp"
  - "/images/project-2/degitalCdc.webp"
 semanticSlug: "depostetconsignations"
-title: "Designing an agile tool to design with ethics"
+title: "Crafting an agile tool to design with ethics"
 client: "Caisse des Dépôts et Consignations (CDC)"
 description: "A tangible, methodological toolkit to track ethical, sustainable, and inclusive principles into major digital platform development."
 role: "Product designer, UX strategist"
