@@ -25,12 +25,20 @@ const {
   id,
 } = Astro.props;
 
-// Génération automatique du nom d'événement pour Simple Analytics
-const projectSlug = client
+// --- LOGIQUE DE TRACKING MUTUALISÉE ---
+
+// Format pour Simple Analytics (snake_case : view_project_900_care)
+const projectSlugSA = client
   .toLowerCase()
   .replace(/\s+/g, "_")
-  .replace(/[^\w]/g, "");
-const eventName = `view_project_${projectSlug}`;
+  .replace(/[^\w_]/g, "");
+const eventNameSA = `view_project_${projectSlugSA}`;
+
+// Format pour Umami (kebab-case : 900-care)
+const projectSlugUmami = client
+  .toLowerCase()
+  .replace(/\s+/g, "-")
+  .replace(/[^\w-]/g, "");
 
 const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 ---
@@ -48,7 +56,9 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 
   <a
     href={projectLink}
-    data-sa-event={eventName}
+    data-sa-event={eventNameSA}
+    data-umami-event="project-image-click"
+    data-umami-event-project={projectSlugUmami}
     aria-label={`Voir le projet : ${headline}`}
     class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
   >
@@ -94,7 +104,12 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
       </div>
     </div>
     <div>
-      <Button href={projectLink} data-sa-event={eventName}>
+      <Button
+        href={projectLink}
+        data-sa-event={eventNameSA}
+        data-umami-event="project-button-click"
+        data-umami-event-project={projectSlugUmami}
+      >
         View project
       </Button>
     </div>

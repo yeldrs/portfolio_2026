@@ -1,14 +1,16 @@
 ---
 import Container from "./Container.astro";
 
+// Définition des liens de navigation avec IDs pour le tracking
 const navLinks = [
-  { name: "Work", href: "/#projects" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/#contact" },
+  { name: "Work", href: "/#projects", id: "work" },
+  { name: "About", href: "/about", id: "about" },
+  { name: "Contact", href: "/#contact", id: "contact" },
 ];
 
 const currentPath = Astro.url.pathname;
 
+// Logique simplifiée pour l'état actif initial
 function getInitialActive(name: string, path: string) {
   if (name === "About" && path.includes("/about")) return true;
   return false;
@@ -24,6 +26,7 @@ function getInitialActive(name: string, path: string) {
       href="/"
       id="nav-logo"
       data-umami-event="nav-logo-click"
+      data-sa-event="nav_logo_click"
       class:list={[
         "text-base transition duration-150 uppercase",
         currentPath === "/" ? "font-extrabold" : "font-normal",
@@ -39,9 +42,10 @@ function getInitialActive(name: string, path: string) {
           return (
             <a
               href={link.href}
-              id={`nav-link-${link.name.toLowerCase().replace(/\s+/g, "")}`}
+              id={`nav-link-${link.id}`}
               data-umami-event="nav-link-click"
               data-umami-event-name={link.name}
+              data-sa-event={`nav_${link.id}_click`}
               class:list={[
                 "nav-item text-base uppercase transition duration-150",
                 isActive
@@ -62,6 +66,7 @@ function getInitialActive(name: string, path: string) {
       aria-expanded="false"
       aria-controls="mobile-menu"
       data-umami-event="mobile-menu-toggle"
+      data-sa-event="nav_mobile_burger_click"
       class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
     >
       <div id="burger-icon" class="w-6 h-6 absolute">
@@ -117,6 +122,7 @@ function getInitialActive(name: string, path: string) {
               href={link.href}
               data-umami-event="mobile-nav-click"
               data-umami-event-name={link.name}
+              data-sa-event={`nav_mobile_${link.id}_click`}
               class:list={[
                 "text-base uppercase transition duration-150",
                 isActive
@@ -134,12 +140,14 @@ function getInitialActive(name: string, path: string) {
 </div>
 
 <script>
+  // 1. GESTION DE L'INTERSECTION OBSERVER (Gras au scroll sur la home)
   function setupNavObserver() {
     const logo = document.getElementById("nav-logo");
     const workLink = document.getElementById("nav-link-work");
     const projectsSection = document.getElementById("projects");
     const currentPath = window.location.pathname;
 
+    // On n'active l'effet que sur la Home
     if (
       !projectsSection ||
       (currentPath !== "/" && currentPath !== "/index.html")
@@ -147,9 +155,7 @@ function getInitialActive(name: string, path: string) {
       return;
     }
 
-    if (!workLink || !logo) {
-      return;
-    }
+    if (!workLink || !logo) return;
 
     const observerOptions = {
       root: null,
@@ -165,6 +171,7 @@ function getInitialActive(name: string, path: string) {
           logo.classList.add("font-normal");
           logo.classList.remove("font-extrabold");
         } else {
+          // Si on est tout en haut de la page, le logo redevient gras
           if (window.scrollY < 100) {
             workLink.classList.remove("font-extrabold");
             workLink.classList.add("font-normal");
@@ -178,21 +185,20 @@ function getInitialActive(name: string, path: string) {
     observer.observe(projectsSection);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupNavObserver);
-  } else {
-    setupNavObserver();
-  }
-
+  // Initialisation au chargement et après navigation Astro (SPA mode)
+  document.addEventListener("DOMContentLoaded", setupNavObserver);
   document.addEventListener("astro:after-swap", setupNavObserver);
 
-  const mobileMenuButton = document.getElementById("mobile-menu-button");
-  const mobileMenu = document.getElementById("mobile-menu");
-  const burgerIcon = document.getElementById("burger-icon");
-  const closeIcon = document.getElementById("close-icon");
+  // 2. GESTION DU MENU MOBILE
+  function setupMobileMenu() {
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const burgerIcon = document.getElementById("burger-icon");
+    const closeIcon = document.getElementById("close-icon");
 
-  if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener("click", () => {
+    if (!mobileMenuButton || !mobileMenu) return;
+
+    const toggleMenu = () => {
       const isOpen = mobileMenu.classList.contains("opacity-100");
 
       if (isOpen) {
@@ -201,26 +207,28 @@ function getInitialActive(name: string, path: string) {
         burgerIcon?.classList.remove("hidden");
         closeIcon?.classList.add("hidden");
         mobileMenuButton.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = ""; // Reactiver le scroll
       } else {
         mobileMenu.classList.remove("opacity-0", "invisible");
         mobileMenu.classList.add("opacity-100", "visible");
         burgerIcon?.classList.add("hidden");
         closeIcon?.classList.remove("hidden");
         mobileMenuButton.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden"; // Bloquer le scroll
       }
-    });
+    };
 
+    mobileMenuButton.addEventListener("click", toggleMenu);
+
+    // Fermer le menu quand on clique sur un lien
     const mobileMenuLinks = mobileMenu.querySelectorAll("a");
     mobileMenuLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.remove("opacity-100", "visible");
-        mobileMenu.classList.add("opacity-0", "invisible");
-        burgerIcon?.classList.remove("hidden");
-        closeIcon?.classList.add("hidden");
-        mobileMenuButton.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", toggleMenu);
     });
   }
+
+  document.addEventListener("DOMContentLoaded", setupMobileMenu);
+  document.addEventListener("astro:after-swap", setupMobileMenu);
 </script>
 
 <style>

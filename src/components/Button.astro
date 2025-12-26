@@ -3,35 +3,36 @@
 
 // 1. Définition des Props
 export interface Props {
-href: string;
-variant?: 'primary' | 'secondary' | 'outline';
-size?: 'default' | 'small' | 'large';
-class?: string;
-// ✅ NOUVEAU : Prop pour la flèche
-showArrow?: boolean; 
+  href: string;
+  variant?: "primary" | "secondary" | "outline";
+  size?: "default" | "small" | "large";
+  class?: string;
+  showArrow?: boolean;
+  // On accepte n'importe quel autre attribut (comme data-umami ou data-sa)
+  [x: string]: any;
 }
 
-const { 
-href, 
-variant = 'primary', 
-size = 'default',
-class: className,
-// ✅ NOUVEAU : Récupération de la prop
-showArrow = true,
+const {
+  href,
+  variant = "primary",
+  size = "default",
+  class: className,
+  showArrow = true,
+  ...rest // ✅ RÉCUPÈRE TOUS LES AUTRES ATTRIBUTS (Tracking, etc.)
 } = Astro.props;
 
-
 // 2. Définition des tokens Tailwind
-const baseStyles = 'flex w-full md:w-fit items-center justify-center transition-colors duration-200 cursor-pointer rounded-full'; 
-const sizeStyles = 'py-sm-d px-lg'; 
-const fontStyles = 'text-md font-medium'; 
+const baseStyles =
+  "flex w-full md:w-fit items-center justify-center transition-colors duration-200 cursor-pointer rounded-full";
+const sizeStyles = "py-sm-d px-lg";
+const fontStyles = "text-md font-medium";
 
 // 3. Définition des couleurs Sémantiques et des états par variante
-let variantColors = '';
+let variantColors = "";
 
 switch (variant) {
-    case 'secondary':
-        variantColors = `
+  case "secondary":
+    variantColors = `
             bg-button-background-secondary 
             text-button-text-primary 
             shadow-md
@@ -39,11 +40,11 @@ switch (variant) {
             focus:ring-2 focus:ring-button-background-secondary focus:ring-offset-2
             active:bg-button-active-secondary
         `;
-        break;
+    break;
 
-    case 'primary':
-    default:
-        variantColors = `
+  case "primary":
+  default:
+    variantColors = `
             bg-button-background-primary 
             text-button-text-primary 
             shadow-md
@@ -51,38 +52,41 @@ switch (variant) {
             focus:ring-2 focus:ring-button-background-primary focus:ring-offset-2
             active:bg-button-active-primary
         `;
-        break;
-    
-    // Vous pouvez ajouter le cas 'outline' ici plus tard
-    case 'outline':
-        variantColors = `
+    break;
+
+  case "outline":
+    variantColors = `
             /* Styles pour l'état outline/contour */
         `;
-        break;
+    break;
 }
 
-let buttonClasses = `${baseStyles} ${sizeStyles} ${fontStyles} ${variantColors} ${className} text-center`; 
+let buttonClasses = `${baseStyles} ${sizeStyles} ${fontStyles} ${variantColors} ${className} text-center`;
 ---
 
-<a 
-href={href} 
-class={buttonClasses} 
-role="button"
->
- <span class="relative flex items-center justify-center w-full mt-[-1px] whitespace-nowrap"> 
-   <slot /> 
- </span>
-
- {/* ✅ NOUVEAU : Affichage conditionnel de la flèche */}
- {showArrow && (
-  <svg 
-   class="relative w-4 h-4 ml-2 text-button-text-primary" 
-   fill="none" 
-   stroke="currentColor" 
-   viewBox="0 0 24 24" 
-   xmlns="http://www.w3.org/2000/svg"
+<a href={href} class={buttonClasses} role="button" {...rest}>
+  <span
+    class="relative flex items-center justify-center w-full mt-[-1px] whitespace-nowrap"
   >
-   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-  </svg>
- )}
+    <slot />
+  </span>
+
+  {
+    showArrow && (
+      <svg
+        class="relative w-4 h-4 ml-2 text-button-text-primary"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2.5"
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        />
+      </svg>
+    )
+  }
 </a>

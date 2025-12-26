@@ -2,19 +2,13 @@
 // Importez vos Layout et composants
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
-//import Divider from "../components/Divider.astro";
-import Button from "../components/Button.astro"; // Pour le bouton Contact
+import Button from "../components/Button.astro";
 
 // Vos données pour la page
-const profileImageUrl = "/images/profile-pic.webp"; // ASSUREZ-VOUS QUE CE CHEMIN EST CORRECT
+const profileImageUrl = "/images/profile-pic.webp";
 
-// ✅ Données du CV : EXPÉRIENCES PROFESSIONNELLES (Rédaction anglaise mise à jour)
-const professionalExperience: Array<{
-  title: string;
-  company: string;
-  duration: string;
-  highlights?: string[];
-}> = [
+// ✅ Données du CV : EXPÉRIENCES PROFESSIONNELLES
+const professionalExperience = [
   {
     title: "UX Product Designer",
     company: "900.care - D2C Startup",
@@ -22,6 +16,7 @@ const professionalExperience: Array<{
     highlights: [
       "End-to-End role in an Agile team to maximize conversion, retention, and product discovery.",
     ],
+    trackingSlug: "900-care",
   },
   {
     title: "Web Designer",
@@ -30,6 +25,7 @@ const professionalExperience: Array<{
     highlights: [
       "Consulting services in digital strategy, Search Engine Optimization (SEO), WordPress and WebFlow.",
     ],
+    trackingSlug: "freelance-web",
   },
   {
     title: "Art Director",
@@ -38,6 +34,7 @@ const professionalExperience: Array<{
     highlights: [
       "Supported clients, including Maison Le Roux, on visual identity conception and brand strategy.",
     ],
+    trackingSlug: "freelance-da",
   },
   {
     title: "Art Director",
@@ -46,16 +43,12 @@ const professionalExperience: Array<{
     highlights: [
       "Led brand strategy across digital and retail channels, ensuring consistency across all customer touchpoints.",
     ],
+    trackingSlug: "maison-le-roux",
   },
 ];
 
-// ✅ Données du CV : TOOLKIT (Structure 3.b: Réorganisation des compétences en 3 groupes professionnels)
-const toolkit: {
-  coreDesign: { title: string; description: string }[];
-  methodology: { title: string; description: string }[];
-  modernImperatives: { title: string; description: string }[];
-  personalInterests: { title: string; description: string }[];
-} = {
+// ✅ Données du CV : TOOLKIT
+const toolkit = {
   coreDesign: [
     {
       title: "End-to-end design",
@@ -119,27 +112,16 @@ const toolkit: {
         "Interest in accessibility, food-tech, health-focused problematics.",
     },
   ],
-  personalInterests: [
-    {
-      title: "Sports & Outdoors",
-      description:
-        "Hiking, climbing, biketouring and really anything nature-oriented !!",
-    },
-  ],
 };
 
-// Définition de la structure de rendu pour les 3 colonnes principales
 const skillSections = [
   { title: "Core Design & Tools", skills: toolkit.coreDesign },
   { title: "Methodology & Business", skills: toolkit.methodology },
   { title: "Tech Imperatives", skills: toolkit.modernImperatives },
 ];
 
-// ✅ NOUVELLE SECTION : Significant Work
-const significantWork: Array<{
-  title: string;
-  description: string;
-}> = [
+// ✅ Significant Work
+const significantWork = [
   {
     title: "FoodTech - Batchcooking plateform",
     description:
@@ -157,12 +139,8 @@ const significantWork: Array<{
   },
 ];
 
-// ✅ Données du CV : FORMATION (Rédaction anglaise mise à jour)
-const educationExperience: Array<{
-  year: string;
-  title: string;
-  school: string;
-}> = [
+// ✅ Formation
+const educationExperience = [
   {
     year: "2024-2025",
     title: "Master in Project Management and UX Design",
@@ -199,27 +177,16 @@ const educationExperience: Array<{
             needs and keep people coming back. I’m learning how to build durable
             ideas.
           </p>
-          {
-            /*  <p
-            class="text-base font-semibold text-text-body-secondary leading-relaxed"
+
+          <Button
+            href="#contact"
+            class="mt-lg"
+            data-sa-event="about_contact_click"
+            data-umami-event="about-contact-button"
           >
-            I design useful, sustainable products while tracking business and
-            user insights.
-          </p>*/
-          }
-          <Button href="#contact" class="mt-lg">Let's connect :D</Button>
+            Let's connect :D
+          </Button>
         </div>
-        {
-          /* <div
-     class="flex-shrink-0 w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden self-center md:self-auto"
-    >
-     <img
-      src={profileImageUrl}
-      alt="Yassine El Idrissi - Profile Picture"
-      class="w-full h-full object-cover"
-     />
-    </div>*/
-        }
       </section>
 
       {/* ⭐ SECTION 2: EXPÉRIENCES PROFESSIONNELLES */}
@@ -236,7 +203,6 @@ const educationExperience: Array<{
               <p class="text-sm font-normal text-text-body-primary mb-md">
                 {exp.company}
               </p>
-              {/* Affichage des highlights en un seul paragraphe (Description) */}
               {exp.highlights && exp.highlights.length > 0 && (
                 <p class="text-sm font-normal text-text-body-secondary leading-relaxed">
                   {exp.highlights.join(". ") + "."}
@@ -250,115 +216,44 @@ const educationExperience: Array<{
         }
       </section>
 
-      {/* ⭐ SECTION 3: TOOLKIT (Compétences - Structure 3.b) */}
+      {/* ⭐ SECTION 3: TOOLKIT */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">
           My toolkit for impact
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-xl">
-          {/* Colonne 1: Core Design & Tools */}
-          <div class="space-y-md">
-            <h3
-              class="text-lg font-bold text-text-body-primary flex items-center gap-2"
-            >
-              {skillSections[0].title}
-            </h3>
-            <ul class="space-y-2 text-text-body-primary">
-              {
-                skillSections[0].skills.map((skill) => (
-                  <li class="p-3 bg-gray-50 rounded-lg">
-                    <p class="font-semibold text-sm">{skill.title}</p>
-                    {skill.description && (
-                      <p class="mt-1 text-xs text-text-body-secondary">
-                        {skill.description}
-                      </p>
-                    )}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-
-          {/* Colonne 2: Methodology & Business */}
-          <div class="space-y-md">
-            <h3
-              class="text-lg font-bold text-text-body-primary flex items-center gap-2"
-            >
-              {skillSections[1].title}
-            </h3>
-            <ul class="space-y-2 text-text-body-primary">
-              {
-                skillSections[1].skills.map((skill) => (
-                  <li class="p-3 bg-gray-50 rounded-lg">
-                    <p class="font-semibold text-sm">{skill.title}</p>
-                    {skill.description && (
-                      <p class="mt-1 text-xs text-text-body-secondary">
-                        {skill.description}
-                      </p>
-                    )}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-
           {
-            /* Colonne 3: Modern Imperatives & Tech (remplace 'Interests' pour les compétences pro) */
-          }
-          <div class="space-y-md">
-            <h3
-              class="text-lg font-bold text-text-body-primary flex items-center gap-2"
-            >
-              {skillSections[2].title}
-            </h3>
-            <ul class="space-y-2 text-text-body-primary">
-              {
-                skillSections[2].skills.map((skill) => (
-                  <li class="p-3 bg-gray-50 rounded-lg">
-                    <p class="font-semibold text-sm">{skill.title}</p>
-                    {skill.description && (
-                      <p class="mt-1 text-xs text-text-body-secondary">
-                        {skill.description}
-                      </p>
-                    )}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        </div>
-
-        {
-          /* Intérêts Personnels (déplacé sous la grille de compétences pro) 
-        {
-          toolkit.personalInterests.length > 0 && (
-            <div class="space-y-md pt-xl border-t border-stroke-secondary">
-              <h3 class="text-lg font-bold text-text-body-primary">
-                Personal Interests
-              </h3>
-              <div class="flex flex-wrap gap-md">
-                {toolkit.personalInterests.map((interest) => (
-                  <span class="px-3 py-1 bg-gray-50 rounded-full text-sm font-medium text-text-body-primary">
-                    {interest.title}
-                  </span>
-                ))}
+            skillSections.map((section) => (
+              <div class="space-y-md">
+                <h3 class="text-lg font-bold text-text-body-primary flex items-center gap-2">
+                  {section.title}
+                </h3>
+                <ul class="space-y-2 text-text-body-primary">
+                  {section.skills.map((skill) => (
+                    <li class="p-3 bg-gray-50 rounded-lg">
+                      <p class="font-semibold text-sm">{skill.title}</p>
+                      {skill.description && (
+                        <p class="mt-1 text-xs text-text-body-secondary">
+                          {skill.description}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-          )
-        }*/
-        }
+            ))
+          }
+        </div>
       </section>
 
-      {/* ⭐ SECTION 4: SIGNIFICANT WORK (NOUVEAU) */}
+      {/* ⭐ SECTION 4: SIGNIFICANT WORK */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">
           Significant Work
         </h2>
-
         {
           significantWork.map((project) => (
-            // Utilise une structure simplifiée similaire à l'expérience
             <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
               <div class="flex flex-col md:flex-row md:justify-between md:items-start">
                 <h3 class="text-base font-semibold text-text-body-primary">
@@ -373,7 +268,7 @@ const educationExperience: Array<{
         }
       </section>
 
-      {/* ⭐ SECTION 5: FORMATION (Structure mise à jour) */}
+      {/* ⭐ SECTION 5: FORMATION */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">Education</h2>
         {
@@ -384,11 +279,9 @@ const educationExperience: Array<{
                   {edu.title}
                 </h3>
               </div>
-              {/* School (agit comme 'company' dans la structure) */}
               <p class="text-sm font-normal text-text-body-primary mb-md">
                 {edu.school}
               </p>
-              {/* Year/Duration (agit comme 'duration' dans la structure) */}
               <p class="text-xs font-normal text-text-body-tertiary mt-1">
                 {edu.year}
               </p>
