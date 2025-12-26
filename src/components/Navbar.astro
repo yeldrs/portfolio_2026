@@ -9,10 +9,8 @@ const navLinks = [
 
 const currentPath = Astro.url.pathname;
 
-// Logique serveur pour déterminer l'état initial au chargement de la page
 function getInitialActive(name: string, path: string) {
   if (name === "About" && path.includes("/about")) return true;
-  // Sur la home, Work n'est PAS actif par défaut (c'est le logo qui l'est)
   return false;
 }
 ---
@@ -25,6 +23,7 @@ function getInitialActive(name: string, path: string) {
     <a
       href="/"
       id="nav-logo"
+      data-umami-event="nav-logo-click"
       class:list={[
         "text-base transition duration-150 uppercase",
         currentPath === "/" ? "font-extrabold" : "font-normal",
@@ -41,6 +40,8 @@ function getInitialActive(name: string, path: string) {
             <a
               href={link.href}
               id={`nav-link-${link.name.toLowerCase().replace(/\s+/g, "")}`}
+              data-umami-event="nav-link-click"
+              data-umami-event-name={link.name}
               class:list={[
                 "nav-item text-base uppercase transition duration-150",
                 isActive
@@ -60,6 +61,7 @@ function getInitialActive(name: string, path: string) {
       aria-label="Toggle navigation menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
+      data-umami-event="mobile-menu-toggle"
       class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
     >
       <div id="burger-icon" class="w-6 h-6 absolute">
@@ -113,6 +115,8 @@ function getInitialActive(name: string, path: string) {
           return (
             <a
               href={link.href}
+              data-umami-event="mobile-nav-click"
+              data-umami-event-name={link.name}
               class:list={[
                 "text-base uppercase transition duration-150",
                 isActive
@@ -136,7 +140,6 @@ function getInitialActive(name: string, path: string) {
     const projectsSection = document.getElementById("projects");
     const currentPath = window.location.pathname;
 
-    // Only proceed if we're on homepage and all elements exist
     if (
       !projectsSection ||
       (currentPath !== "/" && currentPath !== "/index.html")
@@ -145,7 +148,6 @@ function getInitialActive(name: string, path: string) {
     }
 
     if (!workLink || !logo) {
-      console.warn("Navigation elements not found");
       return;
     }
 
@@ -176,14 +178,12 @@ function getInitialActive(name: string, path: string) {
     observer.observe(projectsSection);
   }
 
-  // Wait for DOM to be ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", setupNavObserver);
   } else {
     setupNavObserver();
   }
 
-  // Re-initialize on Astro view transitions
   document.addEventListener("astro:after-swap", setupNavObserver);
 
   const mobileMenuButton = document.getElementById("mobile-menu-button");
@@ -224,7 +224,6 @@ function getInitialActive(name: string, path: string) {
 </script>
 
 <style>
-  /* Transition fluide pour éviter un flash brutal de graisse de police */
   .nav-item,
   #nav-logo {
     transition: font-weight 0.2s ease;
