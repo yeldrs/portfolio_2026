@@ -9,6 +9,9 @@ const navLinks = [
 ];
 
 const currentPath = Astro.url.pathname;
+// Extraction du nom de la page pour le tracking (ex: "home", "about", "900care")
+const pageName =
+  currentPath === "/" ? "home" : currentPath.split("/").filter(Boolean).pop();
 
 // Logique simplifiée pour l'état actif initial
 function getInitialActive(name: string, path: string) {
@@ -25,7 +28,7 @@ function getInitialActive(name: string, path: string) {
     <a
       href="/"
       id="nav-logo"
-      data-umami-event="nav-logo-click"
+      data-umami-event={`nav-link-logo-from-${pageName}`}
       data-sa-event="nav_logo_click"
       class:list={[
         "text-base transition duration-150 uppercase",
@@ -43,7 +46,8 @@ function getInitialActive(name: string, path: string) {
             <a
               href={link.href}
               id={`nav-link-${link.id}`}
-              data-umami-event="nav-link-click"
+              data-nav-id={link.id}
+              data-umami-event={`nav-link-${link.id}-from-${pageName}`}
               data-umami-event-name={link.name}
               data-sa-event={`nav_${link.id}_click`}
               class:list={[
@@ -65,25 +69,39 @@ function getInitialActive(name: string, path: string) {
       aria-label="Toggle navigation menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
-      data-umami-event="mobile-menu-toggle"
+      data-umami-event={`nav-mobile-burger-from-${pageName}`}
       data-sa-event="nav_mobile_burger_click"
       class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
     >
       <div id="burger-icon" class="w-6 h-6 absolute">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
+          class="w-full h-full"
         >
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="11" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </div>
+      <div id="close-icon" class="hidden w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-full h-full"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </div>
       <div id="close-icon" class="hidden w-6 h-6 absolute">
@@ -120,7 +138,7 @@ function getInitialActive(name: string, path: string) {
           return (
             <a
               href={link.href}
-              data-umami-event="mobile-nav-click"
+              data-umami-event={`nav-mobile-link-${link.id}-from-${pageName}`}
               data-umami-event-name={link.name}
               data-sa-event={`nav_mobile_${link.id}_click`}
               class:list={[
@@ -147,7 +165,6 @@ function getInitialActive(name: string, path: string) {
     const projectsSection = document.getElementById("projects");
     const currentPath = window.location.pathname;
 
-    // On n'active l'effet que sur la Home
     if (
       !projectsSection ||
       (currentPath !== "/" && currentPath !== "/index.html")
@@ -171,7 +188,6 @@ function getInitialActive(name: string, path: string) {
           logo.classList.add("font-normal");
           logo.classList.remove("font-extrabold");
         } else {
-          // Si on est tout en haut de la page, le logo redevient gras
           if (window.scrollY < 100) {
             workLink.classList.remove("font-extrabold");
             workLink.classList.add("font-normal");
@@ -185,7 +201,6 @@ function getInitialActive(name: string, path: string) {
     observer.observe(projectsSection);
   }
 
-  // Initialisation au chargement et après navigation Astro (SPA mode)
   document.addEventListener("DOMContentLoaded", setupNavObserver);
   document.addEventListener("astro:after-swap", setupNavObserver);
 
@@ -207,20 +222,19 @@ function getInitialActive(name: string, path: string) {
         burgerIcon?.classList.remove("hidden");
         closeIcon?.classList.add("hidden");
         mobileMenuButton.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = ""; // Reactiver le scroll
+        document.body.style.overflow = "";
       } else {
         mobileMenu.classList.remove("opacity-0", "invisible");
         mobileMenu.classList.add("opacity-100", "visible");
         burgerIcon?.classList.add("hidden");
         closeIcon?.classList.remove("hidden");
         mobileMenuButton.setAttribute("aria-expanded", "true");
-        document.body.style.overflow = "hidden"; // Bloquer le scroll
+        document.body.style.overflow = "hidden";
       }
     };
 
     mobileMenuButton.addEventListener("click", toggleMenu);
 
-    // Fermer le menu quand on clique sur un lien
     const mobileMenuLinks = mobileMenu.querySelectorAll("a");
     mobileMenuLinks.forEach((link) => {
       link.addEventListener("click", toggleMenu);

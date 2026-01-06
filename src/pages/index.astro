@@ -28,13 +28,13 @@ const allProjects = (
 
 <BaseLayout title="Yassine El Idrissi -  UX Design">
   <main>
-    <Container class="px-lg flex flex-col gap-5xl md:gap-3xl">
+    <Container class="px-lg pb-5xl flex flex-col gap-5xl md:gap-3xl">
       <section
         class="h-[68vh] flex flex-col justify-center items-center space-y-4xl md:p-5xl"
       >
         <Hero
           title="Hello, I'm Yassine 👋"
-          subtitle="I’m a Product Designer who loves translating user insights into genuine experiences that are measurable, valuable, and more importantly ... built for people. "
+          subtitle="I’m a product designer who loves translating user insights into genuine experiences that are measurable, valuable, and more importantly ... built for people. "
           profileImage={PlaceholderImage}
         />
 
@@ -89,8 +89,6 @@ const allProjects = (
                 imageUrl={project.data.cardImage}
                 direction={index % 2 === 0 ? "reverse" : "default"}
               />
-
-              {/* Le Divider est maintenant inutile, l'espace est géré par la classe space-y-4xl. */}
             </>
           ))
         }
