@@ -21,7 +21,7 @@ title: "Building an accessible solution for collaborative cooking"
 client: "Personal social innovation project"
 role: "Product designer"
 roleDescription: "Partnering with a Data Scientist, I drove the discovery phase, from primary user research and physical proof of concept to low-fidelity prototyping. My job was to ensure the user experience came first, and that our project evolves towards building an economical model serving genuine human connection."
-description: "Designing a data-informed marketplace to explore student food insecurity and social isolation by turning underutilized kitchens into collaborative learning spaces."
+description: "Designing a marketplace to explore student food insecurity and social isolation by turning underutilized kitchens into collaborative learning spaces."
 context: "The project was based on our direct observation in major cities like Paris: student food insecurity and the underutilization of existing spaces. Students lack adequate space, ressources, tools, organization, and knowledge to cook healthy, diversified meals. Our vision was to transform unused kitchens into low-cost hubs for social exchange and practical culinary learning."
 problem: "How can a digital service provide students in major cities with the necessary resources to foster healthy, consistent food habits? Thereby transforming a logistic constraint into a social opportunity?"
 keyInsights:
