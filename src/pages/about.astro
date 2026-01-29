@@ -17,6 +17,8 @@ const professionalExperience = [
       "End-to-End role in an Agile team to maximize conversion, retention, and product discovery.",
     ],
     trackingSlug: "900-care",
+    // ➕ AJOUT : Lien vers le CV (modifier le chemin vers votre fichier PDF réel dans /public)
+    cvLink: "/documents/Resume_Yassine.pdf",
   },
   {
     title: "Web Designer",
@@ -26,6 +28,7 @@ const professionalExperience = [
       "Consulting services in digital strategy, Search Engine Optimization (SEO), WordPress and WebFlow.",
     ],
     trackingSlug: "freelance-web",
+    // Pas de lien pour cette expérience (exemple)
   },
   {
     title: "Art Director",
@@ -208,6 +211,19 @@ const educationExperience = [
                   {exp.highlights.join(". ")}
                 </p>
               )}
+
+              {/* ➕ AJOUT : Lien de téléchargement conditionnel */}
+              {exp.cvLink && (
+                <a
+                  href={exp.cvLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-block mt-2 text-sm font-medium text-text-body-primary underline decoration-1 underline-offset-4 hover:text-button-background-primary transition-colors"
+                >
+                  Download my resume to see more
+                </a>
+              )}
+
               <p class="text-xs font-normal text-text-body-tertiary mt-1">
                 {exp.duration}
               </p>
