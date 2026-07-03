@@ -1,0 +1,3779 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.github/agents/assistant.agent.md
+.github/workflows/deploy.yml
+.gitignore
+astro.config.mjs
+package.json
+postcss.config.mjs
+public/.htaccess
+public/android-chrome-192x192.png
+public/android-chrome-512x512.png
+public/apple-touch-icon.png
+public/CNAME
+public/documents/Resume_Yassine.pdf
+public/favicon.ico
+public/favicon.svg
+public/images/coverProject-900care.webp
+public/images/coverProject-batchcooking.webp
+public/images/coverProject-cdc.webp
+public/images/profile-pic.webp
+public/images/profile-pic1.jpg
+public/images/project-1/conception.webp
+public/images/project-1/metricsHomepage.webp
+public/images/project-1/mockupDesktop.webp
+public/images/project-1/research.webp
+public/images/project-2/checkCdc.webp
+public/images/project-2/conceptBrief.webp
+public/images/project-2/crazy8.webp
+public/images/project-2/degitalCdc.webp
+public/images/project-2/distributeCdc.webp
+public/images/project-2/editCdc.webp
+public/images/project-2/fillTilesCdc.webp
+public/images/project-2/kickoffCdc.webp
+public/images/project-2/magazineCdc.webp
+public/images/project-2/mapCdc.webp
+public/images/project-2/packaging.webp
+public/images/project-2/reviewsCdc.webp
+public/images/project-2/storyBoardCdc.webp
+public/images/project-3/brainstorm.webp
+public/images/project-3/coverProject-batchcooking.webp
+public/images/project-3/diagram.webp
+public/images/project-3/mockupBatchcooking.webp
+public/images/project-3/wireframeBatchcooking.webp
+public/manifest.json
+public/sitemap.xml
+README.md
+robots.txt
+src/components/ArrowButton.astro
+src/components/Button.astro
+src/components/ContactFormSection.astro
+src/components/Container.astro
+src/components/CopyIcon.astro
+src/components/Divider.astro
+src/components/Footer.astro
+src/components/Hero.astro
+src/components/Navbar.astro
+src/components/ProjectCard.astro
+src/components/ProjectCarousel.astro
+src/components/Welcome.astro
+src/content/config.ts
+src/content/projects/900care.md
+src/content/projects/batchcooking.md
+src/content/projects/caissedesdepots.md
+src/layouts/BaseLayout.astro
+src/pages/404.astro
+src/pages/about.astro
+src/pages/index.astro
+src/pages/work/[slug].astro
+src/styles/global.css
+src/styles/tokens.js
+tailwind.config.mjs
+tsconfig.json
+validate-frontmatter.cjs
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".github/agents/assistant.agent.md">
+
+</file>
+
+<file path=".gitignore">
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+</file>
+
+<file path="postcss.config.mjs">
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+</file>
+
+<file path="public/CNAME">
+yassineelidrissi.com
+</file>
+
+<file path="public/sitemap.xml">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://yassineelidrissi.com</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://yassineelidrissi.com/about</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://yassineelidrissi.com/work/900care</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://yassineelidrissi.com/work/batchcooking</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://yassineelidrissi.com/work/depotsetconsignations</loc>
+    <lastmod>2025-12-19T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
+</file>
+
+<file path="README.md">
+# Astro Starter Kit: Basics
+
+```sh
+npm create astro@latest -- --template basics
+```
+
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+
+## 🚀 Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src
+│   ├── assets
+│   │   └── astro.svg
+│   ├── components
+│   │   └── Welcome.astro
+│   ├── layouts
+│   │   └── Layout.astro
+│   └── pages
+│       └── index.astro
+└── package.json
+```
+
+To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+</file>
+
+<file path="src/components/ContactFormSection.astro">
+---
+// Fichier : src/components/ContactFormSection.astro
+import Container from './Container.astro';
+
+// Hostinger Mailer / Formspree Configuration
+// REMPLACER 'VOTRE_ID_FORMSPREE' par votre ID réel
+const formAction = "https://formspree.io/f/VOTRE_ID_FORMSPREE"; 
+const successRedirect = "/merci"; // Redirection après succès (si nécessaire)
+---
+
+<section id="contact-form-section" class="py-7xl">
+    <Container class="grid grid-cols-1 md:grid-cols-2 gap-7xl">
+        
+        {/* 1. Bloc du Formulaire de Contact */}
+        <div class="col-span-1">
+            
+            {/* Titres */}
+            <div class="mb-xxl space-y-sm">
+                <h2 class="text-3xl font-extrabold text-text-body-primary">Quick Contact</h2>
+                <p class="text-xl text-text-body-secondary">Laissez-moi un message :)</p>
+            </div>
+            
+            {/* Formulaire */}
+            <form id="contact-form" action={formAction} method="POST" class="space-y-md">
+                
+                {/* Champ Sujet */}
+                <input 
+                    name="subject" 
+                    type="text" 
+                    class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
+                    placeholder="Sujet du message"
+                    required
+                />
+                
+                {/* Nom et Prénom */}
+                <div class="flex flex-col sm:flex-row gap-md">
+                    <input 
+                        name="firstName" 
+                        type="text" 
+                        class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
+                        placeholder="Prénom" 
+                        required
+                    />
+                    <input 
+                        name="lastName" 
+                        type="text" 
+                        class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
+                        placeholder="Nom" 
+                        required
+                    />
+                </div>
+                
+                {/* Champ Email */}
+                <input 
+                    name="email" 
+                    type="email" 
+                    name="_replyto" 
+                    class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
+                    placeholder="Votre email" 
+                    required
+                />
+                
+                {/* Champ Message */}
+                <textarea 
+                    name="message" 
+                    class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200" 
+                    rows="5" 
+                    placeholder="Votre message"
+                    required
+                ></textarea>
+                
+                {/* Champs cachés pour Formspree */}
+                <input type="hidden" name="_next" value={`https://votredomaine.com${successRedirect}`} />
+                <input type="text" name="_gotcha" class="hidden" /> 
+                
+                {/* Bouton de Soumission */}
+                <button 
+                    type="submit" 
+                    class="w-full sm:w-auto mt-sm px-xl py-md bg-text-brand text-background-primary font-bold uppercase rounded-sm hover:bg-opacity-80 transition duration-200"
+                >
+                    Envoyer le message
+                </button>
+            </form>
+        </div>
+
+        {/* 2. Bloc d'informations de contact (Adapté de l'ancien footer) */}
+        <div class="col-span-1 text-text-body-secondary flex flex-col justify-start space-y-md pt-xxl md:pt-3xl">
+            <h3 class="text-xl font-bold text-text-body-primary">Contact Direct</h3>
+            <p>Yassine El Idrissi <br> **contact@yassineelidrissi.com**</p>
+            
+            {/* L'icône SVG décorative peut être réinsérée ici si vous le souhaitez,
+                mais je ne l'ai pas incluse pour l'instant pour garder le design moderne. */}
+                
+            <p class="text-sm text-text-body-tertiary pt-xl">
+                 Designed by Yassine El Idrissi
+            </p>
+        </div>
+
+    </Container>
+</section>
+</file>
+
+<file path="src/components/CopyIcon.astro">
+---
+// Fichier : src/components/CopyIcon.astro
+
+interface Props {
+    // Permet de passer des classes Tailwind supplémentaires si nécessaire
+    class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24" 
+    stroke-width="1.5" 
+    stroke="currentColor" 
+    class={`w-6 h-6 stroke-stroke-neutral-primary ${className || ''}`}
+>
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
+</svg>
+</file>
+
+<file path="src/components/Divider.astro">
+---
+// Fichier : src/components/Divider.astro
+
+// Aucune déclaration de constante nécessaire
+// Utilisez directement la classe de votre Design System
+---
+
+<div class="flex justify-center w-full">
+    <hr class="w-full max-w-lg h-px bg-background-brand border-0 rounded-full" />
+</div>
+</file>
+
+<file path="src/components/Welcome.astro">
+---
+import astroLogo from '../assets/astro.svg';
+import background from '../assets/background.svg';
+---
+
+<div id="container">
+	<img id="background" src={background.src} alt="" fetchpriority="high" />
+	<main>
+		<section id="hero">
+			<a href="https://astro.build"
+				><img src={astroLogo.src} width="115" height="48" alt="Astro Homepage" /></a
+			>
+			<h1>
+				To get started, open the <code><pre>src/pages</pre></code> directory in your project.
+			</h1>
+			<section id="links">
+				<a class="button" href="https://docs.astro.build">Read our docs</a>
+				<a href="https://astro.build/chat"
+					>Join our Discord <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36"
+						><path
+							fill="currentColor"
+							d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"
+						></path></svg
+					>
+				</a>
+			</section>
+		</section>
+	</main>
+
+	<a href="https://astro.build/blog/astro-5/" id="news" class="box">
+		<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg"
+			><path
+				d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z"
+				fill="#111827"></path></svg
+		>
+		<h2>What's New in Astro 5.0?</h2>
+		<p>
+			From content layers to server islands, click to learn more about the new features and
+			improvements in Astro 5.0
+		</p>
+	</a>
+</div>
+
+<style>
+	#background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		filter: blur(100px);
+	}
+
+	#container {
+		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+		height: 100%;
+	}
+
+	main {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	#hero {
+		display: flex;
+		align-items: start;
+		flex-direction: column;
+		justify-content: center;
+		padding: 16px;
+	}
+
+	h1 {
+		font-size: 22px;
+		margin-top: 0.25em;
+	}
+
+	#links {
+		display: flex;
+		gap: 16px;
+	}
+
+	#links a {
+		display: flex;
+		align-items: center;
+		padding: 10px 12px;
+		color: #111827;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	#links a:hover {
+		color: rgb(78, 80, 86);
+	}
+
+	#links a svg {
+		height: 1em;
+		margin-left: 8px;
+	}
+
+	#links a.button {
+		color: white;
+		background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
+		box-shadow:
+			inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+			inset 0 -2px 0 rgba(0, 0, 0, 0.24);
+		border-radius: 10px;
+	}
+
+	#links a.button:hover {
+		color: rgb(230, 230, 230);
+		box-shadow: none;
+	}
+
+	pre {
+		font-family:
+			ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
+			monospace;
+		font-weight: normal;
+		background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		margin: 0;
+	}
+
+	h2 {
+		margin: 0 0 1em;
+		font-weight: normal;
+		color: #111827;
+		font-size: 20px;
+	}
+
+	p {
+		color: #4b5563;
+		font-size: 16px;
+		line-height: 24px;
+		letter-spacing: -0.006em;
+		margin: 0;
+	}
+
+	code {
+		display: inline-block;
+		background:
+			linear-gradient(66.77deg, #f3cddd 0%, #f5cee7 100%) padding-box,
+			linear-gradient(155deg, #d83333 0%, #f041ff 18%, #f5cee7 45%) border-box;
+		border-radius: 8px;
+		border: 1px solid transparent;
+		padding: 6px 8px;
+	}
+
+	.box {
+		padding: 16px;
+		background: rgba(255, 255, 255, 1);
+		border-radius: 16px;
+		border: 1px solid white;
+	}
+
+	#news {
+		position: absolute;
+		bottom: 16px;
+		right: 16px;
+		max-width: 300px;
+		text-decoration: none;
+		transition: background 0.2s;
+		backdrop-filter: blur(50px);
+	}
+
+	#news:hover {
+		background: rgba(255, 255, 255, 0.55);
+	}
+
+	@media screen and (max-height: 368px) {
+		#news {
+			display: none;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		#container {
+			display: flex;
+			flex-direction: column;
+		}
+
+		#hero {
+			display: block;
+			padding-top: 10%;
+		}
+
+		#links {
+			flex-wrap: wrap;
+		}
+
+		#links a.button {
+			padding: 14px 18px;
+		}
+
+		#news {
+			right: 16px;
+			left: 16px;
+			bottom: 2.5rem;
+			max-width: 100%;
+		}
+
+		h1 {
+			line-height: 1.5;
+		}
+	}
+</style>
+</file>
+
+<file path="src/pages/404.astro">
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+const title = "404 — Page not found";
+---
+
+<BaseLayout title={title}>
+  <main>
+    <Container
+      class="py-5xl md:py-3xl px-lg flex flex-col items-center text-center gap-5xl"
+    >
+      <!-- Simple illustrative SVG -->
+      <svg
+        width="160"
+        height="120"
+        viewBox="0 0 160 120"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        class="mb-3xl"
+      >
+        <rect x="0" y="0" width="160" height="120" rx="8" fill="#F3F4F6"></rect>
+        <text
+          x="50%"
+          y="44%"
+          dominant-baseline="middle"
+          text-anchor="middle"
+          font-size="28"
+          fill="#111827"
+          font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+        >
+          404
+        </text>
+        <text
+          x="50%"
+          y="66%"
+          dominant-baseline="middle"
+          text-anchor="middle"
+          font-size="10"
+          fill="#6B7280"
+          font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+        >
+          Page not found
+        </text>
+      </svg>
+
+      <h1 class="text-3xl md:text-4xl font-semibold">Page not found</h1>
+      <p class="text-text-body-accent max-w-xl">
+        Sorry — the page you’re looking for doesn’t exist or has been moved. Try
+        returning to the homepage or browsing my case studies.
+      </p>
+
+      <div class="flex gap-lg mt-xl">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center rounded px-4 py-2 bg-primary text-white hover:opacity-90"
+          >Go home</a
+        >
+        <a
+          href="/#projects"
+          class="inline-flex items-center justify-center rounded px-4 py-2 border border-neutral text-text-body-accent hover:bg-neutral/5"
+          >See projects</a
+        >
+      </div>
+    </Container>
+  </main>
+</BaseLayout>
+</file>
+
+<file path="tsconfig.json">
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}
+</file>
+
+<file path="validate-frontmatter.cjs">
+// validate-frontmatter.js
+const fs = require('fs');
+const path = require('path');
+const matter = require('gray-matter');
+
+const allowedKeys = [
+  'title',
+  'client',
+  'description',
+  'role',
+  'roleDescription',
+  'context',
+  'problem',
+  'keyInsights',
+  'methodology',
+  'designConception',
+  'delivery',
+  'metrics',
+  'publishDate',
+  'isDraft',
+];
+
+const contentDir = path.join(__dirname, 'src', 'content', 'projects');
+
+fs.readdirSync(contentDir).forEach((file) => {
+  if (file.endsWith('.md')) {
+    const filePath = path.join(contentDir, file);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(content);
+
+    const invalidKeys = Object.keys(data).filter((key) => !allowedKeys.includes(key.trim().replace(/\u00A0/g, '')));
+
+    if (invalidKeys.length > 0) {
+      console.log(`❌ ${file} has invalid keys:`, invalidKeys);
+    } else {
+      console.log(`✅ ${file} is valid.`);
+    }
+  }
+});
+</file>
+
+<file path=".github/workflows/deploy.yml">
+# .github/workflows/deploy.yml
+name: Astro Deployment on GitHub Pages
+
+on:
+  push:
+    branches: [ deploy/test ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository
+        uses: actions/checkout@v5
+        
+      - name: Install, build, and upload your site
+        uses: withastro/action@v5 
+        with:
+          node-version: 20 
+          build-cmd: npm run build 
+          
+      # L'action 'withastro/action' télécharge l'artefact 'github-pages'
+      
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages 
+          # 🚨 CORRECTION : SUPPRESSION DE LA LIGNE 'path'
+</file>
+
+<file path="public/.htaccess">
+CeciEstUnTestDeCasse
+# public/.htaccess
+
+RewriteEngine On
+RewriteBase /
+
+# --- GESTION DU TRAILING SLASH (RETRAIT DU / FINAL) ---
+# Si ce n'est pas un dossier réel
+RewriteCond %{REQUEST_FILENAME} !-d
+# Et que l'URL se termine par un slash
+RewriteCond %{REQUEST_URI} ^/(.+)/$
+# On redirige vers la version sans slash
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# --- GESTION DE LA PAGE 404 ---
+ErrorDocument 404 /404.html
+
+# Rediriger le dossier parent vide vers la section dédiée de l'accueil
+Redirect 301 /work /#projects
+Redirect 301 /work/ /#projects
+
+# --- VOS REDIRECTIONS EXISTANTES ---
+Redirect 301 /projects /#projects
+Redirect 301 /aboutme /about
+Redirect 301 /logos /
+Redirect 301 /photography /
+
+# --- FORCER LE HTTPS ---
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# --- URLs PROPRES (MASQUER .HTML) ---
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+</file>
+
+<file path="public/manifest.json">
+{
+  "name": "Yassine El Idrissi - Product Designer",
+  "short_name": "YEI Portfolio",
+  "description": "Product Designer Portfolio - UX/UI Case Studies",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#367984",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}
+</file>
+
+<file path="robots.txt">
+User-agent: *
+Allow: /
+Disallow: /dist/
+Disallow: /node_modules/
+Sitemap: https://yassineelidrissi.com/sitemap.xml
+</file>
+
+<file path="src/components/ArrowButton.astro">
+---
+export interface Props {
+direction: 'left' | 'right';
+variant?: 'main' | 'tertiary' | 'disabled';
+onClick?: string; 
+id?: string; // <- made optional
+label: string;
+isMobile?: boolean; 
+isHidden?: boolean; 
+class?: string; 
+disabled?: boolean;
+
+// Ces props ne seront PAS utilisées pour l'affichage visuel temporairement
+mainDefault: string; 
+mainHover: string; 
+tertiaryDefault: string; 
+tertiaryHover: string; 
+disabledColor: string; 
+}
+
+const { 
+direction, 
+variant = 'main', 
+onClick, 
+id, 
+label, 
+isMobile = false, 
+isHidden = false,
+class: className = '', // default to empty string
+disabled = false,
+// Les props de couleur sont extraites mais ignorées pour le style
+mainDefault,
+mainHover,
+tertiaryDefault,
+tertiaryHover,
+disabledColor,
+} = Astro.props;
+
+// 1. Détermination de l'état et des classes d'invisibilité
+let opacityClass = '';
+let pointerEvents = '';
+
+const isDisabled = disabled || variant === 'disabled'; 
+
+if (isDisabled) {
+    // Rend la flèche invisible et non cliquable
+    opacityClass = 'opacity-0'; 
+    pointerEvents = 'pointer-events-none';
+} else {
+    // Reste visible et cliquable
+    opacityClass = 'opacity-100'; 
+    pointerEvents = '';
+}
+
+// 2. Définition du SVG (Retour à la version simple avec stroke="currentColor" pour le noir)
+const ArrowSVGContent = `
+<svg width="24" height="43" viewBox="0 0 24 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.5 1.5L21.5 21.5L1.5 41.5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg>
+`;
+
+// 3. Détermination de la rotation (SVG par défaut pointe à droite)
+const rotationClass = direction === 'left' ? 'transform rotate-180' : '';
+
+// 4. Classes d'affichage
+// Corrigé temporairement pour assurer la visibilité sur l'écran de débogage :
+const displayClasses = isMobile ? 'block sm:hidden' : 'block sm:block'; 
+const hiddenClass = isHidden ? 'hidden' : '';
+
+const baseClasses = `p-2 transition-opacity ${displayClasses} ${hiddenClass}`;
+---
+
+<button 
+id={id ?? undefined} 
+aria-label={label} 
+class={`${baseClasses} ${className || ''}`} 
+onclick={onClick} 
+disabled={isDisabled} 
+data-variant={variant}
+>
+<span 
+    class={`h-full w-full block ${rotationClass} ${opacityClass} ${pointerEvents}`} 
+    aria-hidden="true" 
+    set:html={ArrowSVGContent}
+>
+</span>
+</button>
+</file>
+
+<file path="src/components/Container.astro">
+---
+// Fichier : src/components/Container.astro
+export interface Props {
+  /** Permet d'ajouter des classes additionnelles si nécessaire. */
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class={`max-w-7xl mx-auto px-md md:px-xl ${className}`}>
+  <slot />
+</div>
+</file>
+
+<file path="src/pages/work/[slug].astro">
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import ProjectCarousel from "../../components/ProjectCarousel.astro";
+import ArrowButton from "../../components/ArrowButton.astro";
+
+// Générer les chemins statiques à partir des fichiers MDX
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    // Utiliser semanticSlug pour le paramètre d'URL 'slug'
+    params: { slug: project.data.semanticSlug },
+    props: { project },
+  }));
+}
+
+// Récupération de l'entrée de collection et du contenu rendu
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+// --- Logique d'images ---
+const projectImages = project.data.projectImages || [];
+
+// Images principales (Index 0, 2, 4, 6)
+const contextImage = projectImages[0] || project.data.cardImage || "";
+const roleImage = projectImages[2] || "";
+const conceptionImage = projectImages[4] || "";
+const resultsImage = projectImages[6] || "";
+
+// Images optionnelles (Index 1, 3, 5, 7)
+const contextImage2 = projectImages[1] || "";
+const roleImage2 = projectImages[3] || "";
+const conceptionImage2 = projectImages[5] || "";
+const resultsImage2 = projectImages[7] || "";
+
+// Le carrousel commence désormais à l'index 8
+const carouselImages = projectImages.slice(8);
+const allModalImages = projectImages;
+
+// --- Type Narrowing pour les champs optionnels ---
+// Utilisation de la déstructuration avec valeur par défaut pour la robustesse
+const teamMembers = project.data.teamMembers || [];
+const references = project.data.references || [];
+// Utilisation du chaînage optionnel (?) pour accéder à listItems
+const designConceptionList = project.data.designConception?.listItems || [];
+
+// --- Classes du Design System (DS) pour les Props (Couleurs des flèches) ---
+const DS_CLASSES = {
+  mainDefault: "stroke-primary",
+  mainHover: "stroke-primary-hover",
+  tertiaryDefault: "stroke-tertiary",
+  tertiaryHover: "stroke-tertiary-hover",
+  disabledColor: "stroke-disabled",
+};
+
+const tertiaryVariant = "tertiary";
+const disabledVariant = "disabled";
+---
+
+<BaseLayout title={`Project | ${project.data.title}`}>
+  <Container>
+    <main class="py-3xl max-w-content mx-auto space-y-3xl">
+      <h1
+        class="text-4xl font-extrabold text-text-body-primary"
+        set:html={project.data.title}
+      />
+
+      <div class="prose prose-lg dark:prose-invert">
+        <Content />
+      </div>
+
+      <section
+        id={`${project.slug}-diagnosis`}
+        role="region"
+        aria-label="Diagnosis"
+        class="space-y-3xl"
+      >
+        <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">
+          Diagnosis
+        </h2>
+
+        <article
+          id={`${project.slug}-context-problem`}
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Context
+              </h3>
+              <p class="text-base text-text-body leading-relaxed text-left">
+                {project.data.context}
+              </p>
+            </div>
+
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Problem
+              </h3>
+              <p class="text-base text-text-body leading-relaxed text-left">
+                {project.data.problem}
+              </p>
+            </div>
+          </div>
+
+          {/* NOUVEAU CONTENEUR D'IMAGES pour Context/Problem */}
+          <div class="space-y-md">
+            {
+              contextImage && (
+                <div
+                  onclick={`showImageModal('${contextImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={contextImage}
+                    alt="Context and problem visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              contextImage2 && (
+                <div
+                  onclick={`showImageModal('${contextImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={contextImage2}
+                    alt="Context and problem visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+
+        <article
+          id={`${project.slug}-role-insights`}
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Role
+              </h3>
+              <p class="text-base text-text-body leading-relaxed text-left">
+                {project.data.roleDescription}
+              </p>
+            </div>
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Key insights
+              </h3>
+              {
+                Array.isArray(project.data.keyInsights) ? (
+                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+                    {project.data.keyInsights.map((insight) => (
+                      <li set:html={insight} />
+                    ))}
+                  </ul>
+                ) : (
+                  <div
+                    set:html={project.data.keyInsights}
+                    class="text-base text-text-body leading-relaxed text-left"
+                  />
+                )
+              }
+            </div>
+          </div>
+
+          {/* NOUVEAU CONTENEUR D'IMAGES pour Role/Insights */}
+          <div class="space-y-md">
+            {
+              roleImage && (
+                <div
+                  onclick={`showImageModal('${roleImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={roleImage}
+                    alt="Role and insights visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              roleImage2 && (
+                <div
+                  onclick={`showImageModal('${roleImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={roleImage2}
+                    alt="Role and insights visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </section>
+
+      <ProjectCarousel images={carouselImages} hideArrowsOnMobile={true} />
+
+      <section
+        id={`${project.slug}-conception`}
+        role="region"
+        aria-label="Conception"
+        class="space-y-3xl"
+      >
+        <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">
+          Conception
+        </h2>
+
+        <article
+          id="conception-main"
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Methodology
+              </h3>
+              <p class="text-base text-text-body leading-relaxed text-left">
+                {project.data.methodology}
+              </p>
+            </div>
+
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Design conception
+              </h3>
+              {/* AFFICHAGE CONDITIONNEL DU PARAGRAPHE */}
+              {
+                project.data.designConception?.paragraph && (
+                  <div
+                    set:html={project.data.designConception.paragraph}
+                    class="text-base text-text-body leading-relaxed text-left"
+                  />
+                )
+              }
+              {/* AFFICHAGE CONDITIONNEL DE LA LISTE */}
+              {
+                designConceptionList.length > 0 && (
+                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+                    {designConceptionList.map((item) => (
+                      <li set:html={item} />
+                    ))}
+                  </ul>
+                )
+              }
+            </div>
+          </div>
+
+          {/* NOUVEAU CONTENEUR D'IMAGES pour Conception */}
+          <div class="space-y-md">
+            {
+              conceptionImage && (
+                <div
+                  onclick={`showImageModal('${conceptionImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={conceptionImage}
+                    alt="Conception visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              conceptionImage2 && (
+                <div
+                  onclick={`showImageModal('${conceptionImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={conceptionImage2}
+                    alt="Conception visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </section>
+
+      <section
+        id={`${project.slug}-results`}
+        role="region"
+        aria-label="Results"
+        class="space-y-3xl"
+      >
+        <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">
+          Results
+        </h2>
+
+        <article
+          id={`${project.slug}-results-main`}
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Delivery
+              </h3>
+              <p class="text-base text-text-body leading-relaxed text-left">
+                {project.data.delivery}
+              </p>
+            </div>
+
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Metrics
+              </h3>
+              {/* LOGIQUE CONDITIONNELLE pour Metrics */}
+              {
+                Array.isArray(project.data.metrics) ? (
+                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+                    {project.data.metrics.map((metric) => (
+                      <li set:html={metric} />
+                    ))}
+                  </ul>
+                ) : (
+                  <div
+                    set:html={project.data.metrics}
+                    class="text-base text-text-body leading-relaxed text-left"
+                  />
+                )
+              }
+            </div>
+          </div>
+
+          {/* NOUVEAU CONTENEUR D'IMAGES pour Results */}
+          <div class="space-y-md">
+            {
+              resultsImage && (
+                <div
+                  onclick={`showImageModal('${resultsImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={resultsImage}
+                    alt="Results visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              resultsImage2 && (
+                <div
+                  onclick={`showImageModal('${resultsImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={resultsImage2}
+                    alt="Results visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </section>
+
+      {/* ---------------------------------------------------- */}
+      {/* SECTION CRÉDITS (ENTIÈREMENT OPTIONNELLE ET ROBUSTE) */}
+      {/* ---------------------------------------------------- */}
+
+      {
+        (project.data.clientDetails?.name ||
+          teamMembers.length > 0 ||
+          references.length > 0) && (
+          <section
+            id={`${project.slug}-credits`}
+            role="contentinfo"
+            aria-label="Crédits et Références"
+            class="space-y-sm text-text-body-secondary mt-3xl border-t border-border-secondary pt-3xl"
+          >
+            <h2 class="text-base font-semibold text-text-body-primary">
+              Credits & References
+            </h2>
+
+            <div class="text-xs space-y-xxs">
+              <p>
+                <>
+                  <strong>Author and conceptor : </strong>
+                  <a
+                    href="https://www.linkedin.com/in/yassineelidrissi/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="underline hover:text-text-body-primary transition-colors"
+                  >
+                    Yassine El Idrissi
+                  </a>
+                </>
+              </p>
+
+              {/* Ligne 1 : Équipe (teamMembers) */}
+              {teamMembers.length > 0 && (
+                <p>
+                  <strong>In collaboration with :</strong>
+                  {teamMembers.map((member, index) => {
+                    if (!member.name) return null;
+                    return (
+                      <span>
+                        <a
+                          href={member.link || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="underline hover:text-text-body-primary transition-colors"
+                        >
+                          {member.name}
+                        </a>
+                        {member.role && <span>, {member.role}</span>}
+                        {index < teamMembers.length - 2
+                          ? ", "
+                          : index === teamMembers.length - 2
+                            ? " et "
+                            : ""}
+                      </span>
+                    );
+                  })}
+                </p>
+              )}
+
+              {/* Ligne 2 : Client (Affiche si clientDetails existe ET si le nom du client existe) */}
+              {project.data.clientDetails?.name && (
+                <p>
+                  <strong>Client :</strong>{" "}
+                  <a
+                    href={project.data.clientDetails.link || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="underline hover:text-text-body-primary transition-colors"
+                  >
+                    {project.data.clientDetails.name}
+                  </a>
+                  .
+                </p>
+              )}
+
+              {/* Ligne 3 : Références/Mentors */}
+              {references.length > 0 && (
+                <p>
+                  <strong>References :</strong>
+                  {references.map((ref, index) => {
+                    if (!ref.name) return null;
+                    return (
+                      <span>
+                        <a
+                          href={ref.link || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="underline hover:text-text-body-primary transition-colors"
+                        >
+                          {ref.name}
+                        </a>
+                        {ref.role && <span>, {ref.role}</span>}
+                        {index < references.length - 1 ? " | " : ""}
+                      </span>
+                    );
+                  })}
+                </p>
+              )}
+            </div>
+          </section>
+        )
+      }
+    </main>
+  </Container>
+
+  <div
+    id="imageModal"
+    class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out"
+    aria-modal="true"
+    role="dialog"
+    onclick="window.hideImageModal()"
+  >
+    {/* Bouton de fermeture */}
+    <button
+      id="closeModalBtn"
+      class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
+      aria-label="Fermer la modale"
+      onclick="event.stopPropagation(); window.hideImageModal();"
+    >
+      &times;
+    </button>
+
+    <div
+      class="relative flex items-center justify-center w-full h-full"
+      onclick="event.stopPropagation()"
+    >
+      {
+        /* ⬅️ Flèche Précédente Modale (Ajout de classes de style pour la désactivation) */
+      }
+      <ArrowButton
+        id="modalPrevBtn"
+        label="Image précédente"
+        direction="left"
+        variant={disabledVariant as any}
+        onClick="window.navigateModal(-1)"
+        class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
+        {...DS_CLASSES}
+      />
+
+      {/* L'image elle-même */}
+      <img
+        id="modalImage"
+        data-current-modal-index="0"
+        alt="Agrandissement de l'image du projet"
+        class="max-w-full max-h-full object-contain"
+      />
+
+      {
+        /* ➡️ Flèche Suivante Modale (Ajout de classes de style pour la désactivation) */
+      }
+      <ArrowButton
+        id="modalNextBtn"
+        label="Image suivante"
+        direction="right"
+        variant={tertiaryVariant as any}
+        onClick="window.navigateModal(1)"
+        class="absolute right-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
+        {...DS_CLASSES}
+      />
+    </div>
+  </div>
+
+  <script define:vars={{ images: allModalImages }} is:inline>
+    // --- Correction pour la Robustesse JS ---
+
+    // 1. Définition des variables de portée globale (ou pseudo-globale)
+    const projectImages = images; // Utiliser la variable passée par Astro
+    const TOTAL_MODAL_IMAGES = projectImages.length;
+
+    // Déclarer ces variables sur window pour Astro SPA view transitions / navigation
+    window.isModalOpen = false;
+    window.isInitialized = false;
+
+    // 2. Définition des fonctions sur l'objet Window pour une accessibilité immédiate
+
+    window.navigateModal = function (direction) {
+      const modalImg = document.getElementById("modalImage");
+      if (!modalImg || TOTAL_MODAL_IMAGES <= 1 || !window.isModalOpen) return;
+
+      let currentIndex = parseInt(modalImg.dataset.currentModalIndex) || 0;
+      let newIndex = currentIndex + direction;
+
+      // Logique d'ARRÊT aux extrémités
+      if (newIndex >= TOTAL_MODAL_IMAGES || newIndex < 0) {
+        return;
+      }
+
+      modalImg.src = projectImages[newIndex];
+      modalImg.dataset.currentModalIndex = newIndex.toString();
+
+      updateModalArrows(newIndex, TOTAL_MODAL_IMAGES);
+    };
+
+    window.showImageModal = function (imageUrl) {
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+
+      if (!modal || !modalImg || !imageUrl) return; // Arrêt si les éléments ne sont pas là
+
+      // 🚨 Nouvelle logique : Si la modale est déjà ouverte, la cacher et réessayer pour éviter les problèmes d'état
+      if (window.isModalOpen) {
+        window.hideImageModal();
+      }
+
+      const initialIndex = projectImages.indexOf(imageUrl);
+      let initialModalIndex = initialIndex === -1 ? 0 : initialIndex;
+
+      modalImg.src = imageUrl;
+      modalImg.dataset.currentModalIndex = initialModalIndex.toString();
+
+      // Afficher la modale (important de le faire avant de modifier l'état)
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      window.isModalOpen = true;
+
+      // Gérer l'affichage des flèches
+      if (initialIndex !== -1 && TOTAL_MODAL_IMAGES > 1) {
+        updateModalArrows(initialModalIndex, TOTAL_MODAL_IMAGES);
+      } else {
+        // Cacher toutes les flèches (image seule ou non navigable)
+        updateModalArrows(-1, 0);
+      }
+
+      modal.focus();
+    };
+
+    window.hideImageModal = function () {
+      const modal = document.getElementById("imageModal");
+      if (modal && window.isModalOpen) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        window.isModalOpen = false;
+      }
+    };
+
+    // --- Fonction d'aide interne (Utilise les classes de désactivation CSS) ---
+
+    function updateModalArrows(index, total) {
+      const prevBtn = document.getElementById("modalPrevBtn");
+      const nextBtn = document.getElementById("modalNextBtn");
+
+      if (!prevBtn || !nextBtn) return;
+
+      const hideAll = total <= 1 || index === -1;
+
+      if (hideAll) {
+        prevBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+      } else {
+        prevBtn.classList.remove("hidden");
+        nextBtn.classList.remove("hidden");
+      }
+
+      // Gestion de l'état 'disabled'
+      const isPrevDisabled = index <= 0;
+      prevBtn.disabled = isPrevDisabled;
+
+      const isNextDisabled = index >= total - 1;
+      nextBtn.disabled = isNextDisabled;
+    }
+
+    function attachKeyboardHandler() {
+      if (window.isInitialized) return;
+
+      document.addEventListener("keydown", (event) => {
+        if (window.isModalOpen) {
+          if (event.key === "Escape") {
+            window.hideImageModal();
+          } else if (event.key === "ArrowLeft") {
+            window.navigateModal(-1);
+          } else if (event.key === "ArrowRight") {
+            window.navigateModal(1);
+          }
+        }
+      });
+      window.isInitialized = true;
+    }
+
+    // --- Initialisation ---
+    // On utilise DOMContentLoaded pour s'assurer que les éléments sont dans le DOM avant d'attacher le handler
+    document.addEventListener("DOMContentLoaded", () => {
+      attachKeyboardHandler();
+    });
+    // On attache aussi au swap pour Astro View Transitions
+    document.addEventListener("astro:after-swap", attachKeyboardHandler);
+  </script>
+
+  <style>
+    .prose {
+      max-width: none;
+    }
+  </style>
+</BaseLayout>
+</file>
+
+<file path="package.json">
+{
+  "name": "astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.8",
+    "astro": "^5.14.3"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18"
+  }
+}
+</file>
+
+<file path="src/components/Button.astro">
+---
+// Fichier : src/components/Button.astro
+
+// 1. Définition des Props
+export interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "outline";
+  size?: "default" | "small" | "large";
+  class?: string;
+  showArrow?: boolean;
+  // On accepte n'importe quel autre attribut (comme data-umami ou data-sa)
+  [x: string]: any;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "default",
+  class: className,
+  showArrow = true,
+  ...rest // ✅ RÉCUPÈRE TOUS LES AUTRES ATTRIBUTS (Tracking, etc.)
+} = Astro.props;
+
+// 2. Définition des tokens Tailwind
+const baseStyles =
+  "flex w-full md:w-fit items-center justify-center transition-colors duration-200 cursor-pointer rounded-full";
+const sizeStyles = "py-sm-d px-lg";
+const fontStyles = "text-md font-medium";
+
+// 3. Définition des couleurs Sémantiques et des états par variante
+let variantColors = "";
+
+switch (variant) {
+  case "secondary":
+    variantColors = `
+            bg-button-background-secondary 
+            text-button-text-primary 
+            shadow-md
+            hover:bg-button-hover-secondary 
+            focus:ring-2 focus:ring-button-background-secondary focus:ring-offset-2
+            active:bg-button-active-secondary
+        `;
+    break;
+
+  case "primary":
+  default:
+    variantColors = `
+            bg-button-background-primary 
+            text-button-text-primary 
+            shadow-md
+            hover:bg-button-hover-primary 
+            focus:ring-2 focus:ring-button-background-primary focus:ring-offset-2
+            active:bg-button-active-primary
+        `;
+    break;
+
+  case "outline":
+    variantColors = `
+            /* Styles pour l'état outline/contour */
+        `;
+    break;
+}
+
+let buttonClasses = `${baseStyles} ${sizeStyles} ${fontStyles} ${variantColors} ${className} text-center`;
+---
+
+<a href={href} class={buttonClasses} role="button" {...rest}>
+  <span
+    class="relative flex items-center justify-center w-full mt-[-1px] whitespace-nowrap"
+  >
+    <slot />
+  </span>
+
+  {
+    showArrow && (
+      <svg
+        class="relative w-4 h-4 ml-2 text-button-text-primary"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2.5"
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        />
+      </svg>
+    )
+  }
+</a>
+</file>
+
+<file path="src/components/ProjectCarousel.astro">
+---
+// src/components/ProjectCarousel.astro
+import ArrowButton from "./ArrowButton.astro";
+
+export interface Props {
+  images: string[];
+  // 🚨 1. Ajout de la nouvelle prop
+  hideArrowsOnMobile?: boolean;
+}
+
+// 🚨 2. Destructuration de la nouvelle prop (par défaut à true pour appliquer le masquage)
+const { images, hideArrowsOnMobile = true } = Astro.props;
+
+if (!images || images.length === 0) return null;
+
+const dots = images.map((_, index) => ({
+  index: index,
+}));
+
+// Classes du Design System (DS) pour les Props
+const DS_CLASSES = {
+  mainDefault: "stroke-primary",
+  mainHover: "stroke-primary-hover",
+  tertiaryDefault: "stroke-tertiary",
+  tertiaryHover: "stroke-tertiary-hover",
+  disabledColor: "stroke-disabled",
+} as const;
+
+const prevInitialVariant = "disabled";
+const activeVariant = "main";
+
+// 💡 CORRECTION TS(2306) : Ajout d'une simple exportation pour signaler le fichier comme un module
+// Il est courant d'exporter une constante pour satisfaire le service de langage TS.
+export const isAstroComponent = true;
+---
+
+<section
+  id="project-carousel"
+  aria-label="Project Image Carousel"
+  class="space-y-md my-3xl"
+>
+  <div class="flex items-center justify-between">
+    {/* ⬅️ Flèche Précédente (Desktop) */}
+    <ArrowButton
+      id="prevBtn"
+      label="Image précédente"
+      direction="left"
+      variant={prevInitialVariant as any}
+      onClick="window.handleCarouselNavigation(-1)"
+      isMobile={false}
+      {...DS_CLASSES}
+      class={hideArrowsOnMobile ? "hidden md:block" : ""}
+    />
+
+    {/* 🖼️ Conteneur principal de l'image */}
+    <div
+      class:list={[
+        "relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video",
+        // Base: mx-0 (Full width sur mobile)
+        "mx-0",
+        // Desktop (md): Applique une marge pour séparer des flèches latérales
+        { "md:mx-md": hideArrowsOnMobile },
+      ]}
+    >
+      <img
+        id="carouselImage"
+        src={images[0]}
+        alt="Image détaillée du projet"
+        class="w-full h-full object-contain object-center block rounded-2xl cursor-pointer"
+        loading="lazy"
+        onclick={`showImageModal('${images[0]}')`}
+        data-current-index="0"
+      />
+    </div>
+
+    {/* ➡️ Flèche Suivante (Desktop) */}
+    <ArrowButton
+      id="nextBtn"
+      label="Image suivante"
+      direction="right"
+      variant={activeVariant as any}
+      onClick="window.handleCarouselNavigation(1)"
+      isMobile={false}
+      {...DS_CLASSES}
+      class={hideArrowsOnMobile ? "hidden md:block" : ""}
+    />
+  </div>
+
+  {
+    /* 🔴 Indicateurs de points (Dots) et Flèches Mobile (DOIVENT RESTER VISIBLES) */
+  }
+  <div class="flex items-center justify-center pt-4">
+    {/* ⬅️ Flèche Mobile Précédente */}
+    <ArrowButton
+      id="prevBtnMobile"
+      label="Image précédente"
+      direction="left"
+      variant={prevInitialVariant as any}
+      onClick="window.handleCarouselNavigation(-1)"
+      isMobile={true}
+      {...DS_CLASSES}
+    />
+
+    {/* Conteneur des Points */}
+    <div id="carouselDots" class="flex justify-center space-x-2 mx-4">
+      {
+        dots.map((dot) => (
+          <button
+            data-index={dot.index}
+            aria-label={`Go to slide ${dot.index + 1}`}
+            class={`w-3 h-3 rounded-full transition-colors ${dot.index === 0 ? "bg-background-accent-primary" : "bg-background-disabled"}`}
+            onclick={`window.updateImageFromDot(${dot.index})`}
+          />
+        ))
+      }
+    </div>
+
+    {/* ➡️ Flèche Mobile Suivante */}
+    <ArrowButton
+      id="nextBtnMobile"
+      label="Image suivante"
+      direction="right"
+      variant={activeVariant as any}
+      onClick="window.handleCarouselNavigation(1)"
+      isMobile={true}
+      {...DS_CLASSES}
+    />
+  </div>
+</section>
+
+<script define:vars={{ images }} is:inline>
+  let isInitialized = false;
+  const TOTAL_IMAGES = images.length;
+
+  // Classes de référence pour la JS
+  const VARIANT_ACTIVE = "main";
+  const VARIANT_DISABLED = "disabled";
+
+  // EXPOSEZ LA FONCTION GLOBALEMENT
+  window.updateImageFromDot = function (index) {
+    updateImage(index);
+  };
+
+  // EXPOSEZ LA FONCTION GLOBALEMENT SOUS UN NOM UNIQUE
+  window.handleCarouselNavigation = function (direction) {
+    const carouselImg = document.getElementById("carouselImage");
+    if (!carouselImg || TOTAL_IMAGES === 0) return;
+
+    let currentIndex = carouselImg.dataset.currentIndex
+      ? parseInt(carouselImg.dataset.currentIndex)
+      : 0;
+    let newIndex = currentIndex + direction;
+
+    if (direction === 1) {
+      if (newIndex >= TOTAL_IMAGES) {
+        newIndex = 0; // Loop vers la première image
+      }
+    } else if (direction === -1) {
+      if (newIndex < 0) {
+        return; // Arrête la navigation
+      }
+    }
+
+    updateImage(newIndex);
+  };
+
+  // FONCTION DE MISE À JOUR (Portée Locale)
+  function updateImage(index) {
+    const carouselImg = document.getElementById("carouselImage");
+    const dotsContainer = document.getElementById("carouselDots");
+    if (!carouselImg || TOTAL_IMAGES === 0 || !dotsContainer) return;
+
+    // 1. Mise à jour de l'image et de l'état
+    const imageUrl = images[index];
+    carouselImg.src = imageUrl;
+    carouselImg.setAttribute("onclick", `showImageModal('${imageUrl}')`);
+    carouselImg.dataset.currentIndex = index.toString();
+
+    // 2. Mise à jour des points
+    dotsContainer.querySelectorAll("button").forEach((dot, dotIndex) => {
+      const isActive = dotIndex === index;
+      dot.classList.toggle("bg-background-accent-primary", isActive);
+      dot.classList.toggle("bg-background-disabled", !isActive);
+    });
+
+    // 3. Mise à jour des États des Flèches (Précédent)
+    const prevArrows = [
+      document.getElementById("prevBtn"),
+      document.getElementById("prevBtnMobile"),
+    ];
+    const isPrevDisabled = index === 0;
+
+    prevArrows.forEach((btn) => {
+      if (!btn) return;
+
+      // Mettre à jour la prop 'disabled' de l'ArrowButton
+      btn.disabled = isPrevDisabled;
+
+      // 🚨 CORRECTION : Gérer la visibilité/interactivité via les classes du SPAN interne
+      const span = btn.querySelector("span");
+      if (span) {
+        span.classList.toggle("opacity-0", isPrevDisabled);
+        span.classList.toggle("pointer-events-none", isPrevDisabled);
+        span.classList.toggle("opacity-100", !isPrevDisabled);
+
+        // Si vous utilisez la méthode de couleur par classe de stroke injectée :
+        // span.classList.toggle('stroke-disabled', isPrevDisabled);
+        // span.classList.toggle('stroke-primary', !isPrevDisabled);
+      }
+    });
+
+    // 4. Mise à jour des États des Flèches (Suivant) - Gère la boucle
+    const nextArrows = [
+      document.getElementById("nextBtn"),
+      document.getElementById("nextBtnMobile"),
+    ];
+    const isNextDisabled = index === TOTAL_IMAGES - 1;
+
+    nextArrows.forEach((btn) => {
+      if (!btn) return;
+
+      // Si la navigation est en boucle (loop), on ne désactive jamais le bouton suivant.
+      // Si vous ne voulez PAS de boucle, décommentez la logique ci-dessous :
+      /*
+btn.disabled = isNextDisabled;
+
+const span = btn.querySelector('span');
+if (span) {
+span.classList.toggle('opacity-0', isNextDisabled);
+span.classList.toggle('pointer-events-none', isNextDisabled);
+span.classList.toggle('opacity-100', !isNextDisabled);
+}
+*/
+    });
+  }
+
+  // GESTION DU SWIPE (Portée Locale)
+  function attachSwipeHandler() {
+    const carouselImg = document.getElementById("carouselImage");
+    if (!carouselImg) return;
+
+    let touchstartX = 0;
+    let touchendX = 0;
+    const minSwipeDistance = 50;
+
+    carouselImg.addEventListener("touchstart", (e) => {
+      touchstartX = e.changedTouches[0].screenX;
+    });
+
+    carouselImg.addEventListener("touchend", (e) => {
+      touchendX = e.changedTouches[0].screenX;
+      handleSwipeGesture();
+    });
+
+    function handleSwipeGesture() {
+      const distance = touchendX - touchstartX;
+
+      if (Math.abs(distance) < minSwipeDistance) {
+        return;
+      }
+
+      if (distance < 0) {
+        // Swipe vers la gauche (passe à l'image suivante: direction 1)
+        window.handleCarouselNavigation(1);
+      } else {
+        // Swipe vers la droite (passe à l'image précédente: direction -1)
+        window.handleCarouselNavigation(-1);
+      }
+    }
+  }
+
+  // Fonction d'initialisation (Portée Locale)
+  function initializeCarousel() {
+    if (isInitialized || images.length === 0) return;
+
+    // Mise à jour initiale des flèches et des points (s'assure que la flèche "prev" est désactivée)
+    updateImage(0);
+
+    // Attacher l'écouteur de swipe
+    attachSwipeHandler();
+
+    isInitialized = true;
+  }
+
+  document.addEventListener("DOMContentLoaded", initializeCarousel);
+  document.addEventListener("astro:after-swap", initializeCarousel);
+</script>
+</file>
+
+<file path="public/favicon.svg">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,0,-1528.046072)">
+        <g id="SVG-Y-serif-cap" serif:id="SVG Y serif cap" transform="matrix(1,0,0,1,0,1528.046072)">
+            <rect x="0" y="0" width="1000" height="1000" style="fill:none;"/>
+            <path d="M1000,150L1000,850C1000,932.787 932.787,1000 850,1000L150,1000C67.213,1000 0,932.787 0,850L0,150C0,67.213 67.213,0 150,0L850,0C932.787,0 1000,67.213 1000,150ZM429.992,561.898L273.974,271.908C255.132,236.861 240.811,211.8 231.013,196.726C221.215,181.652 211.416,169.781 201.618,161.113C191.82,152.445 180.514,146.039 167.701,141.893L167.701,114.195L408.512,114.195L408.512,141.893C373.087,146.039 355.375,161.301 355.375,187.681C355.375,198.61 357.919,210.858 363.006,224.425C368.094,237.991 377.233,257.211 390.423,282.084L503.479,497.456L614.84,300.738C629.914,273.981 640.56,252.029 646.778,234.882C652.997,217.735 656.106,202.002 656.106,187.681C656.106,174.115 652.054,163.468 643.952,155.743C635.85,148.017 623.884,143.401 608.057,141.893L608.057,114.195L822.299,114.195L822.299,141.893C806.848,147.546 793.281,155.366 781.598,165.353C769.916,175.339 758.045,188.812 745.986,205.77C733.926,222.729 716.214,251.37 692.849,291.693L535.7,559.637L535.7,742.789C535.7,764.27 536.831,781.605 539.092,794.795C541.353,807.985 545.122,818.537 550.398,826.451C555.674,834.365 562.645,840.583 571.313,845.105C579.981,849.627 593.548,853.961 612.014,858.107L612.014,885.805L353.679,885.805L353.679,858.107C371.768,854.338 385.147,850.287 393.814,845.953C402.482,841.619 409.454,835.401 414.73,827.299C420.006,819.196 423.869,808.55 426.318,795.36C428.768,782.17 429.992,764.647 429.992,742.789L429.992,561.898Z" style="fill:rgb(243,244,246);"/>
+            <g transform="matrix(23.153981,0,0,23.153981,-6569.757081,-12585.601408)">
+                <path d="M302.313,567.829L295.575,555.305C294.761,553.791 294.142,552.708 293.719,552.057C293.296,551.406 292.873,550.894 292.45,550.519C292.027,550.145 291.538,549.868 290.985,549.689L290.985,548.493L301.385,548.493L301.385,549.689C299.855,549.868 299.09,550.527 299.09,551.667C299.09,552.139 299.2,552.668 299.42,553.254C299.64,553.84 300.034,554.67 300.604,555.744L305.487,565.046L310.296,556.55C310.947,555.394 311.407,554.446 311.676,553.705C311.944,552.965 312.079,552.285 312.079,551.667C312.079,551.081 311.904,550.621 311.554,550.287C311.204,549.954 310.687,549.754 310.003,549.689L310.003,548.493L319.256,548.493L319.256,549.689C318.589,549.933 318.003,550.271 317.499,550.702C316.994,551.134 316.481,551.716 315.96,552.448C315.44,553.18 314.675,554.417 313.666,556.159L306.878,567.731L306.878,575.641C306.878,576.569 306.927,577.318 307.025,577.888C307.123,578.457 307.285,578.913 307.513,579.255C307.741,579.597 308.042,579.865 308.417,580.06C308.791,580.256 309.377,580.443 310.174,580.622L310.174,581.818L299.017,581.818L299.017,580.622C299.798,580.459 300.376,580.284 300.751,580.097C301.125,579.91 301.426,579.641 301.654,579.291C301.882,578.941 302.049,578.482 302.154,577.912C302.26,577.342 302.313,576.585 302.313,575.641L302.313,567.829Z" style="fill:rgb(24,45,52);"/>
+            </g>
+        </g>
+    </g>
+</svg>
+</file>
+
+<file path="src/components/Hero.astro">
+---
+// Fichier : src/components/Hero.astro
+import Container from "./Container.astro";
+
+export interface Props {
+  title: string;
+  subtitle: string;
+  profileImage: any;
+}
+
+const { title, subtitle, profileImage } = Astro.props;
+---
+
+<Container>
+  <section
+    class="flex w-full flex-col md:flex-row items-center justify-center gap-xl"
+  >
+    {
+      /*  <div class="mb-md md:mb-0 w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-full overflow-hidden">
+            <img 
+                src={profileImage} 
+                alt="Image de profil du designer"
+                class="object-cover w-full h-full"
+            />
+        </div>*/
+    }
+
+    <div
+      class="flex flex-col items-center md:items-start text-center md:text-center space-y-sm"
+      style="width: fit-content;"
+    >
+      <h1 class="text-4xl font-extrabold text-text-body-primary w-full">
+        {title}
+      </h1>
+
+      <p
+        class="text-md font-normal text-text-body-secondary w-full max-w-[610px]"
+      >
+        {subtitle}
+      </p>
+    </div>
+  </section>
+</Container>
+</file>
+
+<file path="src/content/projects/caissedesdepots.md">
+---
+# src/content/projects/project-2.md
+cardImage: "/images/coverProject-cdc.webp"
+projectImages:
+ # DIAGNOSIS (Context/Problem)
+ - "/images/project-2/conceptBrief.webp" # Index 0 : contextImage (Principal)
+ - "" # Index 1 : contextImage2 (Optionnel)
+ # DIAGNOSIS (Role/Insights)
+ - "/images/project-2/crazy8.webp" # Index 2 : roleImage (Principal)
+ - "" # Index 3 : roleImage2 (Optionnel)
+ # CONCEPTION
+ - "/images/project-2/packaging.webp" # Index 4 : conceptionImage (Principal)
+ - "" # Index 5 : conceptionImage2 (Optionnel)
+ # RESULTS
+ - "/images/project-2/magazineCdc.webp" # Index 6 : resultsImage (Principal)
+ - "" # Index 7 : resultsImage2 (Optionnel)
+ # 💡 Images supplémentaires pour le Carrousel (index 8 et suivants)
+ - "/images/project-2/storyBoardCdc.webp" # Index 8 (Début du carrousel)
+ - "/images/project-2/kickoffCdc.webp"
+ - "/images/project-2/distributeCdc.webp"
+ - "/images/project-2/fillTilesCdc.webp"
+ - "/images/project-2/mapCdc.webp"
+ - "/images/project-2/reviewsCdc.webp"
+ - "/images/project-2/editCdc.webp"
+ - "/images/project-2/degitalCdc.webp"
+semanticSlug: "depostetconsignations"
+title: "Crafting an agile tool to design with ethics"
+client: "Caisse des Dépôts et Consignations (CDC)"
+description: "A tangible, methodological toolkit to track ethical, sustainable, and inclusive principles into major digital platform development."
+role: "Product designer"
+roleDescription: "I was part of a 2 to 5 person team for 8 months, handling the full spectrum: deep research, strategic concept, testing, and prototyping the final solution. The client 'Caisse des Dépots et Consignation' selected our project for subsequent development."
+context: "According to IDC, in 2022, the environmental impact of digital technology was exacerbated by the growth of data creation, estimated at 22.8%. This trend pushed the sector's carbon footprint toward an estimated 4% of global greenhouse gas emissions. This context triggered a conscious approach for the CDC. As a key financial institution, the CDC, through its Digital Factory's Design Studio, launched a proactive shift from a 'techno-vorous' approach to 'Thoughtful Digital.'"
+problem: "'How to do better with less?' How can we create a cohesive, adaptive, and engaging methodological tool to harmonize ethical, eco-design, and inclusive principles across diverse projects. How to effectively translate abstract concepts into tangible, actionable steps? The main barrier was a critical lack of a common, shared vocabulary across teams."
+keyInsights:
+  - "Strategic Alignment: Overcoming the lack of a shared vocabulary and securing formal decision-making."
+  - "Frugal & Scalable Design: The solution had to ensure scalability to save time, money, and energy."
+  - "Tangible Learning: Physical manipulation, was required in addition to digital support to encourage knowledge retention and interactions during team meetings."
+
+methodology: |
+  We adopted a structured, double diamond approach:
+  1. Research & definition: Identified problems and solutions across Eco-Design, Inclusive Design, and Ethical Design pillars.
+  2. Concept alignment: Formalised a vision focused on 'Architecture and Information Structure' to create a centralized, scalable synthesized reference model.
+  3. Refining: Developed three concepts, ultimately selecting the modular 'Archipel' design tiles for their potential to facilitate collaborative, hands-on learning.
+
+designConception:
+  paragraph: |
+    The retained concept, 'Archipel,' is a set of tangible project construction tiles. It functions as a simple, and adaptive aid for cross-functional project conception. In this specific case covering sustainability, ethics, and inclusivity. The tool physical map can be digitized and synched with planning platforms (e.g., Jira, Trello). Each tile is color-coded by category (ethics/inclusive/eco), role attibution, and dedicates space for custom details to help managers frame and monitor their projects.
+  listItems:
+    - The specific Notion and Task to perform.
+    - The Responsible Stakeholder (Project Manager, Designer, or Developer).
+    - The Priority and Timeline for implementation.
+
+delivery: "The concept was selected by the CDC and green-lit for subsequent internal development. I presented the study at the Nantes Digital Week and we led a dedicated development workshop with the CDC's internal design team in Paris. Delivered a final, physical prototype (laser-cut tiles, graphic overlays, and magnetic backing) ready for scaling."
+
+metrics:
+  - "CDC winning award and published in the EDNA magazine."
+  - "Successfully delivered the prototype, including the production of 36 ready-to-use cards and a scalable database blueprint."
+  - "Achieve a 70% implementation of the prioritized tasks from the theoretical plan into the project's backlog within the first month"
+  - "User Satisfaction: Achieve a Net Promoter Score of 7/10 or higher from Project Managers who used Archipel."
+publishDate: "2022-05-15"
+isDraft: false
+
+# =================================================
+# NOUVEAUX CHAMPS POUR LA SECTION CRÉDITS
+# =================================================
+teamMembers:
+  - name: "Louis Richard Marschal"
+    link: "https://www.linkedin.com/in/louis-richard-marschal-3b073ab2/"
+  - name: "Duaa Ali"
+    link: "https://www.linkedin.com/in/duaa-ali-design/"
+clientDetails:
+  name: "Caisse des Dépôts et Consignations (CDC)"
+  link: "https://www.caissedesdepots.fr/"
+references:
+  - name: "L'École de Design Nantes Atlantique"
+    link: "https://lecolededesign.com/"
+  - name: "Matthieu Gioani"
+    link: "https://www.linkedin.com/in/matthieugioani/"
+    role: "Encadrement"
+---
+</file>
+
+<file path="src/content/projects/batchcooking.md">
+---
+cardImage: "/images/coverProject-batchcooking.webp"
+projectImages:
+# DIANOSTIC > CONTEXT
+- "/images/project-3/brainstorm.webp" # Index 0 : Image 1 (Principale)
+- "" # Index 1 : Image 1 (Optionnelle)
+
+# DIANOSTIC > ROLE + INSIGHTS
+- "/images/project-3/diagram.webp" # Index 2 : Image 2 (Principale)
+- "/images/project-3/wireframeBatchcooking.webp" # Index 3 : Image 2 (Optionnelle)
+
+# CONCEPTION
+- "" # Index 4 : Image 3 (Principale)
+- "/images/project-3/mockupBatchcooking.webp" # Index 5 : Image 3 (Optionnelle)
+
+# RÉSULTATS
+- "/images/project-3/coverProject-batchcooking.webp" # Index 6 : Image 4 (Principale)
+- "" # Index 7 : Image 4 (Optionnelle)
+semanticSlug: "batchcooking"
+title: "Building an accessible solution for collaborative cooking"
+client: "Personal social innovation project"
+role: "Product designer"
+roleDescription: "Partnering with a Data Scientist, I drove the discovery phase, from primary user research and physical proof of concept to low-fidelity prototyping. My job was to ensure the user experience came first, and that our project evolves towards building an economical model serving genuine human connection."
+description: "Designing a marketplace to explore student food insecurity and social isolation by turning underutilized kitchens into collaborative learning spaces."
+context: "The project was based on our direct observation in major cities like Paris: student food insecurity and the underutilization of existing spaces. Students lack adequate space, ressources, tools, organization, and knowledge to cook healthy, diversified meals. Our vision was to transform unused kitchens into low-cost hubs for social exchange and practical culinary learning."
+problem: "How can a digital service provide students in major cities with the necessary resources to foster healthy, consistent food habits? Thereby transforming a logistic constraint into a social opportunity?"
+keyInsights:
+ - "Initial research identified the barriers to student autonomy: not just cost and space, but critical deficits in organization, nutrition and cooking knowledge."
+ - "The service’s value proposition are social engagement and learning. Users semmed highly motivated by the chance to meet, share culture, and learn new cooking skills."
+ - "The matching algorithm must be human-centered, prioritizing affinities like shared values, desire to teach/learn, and of course food habits."
+
+methodology: "I adopted a terrain-validated, service-first approach. The project prioritized non-digital Proof of Concept (PoC) before any interface development to ensure the core concept was viable. This saved development resources and focused the MVP scope."
+
+designConception:
+  paragraph: |
+    We used the validated user journey and insights from the physical PoC to define the essential functionalities and logic of the first digital prototype. A key strategic decision was transforming the basic Host Profile into a Social Trust Passport, prioritizing features that convey safety and community feedback over simple listing details. To ensure a high adoption rate, we formalized the matching criteria (age, distance, food preferences, quantity) which served as the technical specifications for the Data Scientist to optimize the recommendation algorithm. Additionally, I built this first prototype as an MVP to ensure future testing and iterations.
+  listItems: []
+delivery: "The project successfully delivered a Validated Concept and Experience Foundation. This process proved that the core user problem (building trust) was solvable through design, mitigating the risk of investing in development before product-market fit was clear.\n\nKey Deliverables: Low-Fidelity Prototype (Figma) of the critical matching/booking journey, Trust-Centric Information Architecture, and a comprehensive User Research Synthesis."
+metrics:
+- "Service Adoption KPI: Achieve 200 new user sign-ups within the first 3 months post-launch."
+- "Validated Trust KPI: Maintain a profile completion rate of 80% or higher, reflecting user investment in the trust-building mechanisms."
+- "Initial Match Rate KPI: Reach a Host & Cook match rate exceeding 60% within the first 3 months, validating the accuracy of the affinity-based algorithm."
+- "Social Value KPI: Ensure 75% of users report learning a new cooking skill or organizational method after completing their first session, validating the pedagogical component."
+publishDate: "2020-05-20"
+isDraft: false
+# =================================================
+# CHAMPS CRÉDITS OBLIGATOIRES / OPTIONNELS
+# =================================================
+
+# clientDetails: 
+#  name: "Projet Personnel d'Innovation Sociale"
+#  link: "https://yourportfolio.com/batchcooking"
+
+teamMembers: 
+ - name: "Yannick Zelle" # <-- Correction: Indentation correcte
+   role: "Data Scientist, backend developper" # <-- Correction: Indentation correcte
+   link: "https://github.com/Lazel102" # <-- Correction: Indentation correcte
+
+references: []
+---
+</file>
+
+<file path="src/styles/global.css">
+/* src/styles/global.css (Correction Finale) */
+
+/* 2. TAILWIND LAYERS : Ils doivent suivre les imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tes styles globaux */
+html,
+body {
+  font-family: system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+#projects, #contact {
+  scroll-margin-top: 80px; /* Ajustez selon la hauteur réelle de votre Navbar */
+}
+
+/* Optionnel : Smooth scroll pour toute la page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Exemple de composant stylé via tokens */
+@layer components {
+  .btn {
+    /* CORRECTION: Utilisation des classes sémantiques complètes */
+    @apply bg-background-primary text-white px-md py-sm rounded-md font-medium;
+  }
+
+  .btn-outline {
+    /* CORRECTION: Utilisation des classes sémantiques complètes */
+    @apply border border-background-primary text-text-body-primary bg-transparent;
+  }
+}
+</file>
+
+<file path="src/styles/tokens.js">
+// src/styles/tokens.js
+
+export const tokens = {
+  primitives: {
+    color: {
+      base: {
+        white: "#ffffff",
+        black: "#030712",
+      },
+      gray: {
+        50: "#f9fafb",
+        100: "#f3f4f6",
+        200: "#e5e7eb",
+        300: "#d1d5dc",
+        400: "#99a1af",
+        500: "#6a7282",
+        600: "#4a5565",
+        700: "#364153",
+        800: "#1e2939",
+        900: "#101828",
+        950: "#030712",
+      },
+      "blue-chill": {
+        50: "#f1f9fa",
+        100: "#dcf0f1",
+        200: "#bde2e4",
+        300: "#8fcdd1",
+        400: "#59aeb7",
+        500: "#3b8c95",
+        600: "#367984",
+        700: "#31636d",
+        800: "#2f525b",
+        900: "#2b474e",
+        950: "#182d34",
+      },
+    },
+
+    fontSize: {
+      xs: "12px",
+      sm: "14px",
+      base: "16px",
+      lg: "18px",
+      xl: "20px",
+      "2xl": "24px",
+      "3xl": "30px",
+      "4xl": "36px",
+      "5xl": "48px",
+      "6xl": "60px",
+    },
+
+    fontWeight: {
+      thin: 100,
+      normal: 400,
+      semibold: 600,
+      extrabold: 800,
+    },
+
+    leading: {
+      normal: "1.5",
+      relaxed: "1.625",
+    },
+
+    spacing: {
+      xxs: "2px",
+      xs: "4px",
+      sm: "8px",
+      "sm-d": "12px",
+      md: "16px",
+      lg: "24px",
+      xl: "32px",
+      "2xl": "48px",
+      "3xl": "64px",
+      "4xl": "80px",
+      "5xl": "96px",
+      "6xl": "112px",
+    },
+
+    borderRadius: {
+      md: "6px",
+      xl: "12px",
+      "2xl": "16px",
+    },
+  },
+
+  semantic: {
+    colors: {
+      "background-primary": "{primitives.color.base.white}",
+      "background-brand": "{primitives.color.blue-chill.600}",
+      "text-body-primary": "{primitives.color.base.black}",
+      "text-body-secondary": "{primitives.color.gray.600}",
+      "text-body-tertiary": "{primitives.color.gray.400}",
+      "text-body-accent": "{primitives.color.blue-chill.600}",
+      "button-background-primary": "{primitives.color.blue-chill.600}",
+      "button-text-primary": "{primitives.color.base.white}",
+      "stroke-neutral-primary": "{primitives.color.gray.400}",
+      "stroke-primary": "{primitives.color.blue-chill.400}",
+      "stroke-primary-dark": "{primitives.color.blue-chill.500}",
+    },
+
+    layout: {
+      container: {
+        maxWidth: "1200px",
+      },
+      image: {
+        aspectRatio: "4/3",
+      },
+      grid: {
+        gap: {
+          base: "16px",
+          large: "32px",
+        },
+      },
+    },
+
+    border: {
+      radius: {
+        card: "12px",
+      },
+    },
+  },
+};
+</file>
+
+<file path="src/components/Footer.astro">
+---
+import Container from "./Container.astro";
+import CopyIcon from "./CopyIcon.astro";
+
+interface SocialLink {
+  name: string;
+  href: string;
+  icon: string;
+  trackingId: string;
+}
+
+const socialLinks: SocialLink[] = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/yassineelidrissi/", // Remplacez par votre lien réel
+    icon: "M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z",
+    trackingId: "linkedin",
+  },
+];
+
+const currentYear = new Date().getFullYear();
+const emailAddress = "contact@yassineelidrissi.com";
+
+const copyToClipboard = `(function(e) {
+const email = "${emailAddress}";
+const clickedElement = e.currentTarget; 
+
+// Tracking Manuel pour Simple Analytics & Umami lors du clic
+if (window.sa_event) sa_event("footer_email_copy");
+if (window.umami) umami.track("footer-email-copy");
+
+if (window.isSecureContext === false && window.location.protocol !== 'http:') {
+   console.error("Clipboard access restricted.");
+   return;
+ }
+
+navigator.clipboard.writeText(email).then(() => {
+ const message = "Email copied!";
+ let existingToast = document.getElementById('copy-toast');
+ if (existingToast) existingToast.remove();
+
+ const rect = clickedElement.getBoundingClientRect();
+ const toast = document.createElement('div');
+ toast.id = 'copy-toast';
+ toast.textContent = message;
+
+ toast.style.cssText = \`
+  position: fixed;
+  left: \${rect.left + rect.width / 2}px;
+  top: \${rect.bottom + 10}px; 
+  transform: translateX(-50%); 
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+ \`;
+
+ document.body.appendChild(toast);
+ setTimeout(() => {
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateX(-50%) translateY(0)'; 
+ }, 10);
+
+ setTimeout(() => {
+  toast.style.opacity = '0';
+  toast.style.transform = 'translateX(-50%) translateY(-10px)'; 
+  setTimeout(() => toast.remove(), 300);
+ }, 2500);
+}).catch(err => {
+ console.error("Failed to copy email: ", err);
+});
+}).call(this, event)`;
+---
+
+<footer
+  id="contact"
+  class="py-xl mt-7xl border-t border-stroke-secondary space-y-xl"
+  aria-labelledby="footer-heading"
+>
+  <Container class="py-2xl">
+    <div
+      class="flex flex-col items-center justify-center text-center space-y-lg"
+    >
+      <p
+        id="footer-heading"
+        class="text-text-body-primary text-lg font-semibold"
+      >
+        Let's connect !
+      </p>
+      <p class="text-text-body-primary text-base font-normal">
+        For any questions or collaboration requests.
+      </p>
+
+      <div
+        class="flex items-center space-x-sm border border-stroke-neutral-primary rounded-xl px-md py-sm-d cursor-pointer transition hover:bg-gray-50/10"
+        onclick={copyToClipboard}
+        role="button"
+        tabindex="0"
+        aria-label={`Copy contact email address: ${emailAddress}`}
+      >
+        <CopyIcon />
+        <p class="text-text-body-primary text-md font-semibold">
+          {emailAddress}
+        </p>
+      </div>
+    </div>
+  </Container>
+
+  <div class="w-full border-b border-stroke-secondary"></div>
+
+  <Container>
+    <div
+      class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-md md:space-y-0"
+    >
+      <small class="text-sm font-normal text-text-body-secondary">
+        &copy; {currentYear} Yassine EL IDRISSI. All rights reserved.
+      </small>
+
+      <div class="flex space-x-lg">
+        {
+          socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit my ${link.name} profile`}
+              data-sa-event={`footer_social_${link.trackingId}`}
+              data-umami-event="footer-social-click"
+              data-umami-event-type={link.trackingId}
+              class="text-text-body-primary hover:text-gray-600 transition-colors"
+            >
+              <svg
+                class="w-6 h-6 fill-current"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-hidden="true"
+              >
+                <path d={link.icon} />
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</footer>
+</file>
+
+<file path="src/components/ProjectCard.astro">
+---
+import Button from "./Button.astro";
+
+export interface Props {
+  headline: string;
+  client: string;
+  description?: string;
+  role: string;
+  projectLink: string;
+  imageAlt: string;
+  imageUrl: string;
+  direction?: "default" | "reverse";
+  id?: string;
+}
+
+const {
+  headline,
+  client,
+  description,
+  role,
+  projectLink,
+  imageAlt,
+  imageUrl,
+  direction = "default",
+  id,
+} = Astro.props;
+
+// --- LOGIQUE DE TRACKING MUTUALISÉE ---
+
+// Format pour Simple Analytics (snake_case : view_project_900_care)
+const projectSlugSA = client
+  .toLowerCase()
+  .replace(/\s+/g, "_")
+  .replace(/[^\w_]/g, "");
+const eventNameSA = `view_project_${projectSlugSA}`;
+
+// Format pour Umami (kebab-case : 900-care)
+const projectSlugUmami = client
+  .toLowerCase()
+  .replace(/\s+/g, "-")
+  .replace(/[^\w-]/g, "");
+
+const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
+---
+
+<article
+  id={id ?? undefined}
+  role="article"
+  aria-label={headline}
+  class={`flex flex-col md:flex-row gap-xl md:gap-3xl bg-background-primary ${directionClass} md:items-start`}
+>
+  <h1
+    class="text-4xl font-extrabold text-text-body-primary md:hidden m-0"
+    set:html={headline}
+  />
+
+  <a
+    href={projectLink}
+    data-sa-event={eventNameSA}
+    data-umami-event="project-image-click"
+    data-umami-event-project={projectSlugUmami}
+    aria-label={`Voir le projet : ${headline}`}
+    class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
+  >
+    <img
+      src={imageUrl}
+      alt={imageAlt}
+      class="absolute inset-0 w-full h-full object-cover block rounded-2xl transition-transform duration-500 group-hover:scale-90"
+      loading="lazy"
+    />
+  </a>
+
+  <section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
+    <h1
+      class="text-4xl font-extrabold text-text-body-primary hidden md:block m-0"
+      set:html={headline}
+    />
+    <div class="space-y-lg">
+      <div>
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
+          >Client</span
+        >
+        <p class="text-base font-normal text-text-body-primary">
+          {client}
+        </p>
+      </div>
+
+      <div>
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
+          >Description</span
+        >
+        <p class="text-base font-normal text-text-body-primary leading-normal">
+          {description}
+        </p>
+      </div>
+
+      <div>
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
+          >Role</span
+        >
+        <p class="text-base font-normal text-text-body-primary">
+          {role}
+        </p>
+      </div>
+    </div>
+    <div>
+      <Button
+        href={projectLink}
+        data-sa-event={eventNameSA}
+        data-umami-event="project-button-click"
+        data-umami-event-project={projectSlugUmami}
+      >
+        View project
+      </Button>
+    </div>
+  </section>
+</article>
+</file>
+
+<file path="src/content/config.ts">
+// src/content/config.ts
+
+import { defineCollection, z } from "astro:content";
+
+const projectCollection = defineCollection({
+ type: "content",
+ schema: z.object({
+  semanticSlug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Le slug sémantique doit être en minuscules, sans espaces, et utiliser des tirets (kebab-case).'),
+  title: z.string(),
+  client: z.string(),
+  description: z.string().optional(),
+  role: z.string(),
+  roleDescription: z.string(),
+  context: z.string(),
+  problem: z.string(),
+  keyInsights: z.union([z.string(), z.array(z.string())]),
+  methodology: z.string(),
+  designConception: z
+   .object({
+    paragraph: z.string().optional(),
+    listItems: z.array(z.string()).optional(),
+   })
+   .optional(),
+  delivery: z.string(),
+  metrics: z.union([z.string(), z.array(z.string())]),
+  cardImage: z.string(),
+  projectImages: z.array(z.string()).min(1).optional(),
+  publishDate: z.string(),
+  isDraft: z.boolean().default(false),
+
+  // NOUVEAUX CHAMPS DYNAMIQUES POUR LES CRÉDITS
+
+  clientDetails: z
+   .object({
+    name: z.string().optional(), // 🎯 RENDU OPTIONNEL
+    link: z.string().url().optional(), // 🎯 RENDU OPTIONNEL
+   })
+   .optional(),
+
+  teamMembers: z
+   .array(
+    z.object({
+     name: z.string().optional(), // 🎯 RENDU OPTIONNEL
+     link: z.string().url().optional(), // 🎯 RENDU OPTIONNEL
+          role: z.string().optional(), // 🎯 RENDU OPTIONNEL (pour la virgule)
+    }),
+   )
+   .optional(),
+
+  references: z
+   .array(
+    z.object({
+     name: z.string().optional(), // 🎯 RENDU OPTIONNEL
+     link: z.string().url().optional(), // 🎯 RENDU OPTIONNEL
+     role: z.string().optional(),
+    }),
+   )
+   .optional(),
+ }),
+});
+
+export const collections = {
+ projects: projectCollection,
+};
+</file>
+
+<file path="src/content/projects/900care.md">
+---
+cardImage: "/images/coverProject-900care.webp"
+projectImages:
+ # DIAGNOSIS (Context/Problem)
+ - "/images/project-1/mockupDesktop.webp" # Index 0 : contextImage (Principal)
+ - "" # Index 1 : contextImage2 (Optionnel)
+ # DIAGNOSIS (Role/Insights)
+ - "/images/project-1/research.webp" # Index 2 : roleImage (Principal)
+ - "" # Index 3 : roleImage2 (Optionnel)
+ # CONCEPTION
+ - "/images/project-1/conception.webp" # Index 4 : conceptionImage (Principal)
+ - "" # Index 5 : conceptionImage2 (Optionnel)
+ # RESULTS
+ - "/images/project-1/metricsHomepage.webp" # Index 6 : resultsImage (Principal)
+ - "" # Index 7 : resultsImage2 (Optionnel)
+ # 💡 Le carrousel commencera à l'index 8 (et sera vide)
+semanticSlug: "900care"
+title: "UX & growth for a sustainable e&#8209;commerce"
+client: "900.care"
+description: "Full-cycle product design at 900.care, focused on improving first-order conversion and long term retention."
+role: "UX Product design manager"
+roleDescription: "As a product designer, I was responsible for the entire cycle, from user research to the delivery of the final mockups, working closely with the Product Manager to define the objectives and deploy solutions with the developers team."
+context: "900.care is a D2C startup with a subscription-based business model for homecare and hygiene products. Its profitability strongly depends on the value of the first order to encourage retention and offset the customer acquisition cost (CAC). The homepage and sales funnel were major friction points, not converting visitors efficiently enough and not sufficiently encouraging product range discovery."
+problem: "How to design the user journey to stabilize a conversion rate above 5% and increase the average order Value (AOV), all while reinforcing the brand's value proposition?"
+
+keyInsights:
+ - "Data analysis (Metabase, Datadog) revealed underperformance in the product discoverability."
+ - "Qualitative interviews (27 conducted) confirmed cognitive overload, counter-intuitive navigation and an overly extended sales funnel."
+ - "The fundamental issue was therefore linked to the site's complexity and lack of smart functionalities."
+
+methodology: "I adopted a data-informed approach. Each design decision was based on a hypothesis derived from user research (qualitative and quantitative). My process included journey mapping (UX mapping), prototyping on Figma, and regular user testing. Collaboration with the product manager and developpers throught sprint planning was essential for quick deliveries."
+designConception:
+  paragraph: |
+    I designed a new homepage structure, prioritizing a clear value proposition and the strategic highlighting of bundles, which generate a higher AOV. I prototyped several low-fidelity versions of ppsell/cross-sell modals for users testing and challenge our hypothesis. The goal was to suggest complementary products smoothly, without interrupting the main purchase path.
+  # listItems: (optionnel, peut être omis si vide)
+delivery: "We successfully launched the new upsell flow, revamped the homepage, the product catalog and implemented a new section to manage incoming orders. The delivery included fully documented designs, interactive prototypes, an advanced design system update, user insights and reseach protocol."
+metrics: "Achieved a +47% increase in Average Basket Value (ABV) and reduced churn by 25% post-launch."
+publishDate: "2024-10-25"
+isDraft: false
+# =================================================
+# CHAMPS CRÉDITS OBLIGATOIRES / OPTIONNELS
+# =================================================
+
+clientDetails:
+ name: "900.care"
+ link: "https://900.care/"
+
+teamMembers: []
+ 
+references:
+- name: "Pierre Raccaglia"
+  link: "https://fr.linkedin.com/in/praccaglia"
+  role: "Product Manager"
+---
+</file>
+
+<file path="tailwind.config.mjs">
+// tailwind.config.mjs
+import {
+  tokens
+} from './src/styles/tokens.js';
+// 🚨 CORRECTION : Importez defaultTheme pour pouvoir l'utiliser
+import defaultTheme from 'tailwindcss/defaultTheme';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}',
+    './pages/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}',
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        // Cette ligne définit Manrope comme la nouvelle police 'sans' par défaut
+        // 🚨 CORRECTION : defaultTheme est maintenant défini
+        sans: ['Manrope', ...defaultTheme.fontFamily.sans],
+      },
+      // Colors: map a few semantic names to primitive values
+      colors: {
+        'background-primary': tokens.primitives.color.base.white,
+        'background-brand': tokens.primitives.color['blue-chill'][600],
+        
+        // 💡 NOUVEAU: background-accent-primary (Couleur Active)
+        'background-accent-primary': tokens.primitives.color['blue-chill'][500],
+        
+        // 💡 NOUVEAU: background-disabled (Couleur Inactive/Désactivée)
+        'background-disabled': tokens.primitives.color.gray[300],
+        
+        'text-body-primary': tokens.primitives.color.base.black,
+        'text-body-tertiary': tokens.primitives.color.gray[400],
+        'text-body-secondary': tokens.primitives.color.gray[600],
+        'text-body-accent': tokens.primitives.color['blue-chill'][600],
+        'button-background-primary': tokens.primitives.color['blue-chill'][600],
+        'button-text-primary': tokens.primitives.color.base.white,
+        // ✅ NOUVEAU : Couleurs Primary Hover et Active
+        'button-hover-primary': tokens.primitives.color['blue-chill'][400],
+        'button-active-primary': tokens.primitives.color['blue-chill'][500], // Utilisation du 500 pour l'état actif comme dans votre configuration précédente.
+        
+    // ✅ NOUVEAU : Couleurs Secondary
+        'button-background-secondary': tokens.primitives.color.gray[950],
+        'button-hover-secondary': tokens.primitives.color.gray[800],
+        'button-active-secondary': tokens.primitives.color.gray[800], // Ajout d'un état actif pour complétude
+        'stroke-primary': tokens.primitives.color['blue-chill'][400],
+        'stroke-primary-hover': tokens.primitives.color['blue-chill'][200],
+        'stroke-primary-dark': tokens.primitives.color['blue-chill'][500],
+        'stroke-neutral-primary': tokens.primitives.color.gray[300],
+        'stroke-tertiary': tokens.primitives.color.gray[50],
+        'stroke-tertiary-hover': tokens.primitives.color.gray[200],
+        'stroke-disabled': tokens.primitives.color.gray[300],
+      },
+
+      // Font sizes (Styles Composés: [font-size, {lineHeight: ratio}])
+      fontSize: {
+        // Corps de texte
+        'sm': [tokens.primitives.fontSize.sm, {
+          lineHeight: '1.143'
+        }], // 14px / 16px
+        'base': [tokens.primitives.fontSize.base, {
+          lineHeight: '1.25'
+        }], // 16px / 20px
+
+        // 🚨 H3 (text-lg): 18px / 24px
+        'lg': [tokens.primitives.fontSize.lg, {
+          lineHeight: '1.333'
+        }], 
+
+        // Reste des tailles pour complétude
+        '2xl': [tokens.primitives.fontSize['2xl'], {
+          lineHeight: '1.167'
+        }], // 24px / 28px
+
+        // 🚨 H2 (text-3xl): 30px / 36px
+        '3xl': [tokens.primitives.fontSize['3xl'], {
+          lineHeight: '1.2'
+        }], 
+
+        // 🚨 H1 (text-4xl): 36px / 40px
+        '4xl': [tokens.primitives.fontSize['4xl'], {
+          lineHeight: '1.111'
+        }],
+
+        // Titres restants
+        '5xl': [tokens.primitives.fontSize['5xl'], {
+          lineHeight: '1'
+        }], 
+        '6xl': [tokens.primitives.fontSize['6xl'], {
+          lineHeight: '1'
+        }],
+      },
+
+      // Font weights (Reste inchangé)
+      fontWeight: {
+        extrabold: tokens.primitives.fontWeight.extrabold,
+        semibold: tokens.primitives.fontWeight.semibold,
+        normal: tokens.primitives.fontWeight.normal,
+      },
+
+      // Spacing scale (Reste inchangé)
+      spacing: {
+        'xxs': tokens.primitives.spacing.xxs,
+        'xs': tokens.primitives.spacing.xs,
+        'sm': tokens.primitives.spacing.sm,
+        'sm-d': tokens.primitives.spacing['sm-d'],
+        'md': tokens.primitives.spacing.md,
+        'lg': tokens.primitives.spacing.lg,
+        'xl': tokens.primitives.spacing.xl,
+        '2xl': tokens.primitives.spacing['2xl'],
+        '3xl': tokens.primitives.spacing['3xl'],
+        '4xl': tokens.primitives.spacing['4xl'],
+        '5xl': tokens.primitives.spacing['5xl'],
+        '6xl': tokens.primitives.spacing['6xl'],
+      },
+
+      // Border radius (Reste inchangé)
+      borderRadius: {
+        md: tokens.primitives.borderRadius.md,
+        xl: tokens.primitives.borderRadius.xl,
+        '2xl': tokens.primitives.borderRadius['2xl'],
+        card: tokens.semantic.border.radius.card,
+      },
+
+      // Max width (container) (Reste inchangé)
+      maxWidth: {
+        content: tokens.semantic.layout.container.maxWidth,
+      },
+
+      // Aspect ratio token (Reste inchangé)
+      aspectRatio: {
+        card: tokens.semantic.layout.image.aspectRatio,
+      },
+
+      // Gap tokens for grids (Reste inchangé)
+      gap: {
+        grid: tokens.semantic.layout.grid.gap.base,
+        'grid-lg': tokens.semantic.layout.grid.gap.large,
+      },
+
+      // Scale (Reste inchangé)
+      scale: {
+        '120': '1.20',
+        '130': '1.30',
+      },
+    },
+  },
+  plugins: [],
+};
+</file>
+
+<file path="astro.config.mjs">
+// astro.config.mjs
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
+import mdx from "@astrojs/mdx";
+
+export default defineConfig({
+  site: 'https://yassineelidrissi.com',
+  // ✅ 2. Gestion des slashs : 'ignore' permet de répondre aux deux versions
+  trailingSlash: 'ignore',
+
+  // ✅ 3. Format 'directory' pour créer /about/index.html (meilleur pour SEO et compatibilité)
+  build: {
+    format: 'file'
+  },
+  output: 'static',
+  integrations: [tailwind(), mdx()],
+  redirects: {
+    '/work': '/#projects',
+    '/projects': '/#projects',
+    '/aboutme': '/about',
+    '/logos': '/',
+    '/photography': '/',
+  }
+});
+// Fichier : astro.config.mjs
+</file>
+
+<file path="src/layouts/BaseLayout.astro">
+---
+import "../styles/global.css";
+
+// Fichier : src/layouts/BaseLayout.astro
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Yassine El Idrissi UX Product design official website portfolio.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="52b0a573-2288-46c1-9e4f-a27cdae08238"></script>
+    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"
+    ></script>
+    {
+      /*<script async src="https://t.contentsquare.net/uxa/1027ad213768f.js"
+    ></script>*/
+    }
+
+    <script is:inline>
+      (function (h, o, t, j, a, r) {
+        h.hj =
+          h.hj ||
+          function () {
+            (h.hj.q = h.hj.q || []).push(arguments);
+          };
+        h._hjSettings = { hjid: 3866151, hjsv: 6 };
+        a = o.getElementsByTagName("head")[0];
+        r = o.createElement("script");
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
+    </script>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/android-chrome-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/android-chrome-32x32.png"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#367984" />
+
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-background-body text-text-body-primary min-h-screen flex flex-col font-sans"
+  >
+    <header
+      class="fixed inset-x-0 top-0 z-50 bg-background-primary border-b border-gray-200"
+    >
+      <Navbar />
+    </header>
+
+    <main class="flex-1 mt-xl">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+    </style>
+  </body>
+</html>
+</file>
+
+<file path="src/components/Navbar.astro">
+---
+import Container from "./Container.astro";
+
+// Définition des liens de navigation avec IDs pour le tracking
+const navLinks = [
+  { name: "Work", href: "/#projects", id: "work" },
+  { name: "About", href: "/about", id: "about" },
+  { name: "Contact", href: "/#contact", id: "contact" },
+];
+
+const currentPath = Astro.url.pathname;
+// Extraction du nom de la page pour le tracking (ex: "home", "about", "900care")
+const pageName =
+  currentPath === "/" ? "home" : currentPath.split("/").filter(Boolean).pop();
+
+// Logique simplifiée pour l'état actif initial
+function getInitialActive(name: string, path: string) {
+  if (name === "About" && path.includes("/about")) return true;
+  return false;
+}
+---
+
+<nav
+  id="main-navbar"
+  class="py-md sticky top-0 z-[60] bg-background-primary/95 backdrop-blur-sm"
+>
+  <Container class="flex justify-between items-center">
+    <a
+      href="/"
+      id="nav-logo"
+      data-umami-event={`nav-link-logo-from-${pageName}`}
+      data-sa-event="nav_logo_click"
+      class:list={[
+        "text-base transition duration-150 uppercase",
+        currentPath === "/" ? "font-extrabold" : "font-normal",
+      ]}
+    >
+      Yassine El Idrissi
+    </a>
+
+    <div class="hidden md:flex space-x-lg" role="menu">
+      {
+        navLinks.map((link) => {
+          const isActive = getInitialActive(link.name, currentPath);
+          return (
+            <a
+              href={link.href}
+              id={`nav-link-${link.id}`}
+              data-nav-id={link.id}
+              data-umami-event={`nav-link-${link.id}-from-${pageName}`}
+              data-umami-event-name={link.name}
+              data-sa-event={`nav_${link.id}_click`}
+              class:list={[
+                "nav-item text-base uppercase transition duration-150",
+                isActive
+                  ? "font-extrabold text-text-body-primary"
+                  : "font-normal text-text-body-primary",
+              ]}
+            >
+              {link.name}
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <button
+      id="mobile-menu-button"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-umami-event={`nav-mobile-burger-from-${pageName}`}
+      data-sa-event="nav_mobile_burger_click"
+      class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
+    >
+      <div id="burger-icon" class="w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-full h-full"
+        >
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="11" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </div>
+      <div id="close-icon" class="hidden w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-full h-full"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+      <div id="close-icon" class="hidden w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+    </button>
+  </Container>
+</nav>
+
+<div
+  id="mobile-menu"
+  class="md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-background-primary/95 backdrop-blur-sm transition-opacity duration-300 ease-in-out opacity-0 invisible overflow-y-auto"
+  aria-hidden="true"
+  role="dialog"
+>
+  <Container class="flex flex-col space-y-lg pt-lg pb-xl">
+    <div role="menu" class="flex flex-col space-y-lg">
+      {
+        navLinks.map((link) => {
+          const isActive = getInitialActive(link.name, currentPath);
+          return (
+            <a
+              href={link.href}
+              data-umami-event={`nav-mobile-link-${link.id}-from-${pageName}`}
+              data-umami-event-name={link.name}
+              data-sa-event={`nav_mobile_${link.id}_click`}
+              class:list={[
+                "text-base uppercase transition duration-150",
+                isActive
+                  ? "font-extrabold text-text-body-primary"
+                  : "font-normal text-text-body-primary",
+              ]}
+            >
+              {link.name}
+            </a>
+          );
+        })
+      }
+    </div>
+  </Container>
+</div>
+
+<script>
+  // 1. GESTION DE L'INTERSECTION OBSERVER (Gras au scroll sur la home)
+  function setupNavObserver() {
+    const logo = document.getElementById("nav-logo");
+    const workLink = document.getElementById("nav-link-work");
+    const projectsSection = document.getElementById("projects");
+    const currentPath = window.location.pathname;
+
+    if (
+      !projectsSection ||
+      (currentPath !== "/" && currentPath !== "/index.html")
+    ) {
+      return;
+    }
+
+    if (!workLink || !logo) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-50% 0px -50% 0px",
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          workLink.classList.add("font-extrabold");
+          workLink.classList.remove("font-normal");
+          logo.classList.add("font-normal");
+          logo.classList.remove("font-extrabold");
+        } else {
+          if (window.scrollY < 100) {
+            workLink.classList.remove("font-extrabold");
+            workLink.classList.add("font-normal");
+            logo.classList.add("font-extrabold");
+            logo.classList.remove("font-normal");
+          }
+        }
+      });
+    }, observerOptions);
+
+    observer.observe(projectsSection);
+  }
+
+  document.addEventListener("DOMContentLoaded", setupNavObserver);
+  document.addEventListener("astro:after-swap", setupNavObserver);
+
+  // 2. GESTION DU MENU MOBILE
+  function setupMobileMenu() {
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const burgerIcon = document.getElementById("burger-icon");
+    const closeIcon = document.getElementById("close-icon");
+
+    if (!mobileMenuButton || !mobileMenu) return;
+
+    const toggleMenu = () => {
+      const isOpen = mobileMenu.classList.contains("opacity-100");
+
+      if (isOpen) {
+        mobileMenu.classList.remove("opacity-100", "visible");
+        mobileMenu.classList.add("opacity-0", "invisible");
+        burgerIcon?.classList.remove("hidden");
+        closeIcon?.classList.add("hidden");
+        mobileMenuButton.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      } else {
+        mobileMenu.classList.remove("opacity-0", "invisible");
+        mobileMenu.classList.add("opacity-100", "visible");
+        burgerIcon?.classList.add("hidden");
+        closeIcon?.classList.remove("hidden");
+        mobileMenuButton.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      }
+    };
+
+    mobileMenuButton.addEventListener("click", toggleMenu);
+
+    const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+    mobileMenuLinks.forEach((link) => {
+      link.addEventListener("click", toggleMenu);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", setupMobileMenu);
+  document.addEventListener("astro:after-swap", setupMobileMenu);
+</script>
+
+<style>
+  .nav-item,
+  #nav-logo {
+    transition: font-weight 0.2s ease;
+    will-change: font-weight;
+  }
+</style>
+</file>
+
+<file path="src/pages/about.astro">
+---
+// Importez vos Layout et composants
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Button from "../components/Button.astro";
+
+// Vos données pour la page
+const profileImageUrl = "/images/profile-pic.webp";
+
+// ✅ Données du CV : EXPÉRIENCES PROFESSIONNELLES
+const professionalExperience = [
+  {
+    title: "UX Product Designer",
+    company: "900.care - D2C Startup",
+    duration: "Sept. 2024 - Sept. 2025 (Paris)",
+    highlights: [
+      "End-to-End role in an Agile team to maximize conversion, retention, and product discovery.",
+    ],
+    trackingSlug: "900-care",
+    // ➕ AJOUT : Lien vers le CV (modifier le chemin vers votre fichier PDF réel dans /public)
+    cvLink: "/documents/Resume_Yassine.pdf",
+  },
+  {
+    title: "Web Designer",
+    company: "Freelance",
+    duration: "2023 - 2024 (Remote)",
+    highlights: [
+      "Consulting services in digital strategy, Search Engine Optimization (SEO), WordPress and WebFlow.",
+    ],
+    trackingSlug: "freelance-web",
+    // Pas de lien pour cette expérience (exemple)
+  },
+  {
+    title: "Art Director",
+    company: "Freelance",
+    duration: "June. 2022 - Jan. 2023 (Paris)",
+    highlights: [
+      "Supported clients, including Maison Le Roux, on visual identity conception and brand strategy.",
+    ],
+    trackingSlug: "freelance-da",
+  },
+  {
+    title: "Art Director",
+    company: "Maison Le Roux - Food Industry",
+    duration: "March 2021 - July 2022 (Paris)",
+    highlights: [
+      "Led brand strategy across digital and retail channels, ensuring consistency across all customer touchpoints.",
+    ],
+    trackingSlug: "maison-le-roux",
+  },
+];
+
+// ✅ Données du CV : TOOLKIT
+const toolkit = {
+  coreDesign: [
+    {
+      title: "End-to-end design",
+      description:
+        "From research (qualitative/quantitative) to final design delivery.",
+    },
+    {
+      title: "Figma / Loveable / Framer",
+      description:
+        "High-fidelity prototyping, advanced Design System management.",
+    },
+    {
+      title: "Adobe Suite / Affinity",
+      description: "Photoshop expert, vector design and more.",
+    },
+    {
+      title: "Web coding",
+      description:
+        "Solid knowledge of HTML/CSS, GitHub, web frameworks, communication with developers.",
+    },
+  ],
+  methodology: [
+    {
+      title: "Data & UX analytics",
+      description:
+        "Tracking and analysis of behavioral data (Metabase, Clarity, Datadog, Hotjar).",
+    },
+    {
+      title: "Data-driven design",
+      description: "Justifying design choices by metrics (UX testing, ROI).",
+    },
+    {
+      title: "Agile & autonomy",
+      description:
+        "Mastery of Scrum rituals and capacity to autonomously lead design processes.",
+    },
+    {
+      title: "Communication & collaboration",
+      description:
+        "Aligning design with technical constraints and business objectives (OKR, KPI).",
+    },
+  ],
+  modernImperatives: [
+    {
+      title: "Accessibility",
+      description:
+        "Proficiency in digital accessibility standards (RGAA, WCAG).",
+    },
+    {
+      title: "AI & automation",
+      description:
+        "LLM assistance (Gemini, ChatGPT, Claude) and automation (N8N, Make).",
+    },
+    {
+      title: "Sustainable & responsible design",
+      description: "Linking modern tools to environmental and societal issues.",
+    },
+    {
+      title: "Care-design & health-tech",
+      description:
+        "Interest in accessibility, food-tech, health-focused problematics.",
+    },
+  ],
+};
+
+const skillSections = [
+  { title: "Core Design & Tools", skills: toolkit.coreDesign },
+  { title: "Methodology & Business", skills: toolkit.methodology },
+  { title: "Tech Imperatives", skills: toolkit.modernImperatives },
+];
+
+// ✅ Significant Work
+const significantWork = [
+  {
+    title: "FoodTech - Batchcooking plateform",
+    description:
+      "Co-developed the MVP of a digital service that enhances social connection and food autonomy for students.",
+  },
+  {
+    title: "Sustainable agile toolkit - Caisse des Dépôts",
+    description:
+      "Created a project management tool to develop products that integrate ethics, sustainability, and inclusive principles. Team of 3 designers.",
+  },
+  {
+    title: "Animal Health - Digital Support Service",
+    description:
+      "Designed and prototyped an app in sync with connected devices to help users care for animals with special needs.",
+  },
+];
+
+// ✅ Formation
+const educationExperience = [
+  {
+    year: "2024-2025",
+    title: "Master in Project Management and UX Design",
+    school:
+      "ISCOD, France (Intensive 12-month program under an apprenticeship contract)",
+  },
+  {
+    year: "2020-2022",
+    title: "Master in Digital Design",
+    school: "École de Design Nantes Atlantique, France",
+  },
+  {
+    year: "2016-2019",
+    title: "Bachelor in Graphic Design",
+    school: "Quasar Institute for Advanced Design, Rome, Italy",
+  },
+];
+---
+
+<BaseLayout title="About Yassine El Idrissi - Product Designer">
+  <main>
+    <Container class="py-3xl px-lg flex flex-col gap-3xl">
+      {/* ⭐ SECTION 1: PROFIL & INTRODUCTION */}
+      <section
+        class="flex flex-col md:flex-row md:items-start gap-lg md:gap-xl max-w-3xl"
+      >
+        <div class="space-y-lg flex-1">
+          <h2 class="text-3xl font-extrabold text-text-body-primary">
+            My name is Yassine and I'm a Product designer.
+          </h2>
+          <p class="text-base text-text-body-secondary leading-relaxed">
+            I focus on user research and business performance, turning user
+            insights into genuine interactions that stimulate growth, answer
+            needs and keep people coming back. I am committed to projects that
+            have a social and environmental impact
+          </p>
+
+          <Button
+            href="#contact"
+            class="mt-lg"
+            data-sa-event="about_contact_click"
+            data-umami-event="about-contact-button"
+          >
+            Let's connect
+          </Button>
+        </div>
+      </section>
+
+      {/* ⭐ SECTION 2: EXPÉRIENCES PROFESSIONNELLES */}
+      <section class="w-full max-w-3xl space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary">Experience</h2>
+        {
+          professionalExperience.map((exp) => (
+            <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+              <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                <h3 class="text-base font-semibold text-text-body-primary">
+                  {exp.title}
+                </h3>
+              </div>
+              <p class="text-sm font-normal text-text-body-primary mb-md">
+                {exp.company}
+              </p>
+              {exp.highlights && exp.highlights.length > 0 && (
+                <p class="text-sm font-normal text-text-body-secondary leading-relaxed">
+                  {exp.highlights.join(". ")}
+                </p>
+              )}
+
+              {/* ➕ AJOUT : Lien de téléchargement conditionnel */}
+              {exp.cvLink && (
+                <a
+                  href={exp.cvLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-block mt-2 text-sm font-medium text-text-body-primary underline decoration-1 underline-offset-4 hover:text-button-background-primary transition-colors"
+                >
+                  Download my resume to see more
+                </a>
+              )}
+
+              <p class="text-xs font-normal text-text-body-tertiary mt-1">
+                {exp.duration}
+              </p>
+            </div>
+          ))
+        }
+      </section>
+
+      {/* ⭐ SECTION 3: TOOLKIT */}
+      <section class="w-full max-w-3xl space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary">
+          My toolkit for impact
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-xl">
+          {
+            skillSections.map((section) => (
+              <div class="space-y-md">
+                <h3 class="text-lg font-bold text-text-body-primary flex items-center gap-2">
+                  {section.title}
+                </h3>
+                <ul class="space-y-2 text-text-body-primary">
+                  {section.skills.map((skill) => (
+                    <li class="p-3 bg-gray-50 rounded-lg">
+                      <p class="font-semibold text-sm">{skill.title}</p>
+                      {skill.description && (
+                        <p class="mt-1 text-xs text-text-body-secondary">
+                          {skill.description}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      {/* ⭐ SECTION 4: SIGNIFICANT WORK */}
+      <section class="w-full max-w-3xl space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary">
+          Significant Work
+        </h2>
+        {
+          significantWork.map((project) => (
+            <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+              <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                <h3 class="text-base font-semibold text-text-body-primary">
+                  {project.title}
+                </h3>
+              </div>
+              <p class="text-sm font-normal text-text-body-secondary leading-relaxed mt-2">
+                {project.description}
+              </p>
+            </div>
+          ))
+        }
+      </section>
+
+      {/* ⭐ SECTION 5: FORMATION */}
+      <section class="w-full max-w-3xl space-y-xl">
+        <h2 class="text-3xl font-bold text-text-body-primary">Education</h2>
+        {
+          educationExperience.map((edu) => (
+            <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+              <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                <h3 class="text-base font-semibold text-text-body-primary">
+                  {edu.title}
+                </h3>
+              </div>
+              <p class="text-sm font-normal text-text-body-primary mb-md">
+                {edu.school}
+              </p>
+              <p class="text-xs font-normal text-text-body-tertiary mt-1">
+                {edu.year}
+              </p>
+            </div>
+          ))
+        }
+      </section>
+    </Container>
+  </main>
+</BaseLayout>
+</file>
+
+<file path="src/pages/index.astro">
+---
+// 1. Importez le Layout de base
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// 2. Importez les composants nécessaires
+import ProjectCard from "../components/ProjectCard.astro";
+import Container from "../components/Container.astro";
+import Hero from "../components/Hero.astro";
+import Divider from "../components/Divider.astro";
+import { getCollection } from "astro:content";
+
+// use a neutral placeholder instead (plus fiable)
+const PlaceholderImage = "/images/profile-pic.webp"; // Doit pointer vers /public
+
+// 🔴 RÉCUPÉRATION DYNAMIQUE DES DONNÉES DE LA COLLECTION 'projects'
+const allProjects = (
+  await getCollection("projects", ({ data }) => {
+    // Filtre les brouillons
+    return data.isDraft !== true;
+  })
+).sort((a, b) => {
+  // Triez par date de publication (plus récent en premier)
+  const dateA = new Date(a.data.publishDate).getTime();
+  const dateB = new Date(b.data.publishDate).getTime();
+  return dateB - dateA;
+});
+---
+
+<BaseLayout title="Yassine El Idrissi -  UX Design">
+  <main>
+    <Container class="px-lg pb-5xl flex flex-col gap-5xl md:gap-3xl">
+      <section
+        class="h-[68vh] flex flex-col justify-center items-center space-y-4xl md:p-5xl"
+      >
+        <Hero
+          title="Hello, I'm Yassine 👋"
+          subtitle="I’m a product designer who translates user insights into genuine experiences that are measurable, valuable, and more importantly... built for people. "
+          profileImage={PlaceholderImage}
+        />
+
+        <div class="flex flex-col items-center gap-xl">
+          {
+            (
+              <a
+                href="#projects"
+                class="text-sm font-normal text-text-body-accent"
+              >
+                Case studies
+              </a>
+            )
+          }
+
+          <div class="text-stroke-primary-dark animate-bounce">
+            <a href="#projects" aria-label="Scroll down to projects">
+              <svg
+                width="19"
+                height="39"
+                viewBox="0 0 19 39"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-10 w-6"
+              >
+                <path
+                  d="M10.455 1.25C10.455 0.559644 9.89531 3.01764e-08 9.20496 0C8.5146 -3.01764e-08 7.95496 0.559644 7.95496 1.25L9.20496 1.25L10.455 1.25ZM8.32107 38.1339C8.80923 38.622 9.60068 38.622 10.0888 38.1339L18.0438 30.1789C18.5319 29.6908 18.5319 28.8993 18.0438 28.4112C17.5556 27.923 16.7642 27.923 16.276 28.4112L9.20495 35.4822L2.13389 28.4112C1.64573 27.923 0.854275 27.923 0.36612 28.4112C-0.122035 28.8993 -0.122035 29.6908 0.36612 30.1789L8.32107 38.1339ZM9.20496 1.25L7.95496 1.25L7.95495 37.25L9.20495 37.25L10.455 37.25L10.455 1.25L9.20496 1.25Z"
+                  fill="currentColor"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="projects"
+        role="region"
+        aria-label="Projects"
+        class="flex flex-col space-y-6xl"
+      >
+        {
+          allProjects.map((project, index) => (
+            <>
+              <ProjectCard
+                id={project.slug}
+                headline={project.data.title}
+                client={project.data.client}
+                description={project.data.description}
+                role={project.data.role}
+                projectLink={`/work/${project.data.semanticSlug}`}
+                imageAlt={`Aperçu du projet ${project.data.title}`}
+                imageUrl={project.data.cardImage}
+                direction={index % 2 === 0 ? "reverse" : "default"}
+              />
+            </>
+          ))
+        }
+      </section>
+    </Container>
+  </main>
+</BaseLayout>
+</file>
+
+</files>

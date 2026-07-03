@@ -1,0 +1,189 @@
+
+
+Document de référence technique. Destiné à tout développeur reprenant la maintenance, la migration ou l'évolution du site, et à tout designer intervenant sur le design system.Statut du code : audit en lecture seule. Rien n'a été modifié. Les recommandations sont signalées mais non appliquées.
+Repo audité : github.com/yeldrs/Astro — 39 fichiers, snapshot du jour de l'audit.
+1. Vue d'ensemble
+1.1 Ce qu'est le site
+Portfolio personnel de designer produit / UX, mono-page à l'accueil avec pages de détail par étude de cas. Trois projets sont publiés (900.care, Caisse des Dépôts, Batchcooking). Le site est 100 % statique : aucun serveur, aucune base de données, aucune logique runtime. Tout est pré-généré au build.
+
+1.2 Stack technique
+CoucheTechnologieVersionRôleFrameworkAstro^5.14.3Génération statique, routing, composantsContenuContent Collections (MDX)@astrojs/mdx ^4.3.8Les études de cas sont des fichiers Markdown typésStylesTailwind CSS^3.4.18Utilitaires, pilotés par des design tokensDesign tokensFichier JS custom—Source de vérité couleurs / espacements / typoBuild CSSPostCSS + autoprefixer^8.5.6 / ^10.4.21Chaîne de compilation TailwindTypageTypeScript strictpreset astro/tsconfigs/strictValidation du schéma de contenu1.3 Principe de fonctionnement en une phrase
+Chaque étude de cas est un fichier .md avec un frontmatter structuré ; au build, Astro lit ces fichiers, valide leur structure contre un schéma, et génère une page HTML par projet plus une page d'accueil qui les liste — le tout servi en fichiers statiques.
+2. Architecture Astro
+2.1 Arborescence commentée
+portfolio_2026/
+├── astro.config.mjs         → config build, redirections, intégrations
+├── tailwind.config.mjs      → mapping tokens → classes Tailwind (CŒUR du design system)
+├── postcss.config.mjs       → chaîne CSS (ne pas toucher)
+├── tsconfig.json            → TypeScript strict
+├── package.json             → dépendances et scripts npm
+│
+├── public/                  → servi tel quel, sans transformation
+│   ├── images/              → toutes les images des projets (.webp)
+│   ├── documents/           → CV PDF téléchargeable
+│   ├── .htaccess            → règles Apache (⚠️ voir §7)
+│   ├── CNAME                → domaine custom (yassineelidrissi.com)
+│   ├── sitemap.xml          → sitemap STATIQUE, écrit à la main (⚠️ voir §7)
+│   ├── robots.txt, manifest.json, favicons
+│
+├── src/
+│   ├── pages/               → ROUTING (1 fichier = 1 route)
+│   │   ├── index.astro      → page d'accueil (Hero + liste projets)
+│   │   ├── about.astro      → page à propos
+│   │   ├── 404.astro        → page d'erreur
+│   │   └── work/[slug].astro → GABARIT dynamique : 1 page par projet
+│   │
+│   ├── layouts/
+│   │   └── BaseLayout.astro → <head>, SEO, fonts, favicons, Navbar+Footer
+│   │
+│   ├── components/          → 12 composants .astro (voir carto §3)
+│   │
+│   ├── content/
+│   │   ├── config.ts        → SCHÉMA de validation des projets (Zod)
+│   │   └── projects/        → LE CONTENU : 1 .md par étude de cas
+│   │       ├── 900care.md
+│   │       ├── caissedesdepots.md
+│   │       └── batchcooking.md
+│   │
+│   └── styles/
+│       ├── tokens.js         → PRIMITIVES du design system (source de vérité)
+│       └── global.css        → styles globaux + 2 classes composant (.btn)
+│
+└── validate-frontmatter.cjs  → script utilitaire manuel (⚠️ orphelin, voir §7)
+2.2 Le routing
+Astro utilise le file-based routing : la structure de src/pages/ définit les URLs.
+
+index.astro → /
+about.astro → /about
+404.astro → page 404
+work/[slug].astro → /work/900care, /work/caissedesdepots, etc.
+Les crochets [slug] signalent une route dynamique. Une seule page-gabarit génère autant de pages HTML qu'il y a de projets.
+
+2.3 Le mécanisme central : Content Collections + getStaticPaths
+C'est le cœur du site. Trois pièces travaillent ensemble :
+1. Le schéma (src/content/config.ts) définit et valide la forme de chaque projet via Zod. Si un fichier .md ne respecte pas le schéma (champ obligatoire manquant, mauvais type), le build échoue. C'est une protection : impossible de publier un projet malformé.
+2. Les fichiers de contenu (src/content/projects/*.md) contiennent les données de chaque projet dans leur frontmatter (titre, client, métriques, images…).
+3. La génération (work/[slug].astro) : la fonction getStaticPaths() lit tous les projets de la collection et produit une page par projet, en utilisant le champ semanticSlug comme URL.
+
+Fichier .md  →  validé par config.ts  →  lu par getStaticPaths()  →  page HTML générée
+2.4 Build et sortie
+astro.config.mjs fixe :
+
+output: 'static' → génération 100 % statique
+build.format: 'file' → génère /about.html plutôt que /about/index.html
+trailingSlash: 'ignore' → tolère les deux formes d'URL
+des redirections (/work → /#projects, /aboutme → /about, etc.)
+⚠️ Ces redirections sont dupliquées dans astro.config.mjs ET dans .htaccess. Voir §7.
+3. Cartographie des fichiers
+Statuts : Actif (utilisé) · Orphelin (jamais importé/branché) · Vestige (résidu à nettoyer) · Config (ne pas toucher sans raison).
+
+3.1 Composants (src/components/)
+FichierRôleImporté parStatutContainer.astroConteneur largeur max8 fichiersActif (le plus utilisé)Button.astroBouton design system4 fichiersActifArrowButton.astroBouton flèche (carousel/nav)2 fichiersActifNavbar.astroBarre de navigationBaseLayoutActifFooter.astroPied de page + contact réelBaseLayoutActifHero.astroBloc d'accroche accueilindexActifProjectCard.astroCarte projet (liste accueil)indexActifProjectCarousel.astroCarrousel d'images projet[slug]ActifDivider.astroSéparateur visuelindexActifCopyIcon.astroIcône « copier l'email »FooterActifWelcome.astroPage d'accueil par défaut d'Astropersonne🔴 Orphelin — 211 lignes, résidu du starter kitContactFormSection.astroFormulaire de contact Formspreepersonne🔴 Orphelin — jamais branché, endpoint = placeholder3.2 Pages, layout, contenu
+FichierRôleStatutpages/index.astroAccueil : Hero + liste dynamique des projetsActifpages/about.astroPage à proposActifpages/404.astroPage d'erreurActifpages/work/[slug].astroGabarit projet (681 lignes)Actif — le plus gros fichier, voir §7layouts/BaseLayout.astroEnveloppe HTML : head, SEO, fonts, Navbar, FooterActifcontent/config.tsSchéma Zod des projetsActif — critiquecontent/projects/900care.mdÉtude de cas 900.careActifcontent/projects/caissedesdepots.mdÉtude de cas CDCActifcontent/projects/batchcooking.mdÉtude de cas BatchcookingActif3.3 Design system et config
+FichierRôleStatutstyles/tokens.jsPrimitives (couleurs, espacements, typo)Actif — source de véritéstyles/global.cssStyles globaux + classes .btnActiftailwind.config.mjsMapping tokens → classes utilitairesActif — critiqueastro.config.mjsConfig build + redirectionsConfigpostcss.config.mjsChaîne CSSConfig — ne pas touchertsconfig.jsonTypeScript strictConfigpackage.jsonDépendances / scriptsConfig3.4 Fichiers à examiner / nettoyer
+FichierProblèmeRecommandationcomponents/Welcome.astroJamais importé, résidu du starterSupprimer après vérificationcomponents/ContactFormSection.astroOrphelin + endpoint Formspree facticeSupprimer OU brancher et configurervalidate-frontmatter.cjsNon branché à npm, dépend de gray-matter (absent de package.json)Documenter l'usage manuel ou supprimer.github/agents/assistant.agent.mdFichier vide (1 caractère)Supprimerpublic/.htaccessContient CeciEstUnTestDeCasse en 1re ligneNettoyer (voir §7)README.mdTemplate Astro par défaut, jamais personnaliséRemplacer (ce whitepaper peut servir de base)4. Design System (partie designer)
+Cette section est autosuffisante : un designer peut modifier l'apparence du site sans toucher à la logique Astro, en comprenant la chaîne ci-dessous.
+
+4.1 La chaîne token → classe → composant
+Le design system fonctionne en trois niveaux, du plus abstrait au plus concret :
+
+tokens.js          tailwind.config.mjs         composant .astro
+(primitives)   →   (nommage sémantique)   →    (usage)
+"#367984"      →   'background-brand'     →    class="bg-background-brand"
+Niveau 1 — src/styles/tokens.js : les valeurs brutes. C'est ici que vivent les couleurs réelles, les tailles de police, les espacements. Exemple : la palette blue-chill (le turquoise de la marque), du 50 (très clair) au 950 (très foncé).
+Niveau 2 — tailwind.config.mjs : donne des noms sémantiques aux valeurs. Plutôt que « bleu-chill-600 », on expose background-brand, button-background-primary, text-body-accent. C'est la couche que le designer manipule le plus.
+Niveau 3 — les composants : utilisent les classes sémantiques. Un composant écrit class="text-text-body-accent" sans jamais connaître le code couleur exact.
+
+Pourquoi cette structure ? Changer la couleur de marque partout sur le site = modifier une seule valeur dans tokens.js. Toute la cascade se met à jour. C'est la force du système — et la raison de ne jamais coder une couleur « en dur » dans un composant.
+4.2 Les tokens disponibles
+Couleurs sémantiques (définies dans tailwind.config.mjs) :
+
+Fonds : background-primary (blanc), background-brand (turquoise), background-accent-primary, background-disabled
+Textes : text-body-primary (quasi-noir), text-body-secondary (gris), text-body-tertiary (gris clair), text-body-accent (turquoise)
+Boutons : button-background-primary + états hover/active, variantes secondary
+Bordures : stroke-primary, stroke-neutral-primary, stroke-disabled + états
+Typographie : police Manrope (chargée dans BaseLayout), échelle de sm à 6xl avec interlignage pré-calculé. Les titres suivent une convention : H1 = text-4xl, H2 = text-3xl, H3 = text-lg.
+Espacements : échelle nommée xxs (2px) → 6xl (112px). Utilisée pour marges, paddings, gaps.
+Rayons : md (6px), xl (12px), card (12px).
+
+4.3 Modifier le design en sécurité
+ObjectifOù intervenirRisqueChanger la couleur de marquetokens.js → palette blue-chillFaibleRenommer/ajouter un rôle couleurtailwind.config.mjs → objet colorsMoyen (vérifier les usages)Changer la policetailwind.config.mjs → fontFamily + BaseLayout.astro (chargement)MoyenAjuster un espacement globaltokens.js → spacingFaibleStyliser un boutonglobal.css (.btn) ou Button.astroFaible⚠️ Incohérence à connaître : tokens.js contient un bloc semantic.colors qui n'est PAS la source réelle utilisée par Tailwind. Le vrai mapping sémantique est réécrit à la main dans tailwind.config.mjs. Les deux peuvent diverger. Se fier à tailwind.config.mjs pour ce qui est réellement appliqué. Voir §7.
+5. Flux de données : du fichier au rendu
+Parcours complet d'un projet, du .md à la page en ligne :
+1. Écriture — Un projet est un fichier src/content/projects/{nom}.md. Son frontmatter contient toutes les données (titre, client, contexte, métriques, images…).
+2. Les images par index — Le champ projectImages est un tableau où la position compte :
+
+Index 0 → image de contexte (principale)
+Index 1 → image de contexte (secondaire, optionnelle)
+Index 2 → image de rôle
+Index 4 → image de conception
+Index 6 → image de résultats
+Index 8+ → carrousel
+work/[slug].astro lit ces positions exactes pour placer chaque image dans la bonne section.
+
+⚠️ Point fragile majeur. Le mapping repose entièrement sur l'ordre du tableau. Insérer une image au mauvais index décale tout. Laisser une chaîne vide "" pour garder une position sans image. Voir §7.
+3. Validation — Au build, config.ts vérifie chaque frontmatter contre le schéma Zod. Erreur = build stoppé.
+4. Liste sur l'accueil — index.astro appelle getCollection("projects"), filtre les brouillons (isDraft), trie par date, et affiche une ProjectCard par projet.
+5. Page de détail — getStaticPaths() dans [slug].astro génère une page par projet, en utilisant semanticSlug comme URL et en injectant le contenu MDX rendu.
+6. Sortie — HTML statique dans dist/, prêt à héberger.
+6. Guide de maintenance
+6.1 Ajouter un nouveau projet
+Créer src/content/projects/{nom}.md.
+Copier le frontmatter d'un projet existant comme gabarit (900care.md est le plus complet).
+Renseigner tous les champs obligatoires du schéma (title, client, role, roleDescription, context, problem, keyInsights, methodology, delivery, metrics, cardImage, semanticSlug, publishDate).
+Déposer les images dans public/images/{projet}/ et les référencer dans le bon ordre dans projectImages (respecter les index de §5).
+semanticSlug doit être en kebab-case (minuscules, tirets) — sinon le schéma rejette.
+npm run build : si le build passe, le projet apparaît automatiquement sur l'accueil et à /work/{semanticSlug}.
+Astuce : mettre isDraft: true pour préparer un projet sans le publier.
+6.2 Éditer le design
+Voir §4.3. Règle d'or : modifier les tokens, jamais les valeurs en dur dans les composants.
+
+6.3 Modifier une page
+Accueil : src/pages/index.astro
+À propos : src/pages/about.astro
+En-tête / pied commun : Navbar.astro / Footer.astro
+Métadonnées SEO globales : BaseLayout.astro
+6.4 Lancer le projet en local
+npm install
+npm run dev      # serveur de dev
+npm run build    # build de production dans dist/
+npm run preview  # prévisualiser le build
+6.5 Migrer l'hébergement
+Le site étant statique, il peut être servi par n'importe quel hébergeur statique. Mais la cible actuelle est ambiguë (voir §7). Avant migration :
+
+Déterminer l'hébergeur réel (GitHub Pages ? Hostinger/Apache ?).
+Adapter les redirections : .htaccess ne fonctionne que sur Apache (Hostinger). GitHub Pages l'ignore et utilise astro.config.mjs.
+Le fichier CNAME et le site: dans astro.config.mjs doivent pointer vers le même domaine.
+7. ⚠️ Warnings — points fragiles et dette technique
+Classés par gravité.
+
+🔴 Critique — à traiter avant toute évolution majeure
+7.1 Cible de déploiement contradictoire.
+Le repo mélange deux stratégies incompatibles :
+
+Un workflow GitHub Actions (deploy.yml) qui déploie sur GitHub Pages (branche deploy/test).
+Un .htaccess + un CNAME, spécifiques à un hébergement Apache (type Hostinger).
+GitHub Pages ignore .htaccess. Selon l'hébergeur réel, la moitié des redirections HTTPS/URLs propres ne s'appliquent pas. Action : trancher sur l'hébergeur, supprimer la config de l'autre.
+7.2 .htaccess pollué.
+Première ligne : CeciEstUnTestDeCasse. Test resté en place. Inoffensif sur Apache (ligne non-directive ignorée) mais dangereux comme signal : montre que le fichier n'est pas maîtrisé. Action : nettoyer.
+
+🟠 Important — sources de bugs silencieux
+7.3 Double source de vérité du design system.tokens.js a un bloc semantic.colors, mais Tailwind lit un mapping réécrit à la main dans tailwind.config.mjs. Les deux peuvent diverger sans erreur. Un designer qui modifie semantic.colors dans tokens.js croira changer le site — sans effet. La vérité opérationnelle est tailwind.config.mjs. Idéalement, faire consommer semantic.colors par la config plutôt que dupliquer.
+7.4 Mapping d'images par index positionnel.
+Dans les MDX, les images sont placées par leur position dans projectImages (0=contexte, 2=rôle…). Fragile : un décalage casse silencieusement la mise en page, sans erreur de build. Toujours conserver les positions vides avec "". Une évolution souhaitable serait de nommer les images (objet clé/valeur) plutôt que de les indexer.
+7.5 Redirections dupliquées.
+Les mêmes redirections vivent dans astro.config.mjs ET .htaccess. Modifier l'une sans l'autre crée une incohérence de comportement selon l'environnement. Garder une seule source selon l'hébergeur retenu (§7.1).
+
+🟡 À nettoyer — dette sans impact immédiat
+7.6 Composants orphelins. Welcome.astro (211 lignes, résidu du starter Astro) et ContactFormSection.astro (jamais branché, endpoint Formspree = VOTRE_ID_FORMSPREE factice) ne sont importés nulle part. Le contact réel passe par Footer.astro (copie d'email). Décider : supprimer, ou brancher ContactFormSection et configurer un vrai endpoint.
+7.7 Script de validation non intégré. validate-frontmatter.cjs dépend de gray-matter (absent de package.json) et n'est lié à aucun script npm. Soit le documenter comme outil manuel (npm install gray-matter && node validate-frontmatter.cjs), soit le supprimer — le schéma Zod de config.ts couvre déjà la validation au build.
+7.8 Sitemap manuel malgré l'intégration disponible. @astrojs/sitemap est installé (devDependencies) mais absent des integrations d'astro.config.mjs. Le sitemap.xml est donc écrit à la main dans public/ — il faut le mettre à jour manuellement à chaque nouveau projet. Activer l'intégration automatiserait cela.
+7.9 Fichiers résiduels. .github/agents/assistant.agent.md est vide. README.md est le template Astro par défaut. À nettoyer.
+7.10 Taille de [slug].astro. 681 lignes dans un seul fichier-gabarit. Fonctionnel mais dense. Si les études de cas se complexifient, envisager d'extraire les sections répétées (Diagnosis, Conception, Results) en sous-composants.
+Annexe — Résumé exécutif pour reprise rapide
+Nature : portfolio Astro statique, 3 projets, hébergement statique.
+Pour ajouter un projet : un fichier .md dans content/projects/, respecter le schéma et l'ordre des images. Rien d'autre.
+Pour changer le design : modifier tokens.js (valeurs) et tailwind.config.mjs (noms). Jamais de couleur en dur.
+Le cœur logique : config.ts (schéma) + [slug].astro (getStaticPaths) génèrent les pages.
+Les 3 pièges : (1) hébergeur ambigu GitHub Pages vs Apache, (2) design system à double source, (3) images mappées par position.
+À nettoyer sans risque : Welcome.astro, ContactFormSection.astro, .htaccess pollué, README template, fichier agent vide.
