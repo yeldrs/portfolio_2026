@@ -28,7 +28,9 @@ html {
     /* CORRECTION: Utilisation des classes sémantiques complètes */
     @apply bg-background-primary text-white px-md py-sm rounded-md font-medium;
   }
-
+.h-display {
+    @apply font-serif text-4xl font-semibold text-text-body-primary;
+  }
   .btn-outline {
     /* CORRECTION: Utilisation des classes sémantiques complètes */
     @apply border border-background-primary text-text-body-primary bg-transparent;

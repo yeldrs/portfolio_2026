@@ -81,6 +81,7 @@ export const tokens = {
       thin: 100,
       normal: 400,
       semibold: 600,
+      bold: 500,
       extrabold: 800,
     },
 

@@ -16,6 +16,7 @@ export default {
       fontFamily: {
       
         sans: ['Manrope', ...defaultTheme.fontFamily.sans],
+        serif: ['Lora', 'ui-serif', 'Georgia', 'serif'],
       },
       // Colors: map a few semantic names to primitive values
       colors: {
@@ -98,6 +99,7 @@ export default {
       // Font weights (Reste inchangé)
       fontWeight: {
         extrabold: tokens.primitives.fontWeight.extrabold,
+        bold: tokens.primitives.fontWeight.bold,
         semibold: tokens.primitives.fontWeight.semibold,
         normal: tokens.primitives.fontWeight.normal,
       },

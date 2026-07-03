@@ -50,7 +50,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
   class={`flex flex-col md:flex-row gap-xl md:gap-3xl ${directionClass} md:items-start`}
 >
   <h1
-    class="text-4xl font-extrabold text-text-body-primary md:hidden m-0"
+    class="h-display md:hidden m-0"
     set:html={headline}
   />
 
@@ -72,7 +72,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 
   <section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
     <h1
-      class="text-4xl font-extrabold text-text-body-primary hidden md:block m-0"
+       class="h-display hidden md:block m-0"
       set:html={headline}
     />
     <div class="space-y-lg">
