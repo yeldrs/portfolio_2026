@@ -14,43 +14,47 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Cette ligne définit Manrope comme la nouvelle police 'sans' par défaut
-        // 🚨 CORRECTION : defaultTheme est maintenant défini
+      
         sans: ['Manrope', ...defaultTheme.fontFamily.sans],
       },
       // Colors: map a few semantic names to primitive values
       colors: {
         'background-primary': tokens.primitives.color.base.white,
-        'background-brand': tokens.primitives.color['blue-chill'][600],
-        
-        // 💡 NOUVEAU: background-accent-primary (Couleur Active)
-        'background-accent-primary': tokens.primitives.color['blue-chill'][500],
-        
-        // 💡 NOUVEAU: background-disabled (Couleur Inactive/Désactivée)
+        'background-brand': tokens.primitives.color['accent-action'][600],
+
+        'background-accent-primary': tokens.primitives.color['accent-action'][500],
         'background-disabled': tokens.primitives.color.gray[300],
-        
+
         'text-body-primary': tokens.primitives.color.base.black,
         'text-body-tertiary': tokens.primitives.color.gray[400],
         'text-body-secondary': tokens.primitives.color.gray[600],
-        'text-body-accent': tokens.primitives.color['blue-chill'][600],
-        'button-background-primary': tokens.primitives.color['blue-chill'][600],
+        'text-body-accent': tokens.primitives.color['accent-action'][600],
+
+        'button-background-primary': tokens.primitives.color['accent-action'][600],
         'button-text-primary': tokens.primitives.color.base.white,
-        // ✅ NOUVEAU : Couleurs Primary Hover et Active
-        'button-hover-primary': tokens.primitives.color['blue-chill'][400],
-        'button-active-primary': tokens.primitives.color['blue-chill'][500], // Utilisation du 500 pour l'état actif comme dans votre configuration précédente.
-        
-    // ✅ NOUVEAU : Couleurs Secondary
+        'button-hover-primary': tokens.primitives.color['accent-action'][400],
+        'button-active-primary': tokens.primitives.color['accent-action'][500],
+
         'button-background-secondary': tokens.primitives.color.gray[950],
         'button-hover-secondary': tokens.primitives.color.gray[800],
-        'button-active-secondary': tokens.primitives.color.gray[800], // Ajout d'un état actif pour complétude
-        'stroke-primary': tokens.primitives.color['blue-chill'][400],
-        'stroke-primary-hover': tokens.primitives.color['blue-chill'][200],
-        'stroke-primary-dark': tokens.primitives.color['blue-chill'][500],
+        'button-active-secondary': tokens.primitives.color.gray[800],
+
+        'stroke-primary': tokens.primitives.color['accent-action'][400],
+        'stroke-primary-hover': tokens.primitives.color['accent-action'][200],
+        'stroke-primary-dark': tokens.primitives.color['accent-action'][500],
         'stroke-neutral-primary': tokens.primitives.color.gray[300],
         'stroke-tertiary': tokens.primitives.color.gray[50],
         'stroke-tertiary-hover': tokens.primitives.color.gray[200],
         'stroke-disabled': tokens.primitives.color.gray[300],
+
+        'accent-deco-100': tokens.primitives.color['accent-deco'][100],
+        'accent-deco-200': tokens.primitives.color['accent-deco'][200],
+        'accent-deco-300': tokens.primitives.color['accent-deco'][300],
+        'accent-deco-400': tokens.primitives.color['accent-deco'][400],
+        'accent-deco-600': tokens.primitives.color['accent-deco'][600],
       },
+
+
 
       // Font sizes (Styles Composés: [font-size, {lineHeight: ratio}])
       fontSize: {

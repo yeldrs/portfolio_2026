@@ -7,6 +7,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import Container from "../components/Container.astro";
 import Hero from "../components/Hero.astro";
 import Divider from "../components/Divider.astro";
+import Cloud from "../components/Cloud.astro";
 import { getCollection } from "astro:content";
 
 // use a neutral placeholder instead (plus fiable)
@@ -27,7 +28,16 @@ const allProjects = (
 ---
 
 <BaseLayout title="Yassine El Idrissi -  UX Design">
-  <main>
+  <main class="relative">
+
+     <Cloud variant="medium" shade={300} width="680px" blur="lg" opacity={0.5} top="-50px"    right="-200px" />
+    
+  <Cloud variant="wide"   shade={300} width="1000px" blur="md" opacity={0.3} top="0px"  left="100px" />
+
+  
+  <Cloud variant="small"  shade={200} width="500px" blur="sm" opacity={1} bottom="50%" right="50%" rotate={-8} />
+ 
+
     <Container class="px-lg pb-5xl flex flex-col gap-5xl md:gap-3xl">
       <section
         class="h-[68vh] flex flex-col justify-center items-center space-y-4xl md:p-5xl"

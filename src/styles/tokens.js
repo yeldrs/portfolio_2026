@@ -33,6 +33,35 @@ export const tokens = {
         900: "#2b474e",
         950: "#182d34",
       },
+      // Accent primairy — action (violet)
+"accent-action": {
+  50:  "#f4f0fd",
+  100: "#e9e0fb",
+  200: "#d3c1f7",
+  300: "#b598f0",
+  400: "#9366e6",
+  500: "#7d47db",
+  600: "#6d3bd1",   // ← couleur de base fournie
+  700: "#5c30b0",
+  800: "#4c2a8f",
+  900: "#402674",
+  950: "#28164d",
+},
+
+// Accent secondary — décorative
+"accent-deco": {
+  50:  "#eff6fc",
+  100: "#dbeaf7",
+  200: "#bfdaf1",
+  300: "#93c2e8",
+  400: "#61a3db",
+  500: "#3e86cd",
+  600: "#2a72ad",   // ← couleur de base fournie
+  700: "#245d8f",
+  800: "#234f76",
+  900: "#214463",
+  950: "#162b42",
+},
     },
 
     fontSize: {
