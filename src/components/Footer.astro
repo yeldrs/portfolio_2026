@@ -86,28 +86,28 @@ navigator.clipboard.writeText(email).then(() => {
     <div
       class="flex flex-col items-center justify-center text-center space-y-lg"
     >
-      <p
+      <h1
         id="footer-heading"
-        class="text-text-body-primary text-lg font-semibold"
+        class="h-display italic text-text-body-primary text-3xl font-semibold"
       >
         Let's connect !
-      </p>
+  </h1>
       <p class="text-text-body-primary text-base font-normal">
         For any questions or collaboration requests.
       </p>
-
-      <div
-        class="flex items-center space-x-sm border border-stroke-neutral-primary rounded-xl px-md py-sm-d cursor-pointer transition hover:bg-gray-50/10"
+<div
+        class="flex items-center space-x-sm bg-background-primary border border-stroke-neutral-primary rounded-full px-lg py-sm-d cursor-pointer transition hover:bg-gray-50 border-stroke-primary-hover shadow-sm"
         onclick={copyToClipboard}
         role="button"
         tabindex="0"
         aria-label={`Copy contact email address: ${emailAddress}`}
       >
-        <CopyIcon />
+        <CopyIcon class="stroke-text-body-accent" />
         <p class="text-text-body-primary text-md font-semibold">
           {emailAddress}
         </p>
       </div>
+   
     </div>
   </Container>
 
