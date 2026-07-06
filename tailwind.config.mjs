@@ -22,6 +22,7 @@ export default {
       colors: {
         'background-primary': tokens.primitives.color.base.white,
         'background-brand': tokens.primitives.color['accent-action'][600],
+        'background-page': tokens.primitives.color.surface.page,
 
         'background-accent-primary': tokens.primitives.color['accent-action'][500],
         'background-disabled': tokens.primitives.color.gray[300],
@@ -30,6 +31,7 @@ export default {
         'text-body-tertiary': tokens.primitives.color.gray[400],
         'text-body-secondary': tokens.primitives.color.gray[600],
         'text-body-accent': tokens.primitives.color['accent-action'][600],
+        'text-heading-accent': tokens.primitives.color['accent-action'][600],
 
         'button-background-primary': tokens.primitives.color['accent-action'][600],
         'button-text-primary': tokens.primitives.color.base.white,
@@ -53,6 +55,7 @@ export default {
         'accent-deco-300': tokens.primitives.color['accent-deco'][300],
         'accent-deco-400': tokens.primitives.color['accent-deco'][400],
         'accent-deco-600': tokens.primitives.color['accent-deco'][600],
+        'decoration-brand': tokens.primitives.color['accent-action'][300],
       },
 
 
@@ -101,7 +104,9 @@ export default {
         extrabold: tokens.primitives.fontWeight.extrabold,
         bold: tokens.primitives.fontWeight.bold,
         semibold: tokens.primitives.fontWeight.semibold,
+        thick: tokens.primitives.fontWeight.thick,
         normal: tokens.primitives.fontWeight.normal,
+        thin: tokens.primitives.fontWeight.thin,
       },
 
       // Spacing scale (Reste inchangé)

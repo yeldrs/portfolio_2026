@@ -20,6 +20,11 @@ export const tokens = {
         900: "#101828",
         950: "#030712",
       },
+      
+      surface: {
+        page: "#f4f7f8",
+      },
+
       "blue-chill": {
         50: "#f1f9fa",
         100: "#dcf0f1",
@@ -80,8 +85,9 @@ export const tokens = {
     fontWeight: {
       thin: 100,
       normal: 400,
+      thick: 500,
       semibold: 600,
-      bold: 500,
+      bold: 700,
       extrabold: 800,
     },
 

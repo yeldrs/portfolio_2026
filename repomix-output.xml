@@ -1,10 +1,10 @@
-This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
 
 <file_summary>
 This section contains a summary of this file.
 
 <purpose>
-This file contains a packed representation of the entire repository's contents.
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
 It is designed to be easily consumable by AI systems for analysis, code review,
 or other automated processes.
 </purpose>
@@ -32,6 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: repomix-output.xml, public/images/**, public/*.png, public/*.ico, public/*.svg, public/manifest.json, *.webp, Whitepaper*.txt, src/components/Welcome.astro, src/components/ContactFormSection.astro
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -47,47 +48,15 @@ astro.config.mjs
 package.json
 postcss.config.mjs
 public/.htaccess
-public/android-chrome-192x192.png
-public/android-chrome-512x512.png
-public/apple-touch-icon.png
 public/CNAME
 public/documents/Resume_Yassine.pdf
-public/favicon.ico
-public/favicon.svg
-public/images/coverProject-900care.webp
-public/images/coverProject-batchcooking.webp
-public/images/coverProject-cdc.webp
-public/images/profile-pic.webp
-public/images/profile-pic1.jpg
-public/images/project-1/conception.webp
-public/images/project-1/metricsHomepage.webp
-public/images/project-1/mockupDesktop.webp
-public/images/project-1/research.webp
-public/images/project-2/checkCdc.webp
-public/images/project-2/conceptBrief.webp
-public/images/project-2/crazy8.webp
-public/images/project-2/degitalCdc.webp
-public/images/project-2/distributeCdc.webp
-public/images/project-2/editCdc.webp
-public/images/project-2/fillTilesCdc.webp
-public/images/project-2/kickoffCdc.webp
-public/images/project-2/magazineCdc.webp
-public/images/project-2/mapCdc.webp
-public/images/project-2/packaging.webp
-public/images/project-2/reviewsCdc.webp
-public/images/project-2/storyBoardCdc.webp
-public/images/project-3/brainstorm.webp
-public/images/project-3/coverProject-batchcooking.webp
-public/images/project-3/diagram.webp
-public/images/project-3/mockupBatchcooking.webp
-public/images/project-3/wireframeBatchcooking.webp
-public/manifest.json
 public/sitemap.xml
 README.md
+repomix.config.json
 robots.txt
 src/components/ArrowButton.astro
 src/components/Button.astro
-src/components/ContactFormSection.astro
+src/components/Cloud.astro
 src/components/Container.astro
 src/components/CopyIcon.astro
 src/components/Divider.astro
@@ -96,10 +65,10 @@ src/components/Hero.astro
 src/components/Navbar.astro
 src/components/ProjectCard.astro
 src/components/ProjectCarousel.astro
-src/components/Welcome.astro
 src/content/config.ts
 src/content/projects/900care.md
 src/content/projects/batchcooking.md
+src/content/projects/biomimicry.txt
 src/content/projects/caissedesdepots.md
 src/layouts/BaseLayout.astro
 src/pages/404.astro
@@ -115,6 +84,32 @@ validate-frontmatter.cjs
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="repomix.config.json">
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "compress": false,
+    "removeComments": false
+  },
+  "ignore": {
+    "useGitignore": true,
+    "customPatterns": [
+      "repomix-output.xml",
+      "public/images/**",
+      "public/*.png",
+      "public/*.ico",
+      "public/*.svg",
+      "public/manifest.json",
+      "*.webp",
+      "Whitepaper*.txt",
+      "src/components/Welcome.astro",
+      "src/components/ContactFormSection.astro"
+    ]
+  }
+}
+</file>
 
 <file path=".github/agents/assistant.agent.md">
 
@@ -249,107 +244,96 @@ All commands are run from the root of the project, from a terminal:
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 </file>
 
-<file path="src/components/ContactFormSection.astro">
+<file path="src/components/Cloud.astro">
 ---
-// Fichier : src/components/ContactFormSection.astro
-import Container from './Container.astro';
+import { tokens } from "../styles/tokens.js";
+// src/components/Cloud.astro
+// Nuage décoratif atomique et paramétrable.
+// Forme via `variant`, couleur via token accent-deco (`shade`) ou `color` libre,
+// taille/position/rotation/opacité/flou par props. Purement décoratif (aria-hidden).
 
-// Hostinger Mailer / Formspree Configuration
-// REMPLACER 'VOTRE_ID_FORMSPREE' par votre ID réel
-const formAction = "https://formspree.io/f/VOTRE_ID_FORMSPREE"; 
-const successRedirect = "/merci"; // Redirection après succès (si nécessaire)
+export interface Props {
+  variant?: "large" | "medium" | "small";
+  shade?: 50 | 100 | 200 | 300 | 400 | 500 | 600; // niveau accent-deco
+  color?: string;                                   // hex libre, prioritaire sur shade
+  width?: string;                                   // ex: "640px", "40vw"
+  blur?: "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+  opacity?: number;                                 // 0 to 1
+  rotate?: number;                                  // degrés
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  class?: string;
+}
+
+const {
+  variant = "medium",
+  shade = 300,
+  color,
+  width = "360px",
+  blur = "md",
+  opacity = 0.6,
+  rotate = 0,
+  top,
+  right,
+  bottom,
+  left,
+  class: className = "",
+} = Astro.props;
+
+const paths = {
+  large: {
+    viewBox: "0 0 850.5 356.3",
+    d: "m788.8,208.4c-2.6-38.1-48.4-68.5-104.5-68.5s-4.1,0-6.1.1c-14.4-40-52.6-68.6-97.6-68.6s-11.1.5-16.4,1.3C536.2,29.4,482.1,0,419.9,0s-119.9,31.4-146.9,77.1c-8.4-2.1-17.3-3.2-26.3-3.2-56.5,0-102.9,42.7-109,97.6-18.6,3.2-35.3,10.5-48.2,20.7-4.4-.5-8.8-.8-13.4-.8C34.1,191.4,0,214.2,0,242.3s34.1,50.9,76.1,50.9,5,0,7.4-.2c17.8,16.9,44.8,27.7,75,27.7s26.4-2.2,38.2-6.1c21.6,25.1,60.7,41.8,105.5,41.8s86.5-17.9,107.5-44.3c13.1,6.4,28.6,10.2,45.2,10.2,23.7,0,45.2-7.6,60.4-19.8,21.2,12.2,51,19.8,84,19.8s75.1-11.1,96.1-28c16.4,9.4,39.2,15.3,64.3,15.3,50.1,0,90.8-23.2,90.8-51.9s-25.9-42.3-61.8-49.2Z",
+  },
+  medium: {
+    viewBox: "0 0 849.1 313.6",
+    d: "m748.7,143.5c-12.8,0-25.1,1.5-36.5,4.1-10-19.7-37.4-34.1-70.2-35.4,2.7-40.9-66.4-72.5-139.2-70.3-46.6-69.2-218.1-49.9-219,38.4-67.5,9.2-119.1,36.3-130.4,69.9-146.8-26.7-237.3,94.7-39.9,107.4,18.7,20.6,70.3,26.9,99.7,14.9,16.9,46.7,184.9,52.6,233,23,32,22.9,104.9,20.6,132.2-5.8,53.1,17,153.7,7.7,186.4-23.8,123.8-12.6,104.9-123.3-16.2-122.3Z",
+  },
+  small: {
+    viewBox: "0 0 849.1 374.1",
+    d: "m718.9,113.7c-12.5,0-24.6,1.4-36.1,4-24.5-33.2-70.5-55.5-123.2-55.5s-23.3,1.1-34.2,3.2C502,26.8,451.5,0,393,0s-133.2,41.4-144.4,95.6c-69.9,6.2-125.7,32.7-141.9,66.8C46.1,168.6,0,200.4,0,238.8s57.5,77.5,128.4,77.5,26.3-1.2,38.4-3.5c15.4,35.6,60.3,61.4,113.3,61.4s80-16.7,101.1-41.9c32.2,20.9,73.7,33.5,119,33.5s120.1-25,153.6-63.1c19.2,8.6,41.4,13.6,65.1,13.6,71.9,0,130.2-45.3,130.2-101.3s-58.3-101.3-130.2-101.3Z",
+  },
+};
+
+const blurClass = {
+  none: "",
+  sm: "blur-sm",
+  md: "blur-md",
+  lg: "blur-lg",
+  xl: "blur-xl",
+  "2xl": "blur-2xl",
+  "3xl": "blur-3xl",
+}[blur];
+
+const fill = color ?? tokens.primitives.color["accent-deco"][shade];
+const shape = paths[variant] ?? paths.medium;
+
+const positionStyle = [
+  `width:${width}`,
+  `opacity:${opacity}`,
+  `color:${fill}`,
+  rotate ? `transform:rotate(${rotate}deg)` : "",
+  top !== undefined ? `top:${top}` : "",
+  right !== undefined ? `right:${right}` : "",
+  bottom !== undefined ? `bottom:${bottom}` : "",
+  left !== undefined ? `left:${left}` : "",
+]
+  .filter(Boolean)
+  .join(";");
 ---
 
-<section id="contact-form-section" class="py-7xl">
-    <Container class="grid grid-cols-1 md:grid-cols-2 gap-7xl">
-        
-        {/* 1. Bloc du Formulaire de Contact */}
-        <div class="col-span-1">
-            
-            {/* Titres */}
-            <div class="mb-xxl space-y-sm">
-                <h2 class="text-3xl font-extrabold text-text-body-primary">Quick Contact</h2>
-                <p class="text-xl text-text-body-secondary">Laissez-moi un message :)</p>
-            </div>
-            
-            {/* Formulaire */}
-            <form id="contact-form" action={formAction} method="POST" class="space-y-md">
-                
-                {/* Champ Sujet */}
-                <input 
-                    name="subject" 
-                    type="text" 
-                    class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
-                    placeholder="Sujet du message"
-                    required
-                />
-                
-                {/* Nom et Prénom */}
-                <div class="flex flex-col sm:flex-row gap-md">
-                    <input 
-                        name="firstName" 
-                        type="text" 
-                        class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
-                        placeholder="Prénom" 
-                        required
-                    />
-                    <input 
-                        name="lastName" 
-                        type="text" 
-                        class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
-                        placeholder="Nom" 
-                        required
-                    />
-                </div>
-                
-                {/* Champ Email */}
-                <input 
-                    name="email" 
-                    type="email" 
-                    name="_replyto" 
-                    class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200"
-                    placeholder="Votre email" 
-                    required
-                />
-                
-                {/* Champ Message */}
-                <textarea 
-                    name="message" 
-                    class="w-full p-md bg-transparent border-0 border-b border-stroke-secondary text-text-body-primary placeholder:text-text-body-tertiary focus:border-text-brand focus:ring-0 focus:outline-none transition duration-200" 
-                    rows="5" 
-                    placeholder="Votre message"
-                    required
-                ></textarea>
-                
-                {/* Champs cachés pour Formspree */}
-                <input type="hidden" name="_next" value={`https://votredomaine.com${successRedirect}`} />
-                <input type="text" name="_gotcha" class="hidden" /> 
-                
-                {/* Bouton de Soumission */}
-                <button 
-                    type="submit" 
-                    class="w-full sm:w-auto mt-sm px-xl py-md bg-text-brand text-background-primary font-bold uppercase rounded-sm hover:bg-opacity-80 transition duration-200"
-                >
-                    Envoyer le message
-                </button>
-            </form>
-        </div>
-
-        {/* 2. Bloc d'informations de contact (Adapté de l'ancien footer) */}
-        <div class="col-span-1 text-text-body-secondary flex flex-col justify-start space-y-md pt-xxl md:pt-3xl">
-            <h3 class="text-xl font-bold text-text-body-primary">Contact Direct</h3>
-            <p>Yassine El Idrissi <br> **contact@yassineelidrissi.com**</p>
-            
-            {/* L'icône SVG décorative peut être réinsérée ici si vous le souhaitez,
-                mais je ne l'ai pas incluse pour l'instant pour garder le design moderne. */}
-                
-            <p class="text-sm text-text-body-tertiary pt-xl">
-                 Designed by Yassine El Idrissi
-            </p>
-        </div>
-
-    </Container>
-</section>
+<svg
+  class={`pointer-events-none absolute -z-10 h-auto ${blurClass} ${className}`}
+  style={positionStyle}
+  viewBox={shape.viewBox}
+  fill="currentColor"
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d={shape.d} />
+</svg>
 </file>
 
 <file path="src/components/CopyIcon.astro">
@@ -389,217 +373,66 @@ const { class: className } = Astro.props;
 </div>
 </file>
 
-<file path="src/components/Welcome.astro">
+<file path="src/content/projects/biomimicry.txt">
 ---
-import astroLogo from '../assets/astro.svg';
-import background from '../assets/background.svg';
+cardImage: "/images/coverProject-biomimicry.webp"
+projectImages:
+ # DIAGNOSIS (Context/Problem)
+ - "/images/biomimicry/museum-context.webp" # Index 0 : contextImage (Principal)
+ - "" # Index 1 : contextImage2 (Optionnel)
+ # DIAGNOSIS (Role/Insights)
+ - "/images/biomimicry/user-research-kids.webp" # Index 2 : roleImage (Principal)
+ - "" # Index 3 : roleImage2 (Optionnel)
+ # CONCEPTION
+ - "/images/biomimicry/physical-prototype.webp" # Index 4 : conceptionImage (Principal)
+ - "" # Index 5 : conceptionImage2 (Optionnel)
+ # RESULTS
+ - "/images/biomimicry/ar-interaction.webp" # Index 6 : resultsImage (Principal)
+ - "" # Index 7 : resultsImage2 (Optionnel)
+semanticSlug: "biomimicry-museum"
+title: "Biomimicry — Interactive Educational Experience"
+client: "Museum of Natural History, Nantes"
+description: "Biomimicry and gamification to introduce the concept of pioneer plants."
+role: "Product Designer"
+roleDescription: "I co-led the project from scientific mediation to physical production. My focus was on UX strategy and product prototyping using woodworking and laser engraving."
+context: "The Museum of Natural History of Nantes needed to help visitors visualize the principle of local 'pioneer plants'. The challenge was to translate a complex biological process into a 5-minute interactive experience for a multi-generational audience."
+problem: "How to make the complex biology of pioneer plants intuitive for children while staying scientifically accurate for adults in a high-traffic museum?"
+
+keyInsights:
+ - "Technical Risk: Standard Web-AR proved unstable on 60% of visitors' older devices, risking high frustration."
+ - "Audience Data: 40% of users were children under 13, requiring a playful experience with zero-instruction interface."
+ - "Cognitive Load: to attract visitors and inplement the concept into our physical environment, a physical 'anchor' was needed before adding the digital AR layer."
+
+methodology: "
+  Working in a team of four, we collaborated with a biology specialist to translate scientific field data into a functional product. 
+  I led the 3D modeling and engineered the wooden totem stand as the primary physical touchpoint, while my teammates managed the AR integration with a developer. 
+  Together, we conducted live user testing and on-site deployment for 100+ visitors."
+designConception:
+  paragraph: |
+    To mitigate technical failure, we pivoted the strategy from 'bring your own device' to a dedicated hardware station. I engineered a robust wooden installation that acted as the AR trigger, ensuring 100% uptime.
+delivery: "A fully functional interactive installation delivered to the Museum. The package included the physical structure (wood & laser-engraved), the AR software layer, and a post-event report detailing visitor engagement patterns and hardware maintenance protocols."
+metrics: "Successfully engaged 100+ visitors in 2 days. Implemented a critical UX update overnight after Day 1. Maintained 0% technical downtime when switching to dedicated hardware."
+publishDate: "2022-02-15"
+isDraft: false
+
+# =================================================
+# CHAMPS CRÉDITS OBLIGATOIRES / OPTIONNELS
+# =================================================
+
+clientDetails:
+ name: "Museum of Natural History, Nantes"
+ link: "https://museum.nantesmetropole.fr/"
+
+teamMembers: 
+ - name: "Yingjun Zhao"
+   link: "https://www.behance.net/joyingjun"
+ - name: "Loïc Prevost"
+   link: "https://www.linkedin.com/in/lo%C3%AFc-prevost-32b822197/"
+ - name: "Aman Srivastava"
+   link: "http://amansrivastava.design/index"
+
+references: []
 ---
-
-<div id="container">
-	<img id="background" src={background.src} alt="" fetchpriority="high" />
-	<main>
-		<section id="hero">
-			<a href="https://astro.build"
-				><img src={astroLogo.src} width="115" height="48" alt="Astro Homepage" /></a
-			>
-			<h1>
-				To get started, open the <code><pre>src/pages</pre></code> directory in your project.
-			</h1>
-			<section id="links">
-				<a class="button" href="https://docs.astro.build">Read our docs</a>
-				<a href="https://astro.build/chat"
-					>Join our Discord <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36"
-						><path
-							fill="currentColor"
-							d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"
-						></path></svg
-					>
-				</a>
-			</section>
-		</section>
-	</main>
-
-	<a href="https://astro.build/blog/astro-5/" id="news" class="box">
-		<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg"
-			><path
-				d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z"
-				fill="#111827"></path></svg
-		>
-		<h2>What's New in Astro 5.0?</h2>
-		<p>
-			From content layers to server islands, click to learn more about the new features and
-			improvements in Astro 5.0
-		</p>
-	</a>
-</div>
-
-<style>
-	#background {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		filter: blur(100px);
-	}
-
-	#container {
-		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-		height: 100%;
-	}
-
-	main {
-		height: 100%;
-		display: flex;
-		justify-content: center;
-	}
-
-	#hero {
-		display: flex;
-		align-items: start;
-		flex-direction: column;
-		justify-content: center;
-		padding: 16px;
-	}
-
-	h1 {
-		font-size: 22px;
-		margin-top: 0.25em;
-	}
-
-	#links {
-		display: flex;
-		gap: 16px;
-	}
-
-	#links a {
-		display: flex;
-		align-items: center;
-		padding: 10px 12px;
-		color: #111827;
-		text-decoration: none;
-		transition: color 0.2s;
-	}
-
-	#links a:hover {
-		color: rgb(78, 80, 86);
-	}
-
-	#links a svg {
-		height: 1em;
-		margin-left: 8px;
-	}
-
-	#links a.button {
-		color: white;
-		background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
-		box-shadow:
-			inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-			inset 0 -2px 0 rgba(0, 0, 0, 0.24);
-		border-radius: 10px;
-	}
-
-	#links a.button:hover {
-		color: rgb(230, 230, 230);
-		box-shadow: none;
-	}
-
-	pre {
-		font-family:
-			ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
-			monospace;
-		font-weight: normal;
-		background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		margin: 0;
-	}
-
-	h2 {
-		margin: 0 0 1em;
-		font-weight: normal;
-		color: #111827;
-		font-size: 20px;
-	}
-
-	p {
-		color: #4b5563;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -0.006em;
-		margin: 0;
-	}
-
-	code {
-		display: inline-block;
-		background:
-			linear-gradient(66.77deg, #f3cddd 0%, #f5cee7 100%) padding-box,
-			linear-gradient(155deg, #d83333 0%, #f041ff 18%, #f5cee7 45%) border-box;
-		border-radius: 8px;
-		border: 1px solid transparent;
-		padding: 6px 8px;
-	}
-
-	.box {
-		padding: 16px;
-		background: rgba(255, 255, 255, 1);
-		border-radius: 16px;
-		border: 1px solid white;
-	}
-
-	#news {
-		position: absolute;
-		bottom: 16px;
-		right: 16px;
-		max-width: 300px;
-		text-decoration: none;
-		transition: background 0.2s;
-		backdrop-filter: blur(50px);
-	}
-
-	#news:hover {
-		background: rgba(255, 255, 255, 0.55);
-	}
-
-	@media screen and (max-height: 368px) {
-		#news {
-			display: none;
-		}
-	}
-
-	@media screen and (max-width: 768px) {
-		#container {
-			display: flex;
-			flex-direction: column;
-		}
-
-		#hero {
-			display: block;
-			padding-top: 10%;
-		}
-
-		#links {
-			flex-wrap: wrap;
-		}
-
-		#links a.button {
-			padding: 14px 18px;
-		}
-
-		#news {
-			right: 16px;
-			left: 16px;
-			bottom: 2.5rem;
-			max-width: 100%;
-		}
-
-		h1 {
-			line-height: 1.5;
-		}
-	}
-</style>
 </file>
 
 <file path="src/pages/404.astro">
@@ -805,32 +638,6 @@ RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^(.*)$ $1.html [NC,L]
 </file>
 
-<file path="public/manifest.json">
-{
-  "name": "Yassine El Idrissi - Product Designer",
-  "short_name": "YEI Portfolio",
-  "description": "Product Designer Portfolio - UX/UI Case Studies",
-  "icons": [
-    {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "theme_color": "#367984",
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "start_url": "/"
-}
-</file>
-
 <file path="robots.txt">
 User-agent: *
 Allow: /
@@ -945,6 +752,416 @@ const { class: className } = Astro.props;
 </div>
 </file>
 
+<file path="package.json">
+{
+  "name": "astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.8",
+    "astro": "^5.14.3"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18"
+  }
+}
+</file>
+
+<file path="src/components/Button.astro">
+---
+// Fichier : src/components/Button.astro
+
+// 1. Définition des Props
+export interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "outline";
+  size?: "default" | "small" | "large";
+  class?: string;
+  showArrow?: boolean;
+  // On accepte n'importe quel autre attribut (comme data-umami ou data-sa)
+  [x: string]: any;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "default",
+  class: className,
+  showArrow = true,
+  ...rest // ✅ RÉCUPÈRE TOUS LES AUTRES ATTRIBUTS (Tracking, etc.)
+} = Astro.props;
+
+// 2. Définition des tokens Tailwind
+const baseStyles =
+  "flex w-full md:w-fit items-center justify-center transition-colors duration-200 cursor-pointer rounded-full";
+const sizeStyles = "py-sm-d px-lg";
+const fontStyles = "text-md font-medium";
+
+// 3. Définition des couleurs Sémantiques et des états par variante
+let variantColors = "";
+
+switch (variant) {
+  case "secondary":
+    variantColors = `
+            bg-button-background-secondary 
+            text-button-text-primary 
+            shadow-md
+            hover:bg-button-hover-secondary 
+            focus:ring-2 focus:ring-button-background-secondary focus:ring-offset-2
+            active:bg-button-active-secondary
+        `;
+    break;
+
+  case "primary":
+  default:
+    variantColors = `
+            bg-button-background-primary 
+            text-button-text-primary 
+            shadow-md
+            hover:bg-button-hover-primary 
+            focus:ring-2 focus:ring-button-background-primary focus:ring-offset-2
+            active:bg-button-active-primary
+        `;
+    break;
+
+  case "outline":
+    variantColors = `
+            /* Styles pour l'état outline/contour */
+        `;
+    break;
+}
+
+let buttonClasses = `${baseStyles} ${sizeStyles} ${fontStyles} ${variantColors} ${className} text-center`;
+---
+
+<a href={href} class={buttonClasses} role="button" {...rest}>
+  <span
+    class="relative flex items-center justify-center w-full mt-[-1px] whitespace-nowrap"
+  >
+    <slot />
+  </span>
+
+  {
+    showArrow && (
+      <svg
+        class="relative w-4 h-4 ml-2 text-button-text-primary"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2.5"
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        />
+      </svg>
+    )
+  }
+</a>
+</file>
+
+<file path="src/components/ProjectCarousel.astro">
+---
+// src/components/ProjectCarousel.astro
+import ArrowButton from "./ArrowButton.astro";
+
+export interface Props {
+  images: string[];
+  // 🚨 1. Ajout de la nouvelle prop
+  hideArrowsOnMobile?: boolean;
+}
+
+// 🚨 2. Destructuration de la nouvelle prop (par défaut à true pour appliquer le masquage)
+const { images, hideArrowsOnMobile = true } = Astro.props;
+
+if (!images || images.length === 0) return null;
+
+const dots = images.map((_, index) => ({
+  index: index,
+}));
+
+// Classes du Design System (DS) pour les Props
+const DS_CLASSES = {
+  mainDefault: "stroke-primary",
+  mainHover: "stroke-primary-hover",
+  tertiaryDefault: "stroke-tertiary",
+  tertiaryHover: "stroke-tertiary-hover",
+  disabledColor: "stroke-disabled",
+} as const;
+
+const prevInitialVariant = "disabled";
+const activeVariant = "main";
+
+// 💡 CORRECTION TS(2306) : Ajout d'une simple exportation pour signaler le fichier comme un module
+// Il est courant d'exporter une constante pour satisfaire le service de langage TS.
+export const isAstroComponent = true;
+---
+
+<section
+  id="project-carousel"
+  aria-label="Project Image Carousel"
+  class="space-y-md my-3xl"
+>
+  <div class="flex items-center justify-between">
+    {/* ⬅️ Flèche Précédente (Desktop) */}
+    <ArrowButton
+      id="prevBtn"
+      label="Image précédente"
+      direction="left"
+      variant={prevInitialVariant as any}
+      onClick="window.handleCarouselNavigation(-1)"
+      isMobile={false}
+      {...DS_CLASSES}
+      class={hideArrowsOnMobile ? "hidden md:block" : ""}
+    />
+
+    {/* 🖼️ Conteneur principal de l'image */}
+    <div
+      class:list={[
+        "relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video",
+        // Base: mx-0 (Full width sur mobile)
+        "mx-0",
+        // Desktop (md): Applique une marge pour séparer des flèches latérales
+        { "md:mx-md": hideArrowsOnMobile },
+      ]}
+    >
+      <img
+        id="carouselImage"
+        src={images[0]}
+        alt="Image détaillée du projet"
+        class="w-full h-full object-contain object-center block rounded-2xl cursor-pointer"
+        loading="lazy"
+        onclick={`showImageModal('${images[0]}')`}
+        data-current-index="0"
+      />
+    </div>
+
+    {/* ➡️ Flèche Suivante (Desktop) */}
+    <ArrowButton
+      id="nextBtn"
+      label="Image suivante"
+      direction="right"
+      variant={activeVariant as any}
+      onClick="window.handleCarouselNavigation(1)"
+      isMobile={false}
+      {...DS_CLASSES}
+      class={hideArrowsOnMobile ? "hidden md:block" : ""}
+    />
+  </div>
+
+  {
+    /* 🔴 Indicateurs de points (Dots) et Flèches Mobile (DOIVENT RESTER VISIBLES) */
+  }
+  <div class="flex items-center justify-center pt-4">
+    {/* ⬅️ Flèche Mobile Précédente */}
+    <ArrowButton
+      id="prevBtnMobile"
+      label="Image précédente"
+      direction="left"
+      variant={prevInitialVariant as any}
+      onClick="window.handleCarouselNavigation(-1)"
+      isMobile={true}
+      {...DS_CLASSES}
+    />
+
+    {/* Conteneur des Points */}
+    <div id="carouselDots" class="flex justify-center space-x-2 mx-4">
+      {
+        dots.map((dot) => (
+          <button
+            data-index={dot.index}
+            aria-label={`Go to slide ${dot.index + 1}`}
+            class={`w-3 h-3 rounded-full transition-colors ${dot.index === 0 ? "bg-background-accent-primary" : "bg-background-disabled"}`}
+            onclick={`window.updateImageFromDot(${dot.index})`}
+          />
+        ))
+      }
+    </div>
+
+    {/* ➡️ Flèche Mobile Suivante */}
+    <ArrowButton
+      id="nextBtnMobile"
+      label="Image suivante"
+      direction="right"
+      variant={activeVariant as any}
+      onClick="window.handleCarouselNavigation(1)"
+      isMobile={true}
+      {...DS_CLASSES}
+    />
+  </div>
+</section>
+
+<script define:vars={{ images }} is:inline>
+  let isInitialized = false;
+  const TOTAL_IMAGES = images.length;
+
+  // Classes de référence pour la JS
+  const VARIANT_ACTIVE = "main";
+  const VARIANT_DISABLED = "disabled";
+
+  // EXPOSEZ LA FONCTION GLOBALEMENT
+  window.updateImageFromDot = function (index) {
+    updateImage(index);
+  };
+
+  // EXPOSEZ LA FONCTION GLOBALEMENT SOUS UN NOM UNIQUE
+  window.handleCarouselNavigation = function (direction) {
+    const carouselImg = document.getElementById("carouselImage");
+    if (!carouselImg || TOTAL_IMAGES === 0) return;
+
+    let currentIndex = carouselImg.dataset.currentIndex
+      ? parseInt(carouselImg.dataset.currentIndex)
+      : 0;
+    let newIndex = currentIndex + direction;
+
+    if (direction === 1) {
+      if (newIndex >= TOTAL_IMAGES) {
+        newIndex = 0; // Loop vers la première image
+      }
+    } else if (direction === -1) {
+      if (newIndex < 0) {
+        return; // Arrête la navigation
+      }
+    }
+
+    updateImage(newIndex);
+  };
+
+  // FONCTION DE MISE À JOUR (Portée Locale)
+  function updateImage(index) {
+    const carouselImg = document.getElementById("carouselImage");
+    const dotsContainer = document.getElementById("carouselDots");
+    if (!carouselImg || TOTAL_IMAGES === 0 || !dotsContainer) return;
+
+    // 1. Mise à jour de l'image et de l'état
+    const imageUrl = images[index];
+    carouselImg.src = imageUrl;
+    carouselImg.setAttribute("onclick", `showImageModal('${imageUrl}')`);
+    carouselImg.dataset.currentIndex = index.toString();
+
+    // 2. Mise à jour des points
+    dotsContainer.querySelectorAll("button").forEach((dot, dotIndex) => {
+      const isActive = dotIndex === index;
+      dot.classList.toggle("bg-background-accent-primary", isActive);
+      dot.classList.toggle("bg-background-disabled", !isActive);
+    });
+
+    // 3. Mise à jour des États des Flèches (Précédent)
+    const prevArrows = [
+      document.getElementById("prevBtn"),
+      document.getElementById("prevBtnMobile"),
+    ];
+    const isPrevDisabled = index === 0;
+
+    prevArrows.forEach((btn) => {
+      if (!btn) return;
+
+      // Mettre à jour la prop 'disabled' de l'ArrowButton
+      btn.disabled = isPrevDisabled;
+
+      // 🚨 CORRECTION : Gérer la visibilité/interactivité via les classes du SPAN interne
+      const span = btn.querySelector("span");
+      if (span) {
+        span.classList.toggle("opacity-0", isPrevDisabled);
+        span.classList.toggle("pointer-events-none", isPrevDisabled);
+        span.classList.toggle("opacity-100", !isPrevDisabled);
+
+        // Si vous utilisez la méthode de couleur par classe de stroke injectée :
+        // span.classList.toggle('stroke-disabled', isPrevDisabled);
+        // span.classList.toggle('stroke-primary', !isPrevDisabled);
+      }
+    });
+
+    // 4. Mise à jour des États des Flèches (Suivant) - Gère la boucle
+    const nextArrows = [
+      document.getElementById("nextBtn"),
+      document.getElementById("nextBtnMobile"),
+    ];
+    const isNextDisabled = index === TOTAL_IMAGES - 1;
+
+    nextArrows.forEach((btn) => {
+      if (!btn) return;
+
+      // Si la navigation est en boucle (loop), on ne désactive jamais le bouton suivant.
+      // Si vous ne voulez PAS de boucle, décommentez la logique ci-dessous :
+      /*
+btn.disabled = isNextDisabled;
+
+const span = btn.querySelector('span');
+if (span) {
+span.classList.toggle('opacity-0', isNextDisabled);
+span.classList.toggle('pointer-events-none', isNextDisabled);
+span.classList.toggle('opacity-100', !isNextDisabled);
+}
+*/
+    });
+  }
+
+  // GESTION DU SWIPE (Portée Locale)
+  function attachSwipeHandler() {
+    const carouselImg = document.getElementById("carouselImage");
+    if (!carouselImg) return;
+
+    let touchstartX = 0;
+    let touchendX = 0;
+    const minSwipeDistance = 50;
+
+    carouselImg.addEventListener("touchstart", (e) => {
+      touchstartX = e.changedTouches[0].screenX;
+    });
+
+    carouselImg.addEventListener("touchend", (e) => {
+      touchendX = e.changedTouches[0].screenX;
+      handleSwipeGesture();
+    });
+
+    function handleSwipeGesture() {
+      const distance = touchendX - touchstartX;
+
+      if (Math.abs(distance) < minSwipeDistance) {
+        return;
+      }
+
+      if (distance < 0) {
+        // Swipe vers la gauche (passe à l'image suivante: direction 1)
+        window.handleCarouselNavigation(1);
+      } else {
+        // Swipe vers la droite (passe à l'image précédente: direction -1)
+        window.handleCarouselNavigation(-1);
+      }
+    }
+  }
+
+  // Fonction d'initialisation (Portée Locale)
+  function initializeCarousel() {
+    if (isInitialized || images.length === 0) return;
+
+    // Mise à jour initiale des flèches et des points (s'assure que la flèche "prev" est désactivée)
+    updateImage(0);
+
+    // Attacher l'écouteur de swipe
+    attachSwipeHandler();
+
+    isInitialized = true;
+  }
+
+  document.addEventListener("DOMContentLoaded", initializeCarousel);
+  document.addEventListener("astro:after-swap", initializeCarousel);
+</script>
+</file>
+
 <file path="src/pages/work/[slug].astro">
 ---
 import { getCollection } from "astro:content";
@@ -1010,7 +1227,7 @@ const disabledVariant = "disabled";
   <Container>
     <main class="py-3xl max-w-content mx-auto space-y-3xl">
       <h1
-        class="text-4xl font-extrabold text-text-body-primary"
+        class="h-display"
         set:html={project.data.title}
       />
 
@@ -1628,478 +1845,6 @@ const disabledVariant = "disabled";
 </BaseLayout>
 </file>
 
-<file path="package.json">
-{
-  "name": "astro",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/mdx": "^4.3.8",
-    "astro": "^5.14.3"
-  },
-  "devDependencies": {
-    "@astrojs/sitemap": "^3.6.0",
-    "@astrojs/tailwind": "^6.0.2",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.18"
-  }
-}
-</file>
-
-<file path="src/components/Button.astro">
----
-// Fichier : src/components/Button.astro
-
-// 1. Définition des Props
-export interface Props {
-  href: string;
-  variant?: "primary" | "secondary" | "outline";
-  size?: "default" | "small" | "large";
-  class?: string;
-  showArrow?: boolean;
-  // On accepte n'importe quel autre attribut (comme data-umami ou data-sa)
-  [x: string]: any;
-}
-
-const {
-  href,
-  variant = "primary",
-  size = "default",
-  class: className,
-  showArrow = true,
-  ...rest // ✅ RÉCUPÈRE TOUS LES AUTRES ATTRIBUTS (Tracking, etc.)
-} = Astro.props;
-
-// 2. Définition des tokens Tailwind
-const baseStyles =
-  "flex w-full md:w-fit items-center justify-center transition-colors duration-200 cursor-pointer rounded-full";
-const sizeStyles = "py-sm-d px-lg";
-const fontStyles = "text-md font-medium";
-
-// 3. Définition des couleurs Sémantiques et des états par variante
-let variantColors = "";
-
-switch (variant) {
-  case "secondary":
-    variantColors = `
-            bg-button-background-secondary 
-            text-button-text-primary 
-            shadow-md
-            hover:bg-button-hover-secondary 
-            focus:ring-2 focus:ring-button-background-secondary focus:ring-offset-2
-            active:bg-button-active-secondary
-        `;
-    break;
-
-  case "primary":
-  default:
-    variantColors = `
-            bg-button-background-primary 
-            text-button-text-primary 
-            shadow-md
-            hover:bg-button-hover-primary 
-            focus:ring-2 focus:ring-button-background-primary focus:ring-offset-2
-            active:bg-button-active-primary
-        `;
-    break;
-
-  case "outline":
-    variantColors = `
-            /* Styles pour l'état outline/contour */
-        `;
-    break;
-}
-
-let buttonClasses = `${baseStyles} ${sizeStyles} ${fontStyles} ${variantColors} ${className} text-center`;
----
-
-<a href={href} class={buttonClasses} role="button" {...rest}>
-  <span
-    class="relative flex items-center justify-center w-full mt-[-1px] whitespace-nowrap"
-  >
-    <slot />
-  </span>
-
-  {
-    showArrow && (
-      <svg
-        class="relative w-4 h-4 ml-2 text-button-text-primary"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2.5"
-          d="M14 5l7 7m0 0l-7 7m7-7H3"
-        />
-      </svg>
-    )
-  }
-</a>
-</file>
-
-<file path="src/components/ProjectCarousel.astro">
----
-// src/components/ProjectCarousel.astro
-import ArrowButton from "./ArrowButton.astro";
-
-export interface Props {
-  images: string[];
-  // 🚨 1. Ajout de la nouvelle prop
-  hideArrowsOnMobile?: boolean;
-}
-
-// 🚨 2. Destructuration de la nouvelle prop (par défaut à true pour appliquer le masquage)
-const { images, hideArrowsOnMobile = true } = Astro.props;
-
-if (!images || images.length === 0) return null;
-
-const dots = images.map((_, index) => ({
-  index: index,
-}));
-
-// Classes du Design System (DS) pour les Props
-const DS_CLASSES = {
-  mainDefault: "stroke-primary",
-  mainHover: "stroke-primary-hover",
-  tertiaryDefault: "stroke-tertiary",
-  tertiaryHover: "stroke-tertiary-hover",
-  disabledColor: "stroke-disabled",
-} as const;
-
-const prevInitialVariant = "disabled";
-const activeVariant = "main";
-
-// 💡 CORRECTION TS(2306) : Ajout d'une simple exportation pour signaler le fichier comme un module
-// Il est courant d'exporter une constante pour satisfaire le service de langage TS.
-export const isAstroComponent = true;
----
-
-<section
-  id="project-carousel"
-  aria-label="Project Image Carousel"
-  class="space-y-md my-3xl"
->
-  <div class="flex items-center justify-between">
-    {/* ⬅️ Flèche Précédente (Desktop) */}
-    <ArrowButton
-      id="prevBtn"
-      label="Image précédente"
-      direction="left"
-      variant={prevInitialVariant as any}
-      onClick="window.handleCarouselNavigation(-1)"
-      isMobile={false}
-      {...DS_CLASSES}
-      class={hideArrowsOnMobile ? "hidden md:block" : ""}
-    />
-
-    {/* 🖼️ Conteneur principal de l'image */}
-    <div
-      class:list={[
-        "relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video",
-        // Base: mx-0 (Full width sur mobile)
-        "mx-0",
-        // Desktop (md): Applique une marge pour séparer des flèches latérales
-        { "md:mx-md": hideArrowsOnMobile },
-      ]}
-    >
-      <img
-        id="carouselImage"
-        src={images[0]}
-        alt="Image détaillée du projet"
-        class="w-full h-full object-contain object-center block rounded-2xl cursor-pointer"
-        loading="lazy"
-        onclick={`showImageModal('${images[0]}')`}
-        data-current-index="0"
-      />
-    </div>
-
-    {/* ➡️ Flèche Suivante (Desktop) */}
-    <ArrowButton
-      id="nextBtn"
-      label="Image suivante"
-      direction="right"
-      variant={activeVariant as any}
-      onClick="window.handleCarouselNavigation(1)"
-      isMobile={false}
-      {...DS_CLASSES}
-      class={hideArrowsOnMobile ? "hidden md:block" : ""}
-    />
-  </div>
-
-  {
-    /* 🔴 Indicateurs de points (Dots) et Flèches Mobile (DOIVENT RESTER VISIBLES) */
-  }
-  <div class="flex items-center justify-center pt-4">
-    {/* ⬅️ Flèche Mobile Précédente */}
-    <ArrowButton
-      id="prevBtnMobile"
-      label="Image précédente"
-      direction="left"
-      variant={prevInitialVariant as any}
-      onClick="window.handleCarouselNavigation(-1)"
-      isMobile={true}
-      {...DS_CLASSES}
-    />
-
-    {/* Conteneur des Points */}
-    <div id="carouselDots" class="flex justify-center space-x-2 mx-4">
-      {
-        dots.map((dot) => (
-          <button
-            data-index={dot.index}
-            aria-label={`Go to slide ${dot.index + 1}`}
-            class={`w-3 h-3 rounded-full transition-colors ${dot.index === 0 ? "bg-background-accent-primary" : "bg-background-disabled"}`}
-            onclick={`window.updateImageFromDot(${dot.index})`}
-          />
-        ))
-      }
-    </div>
-
-    {/* ➡️ Flèche Mobile Suivante */}
-    <ArrowButton
-      id="nextBtnMobile"
-      label="Image suivante"
-      direction="right"
-      variant={activeVariant as any}
-      onClick="window.handleCarouselNavigation(1)"
-      isMobile={true}
-      {...DS_CLASSES}
-    />
-  </div>
-</section>
-
-<script define:vars={{ images }} is:inline>
-  let isInitialized = false;
-  const TOTAL_IMAGES = images.length;
-
-  // Classes de référence pour la JS
-  const VARIANT_ACTIVE = "main";
-  const VARIANT_DISABLED = "disabled";
-
-  // EXPOSEZ LA FONCTION GLOBALEMENT
-  window.updateImageFromDot = function (index) {
-    updateImage(index);
-  };
-
-  // EXPOSEZ LA FONCTION GLOBALEMENT SOUS UN NOM UNIQUE
-  window.handleCarouselNavigation = function (direction) {
-    const carouselImg = document.getElementById("carouselImage");
-    if (!carouselImg || TOTAL_IMAGES === 0) return;
-
-    let currentIndex = carouselImg.dataset.currentIndex
-      ? parseInt(carouselImg.dataset.currentIndex)
-      : 0;
-    let newIndex = currentIndex + direction;
-
-    if (direction === 1) {
-      if (newIndex >= TOTAL_IMAGES) {
-        newIndex = 0; // Loop vers la première image
-      }
-    } else if (direction === -1) {
-      if (newIndex < 0) {
-        return; // Arrête la navigation
-      }
-    }
-
-    updateImage(newIndex);
-  };
-
-  // FONCTION DE MISE À JOUR (Portée Locale)
-  function updateImage(index) {
-    const carouselImg = document.getElementById("carouselImage");
-    const dotsContainer = document.getElementById("carouselDots");
-    if (!carouselImg || TOTAL_IMAGES === 0 || !dotsContainer) return;
-
-    // 1. Mise à jour de l'image et de l'état
-    const imageUrl = images[index];
-    carouselImg.src = imageUrl;
-    carouselImg.setAttribute("onclick", `showImageModal('${imageUrl}')`);
-    carouselImg.dataset.currentIndex = index.toString();
-
-    // 2. Mise à jour des points
-    dotsContainer.querySelectorAll("button").forEach((dot, dotIndex) => {
-      const isActive = dotIndex === index;
-      dot.classList.toggle("bg-background-accent-primary", isActive);
-      dot.classList.toggle("bg-background-disabled", !isActive);
-    });
-
-    // 3. Mise à jour des États des Flèches (Précédent)
-    const prevArrows = [
-      document.getElementById("prevBtn"),
-      document.getElementById("prevBtnMobile"),
-    ];
-    const isPrevDisabled = index === 0;
-
-    prevArrows.forEach((btn) => {
-      if (!btn) return;
-
-      // Mettre à jour la prop 'disabled' de l'ArrowButton
-      btn.disabled = isPrevDisabled;
-
-      // 🚨 CORRECTION : Gérer la visibilité/interactivité via les classes du SPAN interne
-      const span = btn.querySelector("span");
-      if (span) {
-        span.classList.toggle("opacity-0", isPrevDisabled);
-        span.classList.toggle("pointer-events-none", isPrevDisabled);
-        span.classList.toggle("opacity-100", !isPrevDisabled);
-
-        // Si vous utilisez la méthode de couleur par classe de stroke injectée :
-        // span.classList.toggle('stroke-disabled', isPrevDisabled);
-        // span.classList.toggle('stroke-primary', !isPrevDisabled);
-      }
-    });
-
-    // 4. Mise à jour des États des Flèches (Suivant) - Gère la boucle
-    const nextArrows = [
-      document.getElementById("nextBtn"),
-      document.getElementById("nextBtnMobile"),
-    ];
-    const isNextDisabled = index === TOTAL_IMAGES - 1;
-
-    nextArrows.forEach((btn) => {
-      if (!btn) return;
-
-      // Si la navigation est en boucle (loop), on ne désactive jamais le bouton suivant.
-      // Si vous ne voulez PAS de boucle, décommentez la logique ci-dessous :
-      /*
-btn.disabled = isNextDisabled;
-
-const span = btn.querySelector('span');
-if (span) {
-span.classList.toggle('opacity-0', isNextDisabled);
-span.classList.toggle('pointer-events-none', isNextDisabled);
-span.classList.toggle('opacity-100', !isNextDisabled);
-}
-*/
-    });
-  }
-
-  // GESTION DU SWIPE (Portée Locale)
-  function attachSwipeHandler() {
-    const carouselImg = document.getElementById("carouselImage");
-    if (!carouselImg) return;
-
-    let touchstartX = 0;
-    let touchendX = 0;
-    const minSwipeDistance = 50;
-
-    carouselImg.addEventListener("touchstart", (e) => {
-      touchstartX = e.changedTouches[0].screenX;
-    });
-
-    carouselImg.addEventListener("touchend", (e) => {
-      touchendX = e.changedTouches[0].screenX;
-      handleSwipeGesture();
-    });
-
-    function handleSwipeGesture() {
-      const distance = touchendX - touchstartX;
-
-      if (Math.abs(distance) < minSwipeDistance) {
-        return;
-      }
-
-      if (distance < 0) {
-        // Swipe vers la gauche (passe à l'image suivante: direction 1)
-        window.handleCarouselNavigation(1);
-      } else {
-        // Swipe vers la droite (passe à l'image précédente: direction -1)
-        window.handleCarouselNavigation(-1);
-      }
-    }
-  }
-
-  // Fonction d'initialisation (Portée Locale)
-  function initializeCarousel() {
-    if (isInitialized || images.length === 0) return;
-
-    // Mise à jour initiale des flèches et des points (s'assure que la flèche "prev" est désactivée)
-    updateImage(0);
-
-    // Attacher l'écouteur de swipe
-    attachSwipeHandler();
-
-    isInitialized = true;
-  }
-
-  document.addEventListener("DOMContentLoaded", initializeCarousel);
-  document.addEventListener("astro:after-swap", initializeCarousel);
-</script>
-</file>
-
-<file path="public/favicon.svg">
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1,0,0,1,0,-1528.046072)">
-        <g id="SVG-Y-serif-cap" serif:id="SVG Y serif cap" transform="matrix(1,0,0,1,0,1528.046072)">
-            <rect x="0" y="0" width="1000" height="1000" style="fill:none;"/>
-            <path d="M1000,150L1000,850C1000,932.787 932.787,1000 850,1000L150,1000C67.213,1000 0,932.787 0,850L0,150C0,67.213 67.213,0 150,0L850,0C932.787,0 1000,67.213 1000,150ZM429.992,561.898L273.974,271.908C255.132,236.861 240.811,211.8 231.013,196.726C221.215,181.652 211.416,169.781 201.618,161.113C191.82,152.445 180.514,146.039 167.701,141.893L167.701,114.195L408.512,114.195L408.512,141.893C373.087,146.039 355.375,161.301 355.375,187.681C355.375,198.61 357.919,210.858 363.006,224.425C368.094,237.991 377.233,257.211 390.423,282.084L503.479,497.456L614.84,300.738C629.914,273.981 640.56,252.029 646.778,234.882C652.997,217.735 656.106,202.002 656.106,187.681C656.106,174.115 652.054,163.468 643.952,155.743C635.85,148.017 623.884,143.401 608.057,141.893L608.057,114.195L822.299,114.195L822.299,141.893C806.848,147.546 793.281,155.366 781.598,165.353C769.916,175.339 758.045,188.812 745.986,205.77C733.926,222.729 716.214,251.37 692.849,291.693L535.7,559.637L535.7,742.789C535.7,764.27 536.831,781.605 539.092,794.795C541.353,807.985 545.122,818.537 550.398,826.451C555.674,834.365 562.645,840.583 571.313,845.105C579.981,849.627 593.548,853.961 612.014,858.107L612.014,885.805L353.679,885.805L353.679,858.107C371.768,854.338 385.147,850.287 393.814,845.953C402.482,841.619 409.454,835.401 414.73,827.299C420.006,819.196 423.869,808.55 426.318,795.36C428.768,782.17 429.992,764.647 429.992,742.789L429.992,561.898Z" style="fill:rgb(243,244,246);"/>
-            <g transform="matrix(23.153981,0,0,23.153981,-6569.757081,-12585.601408)">
-                <path d="M302.313,567.829L295.575,555.305C294.761,553.791 294.142,552.708 293.719,552.057C293.296,551.406 292.873,550.894 292.45,550.519C292.027,550.145 291.538,549.868 290.985,549.689L290.985,548.493L301.385,548.493L301.385,549.689C299.855,549.868 299.09,550.527 299.09,551.667C299.09,552.139 299.2,552.668 299.42,553.254C299.64,553.84 300.034,554.67 300.604,555.744L305.487,565.046L310.296,556.55C310.947,555.394 311.407,554.446 311.676,553.705C311.944,552.965 312.079,552.285 312.079,551.667C312.079,551.081 311.904,550.621 311.554,550.287C311.204,549.954 310.687,549.754 310.003,549.689L310.003,548.493L319.256,548.493L319.256,549.689C318.589,549.933 318.003,550.271 317.499,550.702C316.994,551.134 316.481,551.716 315.96,552.448C315.44,553.18 314.675,554.417 313.666,556.159L306.878,567.731L306.878,575.641C306.878,576.569 306.927,577.318 307.025,577.888C307.123,578.457 307.285,578.913 307.513,579.255C307.741,579.597 308.042,579.865 308.417,580.06C308.791,580.256 309.377,580.443 310.174,580.622L310.174,581.818L299.017,581.818L299.017,580.622C299.798,580.459 300.376,580.284 300.751,580.097C301.125,579.91 301.426,579.641 301.654,579.291C301.882,578.941 302.049,578.482 302.154,577.912C302.26,577.342 302.313,576.585 302.313,575.641L302.313,567.829Z" style="fill:rgb(24,45,52);"/>
-            </g>
-        </g>
-    </g>
-</svg>
-</file>
-
-<file path="src/components/Hero.astro">
----
-// Fichier : src/components/Hero.astro
-import Container from "./Container.astro";
-
-export interface Props {
-  title: string;
-  subtitle: string;
-  profileImage: any;
-}
-
-const { title, subtitle, profileImage } = Astro.props;
----
-
-<Container>
-  <section
-    class="flex w-full flex-col md:flex-row items-center justify-center gap-xl"
-  >
-    {
-      /*  <div class="mb-md md:mb-0 w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-full overflow-hidden">
-            <img 
-                src={profileImage} 
-                alt="Image de profil du designer"
-                class="object-cover w-full h-full"
-            />
-        </div>*/
-    }
-
-    <div
-      class="flex flex-col items-center md:items-start text-center md:text-center space-y-sm"
-      style="width: fit-content;"
-    >
-      <h1 class="text-4xl font-extrabold text-text-body-primary w-full">
-        {title}
-      </h1>
-
-      <p
-        class="text-md font-normal text-text-body-secondary w-full max-w-[610px]"
-      >
-        {subtitle}
-      </p>
-    </div>
-  </section>
-</Container>
-</file>
-
 <file path="src/content/projects/caissedesdepots.md">
 ---
 # src/content/projects/project-2.md
@@ -2181,6 +1926,54 @@ references:
     link: "https://www.linkedin.com/in/matthieugioani/"
     role: "Encadrement"
 ---
+</file>
+
+<file path="src/components/Hero.astro">
+---
+// Fichier : src/components/Hero.astro
+import Container from "./Container.astro";
+
+export interface Props {
+  title: string;
+  subtitle: string;
+   subtitleBreak?: string;
+  profileImage: any;
+}
+
+const { title, subtitle, subtitleBreak, profileImage } = Astro.props;
+---
+
+<Container>
+  <section
+    class="flex w-full flex-col md:flex-row items-center justify-center gap-xl"
+  >
+    {
+      /*  <div class="mb-md md:mb-0 w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-full overflow-hidden">
+            <img 
+                src={profileImage} 
+                alt="Image de profil du designer"
+                class="object-cover w-full h-full"
+            />
+        </div>*/
+    }
+
+    <div
+      class="flex flex-col items-center md:items-start text-center md:text-center space-y-md"
+      style="width: fit-content;"
+    >
+      <h1 class="h-display w-full font-semibold text-heading-accent text-5xl md:text-6xl">
+        {title}
+      </h1>
+
+      <p
+        class="text-lg font-normal text-text-body-secondary w-full max-w-[610px]"
+      >
+        {subtitle}
+{subtitleBreak && <span class="block">{subtitleBreak}</span>}
+      </p>
+    </div>
+  </section>
+</Container>
 </file>
 
 <file path="src/content/projects/batchcooking.md">
@@ -2277,136 +2070,14 @@ html {
     /* CORRECTION: Utilisation des classes sémantiques complètes */
     @apply bg-background-primary text-white px-md py-sm rounded-md font-medium;
   }
-
+.h-display {
+    @apply font-serif text-4xl font-semibold text-text-body-primary;
+  }
   .btn-outline {
     /* CORRECTION: Utilisation des classes sémantiques complètes */
     @apply border border-background-primary text-text-body-primary bg-transparent;
   }
 }
-</file>
-
-<file path="src/styles/tokens.js">
-// src/styles/tokens.js
-
-export const tokens = {
-  primitives: {
-    color: {
-      base: {
-        white: "#ffffff",
-        black: "#030712",
-      },
-      gray: {
-        50: "#f9fafb",
-        100: "#f3f4f6",
-        200: "#e5e7eb",
-        300: "#d1d5dc",
-        400: "#99a1af",
-        500: "#6a7282",
-        600: "#4a5565",
-        700: "#364153",
-        800: "#1e2939",
-        900: "#101828",
-        950: "#030712",
-      },
-      "blue-chill": {
-        50: "#f1f9fa",
-        100: "#dcf0f1",
-        200: "#bde2e4",
-        300: "#8fcdd1",
-        400: "#59aeb7",
-        500: "#3b8c95",
-        600: "#367984",
-        700: "#31636d",
-        800: "#2f525b",
-        900: "#2b474e",
-        950: "#182d34",
-      },
-    },
-
-    fontSize: {
-      xs: "12px",
-      sm: "14px",
-      base: "16px",
-      lg: "18px",
-      xl: "20px",
-      "2xl": "24px",
-      "3xl": "30px",
-      "4xl": "36px",
-      "5xl": "48px",
-      "6xl": "60px",
-    },
-
-    fontWeight: {
-      thin: 100,
-      normal: 400,
-      semibold: 600,
-      extrabold: 800,
-    },
-
-    leading: {
-      normal: "1.5",
-      relaxed: "1.625",
-    },
-
-    spacing: {
-      xxs: "2px",
-      xs: "4px",
-      sm: "8px",
-      "sm-d": "12px",
-      md: "16px",
-      lg: "24px",
-      xl: "32px",
-      "2xl": "48px",
-      "3xl": "64px",
-      "4xl": "80px",
-      "5xl": "96px",
-      "6xl": "112px",
-    },
-
-    borderRadius: {
-      md: "6px",
-      xl: "12px",
-      "2xl": "16px",
-    },
-  },
-
-  semantic: {
-    colors: {
-      "background-primary": "{primitives.color.base.white}",
-      "background-brand": "{primitives.color.blue-chill.600}",
-      "text-body-primary": "{primitives.color.base.black}",
-      "text-body-secondary": "{primitives.color.gray.600}",
-      "text-body-tertiary": "{primitives.color.gray.400}",
-      "text-body-accent": "{primitives.color.blue-chill.600}",
-      "button-background-primary": "{primitives.color.blue-chill.600}",
-      "button-text-primary": "{primitives.color.base.white}",
-      "stroke-neutral-primary": "{primitives.color.gray.400}",
-      "stroke-primary": "{primitives.color.blue-chill.400}",
-      "stroke-primary-dark": "{primitives.color.blue-chill.500}",
-    },
-
-    layout: {
-      container: {
-        maxWidth: "1200px",
-      },
-      image: {
-        aspectRatio: "4/3",
-      },
-      grid: {
-        gap: {
-          base: "16px",
-          large: "32px",
-        },
-      },
-    },
-
-    border: {
-      radius: {
-        card: "12px",
-      },
-    },
-  },
-};
 </file>
 
 <file path="src/components/Footer.astro">
@@ -2498,28 +2169,28 @@ navigator.clipboard.writeText(email).then(() => {
     <div
       class="flex flex-col items-center justify-center text-center space-y-lg"
     >
-      <p
+      <h1
         id="footer-heading"
-        class="text-text-body-primary text-lg font-semibold"
+        class="h-display italic text-text-body-primary text-3xl font-semibold"
       >
         Let's connect !
-      </p>
+  </h1>
       <p class="text-text-body-primary text-base font-normal">
         For any questions or collaboration requests.
       </p>
-
-      <div
-        class="flex items-center space-x-sm border border-stroke-neutral-primary rounded-xl px-md py-sm-d cursor-pointer transition hover:bg-gray-50/10"
+<div
+        class="flex items-center space-x-sm bg-background-primary border border-stroke-neutral-primary rounded-full px-lg py-sm-d cursor-pointer transition hover:bg-gray-50 border-stroke-primary-hover shadow-sm"
         onclick={copyToClipboard}
         role="button"
         tabindex="0"
         aria-label={`Copy contact email address: ${emailAddress}`}
       >
-        <CopyIcon />
+        <CopyIcon class="stroke-text-body-accent" />
         <p class="text-text-body-primary text-md font-semibold">
           {emailAddress}
         </p>
       </div>
+   
     </div>
   </Container>
 
@@ -2562,126 +2233,6 @@ navigator.clipboard.writeText(email).then(() => {
     </div>
   </Container>
 </footer>
-</file>
-
-<file path="src/components/ProjectCard.astro">
----
-import Button from "./Button.astro";
-
-export interface Props {
-  headline: string;
-  client: string;
-  description?: string;
-  role: string;
-  projectLink: string;
-  imageAlt: string;
-  imageUrl: string;
-  direction?: "default" | "reverse";
-  id?: string;
-}
-
-const {
-  headline,
-  client,
-  description,
-  role,
-  projectLink,
-  imageAlt,
-  imageUrl,
-  direction = "default",
-  id,
-} = Astro.props;
-
-// --- LOGIQUE DE TRACKING MUTUALISÉE ---
-
-// Format pour Simple Analytics (snake_case : view_project_900_care)
-const projectSlugSA = client
-  .toLowerCase()
-  .replace(/\s+/g, "_")
-  .replace(/[^\w_]/g, "");
-const eventNameSA = `view_project_${projectSlugSA}`;
-
-// Format pour Umami (kebab-case : 900-care)
-const projectSlugUmami = client
-  .toLowerCase()
-  .replace(/\s+/g, "-")
-  .replace(/[^\w-]/g, "");
-
-const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
----
-
-<article
-  id={id ?? undefined}
-  role="article"
-  aria-label={headline}
-  class={`flex flex-col md:flex-row gap-xl md:gap-3xl bg-background-primary ${directionClass} md:items-start`}
->
-  <h1
-    class="text-4xl font-extrabold text-text-body-primary md:hidden m-0"
-    set:html={headline}
-  />
-
-  <a
-    href={projectLink}
-    data-sa-event={eventNameSA}
-    data-umami-event="project-image-click"
-    data-umami-event-project={projectSlugUmami}
-    aria-label={`Voir le projet : ${headline}`}
-    class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
-  >
-    <img
-      src={imageUrl}
-      alt={imageAlt}
-      class="absolute inset-0 w-full h-full object-cover block rounded-2xl transition-transform duration-500 group-hover:scale-90"
-      loading="lazy"
-    />
-  </a>
-
-  <section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
-    <h1
-      class="text-4xl font-extrabold text-text-body-primary hidden md:block m-0"
-      set:html={headline}
-    />
-    <div class="space-y-lg">
-      <div>
-        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
-          >Client</span
-        >
-        <p class="text-base font-normal text-text-body-primary">
-          {client}
-        </p>
-      </div>
-
-      <div>
-        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
-          >Description</span
-        >
-        <p class="text-base font-normal text-text-body-primary leading-normal">
-          {description}
-        </p>
-      </div>
-
-      <div>
-        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
-          >Role</span
-        >
-        <p class="text-base font-normal text-text-body-primary">
-          {role}
-        </p>
-      </div>
-    </div>
-    <div>
-      <Button
-        href={projectLink}
-        data-sa-event={eventNameSA}
-        data-umami-event="project-button-click"
-        data-umami-event-project={projectSlugUmami}
-      >
-        View project
-      </Button>
-    </div>
-  </section>
-</article>
 </file>
 
 <file path="src/content/config.ts">
@@ -2808,6 +2359,308 @@ references:
 ---
 </file>
 
+<file path="src/styles/tokens.js">
+// src/styles/tokens.js
+
+export const tokens = {
+  primitives: {
+    color: {
+      base: {
+        white: "#ffffff",
+        black: "#030712",
+      },
+      gray: {
+        50: "#f9fafb",
+        100: "#f3f4f6",
+        200: "#e5e7eb",
+        300: "#d1d5dc",
+        400: "#99a1af",
+        500: "#6a7282",
+        600: "#4a5565",
+        700: "#364153",
+        800: "#1e2939",
+        900: "#101828",
+        950: "#030712",
+      },
+      "blue-chill": {
+        50: "#f1f9fa",
+        100: "#dcf0f1",
+        200: "#bde2e4",
+        300: "#8fcdd1",
+        400: "#59aeb7",
+        500: "#3b8c95",
+        600: "#367984",
+        700: "#31636d",
+        800: "#2f525b",
+        900: "#2b474e",
+        950: "#182d34",
+      },
+      // Accent primairy — action (violet)
+"accent-action": {
+  50:  "#f4f0fd",
+  100: "#e9e0fb",
+  200: "#d3c1f7",
+  300: "#b598f0",
+  400: "#9366e6",
+  500: "#7d47db",
+  600: "#6d3bd1",   // ← couleur de base fournie
+  700: "#5c30b0",
+  800: "#4c2a8f",
+  900: "#402674",
+  950: "#28164d",
+},
+
+// Accent secondary — décorative
+"accent-deco": {
+  50:  "#eff6fc",
+  100: "#dbeaf7",
+  200: "#bfdaf1",
+  300: "#93c2e8",
+  400: "#61a3db",
+  500: "#3e86cd",
+  600: "#2a72ad",   // ← couleur de base fournie
+  700: "#245d8f",
+  800: "#234f76",
+  900: "#214463",
+  950: "#162b42",
+},
+    },
+
+    fontSize: {
+      xs: "12px",
+      sm: "14px",
+      base: "16px",
+      lg: "18px",
+      xl: "20px",
+      "2xl": "24px",
+      "3xl": "30px",
+      "4xl": "36px",
+      "5xl": "48px",
+      "6xl": "60px",
+    },
+
+    fontWeight: {
+      thin: 100,
+      normal: 400,
+      semibold: 600,
+      bold: 500,
+      extrabold: 800,
+    },
+
+    leading: {
+      normal: "1.5",
+      relaxed: "1.625",
+    },
+
+    spacing: {
+      xxs: "2px",
+      xs: "4px",
+      sm: "8px",
+      "sm-d": "12px",
+      md: "16px",
+      lg: "24px",
+      xl: "32px",
+      "2xl": "48px",
+      "3xl": "64px",
+      "4xl": "80px",
+      "5xl": "96px",
+      "6xl": "112px",
+    },
+
+    borderRadius: {
+      md: "6px",
+      xl: "12px",
+      "2xl": "16px",
+    },
+  },
+
+  semantic: {
+    colors: {
+      "background-primary": "{primitives.color.base.white}",
+      "background-brand": "{primitives.color.blue-chill.600}",
+      "text-body-primary": "{primitives.color.base.black}",
+      "text-body-secondary": "{primitives.color.gray.600}",
+      "text-body-tertiary": "{primitives.color.gray.400}",
+      "text-body-accent": "{primitives.color.blue-chill.600}",
+      "button-background-primary": "{primitives.color.blue-chill.600}",
+      "button-text-primary": "{primitives.color.base.white}",
+      "stroke-neutral-primary": "{primitives.color.gray.400}",
+      "stroke-primary": "{primitives.color.blue-chill.400}",
+      "stroke-primary-dark": "{primitives.color.blue-chill.500}",
+    },
+
+    layout: {
+      container: {
+        maxWidth: "1200px",
+      },
+      image: {
+        aspectRatio: "4/3",
+      },
+      grid: {
+        gap: {
+          base: "16px",
+          large: "32px",
+        },
+      },
+    },
+
+    border: {
+      radius: {
+        card: "12px",
+      },
+    },
+  },
+};
+</file>
+
+<file path="astro.config.mjs">
+// astro.config.mjs
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
+import mdx from "@astrojs/mdx";
+
+export default defineConfig({
+  site: 'https://yassineelidrissi.com',
+  // ✅ 2. Gestion des slashs : 'ignore' permet de répondre aux deux versions
+  trailingSlash: 'ignore',
+
+  // ✅ 3. Format 'directory' pour créer /about/index.html (meilleur pour SEO et compatibilité)
+  build: {
+    format: 'file'
+  },
+  output: 'static',
+  integrations: [tailwind(), mdx()],
+  redirects: {
+    '/work': '/#projects',
+    '/projects': '/#projects',
+    '/aboutme': '/about',
+    '/logos': '/',
+    '/photography': '/',
+  }
+});
+// Fichier : astro.config.mjs
+</file>
+
+<file path="src/components/ProjectCard.astro">
+---
+import Button from "./Button.astro";
+
+export interface Props {
+  headline: string;
+  client: string;
+  description?: string;
+  role: string;
+  projectLink: string;
+  imageAlt: string;
+  imageUrl: string;
+  direction?: "default" | "reverse";
+  id?: string;
+}
+
+const {
+  headline,
+  client,
+  description,
+  role,
+  projectLink,
+  imageAlt,
+  imageUrl,
+  direction = "default",
+  id,
+} = Astro.props;
+
+// --- LOGIQUE DE TRACKING MUTUALISÉE ---
+
+// Format pour Simple Analytics (snake_case : view_project_900_care)
+const projectSlugSA = client
+  .toLowerCase()
+  .replace(/\s+/g, "_")
+  .replace(/[^\w_]/g, "");
+const eventNameSA = `view_project_${projectSlugSA}`;
+
+// Format pour Umami (kebab-case : 900-care)
+const projectSlugUmami = client
+  .toLowerCase()
+  .replace(/\s+/g, "-")
+  .replace(/[^\w-]/g, "");
+
+const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
+---
+
+<article
+  id={id ?? undefined}
+  role="article"
+  aria-label={headline}
+  class={`flex flex-col md:flex-row gap-xl md:gap-3xl ${directionClass} md:items-start`}
+>
+  <h1
+    class="h-display md:hidden m-0"
+    set:html={headline}
+  />
+
+  <a
+    href={projectLink}
+    data-sa-event={eventNameSA}
+    data-umami-event="project-image-click"
+    data-umami-event-project={projectSlugUmami}
+    aria-label={`Voir le projet : ${headline}`}
+    class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
+  >
+    <img
+      src={imageUrl}
+      alt={imageAlt}
+      class="absolute inset-0 w-full h-full object-cover block rounded-2xl transition-transform duration-500 group-hover:scale-90"
+      loading="lazy"
+    />
+  </a>
+
+  <section class="flex-1 md:basis-1/2 order-3 md:order-none space-y-lg">
+    <h1
+       class="h-display hidden md:block m-0"
+      set:html={headline}
+    />
+    <div class="space-y-lg">
+      <div>
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
+          >Client</span
+        >
+        <p class="text-base font-normal text-text-body-primary">
+          {client}
+        </p>
+      </div>
+
+      <div>
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
+          >Description</span
+        >
+        <p class="text-base font-normal text-text-body-primary leading-normal">
+          {description}
+        </p>
+      </div>
+
+      <div>
+        <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
+          >Role</span
+        >
+        <p class="text-base font-normal text-text-body-primary">
+          {role}
+        </p>
+      </div>
+    </div>
+    <div>
+      <Button
+        href={projectLink}
+        data-sa-event={eventNameSA}
+        data-umami-event="project-button-click"
+        data-umami-event-project={projectSlugUmami}
+      >
+        View project
+      </Button>
+    </div>
+  </section>
+</article>
+</file>
+
 <file path="tailwind.config.mjs">
 // tailwind.config.mjs
 import {
@@ -2825,43 +2678,49 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Cette ligne définit Manrope comme la nouvelle police 'sans' par défaut
-        // 🚨 CORRECTION : defaultTheme est maintenant défini
+      
         sans: ['Manrope', ...defaultTheme.fontFamily.sans],
+        serif: ['Lora', 'ui-serif', 'Georgia', 'serif'],
       },
       // Colors: map a few semantic names to primitive values
       colors: {
         'background-primary': tokens.primitives.color.base.white,
-        'background-brand': tokens.primitives.color['blue-chill'][600],
-        
-        // 💡 NOUVEAU: background-accent-primary (Couleur Active)
-        'background-accent-primary': tokens.primitives.color['blue-chill'][500],
-        
-        // 💡 NOUVEAU: background-disabled (Couleur Inactive/Désactivée)
+        'background-brand': tokens.primitives.color['accent-action'][600],
+
+        'background-accent-primary': tokens.primitives.color['accent-action'][500],
         'background-disabled': tokens.primitives.color.gray[300],
-        
+
         'text-body-primary': tokens.primitives.color.base.black,
         'text-body-tertiary': tokens.primitives.color.gray[400],
         'text-body-secondary': tokens.primitives.color.gray[600],
-        'text-body-accent': tokens.primitives.color['blue-chill'][600],
-        'button-background-primary': tokens.primitives.color['blue-chill'][600],
+        'text-body-accent': tokens.primitives.color['accent-action'][600],
+        'text-heading-accent': tokens.primitives.color['accent-action'][600],
+
+        'button-background-primary': tokens.primitives.color['accent-action'][600],
         'button-text-primary': tokens.primitives.color.base.white,
-        // ✅ NOUVEAU : Couleurs Primary Hover et Active
-        'button-hover-primary': tokens.primitives.color['blue-chill'][400],
-        'button-active-primary': tokens.primitives.color['blue-chill'][500], // Utilisation du 500 pour l'état actif comme dans votre configuration précédente.
-        
-    // ✅ NOUVEAU : Couleurs Secondary
+        'button-hover-primary': tokens.primitives.color['accent-action'][400],
+        'button-active-primary': tokens.primitives.color['accent-action'][500],
+
         'button-background-secondary': tokens.primitives.color.gray[950],
         'button-hover-secondary': tokens.primitives.color.gray[800],
-        'button-active-secondary': tokens.primitives.color.gray[800], // Ajout d'un état actif pour complétude
-        'stroke-primary': tokens.primitives.color['blue-chill'][400],
-        'stroke-primary-hover': tokens.primitives.color['blue-chill'][200],
-        'stroke-primary-dark': tokens.primitives.color['blue-chill'][500],
+        'button-active-secondary': tokens.primitives.color.gray[800],
+
+        'stroke-primary': tokens.primitives.color['accent-action'][400],
+        'stroke-primary-hover': tokens.primitives.color['accent-action'][200],
+        'stroke-primary-dark': tokens.primitives.color['accent-action'][500],
         'stroke-neutral-primary': tokens.primitives.color.gray[300],
         'stroke-tertiary': tokens.primitives.color.gray[50],
         'stroke-tertiary-hover': tokens.primitives.color.gray[200],
         'stroke-disabled': tokens.primitives.color.gray[300],
+
+        'accent-deco-100': tokens.primitives.color['accent-deco'][100],
+        'accent-deco-200': tokens.primitives.color['accent-deco'][200],
+        'accent-deco-300': tokens.primitives.color['accent-deco'][300],
+        'accent-deco-400': tokens.primitives.color['accent-deco'][400],
+        'accent-deco-600': tokens.primitives.color['accent-deco'][600],
       },
+
+
 
       // Font sizes (Styles Composés: [font-size, {lineHeight: ratio}])
       fontSize: {
@@ -2905,6 +2764,7 @@ export default {
       // Font weights (Reste inchangé)
       fontWeight: {
         extrabold: tokens.primitives.fontWeight.extrabold,
+        bold: tokens.primitives.fontWeight.bold,
         semibold: tokens.primitives.fontWeight.semibold,
         normal: tokens.primitives.fontWeight.normal,
       },
@@ -2960,34 +2820,6 @@ export default {
 };
 </file>
 
-<file path="astro.config.mjs">
-// astro.config.mjs
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import mdx from "@astrojs/mdx";
-
-export default defineConfig({
-  site: 'https://yassineelidrissi.com',
-  // ✅ 2. Gestion des slashs : 'ignore' permet de répondre aux deux versions
-  trailingSlash: 'ignore',
-
-  // ✅ 3. Format 'directory' pour créer /about/index.html (meilleur pour SEO et compatibilité)
-  build: {
-    format: 'file'
-  },
-  output: 'static',
-  integrations: [tailwind(), mdx()],
-  redirects: {
-    '/work': '/#projects',
-    '/projects': '/#projects',
-    '/aboutme': '/about',
-    '/logos': '/',
-    '/photography': '/',
-  }
-});
-// Fichier : astro.config.mjs
-</file>
-
 <file path="src/layouts/BaseLayout.astro">
 ---
 import "../styles/global.css";
@@ -3015,12 +2847,9 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <script
       defer
       src="https://cloud.umami.is/script.js"
@@ -3086,7 +2915,7 @@ const {
       <Navbar />
     </header>
 
-    <main class="flex-1 mt-xl">
+    <main class="flex-1 pt-4xl md:pt-3xl">
       <slot />
     </main>
 
@@ -3583,9 +3412,23 @@ const educationExperience = [
                   href={exp.cvLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-block mt-2 text-sm font-medium text-text-body-primary underline decoration-1 underline-offset-4 hover:text-button-background-primary transition-colors"
+                  class="inline-flex items-center gap-1 mt-2 text-sm font-medium text-text-body-accent no-underline hover:text-text-body-primary hover:underline underline-offset-4 transition-colors"
                 >
                   Download my resume to see more
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
+                    />
+                  </svg>
                 </a>
               )}
 
@@ -3685,6 +3528,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import Container from "../components/Container.astro";
 import Hero from "../components/Hero.astro";
 import Divider from "../components/Divider.astro";
+import Cloud from "../components/Cloud.astro";
 import { getCollection } from "astro:content";
 
 // use a neutral placeholder instead (plus fiable)
@@ -3705,26 +3549,38 @@ const allProjects = (
 ---
 
 <BaseLayout title="Yassine El Idrissi -  UX Design">
-  <main>
+  <main class="relative">
+
+     <Cloud variant="large" shade={300} width="600px" blur="md" opacity={0.5} top="-20px"    right="-150px" />
+    
+  <Cloud variant="medium"   shade={300} width="1000px" blur="md" opacity={0} top="0px"  left="100px" />
+
+  
+  <Cloud variant="small"  shade={200} width="500px" blur="sm" opacity={0} bottom="50%" right="50%" rotate={0} />
+ 
+
     <Container class="px-lg pb-5xl flex flex-col gap-5xl md:gap-3xl">
       <section
-        class="h-[68vh] flex flex-col justify-center items-center space-y-4xl md:p-5xl"
+        class="min-h-[calc(100svh-5rem)] flex flex-col justify-center items-center space-y-4xl px-lg"
       >
         <Hero
           title="Hello, I'm Yassine 👋"
-          subtitle="I’m a product designer who translates user insights into genuine experiences that are measurable, valuable, and more importantly... built for people. "
+          subtitle="I’m a product designer who translates user insights into genuine experiences that are measurable, valuable, and more importantly..."
+          subtitleBreak="... built for people."
           profileImage={PlaceholderImage}
         />
 
+       
+      </div>
         <div class="flex flex-col items-center gap-xl">
           {
             (
               <a
                 href="#projects"
-                class="text-sm font-normal text-text-body-accent"
-              >
-                Case studies
-              </a>
+  class="bg-background-primary border border-stroke-neutral-primary rounded-full px-lg py-sm-d cursor-pointer transition hover:bg-gray-50 border-stroke-primary-hover shadow-sm text-text-body-accent text-md font-semibold"
+>
+  Case studies
+</a>
             )
           }
 

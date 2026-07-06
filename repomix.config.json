@@ -1,0 +1,23 @@
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "compress": false,
+    "removeComments": false
+  },
+  "ignore": {
+    "useGitignore": true,
+    "customPatterns": [
+      "repomix-output.xml",
+      "public/images/**",
+      "public/*.png",
+      "public/*.ico",
+      "public/*.svg",
+      "public/manifest.json",
+      "*.webp",
+      "Whitepaper*.txt",
+      "src/components/Welcome.astro",
+      "src/components/ContactFormSection.astro"
+    ]
+  }
+}

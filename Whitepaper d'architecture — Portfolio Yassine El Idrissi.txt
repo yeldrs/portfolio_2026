@@ -187,3 +187,43 @@ Pour changer le design : modifier tokens.js (valeurs) et tailwind.config.mjs (no
 Le cœur logique : config.ts (schéma) + [slug].astro (getStaticPaths) génèrent les pages.
 Les 3 pièges : (1) hébergeur ambigu GitHub Pages vs Apache, (2) design system à double source, (3) images mappées par position.
 À nettoyer sans risque : Welcome.astro, ContactFormSection.astro, .htaccess pollué, README template, fichier agent vide.
+
+
+
+=== ACTION LOG — Portfolio (Astro 5 / Tailwind 3) ===
+Session: 2026-07-06
+
+IMPLEMENTED
+-----------
+[2026-07-06] — src/components/Hero.astro — H1 display heading set to Lora Italic, medium weight: added font-serif italic, font-semibold→font-medium; text-heading-accent retained — Applies Lora Italic medium display style per design direction — status: implemented
+
+[2026-07-06] — src/components/Hero.astro — Wrapped subtitleBreak ("... built for people.") in relative inline-block span + inline decorative brush-stroke SVG (single merged path, aria-hidden, focusable=false, preserveAspectRatio="none") positioned absolute left-0 -bottom-2 -z-10 h-[0.6em] w-full; fill via fill-decoration-brand (currentColor removed) — Hand-drawn highlight under the subtitle break line, token-driven fill, no hardcoded hex — status: implemented
+
+[2026-07-06] — tailwind.config.mjs — Added semantic color token decoration-brand → accent-action[600] — Enables fill-decoration-brand for decorative SVG fills; correct fill-based (non-text) coloring, SSOT respected — status: implemented
+
+[2026-07-06] — src/styles/tokens.js — Corrected fontWeight scale: bold 500→700; added thick:500 and thin:100 (config now references thick/thin) — Restores conventional weight mapping; resolves inverted-weight latent debt — status: implemented
+
+[2026-07-06] — src/styles/tokens.js — Added primitive surface.page = "#f4f7f8" (new dedicated surface group) — Page-canvas color distinct from base.white (reserved for buttons/cards/navbar) — status: implemented
+
+[2026-07-06] — tailwind.config.mjs — Added semantic token background-page → surface.page — Exposes bg-background-page utility; background-primary (#fff) untouched — status: implemented
+
+[2026-07-06] — src/layouts/BaseLayout.astro — <body> class bg-background-body → bg-background-page — Applies site-wide background via token; also fixed latent bug where bg-background-body referenced an unregistered token and silently no-op'd — status: implemented
+
+[2026-07-06] — src/layouts/BaseLayout.astro — Removed duplicate <style is:global> reset block from end of <body> (identical copy retained in <head>) — Eliminates redundant/misplaced style block — status: implemented (pending build confirmation)
+
+DEBT / NOTED (not yet actioned)
+-------------------------------
+[2026-07-06] — src/components/Hero.astro — Uploaded brush_brush.svg now inlined; original asset unused. Decide: keep in /public for reuse, delete, or extract to a Brush.astro decorative component (recommended if reused) — status: open
+
+[2026-07-06] — src/components/Hero.astro — Brush position uses default numeric -bottom-2 (0.5rem), off your custom spacing vocabulary. Optional: switch to on-token -bottom-xs / -bottom-sm — status: open
+
+[2026-07-06] — SVG optimization — Inlined brush path is raw auto-traced data (~9KB, full float precision, stray fleck sub-paths). Optional SVGO pass: ~40–60% smaller, no visual change — status: open (offered)
+
+CARRIED-OVER GUARDRAILS (from charter)
+--------------------------------------
+- Deployment ambiguity: GitHub Pages workflow vs Apache .htaccess/CNAME unresolved; redirects not universally applied.
+- Duplicated redirects in astro.config.mjs + .htaccess — one source per chosen host.
+- Positional projectImages index mapping (0/2/4/6/8+) — preserve "" placeholders; keyed-object refactor recommended.
+- Orphan/vestige files: Welcome.astro, ContactFormSection.astro, stale README.md, unlinked validate-frontmatter.cjs, manual sitemap.xml.
+- Zod schema fails build on malformed frontmatter (semanticSlug kebab-case).
+=== END LOG ===

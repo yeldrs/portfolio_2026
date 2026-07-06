@@ -24,12 +24,9 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <script
       defer
       src="https://cloud.umami.is/script.js"
@@ -86,8 +83,8 @@ const {
     </style>
   </head>
 
-  <body
-    class="bg-background-body text-text-body-primary min-h-screen flex flex-col font-sans"
+ <body
+    class="bg-background-page text-text-body-primary min-h-screen flex flex-col font-sans"
   >
     <header
       class="fixed inset-x-0 top-0 z-50 bg-background-primary border-b border-gray-200"
@@ -95,20 +92,10 @@ const {
       <Navbar />
     </header>
 
-    <main class="flex-1 mt-xl">
+    <main class="flex-1 pt-4xl md:pt-3xl">
       <slot />
     </main>
 
     <Footer />
-
-    <style is:global>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        overflow-y: scroll;
-        overflow-x: hidden;
-      }
-    </style>
   </body>
 </html>

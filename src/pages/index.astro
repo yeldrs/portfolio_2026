@@ -30,40 +30,45 @@ const allProjects = (
 <BaseLayout title="Yassine El Idrissi -  UX Design">
   <main class="relative">
 
-     <Cloud variant="medium" shade={300} width="680px" blur="lg" opacity={0.5} top="-50px"    right="-200px" />
+     <Cloud variant="large" shade={300} width="600px" blur="md" opacity={0.3} top="-20px"    right="-150px" />
     
-  <Cloud variant="wide"   shade={300} width="1000px" blur="md" opacity={0.3} top="0px"  left="100px" />
+      <Cloud variant="small"  shade={200} width="230px" blur="sm" opacity={0.3} top="350px" left="80px" rotate={0} />
+
+  <Cloud variant="medium"   shade={300} width="1000px" blur="md" opacity={0} top="0px"  left="100px" />
 
   
-  <Cloud variant="small"  shade={200} width="500px" blur="sm" opacity={1} bottom="50%" right="50%" rotate={-8} />
+ 
  
 
     <Container class="px-lg pb-5xl flex flex-col gap-5xl md:gap-3xl">
       <section
-        class="h-[68vh] flex flex-col justify-center items-center space-y-4xl md:p-5xl"
+        class="min-h-[calc(100svh-5rem)] flex flex-col justify-center items-center space-y-4xl px-lg"
       >
         <Hero
           title="Hello, I'm Yassine 👋"
-          subtitle="I’m a product designer who translates user insights into genuine experiences that are measurable, valuable, and more importantly... built for people. "
+          subtitle="I’m a product designer who translates user insights into genuine experiences that are measurable, valuable, and more importantly..."
+          subtitleBreak="... built for people."
           profileImage={PlaceholderImage}
         />
 
+       
+      </div>
         <div class="flex flex-col items-center gap-xl">
           {
             (
               <a
                 href="#projects"
-                class="text-sm font-normal text-text-body-accent"
-              >
-                Case studies
-              </a>
+  class="bg-background-primary border border-stroke-neutral-primary rounded-full px-lg py-sm-d cursor-pointer transition hover:bg-gray-50 border-stroke-primary-hover shadow-sm text-text-body-accent text-md font-semibold"
+>
+  Case studies
+</a>
             )
           }
 
           <div class="text-stroke-primary-dark animate-bounce">
             <a href="#projects" aria-label="Scroll down to projects">
               <svg
-                width="19"
+                width="16"
                 height="39"
                 viewBox="0 0 19 39"
                 fill="none"
