@@ -32,7 +32,7 @@ function getInitialActive(name: string, path: string) {
       data-sa-event="nav_logo_click"
       class:list={[
         "text-base transition duration-150 uppercase",
-        currentPath === "/" ? "font-extrabold" : "font-normal",
+        currentPath === "/" ? "font-extrabold text-text-body-accent" : "text-text-body-primary font-normal",
       ]}
     >
       Yassine El Idrissi
@@ -53,8 +53,9 @@ function getInitialActive(name: string, path: string) {
               class:list={[
                 "nav-item text-base uppercase transition duration-150",
                 isActive
-                  ? "font-extrabold text-text-body-primary"
+                  ? "font-extrabold text-text-body-accent"
                   : "font-normal text-text-body-primary",
+                  
               ]}
             >
               {link.name}
@@ -138,13 +139,14 @@ function getInitialActive(name: string, path: string) {
           return (
             <a
               href={link.href}
+              data-nav-id={link.id}
               data-umami-event={`nav-mobile-link-${link.id}-from-${pageName}`}
               data-umami-event-name={link.name}
               data-sa-event={`nav_mobile_${link.id}_click`}
               class:list={[
                 "text-base uppercase transition duration-150",
                 isActive
-                  ? "font-extrabold text-text-body-primary"
+                  ? "font-extrabold text-text-body-accent"
                   : "font-normal text-text-body-primary",
               ]}
             >
@@ -158,53 +160,96 @@ function getInitialActive(name: string, path: string) {
 </div>
 
 <script>
-  // 1. GESTION DE L'INTERSECTION OBSERVER (Gras au scroll sur la home)
-  function setupNavObserver() {
-    const logo = document.getElementById("nav-logo");
-    const workLink = document.getElementById("nav-link-work");
-    const projectsSection = document.getElementById("projects");
-    const currentPath = window.location.pathname;
+  let navInteractionsInitialized = false;
 
-    if (
-      !projectsSection ||
-      (currentPath !== "/" && currentPath !== "/index.html")
-    ) {
+  function setNavItemState(element: any, isActive: boolean) {
+    if (!element) return;
+
+    element.classList.toggle("font-extrabold", isActive);
+    element.classList.toggle("font-normal", !isActive);
+    element.classList.toggle("text-text-body-accent", isActive);
+    element.classList.toggle("text-text-body-primary", !isActive);
+  }
+
+  function setActiveNavItem(activeId: string | null) {
+    const logo = document.getElementById("nav-logo");
+    const workLinks = document.querySelectorAll('[data-nav-id="work"]');
+    const aboutLinks = document.querySelectorAll('[data-nav-id="about"]');
+    const contactLinks = document.querySelectorAll('[data-nav-id="contact"]');
+
+    setNavItemState(logo, activeId === "logo");
+    workLinks.forEach((link) => setNavItemState(link, activeId === "work"));
+    aboutLinks.forEach((link) => setNavItemState(link, activeId === "about"));
+    contactLinks.forEach((link) => setNavItemState(link, activeId === "contact"));
+  }
+
+  function updateNavActiveState() {
+    const currentPath = window.location.pathname;
+    const isHome = currentPath === "/" || currentPath === "/index.html";
+    const footer = document.getElementById("contact");
+    const isNearFooter =
+      !!footer && footer.getBoundingClientRect().top <= window.innerHeight + 120;
+
+    if (isNearFooter) {
+      setActiveNavItem("contact");
       return;
     }
 
-    if (!workLink || !logo) return;
+    if (isHome && window.scrollY < 120) {
+      setActiveNavItem("logo");
+      return;
+    }
 
-    const observerOptions = {
-      root: null,
-      rootMargin: "-50% 0px -50% 0px",
-      threshold: 0,
-    };
+    if (isHome) {
+      const projectsSection = document.getElementById("projects");
+      const projectsRect = projectsSection?.getBoundingClientRect();
+      const isProjectsInView =
+        !!projectsSection &&
+        projectsRect !== undefined &&
+        projectsRect.top <= window.innerHeight * 0.45 &&
+        projectsRect.bottom >= window.innerHeight * 0.15;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          workLink.classList.add("font-extrabold");
-          workLink.classList.remove("font-normal");
-          logo.classList.add("font-normal");
-          logo.classList.remove("font-extrabold");
-        } else {
-          if (window.scrollY < 100) {
-            workLink.classList.remove("font-extrabold");
-            workLink.classList.add("font-normal");
-            logo.classList.add("font-extrabold");
-            logo.classList.remove("font-normal");
-          }
-        }
-      });
-    }, observerOptions);
+      if (isProjectsInView) {
+        setActiveNavItem("work");
+        return;
+      }
+    }
 
-    observer.observe(projectsSection);
+    if (currentPath.includes("/about")) {
+      setActiveNavItem("about");
+      return;
+    }
+
+    setActiveNavItem(null);
   }
 
-  document.addEventListener("DOMContentLoaded", setupNavObserver);
-  document.addEventListener("astro:after-swap", setupNavObserver);
+  function setupNavInteractions() {
+    if (navInteractionsInitialized) return;
+    navInteractionsInitialized = true;
 
-  // 2. GESTION DU MENU MOBILE
+    updateNavActiveState();
+
+    document.addEventListener("click", (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const clickedLink = target?.closest("[data-nav-id]");
+      const clickedLogo = target?.closest("#nav-logo");
+
+      if (clickedLink) {
+        const navId = clickedLink.getAttribute("data-nav-id");
+        if (navId === "work") setActiveNavItem("work");
+        if (navId === "about") setActiveNavItem("about");
+        if (navId === "contact") setActiveNavItem("contact");
+      }
+
+      if (clickedLogo) {
+        setActiveNavItem("logo");
+      }
+    });
+
+    window.addEventListener("scroll", updateNavActiveState, { passive: true });
+    window.addEventListener("resize", updateNavActiveState);
+  }
+
   function setupMobileMenu() {
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
@@ -241,14 +286,20 @@ function getInitialActive(name: string, path: string) {
     });
   }
 
-  document.addEventListener("DOMContentLoaded", setupMobileMenu);
-  document.addEventListener("astro:after-swap", setupMobileMenu);
+  document.addEventListener("DOMContentLoaded", () => {
+    setupNavInteractions();
+    setupMobileMenu();
+  });
+  document.addEventListener("astro:after-swap", () => {
+    setupNavInteractions();
+    setupMobileMenu();
+  });
 </script>
 
 <style>
   .nav-item,
   #nav-logo {
-    transition: font-weight 0.2s ease;
-    will-change: font-weight;
+    transition: color 0.2s ease, font-weight 0.2s ease;
+    will-change: color, font-weight;
   }
 </style>

@@ -227,3 +227,34 @@ CARRIED-OVER GUARDRAILS (from charter)
 - Orphan/vestige files: Welcome.astro, ContactFormSection.astro, stale README.md, unlinked validate-frontmatter.cjs, manual sitemap.xml.
 - Zod schema fails build on malformed frontmatter (semanticSlug kebab-case).
 === END LOG ===
+
+Here is a more technical change log for the navbar work in Navbar.astro:
+
+- Introduced a shared state helper to apply nav styling consistently:
+  - toggled the classes font-extrabold and font-normal
+  - toggled the classes text-text-body-accent and text-text-body-primary
+  - this ensured active/inactive states were controlled from one place instead of being handled inconsistently by separate DOM updates
+
+- Reworked the navbar active-state logic from a simple initial-page check to a scroll-aware interaction model:
+  - the logo becomes active when the user is near the top of the home page
+  - Work becomes active when the projects section is in view
+  - Contact becomes active when the footer section is reached
+  - About remains active on the About page
+
+- Added click handling for nav items:
+  - desktop links now update state when clicked
+  - mobile menu links now also reflect the same active state
+  - the logo click now explicitly sets the logo as active
+
+- Preserved the existing anchor behavior:
+  - links still point to the same href targets
+  - no changes were made to the navigation destinations or section IDs
+  - the update only affected visual state and interaction behavior
+
+- Adjusted the transition styling:
+  - changed the transition from font-weight-only to both color and font-weight
+  - this makes the visual state change smoother and more consistent
+
+- Removed editor/runtime script issues by making the script compatible with the Astro/TypeScript analysis in the project:
+  - used safer DOM handling for click events
+  - avoided unsupported TypeScript-only syntax in the inline script context
