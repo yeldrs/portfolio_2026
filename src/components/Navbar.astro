@@ -32,7 +32,7 @@ function getInitialActive(name: string, path: string) {
       data-sa-event="nav_logo_click"
       class:list={[
         "text-base transition duration-150 uppercase",
-        currentPath === "/" ? "font-extrabold text-text-body-accent" : "text-text-body-primary font-normal",
+        currentPath === "/" ? "font-extrabold text-text-body-primary" : "text-text-body-primary font-normal",
       ]}
     >
       Yassine El Idrissi
@@ -162,11 +162,18 @@ function getInitialActive(name: string, path: string) {
 <script>
   let navInteractionsInitialized = false;
 
-  function setNavItemState(element: any, isActive: boolean) {
+  function setNavItemState(element: any, isActive: boolean, isLogo = false) {
     if (!element) return;
 
     element.classList.toggle("font-extrabold", isActive);
     element.classList.toggle("font-normal", !isActive);
+
+    if (isLogo) {
+      element.classList.remove("text-text-body-accent");
+      element.classList.add("text-text-body-primary");
+      return;
+    }
+
     element.classList.toggle("text-text-body-accent", isActive);
     element.classList.toggle("text-text-body-primary", !isActive);
   }
@@ -177,7 +184,7 @@ function getInitialActive(name: string, path: string) {
     const aboutLinks = document.querySelectorAll('[data-nav-id="about"]');
     const contactLinks = document.querySelectorAll('[data-nav-id="contact"]');
 
-    setNavItemState(logo, activeId === "logo");
+    setNavItemState(logo, activeId === "logo", true);
     workLinks.forEach((link) => setNavItemState(link, activeId === "work"));
     aboutLinks.forEach((link) => setNavItemState(link, activeId === "about"));
     contactLinks.forEach((link) => setNavItemState(link, activeId === "contact"));
@@ -190,7 +197,7 @@ function getInitialActive(name: string, path: string) {
     const isNearFooter =
       !!footer && footer.getBoundingClientRect().top <= window.innerHeight + 120;
 
-    if (isNearFooter) {
+    if (isHome && isNearFooter) {
       setActiveNavItem("contact");
       return;
     }
@@ -236,9 +243,14 @@ function getInitialActive(name: string, path: string) {
 
       if (clickedLink) {
         const navId = clickedLink.getAttribute("data-nav-id");
+        const currentPath = window.location.pathname;
+        const isHome = currentPath === "/" || currentPath === "/index.html";
+
         if (navId === "work") setActiveNavItem("work");
         if (navId === "about") setActiveNavItem("about");
-        if (navId === "contact") setActiveNavItem("contact");
+        if (navId === "contact") {
+          setActiveNavItem(isHome ? "contact" : null);
+        }
       }
 
       if (clickedLogo) {

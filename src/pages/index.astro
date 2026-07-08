@@ -30,11 +30,39 @@ const allProjects = (
 <BaseLayout title="Yassine El Idrissi -  UX Design">
   <main class="relative">
 
-     <Cloud variant="large" shade={300} width="600px" blur="md" opacity={0.3} top="-20px"    right="-150px" />
+     <Cloud
+       variant="large"
+       shade={300}
+       width="600px"
+       blur="md"
+       opacity={0.3}
+       top="-20px"
+       right="-150px"
+       mobile={{ opacity: 0, top: "-10px", right: "-120px" }}
+     />
     
-      <Cloud variant="small"  shade={200} width="230px" blur="sm" opacity={0.3} top="350px" left="80px" rotate={0} />
+      <Cloud
+        variant="small"
+        shade={200}
+        width="230px"
+        blur="md"
+        opacity={0.3}
+        top="350px"
+        left="80px"
+        rotate={0}
+        mobile={{ opacity: 0.2, top: "260px", left: "-20px" }}
+      />
 
-  <Cloud variant="medium"   shade={300} width="1000px" blur="md" opacity={0} top="0px"  left="100px" />
+  <Cloud
+    variant="medium"
+    shade={300}
+    width="250px"
+    blur="md"
+    opacity={0.3}
+    bottom="-90px"
+    left="55%"
+    mobile={{ opacity: 0.18, bottom: "-120px", left: "35%" }}
+  />
 
   
  

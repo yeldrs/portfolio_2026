@@ -17,6 +17,13 @@ export interface Props {
   right?: string;
   bottom?: string;
   left?: string;
+  mobile?: {
+    opacity?: number;
+    top?: string;
+    right?: string;
+    bottom?: string;
+    left?: string;
+  };
   class?: string;
 }
 
@@ -32,6 +39,7 @@ const {
   right,
   bottom,
   left,
+  mobile,
   class: className = "",
 } = Astro.props;
 
@@ -75,11 +83,35 @@ const positionStyle = [
 ]
   .filter(Boolean)
   .join(";");
+
+const mobilePositionStyle = [
+  `width:${width}`,
+  `opacity:${mobile?.opacity ?? opacity}`,
+  `color:${fill}`,
+  rotate ? `transform:rotate(${rotate}deg)` : "",
+  mobile?.top !== undefined ? `top:${mobile.top}` : top !== undefined ? `top:${top}` : "",
+  mobile?.right !== undefined ? `right:${mobile.right}` : right !== undefined ? `right:${right}` : "",
+  mobile?.bottom !== undefined ? `bottom:${mobile.bottom}` : bottom !== undefined ? `bottom:${bottom}` : "",
+  mobile?.left !== undefined ? `left:${mobile.left}` : left !== undefined ? `left:${left}` : "",
+]
+  .filter(Boolean)
+  .join(";");
 ---
 
 <svg
-  class={`pointer-events-none absolute -z-10 h-auto ${blurClass} ${className}`}
+  class={`pointer-events-none absolute -z-10 hidden h-auto md:block ${blurClass} ${className}`}
   style={positionStyle}
+  viewBox={shape.viewBox}
+  fill="currentColor"
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d={shape.d} />
+</svg>
+
+<svg
+  class={`pointer-events-none absolute -z-10 block h-auto md:hidden ${blurClass} ${className}`}
+  style={mobilePositionStyle}
   viewBox={shape.viewBox}
   fill="currentColor"
   aria-hidden="true"
