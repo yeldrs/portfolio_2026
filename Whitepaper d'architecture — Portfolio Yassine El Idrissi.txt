@@ -258,3 +258,11 @@ Here is a more technical change log for the navbar work in Navbar.astro:
 - Removed editor/runtime script issues by making the script compatible with the Astro/TypeScript analysis in the project:
   - used safer DOM handling for click events
   - avoided unsupported TypeScript-only syntax in the inline script context
+
+  Navbar behavior was refined so the active state is driven by scroll and click interactions.
+The logo “Yassine El Idrissi” stays neutral when active and does not use the accent color.
+Contact is only highlighted on the home page.
+The Cloud component now supports mobile-specific overrides for opacity and position.
+The home page uses those mobile overrides for better small-screen visuals.
+The layout issue causing the apparent right-side whitespace was addressed by changing the global overflow behavior.
+The shared container component was reviewed and kept aligned with the current layout approach.
