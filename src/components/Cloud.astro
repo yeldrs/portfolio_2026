@@ -1,18 +1,18 @@
 ---
 import { tokens } from "../styles/tokens.js";
 // src/components/Cloud.astro
-// Nuage décoratif atomique et paramétrable.
-// Forme via `variant`, couleur via token accent-action (`shade`) ou `color` libre,
-// taille/position/rotation/opacité/flou par props. Purement décoratif (aria-hidden).
+// Atomic, configurable decorative cloud.
+// Shape via `variant`, color via accent-action token (`shade`) or free `color`,
+// size/position/rotation/opacity/blur via props. Purely decorative (aria-hidden).
 
 export interface Props {
   variant?: "large" | "medium" | "small";
-  shade?: 50 | 100 | 200 | 300 | 400 | 500 | 600; // niveau accent-action
-  color?: string;                                   // hex libre, prioritaire sur shade
-  width?: string;                                   // ex: "640px", "40vw"
+  shade?: 50 | 100 | 200 | 300 | 400 | 500 | 600; // accent-action level
+  color?: string;                                   // free hex, takes priority over shade
+  width?: string;                                   // e.g.: "640px", "40vw"
   blur?: "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
   opacity?: number;                                 // 0 to 1
-  rotate?: number;                                  // degrés
+  rotate?: number;                                  // degrees
   top?: string;
   right?: string;
   bottom?: string;

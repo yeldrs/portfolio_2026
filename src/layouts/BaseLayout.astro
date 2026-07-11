@@ -8,25 +8,67 @@ import Footer from "../components/Footer.astro";
 export interface Props {
   title: string;
   description?: string;
+  image?: string; // relative path used for og:image / twitter:image
+  structuredData?: Record<string, unknown>; // extra JSON-LD injected in <head>
 }
 
 const {
   title,
   description = "Yassine El Idrissi UX Product design official website portfolio.",
+  image = "/images/profile-pic.webp",
+  structuredData,
 } = Astro.props;
+
+// Absolute URLs for SEO / social / structured data (Astro.site = https://yassineelidrissi.com)
+const site = Astro.site ?? new URL("https://yassineelidrissi.com");
+// build.format:'file' exposes paths as /about.html — strip the extension so the
+// canonical/OG URL is always the clean, extensionless form GitHub Pages serves.
+const cleanPath = Astro.url.pathname
+  .replace(/\/index\.html$/, "/")
+  .replace(/\.html$/, "");
+const canonicalURL =
+  new URL(cleanPath || "/", site).href.replace(/(.)\/$/, "$1");
+const ogImage = new URL(image, site).href;
+
+// Site-wide identity for search engines and AI agents
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Yassine El Idrissi",
+  url: site.href,
+  jobTitle: "UX Product Designer",
+  sameAs: ["https://www.linkedin.com/in/yassineelidrissi/"],
+  image: new URL("/images/profile-pic.webp", site).href,
+};
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <!-- Open Graph (link previews on social + read by some AI crawlers) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Yassine El Idrissi" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Self-hosted fonts (see @font-face in global.css). No Google Fonts dependency. -->
+    <link rel="preload" href="/fonts/manrope-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/lora-italic-latin-var.woff2" as="font" type="font/woff2" crossorigin />
     <script
       defer
       src="https://cloud.umami.is/script.js"
@@ -70,7 +112,13 @@ const {
     />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#367984" />
+    <meta name="theme-color" content="#4364e8" />
+
+    <!-- Structured data: site-wide identity + optional per-page schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
 
     <style is:global>
       html,

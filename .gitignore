@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# repomix snapshot (régénérable, ne pas versionner)
+repomix-output.xml
+
 # generated types
 .astro/
 

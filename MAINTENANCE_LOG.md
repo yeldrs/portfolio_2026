@@ -21,6 +21,49 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 - `[2026-07-11]` — `public/.htaccess` — **nettoyé** — retrait de la 1re ligne polluée `CeciEstUnTestDeCasse` ; directives conservées — statut : fait
 - `[2026-07-11]` — `README.md` — **remplacé** — le template Astro par défaut → README réel (stack, structure, ajout projet, DS) — statut : fait
 
+## 2026-07-11 (suite 4) — SEO / SEO IA + i18n commentaires
+
+### FAIT — SEO / découvrabilité IA
+- `[2026-07-11]` — `src/layouts/BaseLayout.astro` — **`lang="fr"` → `lang="en"`** (tout le contenu est en anglais ; corrige un signal SEO/a11y erroné) — statut : fait
+- `[2026-07-11]` — `BaseLayout.astro` — **`<link rel="canonical">`** par page, en **URL propre** (strip du `.html` imposé par build.format:'file') → évite l'indexation en double /x et /x.html. Vérifié dans dist (home, /about, /work/*) — statut : fait
+- `[2026-07-11]` — `BaseLayout.astro` — **Open Graph + Twitter Card** (og:type/site_name/title/description/url/image/locale, twitter:summary_large_image) ; nouvelles props `image` + `structuredData` — statut : fait
+- `[2026-07-11]` — `BaseLayout.astro` — **JSON-LD schema.org `Person`** site-wide (nom, jobTitle « UX Product Designer », sameAs LinkedIn, image) — statut : fait
+- `[2026-07-11]` — `src/pages/work/[slug].astro` — **JSON-LD `CreativeWork`** par étude de cas (name, description, url propre, image, dateCreated, creator Person, about=client) + passe description/cardImage/structuredData à BaseLayout — statut : fait
+- `[2026-07-11]` — `index.astro` + `about.astro` — **meta description par page** ajoutées (accueil + about) ; titre accueil nettoyé — statut : fait
+- `[2026-07-11]` — `public/llms.txt` — **créé** : résumé du site pour agents IA (identité, 3 études de cas avec liens, pages, notes) — statut : fait
+- `[2026-07-11]` — `robots.txt` — **crawlers IA explicitement autorisés** (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended) ; retrait des Disallow inutiles (/dist, /node_modules non servis) — statut : fait
+- `[2026-07-11]` — `BaseLayout.astro` — **`theme-color`** `#367984` (turquoise) → `#4364e8` (violet marque) — statut : fait
+
+### i18n
+- `[2026-07-11]` — **Commentaires du code FR → EN** sur 21 fichiers source (composants, pages, config, tokens, .md frontmatter). Commentaires uniquement, aucun code/contenu touché. Docs narratives (whitepaper, ce log) laissées en FR volontairement — statut : voir vérification build + diff
+
+## 2026-07-11 (suite 3) — Tier 1 (nettoyage faible risque)
+
+### FAIT
+- `[2026-07-11]` — `src/styles/global.css` — **règle `html,body` morte supprimée** (variables CSS `--color-bg`/`--color-text` jamais définies + `font-family: system-ui` en dur redondant/concurrent). Le body est piloté par les classes tokens de BaseLayout (bg-background-page, text-text-body-primary, font-sans) — statut : fait
+- `[2026-07-11]` — `package.json` — **métadonnées** : name `astro` → `portfolio-yassine-el-idrissi`, version 0.0.1 → 1.0.0, ajout description/homepage/author/license/`private: true` — statut : fait
+- `[2026-07-11]` — `repomix-output.xml` — **untracké** (`git rm --cached`) + ajouté au `.gitignore` (régénérable). Fichier conservé sur disque pour usage local — statut : fait
+- `[2026-07-11]` — `validate-frontmatter.cjs` — **supprimé** (cassé : dépend de gray-matter absent ; redondant avec le schéma Zod de config.ts) — statut : fait
+
+### DETTE / À SURVEILLER
+- `[2026-07-11]` — **SEO/AI à traiter (nouveau)** : pas de `<link rel="canonical">`, pas d'Open Graph / Twitter Card, pas de JSON-LD (schema.org), pas de `llms.txt`. `theme-color` dans BaseLayout encore turquoise `#367984` (marque = violet). Descriptions meta par page à vérifier.
+- `[2026-07-11]` — **Branches** : prod déployée depuis `deploy/test` (nom « test » trompeur pour de la prod) ; code sur `feature/fixes`. Recommandation : basculer la prod sur `main`.
+- `[2026-07-11]` — **i18n commentaires** : annotations/commentaires du code en français → à traduire en anglais (demandé, scope à confirmer : code oui ; docs FR whitepaper/log = à décider).
+
+## 2026-07-11 (suite 2) — Audit round 2 : contenu + consolidation (Tier 2)
+
+### FAIT
+- `[2026-07-11]` — `src/content/projects/caissedesdepots.md` — **checkCdc.webp intégrée au carrousel CDC en 7e position** (avant editCdc.webp). L'image n'était pas orpheline : elle manquait juste dans le MDX. Vérifié : rendue dans dist/work/depostetconsignations.html — statut : fait
+- `[2026-07-11]` — `src/content/projects/biomimicry.txt` → **`biomimicry.md` avec `isDraft: true`** — brouillon préservé, non listé et **aucune page générée** (donc n'alourdit pas le site). Frontmatter validé par Zod. Images `/images/biomimicry/*` encore absentes (à fournir avant publication) — statut : fait
+- `[2026-07-11]` — `src/pages/work/[slug].astro` — **`getStaticPaths` filtre désormais les brouillons** (`data.isDraft !== true`). Corrige une incohérence latente : l'accueil filtrait les drafts mais la route détail générait quand même leurs pages — statut : fait
+- `[2026-07-11]` — **Sitemap automatisé** — `@astrojs/sitemap` ajouté aux integrations d'`astro.config.mjs` ; `public/sitemap.xml` manuel **supprimé** ; `robots.txt` pointe vers `/sitemap-index.xml`. Vérifié : sitemap généré, brouillon biomimicry exclu, redirections exclues — statut : fait
+- `[2026-07-11]` — **Redirections consolidées en source unique** — `public/.htaccess` **supprimé**. Le site tourne sur GitHub Pages qui ignore .htaccess ; les redirections sont générées par `astro.config.mjs` (build émet aboutme/logos/photography/projects/work.html). Vérifié : /work → /#projects intact. NB : si migration Apache un jour, restaurer .htaccess via git — statut : fait
+- `[2026-07-11]` — **Polices auto-hébergées** — Google Fonts remplacé par 3 woff2 variables (sous-ensemble latin) dans `public/fonts/` : manrope-latin-var (24,8 Ko), lora-latin-var (37,8 Ko), lora-italic-latin-var (40,8 Ko) ; `@font-face` dans global.css ; preconnect/link Google retirés de BaseLayout, remplacés par 2 `preload`. Supprime la dépendance tierce render-blocking (perf + RGPD). Vérifié : 0 référence googleapis/gstatic dans dist. Sous-ensemble latin = couvre EN + FR ; ajouter latin-ext si texte d'Europe centrale — statut : fait
+
+### DETTE / À SURVEILLER
+- `[2026-07-11]` — ~~Sitemap manuel~~ → **RÉSOLU**. ~~Redirections dupliquées~~ → **RÉSOLU** (source unique astro.config.mjs). ~~Polices tierces render-blocking~~ → **RÉSOLU**. ~~biomimicry.txt inerte~~ → **RÉSOLU** (brouillon .md).
+- `[2026-07-11]` — **Reste (non demandé ce jour, cf. audit round 2 Tier 1/3)** : `validate-frontmatter.cjs` (à supprimer), `repomix-output.xml` (à .gitignore), règle morte de `global.css` (var --color-bg/--color-text), `package.json` name/version, image orpheline `checkCdc` → désormais utilisée. Refactors scalabilité : `projectImages` clé/valeur, extraction de `[slug].astro`, `astro:assets`.
+
 ## 2026-07-11 (suite) — Consolidation du Design System
 
 Consigne « ne pas toucher » **levée** par le propriétaire. Décisions validées :

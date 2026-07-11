@@ -3,24 +3,25 @@
 cardImage: "/images/coverProject-cdc.webp"
 projectImages:
  # DIAGNOSIS (Context/Problem)
- - "/images/project-2/conceptBrief.webp" # Index 0 : contextImage (Principal)
- - "" # Index 1 : contextImage2 (Optionnel)
+ - "/images/project-2/conceptBrief.webp" # Index 0: contextImage (Main)
+ - "" # Index 1: contextImage2 (Optional)
  # DIAGNOSIS (Role/Insights)
- - "/images/project-2/crazy8.webp" # Index 2 : roleImage (Principal)
- - "" # Index 3 : roleImage2 (Optionnel)
+ - "/images/project-2/crazy8.webp" # Index 2: roleImage (Main)
+ - "" # Index 3: roleImage2 (Optional)
  # CONCEPTION
- - "/images/project-2/packaging.webp" # Index 4 : conceptionImage (Principal)
- - "" # Index 5 : conceptionImage2 (Optionnel)
+ - "/images/project-2/packaging.webp" # Index 4: conceptionImage (Main)
+ - "" # Index 5: conceptionImage2 (Optional)
  # RESULTS
- - "/images/project-2/magazineCdc.webp" # Index 6 : resultsImage (Principal)
- - "" # Index 7 : resultsImage2 (Optionnel)
- # 💡 Images supplémentaires pour le Carrousel (index 8 et suivants)
- - "/images/project-2/storyBoardCdc.webp" # Index 8 (Début du carrousel)
+ - "/images/project-2/magazineCdc.webp" # Index 6: resultsImage (Main)
+ - "" # Index 7: resultsImage2 (Optional)
+ # 💡 Additional images for the Carousel (index 8 onwards)
+ - "/images/project-2/storyBoardCdc.webp" # Index 8 (Start of the carousel)
  - "/images/project-2/kickoffCdc.webp"
  - "/images/project-2/distributeCdc.webp"
  - "/images/project-2/fillTilesCdc.webp"
  - "/images/project-2/mapCdc.webp"
  - "/images/project-2/reviewsCdc.webp"
+ - "/images/project-2/checkCdc.webp"
  - "/images/project-2/editCdc.webp"
  - "/images/project-2/degitalCdc.webp"
 semanticSlug: "depostetconsignations"
@@ -61,7 +62,7 @@ publishDate: "2022-05-15"
 isDraft: false
 
 # =================================================
-# NOUVEAUX CHAMPS POUR LA SECTION CRÉDITS
+# NEW FIELDS FOR THE CREDITS SECTION
 # =================================================
 teamMembers:
   - name: "Louis Richard Marschal"

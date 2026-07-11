@@ -1,14 +1,14 @@
 ---
-// Fichier : src/components/Button.astro
+// File: src/components/Button.astro
 
-// 1. Définition des Props
+// 1. Props definition
 export interface Props {
   href: string;
   variant?: "primary" | "secondary" | "outline";
   size?: "default" | "small" | "large";
   class?: string;
   showArrow?: boolean;
-  // On accepte n'importe quel autre attribut (comme data-umami ou data-sa)
+  // We accept any other attribute (like data-umami or data-sa)
   [x: string]: any;
 }
 
@@ -18,16 +18,16 @@ const {
   size = "default",
   class: className,
   showArrow = true,
-  ...rest // ✅ RÉCUPÈRE TOUS LES AUTRES ATTRIBUTS (Tracking, etc.)
+  ...rest // ✅ CAPTURES ALL OTHER ATTRIBUTES (Tracking, etc.)
 } = Astro.props;
 
-// 2. Définition des tokens Tailwind
+// 2. Tailwind tokens definition
 const baseStyles =
   "flex w-full md:w-fit items-center justify-center transition-colors duration-200 cursor-pointer rounded-full";
 const sizeStyles = "py-sm-d px-lg";
 const fontStyles = "text-md font-medium";
 
-// 3. Définition des couleurs Sémantiques et des états par variante
+// 3. Definition of semantic colors and per-variant states
 let variantColors = "";
 
 switch (variant) {
@@ -56,7 +56,7 @@ switch (variant) {
 
   case "outline":
     variantColors = `
-            /* Styles pour l'état outline/contour */
+            /* Styles for the outline state */
         `;
     break;
 }

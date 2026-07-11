@@ -4,11 +4,11 @@ import ArrowButton from "./ArrowButton.astro";
 
 export interface Props {
   images: string[];
-  // 🚨 1. Ajout de la nouvelle prop
+  // 🚨 1. Add the new prop
   hideArrowsOnMobile?: boolean;
 }
 
-// 🚨 2. Destructuration de la nouvelle prop (par défaut à true pour appliquer le masquage)
+// 🚨 2. Destructure the new prop (defaults to true to apply the hiding)
 const { images, hideArrowsOnMobile = true } = Astro.props;
 
 if (!images || images.length === 0) return null;
@@ -17,7 +17,7 @@ const dots = images.map((_, index) => ({
   index: index,
 }));
 
-// Classes du Design System (DS) pour les Props
+// Design System (DS) classes for the Props
 const DS_CLASSES = {
   mainDefault: "stroke-primary",
   mainHover: "stroke-primary-hover",
@@ -29,8 +29,8 @@ const DS_CLASSES = {
 const prevInitialVariant = "disabled";
 const activeVariant = "main";
 
-// 💡 CORRECTION TS(2306) : Ajout d'une simple exportation pour signaler le fichier comme un module
-// Il est courant d'exporter une constante pour satisfaire le service de langage TS.
+// 💡 FIX TS(2306): Add a simple export to flag the file as a module
+// It is common to export a constant to satisfy the TS language service.
 export const isAstroComponent = true;
 ---
 
@@ -40,7 +40,7 @@ export const isAstroComponent = true;
   class="space-y-md my-3xl"
 >
   <div class="flex items-center justify-between">
-    {/* ⬅️ Flèche Précédente (Desktop) */}
+    {/* ⬅️ Previous Arrow (Desktop) */}
     <ArrowButton
       id="prevBtn"
       label="Image précédente"
@@ -52,13 +52,13 @@ export const isAstroComponent = true;
       class={hideArrowsOnMobile ? "hidden md:block" : ""}
     />
 
-    {/* 🖼️ Conteneur principal de l'image */}
+    {/* 🖼️ Main image container */}
     <div
       class:list={[
         "relative w-full rounded-2xl overflow-hidden bg-background-primary aspect-video",
-        // Base: mx-0 (Full width sur mobile)
+        // Base: mx-0 (Full width on mobile)
         "mx-0",
-        // Desktop (md): Applique une marge pour séparer des flèches latérales
+        // Desktop (md): Applies a margin to separate from the side arrows
         { "md:mx-md": hideArrowsOnMobile },
       ]}
     >
@@ -73,7 +73,7 @@ export const isAstroComponent = true;
       />
     </div>
 
-    {/* ➡️ Flèche Suivante (Desktop) */}
+    {/* ➡️ Next Arrow (Desktop) */}
     <ArrowButton
       id="nextBtn"
       label="Image suivante"
@@ -87,10 +87,10 @@ export const isAstroComponent = true;
   </div>
 
   {
-    /* 🔴 Indicateurs de points (Dots) et Flèches Mobile (DOIVENT RESTER VISIBLES) */
+    /* 🔴 Dot indicators and Mobile Arrows (MUST STAY VISIBLE) */
   }
   <div class="flex items-center justify-center pt-4">
-    {/* ⬅️ Flèche Mobile Précédente */}
+    {/* ⬅️ Mobile Previous Arrow */}
     <ArrowButton
       id="prevBtnMobile"
       label="Image précédente"
@@ -101,7 +101,7 @@ export const isAstroComponent = true;
       {...DS_CLASSES}
     />
 
-    {/* Conteneur des Points */}
+    {/* Dots container */}
     <div id="carouselDots" class="flex justify-center space-x-2 mx-4">
       {
         dots.map((dot) => (
@@ -115,7 +115,7 @@ export const isAstroComponent = true;
       }
     </div>
 
-    {/* ➡️ Flèche Mobile Suivante */}
+    {/* ➡️ Mobile Next Arrow */}
     <ArrowButton
       id="nextBtnMobile"
       label="Image suivante"
@@ -132,16 +132,16 @@ export const isAstroComponent = true;
   let isInitialized = false;
   const TOTAL_IMAGES = images.length;
 
-  // Classes de référence pour la JS
+  // Reference classes for the JS
   const VARIANT_ACTIVE = "main";
   const VARIANT_DISABLED = "disabled";
 
-  // EXPOSEZ LA FONCTION GLOBALEMENT
+  // EXPOSE THE FUNCTION GLOBALLY
   window.updateImageFromDot = function (index) {
     updateImage(index);
   };
 
-  // EXPOSEZ LA FONCTION GLOBALEMENT SOUS UN NOM UNIQUE
+  // EXPOSE THE FUNCTION GLOBALLY UNDER A UNIQUE NAME
   window.handleCarouselNavigation = function (direction) {
     const carouselImg = document.getElementById("carouselImage");
     if (!carouselImg || TOTAL_IMAGES === 0) return;
@@ -153,37 +153,37 @@ export const isAstroComponent = true;
 
     if (direction === 1) {
       if (newIndex >= TOTAL_IMAGES) {
-        newIndex = 0; // Loop vers la première image
+        newIndex = 0; // Loop back to the first image
       }
     } else if (direction === -1) {
       if (newIndex < 0) {
-        return; // Arrête la navigation
+        return; // Stops the navigation
       }
     }
 
     updateImage(newIndex);
   };
 
-  // FONCTION DE MISE À JOUR (Portée Locale)
+  // UPDATE FUNCTION (Local Scope)
   function updateImage(index) {
     const carouselImg = document.getElementById("carouselImage");
     const dotsContainer = document.getElementById("carouselDots");
     if (!carouselImg || TOTAL_IMAGES === 0 || !dotsContainer) return;
 
-    // 1. Mise à jour de l'image et de l'état
+    // 1. Update the image and the state
     const imageUrl = images[index];
     carouselImg.src = imageUrl;
     carouselImg.setAttribute("onclick", `showImageModal('${imageUrl}')`);
     carouselImg.dataset.currentIndex = index.toString();
 
-    // 2. Mise à jour des points
+    // 2. Update the dots
     dotsContainer.querySelectorAll("button").forEach((dot, dotIndex) => {
       const isActive = dotIndex === index;
       dot.classList.toggle("bg-background-accent-primary", isActive);
       dot.classList.toggle("bg-background-disabled", !isActive);
     });
 
-    // 3. Mise à jour des États des Flèches (Précédent)
+    // 3. Update the Arrow States (Previous)
     const prevArrows = [
       document.getElementById("prevBtn"),
       document.getElementById("prevBtnMobile"),
@@ -193,23 +193,23 @@ export const isAstroComponent = true;
     prevArrows.forEach((btn) => {
       if (!btn) return;
 
-      // Mettre à jour la prop 'disabled' de l'ArrowButton
+      // Update the ArrowButton's 'disabled' prop
       btn.disabled = isPrevDisabled;
 
-      // 🚨 CORRECTION : Gérer la visibilité/interactivité via les classes du SPAN interne
+      // 🚨 FIX: Manage visibility/interactivity via the inner SPAN's classes
       const span = btn.querySelector("span");
       if (span) {
         span.classList.toggle("opacity-0", isPrevDisabled);
         span.classList.toggle("pointer-events-none", isPrevDisabled);
         span.classList.toggle("opacity-100", !isPrevDisabled);
 
-        // Si vous utilisez la méthode de couleur par classe de stroke injectée :
+        // If you use the color method via injected stroke class:
         // span.classList.toggle('stroke-disabled', isPrevDisabled);
         // span.classList.toggle('stroke-primary', !isPrevDisabled);
       }
     });
 
-    // 4. Mise à jour des États des Flèches (Suivant) - Gère la boucle
+    // 4. Update the Arrow States (Next) - Handles the loop
     const nextArrows = [
       document.getElementById("nextBtn"),
       document.getElementById("nextBtnMobile"),
@@ -219,8 +219,8 @@ export const isAstroComponent = true;
     nextArrows.forEach((btn) => {
       if (!btn) return;
 
-      // Si la navigation est en boucle (loop), on ne désactive jamais le bouton suivant.
-      // Si vous ne voulez PAS de boucle, décommentez la logique ci-dessous :
+      // If navigation loops, the next button is never disabled.
+      // If you do NOT want a loop, uncomment the logic below:
       /*
 btn.disabled = isNextDisabled;
 
@@ -234,7 +234,7 @@ span.classList.toggle('opacity-100', !isNextDisabled);
     });
   }
 
-  // GESTION DU SWIPE (Portée Locale)
+  // SWIPE HANDLING (Local Scope)
   function attachSwipeHandler() {
     const carouselImg = document.getElementById("carouselImage");
     if (!carouselImg) return;
@@ -260,23 +260,23 @@ span.classList.toggle('opacity-100', !isNextDisabled);
       }
 
       if (distance < 0) {
-        // Swipe vers la gauche (passe à l'image suivante: direction 1)
+        // Swipe left (moves to the next image: direction 1)
         window.handleCarouselNavigation(1);
       } else {
-        // Swipe vers la droite (passe à l'image précédente: direction -1)
+        // Swipe right (moves to the previous image: direction -1)
         window.handleCarouselNavigation(-1);
       }
     }
   }
 
-  // Fonction d'initialisation (Portée Locale)
+  // Initialization function (Local Scope)
   function initializeCarousel() {
     if (isInitialized || images.length === 0) return;
 
-    // Mise à jour initiale des flèches et des points (s'assure que la flèche "prev" est désactivée)
+    // Initial update of the arrows and dots (ensures the "prev" arrow is disabled)
     updateImage(0);
 
-    // Attacher l'écouteur de swipe
+    // Attach the swipe listener
     attachSwipeHandler();
 
     isInitialized = true;

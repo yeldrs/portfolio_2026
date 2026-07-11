@@ -25,16 +25,16 @@ const {
   id,
 } = Astro.props;
 
-// --- LOGIQUE DE TRACKING MUTUALISÉE ---
+// --- SHARED TRACKING LOGIC ---
 
-// Format pour Simple Analytics (snake_case : view_project_900_care)
+// Format for Simple Analytics (snake_case: view_project_900_care)
 const projectSlugSA = client
   .toLowerCase()
   .replace(/\s+/g, "_")
   .replace(/[^\w_]/g, "");
 const eventNameSA = `view_project_${projectSlugSA}`;
 
-// Format pour Umami (kebab-case : 900-care)
+// Format for Umami (kebab-case: 900-care)
 const projectSlugUmami = client
   .toLowerCase()
   .replace(/\s+/g, "-")

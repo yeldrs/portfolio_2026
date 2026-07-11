@@ -1,5 +1,24 @@
+# All crawlers welcome — this portfolio is meant to be discoverable.
 User-agent: *
 Allow: /
-Disallow: /dist/
-Disallow: /node_modules/
-Sitemap: https://yassineelidrissi.com/sitemap.xml
+
+# Explicitly allow major AI crawlers (search + assistants).
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://yassineelidrissi.com/sitemap-index.xml

@@ -1,10 +1,10 @@
 // src/styles/tokens.js
 //
-// SOURCE UNIQUE DE VÉRITÉ du design system.
-//   primitives  → valeurs brutes (hex, px…)
-//   semantic    → noms de rôles qui RÉFÉRENCENT les primitives (valeurs réelles, pas des placeholders)
-// tailwind.config.mjs consomme directement `tokens.semantic.colors` : il n'y a plus de mapping
-// dupliqué à la main, donc plus de divergence possible.
+// SINGLE SOURCE OF TRUTH of the design system.
+//   primitives  → raw values (hex, px…)
+//   semantic    → role names that REFERENCE the primitives (real values, not placeholders)
+// tailwind.config.mjs consumes `tokens.semantic.colors` directly: there is no longer a
+// hand-duplicated mapping, so no possible divergence.
 
 const primitives = {
   color: {
@@ -30,7 +30,7 @@ const primitives = {
       page: "#f4f7f8",
     },
 
-    // Couleur d'accent / de marque — action (violet)
+    // Accent / brand color — action (violet)
     "accent-action": {
       50: "#eef1ff",
       100: "#dfe5ff",
@@ -96,23 +96,23 @@ const primitives = {
 };
 
 const semantic = {
-  // Rôles couleur — consommés tels quels par tailwind.config.mjs (theme.extend.colors)
+  // Color roles — consumed as-is by tailwind.config.mjs (theme.extend.colors)
   colors: {
-    // Fonds
+    // Backgrounds
     "background-primary": primitives.color.base.white,
     "background-brand": primitives.color["accent-action"][600],
     "background-page": primitives.color.surface.page,
     "background-accent-primary": primitives.color["accent-action"][500],
     "background-disabled": primitives.color.gray[300],
 
-    // Textes
+    // Text
     "text-body-primary": primitives.color.base.black,
     "text-body-secondary": primitives.color.gray[600],
     "text-body-tertiary": primitives.color.gray[400],
     "text-body-accent": primitives.color["accent-action"][600],
     "text-heading-accent": primitives.color["accent-action"][600],
 
-    // Boutons
+    // Buttons
     "button-background-primary": primitives.color["accent-action"][600],
     "button-text-primary": primitives.color.base.white,
     "button-hover-primary": primitives.color["accent-action"][400],
@@ -121,11 +121,11 @@ const semantic = {
     "button-hover-secondary": primitives.color.gray[800],
     "button-active-secondary": primitives.color.gray[800],
 
-    // Bordures / traits
+    // Borders / strokes
     "stroke-primary": primitives.color["accent-action"][400],
     "stroke-primary-hover": primitives.color["accent-action"][200],
     "stroke-primary-dark": primitives.color["accent-action"][500],
-    "stroke-secondary": primitives.color.gray[200], // séparateurs subtils (Footer, about)
+    "stroke-secondary": primitives.color.gray[200], // subtle separators (Footer, about)
     "stroke-neutral-primary": primitives.color.gray[300],
     "stroke-tertiary": primitives.color.gray[50],
     "stroke-tertiary-hover": primitives.color.gray[200],

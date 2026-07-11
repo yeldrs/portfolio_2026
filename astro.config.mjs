@@ -2,18 +2,19 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: 'https://yassineelidrissi.com',
-  // ✅ 2. Gestion des slashs : 'ignore' permet de répondre aux deux versions
+  // ✅ 2. Slash handling: 'ignore' allows responding to both versions
   trailingSlash: 'ignore',
 
-  // ✅ 3. Format 'directory' pour créer /about/index.html (meilleur pour SEO et compatibilité)
+  // ✅ 3. 'directory' format to create /about/index.html (better for SEO and compatibility)
   build: {
     format: 'file'
   },
   output: 'static',
-  integrations: [tailwind(), mdx()],
+  integrations: [tailwind(), mdx(), sitemap()],
   redirects: {
     '/work': '/#projects',
     '/projects': '/#projects',

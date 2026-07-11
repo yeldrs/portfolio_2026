@@ -1,13 +1,13 @@
 ---
-// Importez vos Layout et composants
+// Import your Layout and components
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
 import Button from "../components/Button.astro";
 
-// Vos données pour la page
+// Your data for the page
 const profileImageUrl = "/images/profile-pic.webp";
 
-// ✅ Données du CV : EXPÉRIENCES PROFESSIONNELLES
+// ✅ Resume data: PROFESSIONAL EXPERIENCE
 const professionalExperience = [
   {
     title: "UX Product Designer",
@@ -17,7 +17,7 @@ const professionalExperience = [
       "End-to-End role in an Agile team to maximize conversion, retention, and product discovery.",
     ],
     trackingSlug: "900-care",
-    // ➕ AJOUT : Lien vers le CV (modifier le chemin vers votre fichier PDF réel dans /public)
+    // ➕ ADDED: Link to the resume (change the path to your actual PDF file in /public)
     cvLink: "/documents/Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE.pdf",
   },
   {
@@ -28,7 +28,7 @@ const professionalExperience = [
       "Consulting services in digital strategy, Search Engine Optimization (SEO), WordPress and WebFlow.",
     ],
     trackingSlug: "freelance-web",
-    // Pas de lien pour cette expérience (exemple)
+    // No link for this experience (example)
   },
   {
     title: "Art Director",
@@ -50,7 +50,7 @@ const professionalExperience = [
   },
 ];
 
-// ✅ Données du CV : TOOLKIT
+// ✅ Resume data: TOOLKIT
 const toolkit = {
   coreDesign: [
     {
@@ -142,7 +142,7 @@ const significantWork = [
   },
 ];
 
-// ✅ Formation
+// ✅ Education
 const educationExperience = [
   {
     year: "2024-2025",
@@ -163,10 +163,13 @@ const educationExperience = [
 ];
 ---
 
-<BaseLayout title="About Yassine El Idrissi - Product Designer">
+<BaseLayout
+  title="About Yassine El Idrissi - Product Designer"
+  description="About Yassine El Idrissi, UX Product Designer — experience, skills and background in end-to-end product design, from research to delivery."
+>
   <main>
     <Container class="py-3xl px-lg flex flex-col gap-3xl">
-      {/* ⭐ SECTION 1: PROFIL & INTRODUCTION */}
+      {/* ⭐ SECTION 1: PROFILE & INTRODUCTION */}
       <section
         class="flex flex-col md:flex-row md:items-start gap-lg md:gap-xl max-w-3xl"
       >
@@ -192,7 +195,7 @@ const educationExperience = [
         </div>
       </section>
 
-      {/* ⭐ SECTION 2: EXPÉRIENCES PROFESSIONNELLES */}
+      {/* ⭐ SECTION 2: PROFESSIONAL EXPERIENCE */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">Experience</h2>
         {
@@ -212,7 +215,7 @@ const educationExperience = [
                 </p>
               )}
 
-              {/* ➕ AJOUT : Lien de téléchargement conditionnel */}
+              {/* ➕ ADDED: Conditional download link */}
               {exp.cvLink && (
                 <a
                   href={exp.cvLink}
@@ -298,7 +301,7 @@ const educationExperience = [
         }
       </section>
 
-      {/* ⭐ SECTION 5: FORMATION */}
+      {/* ⭐ SECTION 5: EDUCATION */}
       <section class="w-full max-w-3xl space-y-xl">
         <h2 class="text-3xl font-bold text-text-body-primary">Education</h2>
         {

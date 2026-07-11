@@ -1,8 +1,8 @@
 ---
-// 1. Importez le Layout de base
+// 1. Import the base Layout
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// 2. Importez les composants nécessaires
+// 2. Import the necessary components
 import ProjectCard from "../components/ProjectCard.astro";
 import Container from "../components/Container.astro";
 import Hero from "../components/Hero.astro";
@@ -10,24 +10,27 @@ import Divider from "../components/Divider.astro";
 import Cloud from "../components/Cloud.astro";
 import { getCollection } from "astro:content";
 
-// use a neutral placeholder instead (plus fiable)
-const PlaceholderImage = "/images/profile-pic.webp"; // Doit pointer vers /public
+// use a neutral placeholder instead (more reliable)
+const PlaceholderImage = "/images/profile-pic.webp"; // Must point to /public
 
-// 🔴 RÉCUPÉRATION DYNAMIQUE DES DONNÉES DE LA COLLECTION 'projects'
+// 🔴 DYNAMIC FETCHING OF THE 'projects' COLLECTION DATA
 const allProjects = (
   await getCollection("projects", ({ data }) => {
-    // Filtre les brouillons
+    // Filter out drafts
     return data.isDraft !== true;
   })
 ).sort((a, b) => {
-  // Triez par date de publication (plus récent en premier)
+  // Sort by publish date (most recent first)
   const dateA = new Date(a.data.publishDate).getTime();
   const dateB = new Date(b.data.publishDate).getTime();
   return dateB - dateA;
 });
 ---
 
-<BaseLayout title="Yassine El Idrissi -  UX Design">
+<BaseLayout
+  title="Yassine El Idrissi - UX Product Designer"
+  description="Portfolio of Yassine El Idrissi, UX Product Designer — selected case studies in product design, UX research and design systems."
+>
   <main class="relative">
 
      <Cloud

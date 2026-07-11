@@ -2,18 +2,18 @@
 cardImage: "/images/coverProject-900care.webp"
 projectImages:
  # DIAGNOSIS (Context/Problem)
- - "/images/project-1/mockupDesktop.webp" # Index 0 : contextImage (Principal)
- - "" # Index 1 : contextImage2 (Optionnel)
+ - "/images/project-1/mockupDesktop.webp" # Index 0: contextImage (Main)
+ - "" # Index 1: contextImage2 (Optional)
  # DIAGNOSIS (Role/Insights)
- - "/images/project-1/research.webp" # Index 2 : roleImage (Principal)
- - "" # Index 3 : roleImage2 (Optionnel)
+ - "/images/project-1/research.webp" # Index 2: roleImage (Main)
+ - "" # Index 3: roleImage2 (Optional)
  # CONCEPTION
- - "/images/project-1/conception.webp" # Index 4 : conceptionImage (Principal)
- - "" # Index 5 : conceptionImage2 (Optionnel)
+ - "/images/project-1/conception.webp" # Index 4: conceptionImage (Main)
+ - "" # Index 5: conceptionImage2 (Optional)
  # RESULTS
- - "/images/project-1/metricsHomepage.webp" # Index 6 : resultsImage (Principal)
- - "" # Index 7 : resultsImage2 (Optionnel)
- # 💡 Le carrousel commencera à l'index 8 (et sera vide)
+ - "/images/project-1/metricsHomepage.webp" # Index 6: resultsImage (Main)
+ - "" # Index 7: resultsImage2 (Optional)
+ # 💡 The carousel will start at index 8 (and will be empty)
 semanticSlug: "900care"
 title: "UX & growth for a sustainable e&#8209;commerce"
 client: "900.care"
@@ -32,13 +32,13 @@ methodology: "I adopted a data-informed approach. Each design decision was based
 designConception:
   paragraph: |
     I designed a new homepage structure, prioritizing a clear value proposition and the strategic highlighting of bundles, which generate a higher AOV. I prototyped several low-fidelity versions of ppsell/cross-sell modals for users testing and challenge our hypothesis. The goal was to suggest complementary products smoothly, without interrupting the main purchase path.
-  # listItems: (optionnel, peut être omis si vide)
+  # listItems: (optional, can be omitted if empty)
 delivery: "We successfully launched the new upsell flow, revamped the homepage, the product catalog and implemented a new section to manage incoming orders. The delivery included fully documented designs, interactive prototypes, an advanced design system update, user insights and reseach protocol."
 metrics: "Achieved a +47% increase in Average Basket Value (ABV) and reduced churn by 25% post-launch."
 publishDate: "2024-10-25"
 isDraft: false
 # =================================================
-# CHAMPS CRÉDITS OBLIGATOIRES / OPTIONNELS
+# CREDIT FIELDS REQUIRED / OPTIONAL
 # =================================================
 
 clientDetails:

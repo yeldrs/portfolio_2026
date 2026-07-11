@@ -1,18 +1,20 @@
 ---
+# DRAFT — isDraft: true → not listed on the homepage AND no /work page generated (see getStaticPaths).
+# The images referenced below do not exist yet; to be provided before publishing (isDraft: false).
 cardImage: "/images/coverProject-biomimicry.webp"
 projectImages:
  # DIAGNOSIS (Context/Problem)
- - "/images/biomimicry/museum-context.webp" # Index 0 : contextImage (Principal)
- - "" # Index 1 : contextImage2 (Optionnel)
+ - "/images/biomimicry/museum-context.webp" # Index 0: contextImage (Main)
+ - "" # Index 1: contextImage2 (Optional)
  # DIAGNOSIS (Role/Insights)
- - "/images/biomimicry/user-research-kids.webp" # Index 2 : roleImage (Principal)
- - "" # Index 3 : roleImage2 (Optionnel)
+ - "/images/biomimicry/user-research-kids.webp" # Index 2: roleImage (Main)
+ - "" # Index 3: roleImage2 (Optional)
  # CONCEPTION
- - "/images/biomimicry/physical-prototype.webp" # Index 4 : conceptionImage (Principal)
- - "" # Index 5 : conceptionImage2 (Optionnel)
+ - "/images/biomimicry/physical-prototype.webp" # Index 4: conceptionImage (Main)
+ - "" # Index 5: conceptionImage2 (Optional)
  # RESULTS
- - "/images/biomimicry/ar-interaction.webp" # Index 6 : resultsImage (Principal)
- - "" # Index 7 : resultsImage2 (Optionnel)
+ - "/images/biomimicry/ar-interaction.webp" # Index 6: resultsImage (Main)
+ - "" # Index 7: resultsImage2 (Optional)
 semanticSlug: "biomimicry-museum"
 title: "Biomimicry — Interactive Educational Experience"
 client: "Museum of Natural History, Nantes"
@@ -37,10 +39,10 @@ designConception:
 delivery: "A fully functional interactive installation delivered to the Museum. The package included the physical structure (wood & laser-engraved), the AR software layer, and a post-event report detailing visitor engagement patterns and hardware maintenance protocols."
 metrics: "Successfully engaged 100+ visitors in 2 days. Implemented a critical UX update overnight after Day 1. Maintained 0% technical downtime when switching to dedicated hardware."
 publishDate: "2022-02-15"
-isDraft: false
+isDraft: true
 
 # =================================================
-# CHAMPS CRÉDITS OBLIGATOIRES / OPTIONNELS
+# CREDIT FIELDS REQUIRED / OPTIONAL
 # =================================================
 
 clientDetails:

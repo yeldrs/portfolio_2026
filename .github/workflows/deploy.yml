@@ -3,7 +3,7 @@ name: Astro Deployment on GitHub Pages
 
 on:
   push:
-    branches: [ deploy/test ]
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
           node-version: 20 
           build-cmd: npm run build 
           
-      # L'action 'withastro/action' télécharge l'artefact 'github-pages'
+      # The 'withastro/action' uploads the 'github-pages' artifact
       
   deploy:
     needs: build
@@ -37,5 +37,5 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: github-pages 
-          # 🚨 CORRECTION : SUPPRESSION DE LA LIGNE 'path'
+          artifact_name: github-pages
+          # 🚨 FIX: removed the 'path' line
