@@ -2,7 +2,7 @@
 
 Document de référence technique — SOURCE DE VÉRITÉ de l'architecture du site. Destiné à tout développeur reprenant la maintenance, la migration ou l'évolution du site, et à tout designer intervenant sur le design system.
 Statut : document vivant, mis à jour de temps en temps pour rester aligné sur l'état réel du code. Les actions ponctuelles (nettoyages, corrections) sont tracées au fil de l'eau dans MAINTENANCE_LOG.md ; ce whitepaper décrit l'architecture cible et stable, pas l'historique.
-Repo : github.com/yeldrs/portfolio_2026 (branche par défaut : feature/fixes).
+Repo : github.com/yeldrs/portfolio_2026 — branche par défaut & production : main. Déploiement automatique sur GitHub Pages à chaque push sur main (workflow GitHub Actions). Le code est intégralement en anglais (contenu, commentaires, lang="en").
 1. Vue d'ensemble
 1.1 Ce qu'est le site
 Portfolio personnel de designer produit / UX, mono-page à l'accueil avec pages de détail par étude de cas. Trois projets sont publiés (900.care, Caisse des Dépôts, Batchcooking). Le site est 100 % statique : aucun serveur, aucune base de données, aucune logique runtime. Tout est pré-généré au build.
@@ -155,14 +155,23 @@ npm run dev      # serveur de dev
 npm run build    # build de production dans dist/
 npm run preview  # prévisualiser le build
 6.5 Hébergement (état actuel) et migration
-Réalité du setup : le SITE est servi par GitHub Pages (workflow .github/workflows/deploy.yml + fichier CNAME). Hostinger n'est QUE le registrar du domaine (yassineelidrissi.com) et le fournisseur d'email (MX) — pas l'hébergeur web. Le DNS du domaine pointe vers GitHub Pages.
+Réalité du setup : le SITE est servi par GitHub Pages, déployé automatiquement à chaque push sur la branche main (workflow .github/workflows/deploy.yml + fichier CNAME). Hostinger n'est QUE le registrar du domaine (yassineelidrissi.com) et le fournisseur d'email (MX) — pas l'hébergeur web. Le DNS du domaine pointe vers GitHub Pages.
 Conséquence : les redirections/URLs propres sont gérées UNIQUEMENT par astro.config.mjs (le build génère une page HTML de redirection par entrée : aboutme.html, work.html, etc., servies par GitHub Pages). Le .htaccess (Apache) a été supprimé — il était dormant et faisait doublon (source unique désormais). HTTPS et URLs propres (/about → about.html) sont assurés nativement par GitHub Pages.
 Avant une migration vers Apache/Hostinger : recréer un .htaccess (récupérable dans l'historique git) pour porter les redirections, forcer HTTPS et masquer .html ; vérifier que CNAME et le champ site: d'astro.config.mjs pointent vers le même domaine.
+6.6 SEO & découvrabilité IA
+Toute la couche SEO/social/IA est centralisée dans BaseLayout.astro (site-wide) + [slug].astro (par projet). Rien à recopier par page — on passe des props.
+- Canonical : chaque page émet <link rel="canonical"> en URL PROPRE (le .html est retiré côté layout). Empêche l'indexation en double /x vs /x.html. Ne jamais coder d'URL en dur avec .html.
+- Open Graph + Twitter Card : aperçus riches au partage. Titre/description/image dérivés des props title/description/image ; image par défaut = profile-pic, surchargée par la cardImage sur les études de cas.
+- Données structurées JSON-LD (schema.org) : un Person site-wide (identité : nom, jobTitle, sameAs LinkedIn) injecté partout, + un CreativeWork par étude de cas (via la prop structuredData de BaseLayout, construite dans [slug].astro). C'est le principal levier de compréhension par Google ET les LLM.
+- llms.txt (public/llms.txt) : résumé markdown du site pour les agents IA (identité + liens des 3 études de cas). À mettre à jour quand on ajoute/retire un projet.
+- robots.txt : crawlers IA explicitement autorisés (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) + lien du sitemap auto.
+- lang="en" : le contenu est en anglais, le <html> le déclare (SEO + lecteurs d'écran).
+Pour faire évoluer : modifier le bloc SEO de BaseLayout.astro (métas + Person), le CreativeWork dans [slug].astro, et public/llms.txt. Après tout changement d'URL/redirection, vérifier que le canonical reste en forme propre.
 7. ⚠️ Warnings — points fragiles et dette technique
 Classés par gravité.
 
 🟠 Important — sources de bugs silencieux
-7.1 Hébergement clarifié, source de redirection unique (résolu). Le site tourne sur GitHub Pages (deploy.yml + CNAME) ; Hostinger = registrar + email seulement. Le .htaccess (Apache) — dormant et redondant — a été supprimé : astro.config.mjs est désormais la seule source des redirections. Point de vigilance résiduel : le workflow deploy.yml se déclenche sur la branche deploy/test — vérifier que c'est bien la branche publiée. Voir §6.5.
+7.1 Hébergement clarifié, source de redirection unique (résolu). Le site tourne sur GitHub Pages (deploy.yml + CNAME) ; Hostinger = registrar + email seulement. Le .htaccess (Apache) — dormant et redondant — a été supprimé : astro.config.mjs est désormais la seule source des redirections. La production est déployée depuis la branche main (branche par défaut, workflow deploy.yml aligné) ; l'ancienne branche deploy/test n'est plus utilisée (à supprimer une fois main confirmée). Voir §6.5.
 7.2 Design system consolidé en source unique (résolu). Anciennement : tokens.js › semantic.colors n'était pas lu par Tailwind, qui dupliquait le mapping à la main → divergence (brand turquoise vs violet). Désormais tailwind.config.mjs consomme colors: { ...tokens.semantic.colors } : une seule source, plus de divergence possible. Règle : éditer les couleurs sémantiques UNIQUEMENT dans tokens.js. Voir §4.3.
 7.3 Mapping d'images par index positionnel.
 Dans les MDX, les images sont placées par leur position dans projectImages (0=contexte, 2=rôle…). Fragile : un décalage casse silencieusement la mise en page, sans erreur de build. Toujours conserver les positions vides avec "". Une évolution souhaitable serait de nommer les images (objet clé/valeur) plutôt que de les indexer.
