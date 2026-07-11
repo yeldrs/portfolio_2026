@@ -38,6 +38,9 @@ architecture → **SSOT** (tokens.js pilote tailwind). Build vérifié + CSS com
 
 Vérification CSS compilé : `border-stroke-secondary` = rgb(229 231 235) ✓ · `text-text-body-primary` = rgb(3 7 18) ✓ · brand toujours violet #4364e8, 0 occurrence turquoise ✓.
 
+- `[2026-07-11]` — `Whitepaper d'architecture — …txt` — **ACTION LOG interne + changelog navbar supprimés** (75 lignes) au profit de ce fichier `MAINTENANCE_LOG.md` séparé ; pointeur ajouté en fin de whitepaper — statut : fait
+- `[2026-07-11]` — `Whitepaper d'architecture — …txt` — **contenu réconcilié avec l'état réel** (devient source de vérité vivante) : en-tête (repo `yeldrs/portfolio_2026`, statut « document vivant »), §2.1 (11 composants, tokens.js SSOT, .htaccess dormant), §3.1 (retrait Welcome/ContactFormSection, ajout Cloud), §3.4 (items traités retirés, pending réel listé), §4.1-4.3 (chaîne SSOT, brand violet accent-action, avertissement « double source » remplacé par la règle source unique), §6.5 (hébergement clarifié : GitHub Pages + Hostinger registrar/email), §7 renuméroté 7.1→7.8 (items résolus retirés, cross-refs corrigés), Annexe (pièges résiduels + points résolus) — statut : fait
+
 ### DETTE / À SURVEILLER (constaté, non corrigé)
 - `[2026-07-11]` — ~~Design System double source / palettes dupliquées~~ → **RÉSOLU** (voir ci-dessus).
 - `[2026-07-11]` — **`src/styles/global.css`** — la règle `html,body { background-color: var(--color-bg); color: var(--color-text); }` référence des variables CSS **jamais définies** → règle inopérante (le fond réel vient de `bg-background-page` dans BaseLayout). De plus `font-family: system-ui` y est posé en dur (peut concurrencer la police Manrope). À nettoyer/aligner sur les tokens. Non touché ce jour (hors périmètre couleurs).
