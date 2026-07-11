@@ -90,7 +90,7 @@ const disabledVariant = "disabled";
               <h3 class="text-lg font-semibold text-text-body-secondary">
                 Context
               </h3>
-              <p class="text-base text-text-body leading-relaxed text-left">
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
                 {project.data.context}
               </p>
             </div>
@@ -99,7 +99,7 @@ const disabledVariant = "disabled";
               <h3 class="text-lg font-semibold text-text-body-secondary">
                 Problem
               </h3>
-              <p class="text-base text-text-body leading-relaxed text-left">
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
                 {project.data.problem}
               </p>
             </div>
@@ -150,7 +150,7 @@ const disabledVariant = "disabled";
               <h3 class="text-lg font-semibold text-text-body-secondary">
                 Role
               </h3>
-              <p class="text-base text-text-body leading-relaxed text-left">
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
                 {project.data.roleDescription}
               </p>
             </div>
@@ -160,7 +160,7 @@ const disabledVariant = "disabled";
               </h3>
               {
                 Array.isArray(project.data.keyInsights) ? (
-                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
                     {project.data.keyInsights.map((insight) => (
                       <li set:html={insight} />
                     ))}
@@ -168,7 +168,7 @@ const disabledVariant = "disabled";
                 ) : (
                   <div
                     set:html={project.data.keyInsights}
-                    class="text-base text-text-body leading-relaxed text-left"
+                    class="text-base text-text-body-primary leading-relaxed text-left"
                   />
                 )
               }
@@ -233,7 +233,7 @@ const disabledVariant = "disabled";
               <h3 class="text-lg font-semibold text-text-body-secondary">
                 Methodology
               </h3>
-              <p class="text-base text-text-body leading-relaxed text-left">
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
                 {project.data.methodology}
               </p>
             </div>
@@ -247,14 +247,14 @@ const disabledVariant = "disabled";
                 project.data.designConception?.paragraph && (
                   <div
                     set:html={project.data.designConception.paragraph}
-                    class="text-base text-text-body leading-relaxed text-left"
+                    class="text-base text-text-body-primary leading-relaxed text-left"
                   />
                 )
               }
               {/* AFFICHAGE CONDITIONNEL DE LA LISTE */}
               {
                 designConceptionList.length > 0 && (
-                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
                     {designConceptionList.map((item) => (
                       <li set:html={item} />
                     ))}
@@ -320,7 +320,7 @@ const disabledVariant = "disabled";
               <h3 class="text-lg font-semibold text-text-body-secondary">
                 Delivery
               </h3>
-              <p class="text-base text-text-body leading-relaxed text-left">
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
                 {project.data.delivery}
               </p>
             </div>
@@ -332,7 +332,7 @@ const disabledVariant = "disabled";
               {/* LOGIQUE CONDITIONNELLE pour Metrics */}
               {
                 Array.isArray(project.data.metrics) ? (
-                  <ul class="list-disc pl-5 text-base text-text-body leading-relaxed text-left">
+                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
                     {project.data.metrics.map((metric) => (
                       <li set:html={metric} />
                     ))}
@@ -340,7 +340,7 @@ const disabledVariant = "disabled";
                 ) : (
                   <div
                     set:html={project.data.metrics}
-                    class="text-base text-text-body leading-relaxed text-left"
+                    class="text-base text-text-body-primary leading-relaxed text-left"
                   />
                 )
               }

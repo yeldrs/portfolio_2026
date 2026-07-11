@@ -21,9 +21,26 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 - `[2026-07-11]` — `public/.htaccess` — **nettoyé** — retrait de la 1re ligne polluée `CeciEstUnTestDeCasse` ; directives conservées — statut : fait
 - `[2026-07-11]` — `README.md` — **remplacé** — le template Astro par défaut → README réel (stack, structure, ajout projet, DS) — statut : fait
 
+## 2026-07-11 (suite) — Consolidation du Design System
+
+Consigne « ne pas toucher » **levée** par le propriétaire. Décisions validées :
+BUG 1 → `text-body-primary`, BUG 2 → nouveau token `stroke-secondary` = gray-200,
+architecture → **SSOT** (tokens.js pilote tailwind). Build vérifié + CSS compilé contrôlé.
+
+### FAIT
+- `[2026-07-11]` — `src/styles/tokens.js` — **restructuré en source unique de vérité** — `primitives` + couche `semantic` complète qui **référence les valeurs réelles** (plus de placeholders `"{...}"`). L'ancien bloc `semantic.colors` obsolète/divergent (turquoise) est remplacé par la carte sémantique OPÉRATIONNELLE (violet `accent-action`). Valeurs conservées à l'identique → 0 changement visuel — statut : fait
+- `[2026-07-11]` — `tailwind.config.mjs` — **consomme `...tokens.semantic.colors`** au lieu du mapping écrit à la main — élimine la double source / divergence définitivement — statut : fait
+- `[2026-07-11]` — `src/styles/tokens.js` — **palettes mortes supprimées** : `blue-chill` (0 usage) et `accent-deco` (identique à `accent-action`) — statut : fait
+- `[2026-07-11]` — `src/components/Cloud.astro` — `tokens.primitives.color["accent-deco"][shade]` → `["accent-action"][shade]` (dédup ; valeurs identiques, 0 changement visuel). NB : Cloud consomme le token en **JS direct**, pas via classe Tailwind — d'où l'invisibilité au scan de classes — statut : fait
+- `[2026-07-11]` — tokens morts retirés du mapping : `accent-deco-*`, `decoration-brand` (0 usage) — statut : fait
+- `[2026-07-11]` — **BUG 1 corrigé** — `src/pages/work/[slug].astro` : classe `text-text-body` (token inexistant, corps de texte des études de cas rendu en couleur héritée) → `text-text-body-primary` (11 occurrences) — statut : fait
+- `[2026-07-11]` — **BUG 2 corrigé** — token `stroke-secondary` (gray-200 #e5e7eb) créé ; les séparateurs de `Footer.astro` + `about.astro` (`border-stroke-secondary`, 5 usages) rendaient en `currentColor` (foncé) → désormais gris clair — statut : fait
+
+Vérification CSS compilé : `border-stroke-secondary` = rgb(229 231 235) ✓ · `text-text-body-primary` = rgb(3 7 18) ✓ · brand toujours violet #4364e8, 0 occurrence turquoise ✓.
+
 ### DETTE / À SURVEILLER (constaté, non corrigé)
-- `[2026-07-11]` — **Design System — double source de vérité (aggravée).** `tokens.js` contient `semantic.colors` disant brand = `blue-chill` (turquoise), mais `tailwind.config.mjs` (source opérationnelle) mappe brand → `accent-action` (violet) et **ne lit jamais** `tokens.semantic.colors`. Les deux ont **déjà divergé**. → Se fier UNIQUEMENT à `tailwind.config.mjs`. Correction reportée (consigne : ne pas toucher).
-- `[2026-07-11]` — **Palettes dupliquées.** `accent-action` et `accent-deco` dans `tokens.js` sont **identiques au hex près**. Candidat à fusion (reporté, DS gelé).
+- `[2026-07-11]` — ~~Design System double source / palettes dupliquées~~ → **RÉSOLU** (voir ci-dessus).
+- `[2026-07-11]` — **`src/styles/global.css`** — la règle `html,body { background-color: var(--color-bg); color: var(--color-text); }` référence des variables CSS **jamais définies** → règle inopérante (le fond réel vient de `bg-background-page` dans BaseLayout). De plus `font-family: system-ui` y est posé en dur (peut concurrencer la police Manrope). À nettoyer/aligner sur les tokens. Non touché ce jour (hors périmètre couleurs).
 - `[2026-07-11]` — **Ambiguïté de déploiement.** `.htaccess`/`CNAME` (Apache) coexistent avec `deploy.yml` (GitHub Pages, branche `deploy/test`). Redirections dupliquées dans `astro.config.mjs` ET `.htaccess`. → Trancher définitivement l'hébergeur, puis retirer la config de l'autre.
 - `[2026-07-11]` — **Sitemap manuel.** `@astrojs/sitemap` est installé (devDeps) mais absent des `integrations` d'`astro.config.mjs`. `public/sitemap.xml` est écrit à la main → à mettre à jour à chaque projet. Activer l'intégration automatiserait.
 - `[2026-07-11]` — **`validate-frontmatter.cjs`** — non branché à npm, dépend de `gray-matter` (absent de `package.json`) → actuellement non fonctionnel. Le schéma Zod de `config.ts` couvre déjà la validation au build. Candidat suppression ou documentation comme outil manuel (reporté).
