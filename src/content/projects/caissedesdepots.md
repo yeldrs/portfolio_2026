@@ -77,5 +77,5 @@ references:
     link: "https://lecolededesign.com/"
   - name: "Matthieu Gioani"
     link: "https://www.linkedin.com/in/matthieugioani/"
-    role: "Encadrement"
+    role: "Supervision"
 ---

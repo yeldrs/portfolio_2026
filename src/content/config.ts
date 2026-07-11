@@ -5,7 +5,7 @@ import { defineCollection, z } from "astro:content";
 const projectCollection = defineCollection({
  type: "content",
  schema: z.object({
-  semanticSlug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Le slug sémantique doit être en minuscules, sans espaces, et utiliser des tirets (kebab-case).'),
+  semanticSlug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'The semantic slug must be lowercase, without spaces, and use hyphens (kebab-case).'),
   title: z.string(),
   client: z.string(),
   description: z.string().optional(),

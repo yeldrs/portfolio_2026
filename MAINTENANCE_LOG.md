@@ -35,7 +35,11 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 - `[2026-07-11]` — `BaseLayout.astro` — **`theme-color`** `#367984` (turquoise) → `#4364e8` (violet marque) — statut : fait
 
 ### i18n
-- `[2026-07-11]` — **Commentaires du code FR → EN** sur 21 fichiers source (composants, pages, config, tokens, .md frontmatter). Commentaires uniquement, aucun code/contenu touché. Docs narratives (whitepaper, ce log) laissées en FR volontairement — statut : voir vérification build + diff
+- `[2026-07-11]` — **Commentaires du code FR → EN** sur 21 fichiers source (composants, pages, config, tokens, .md frontmatter). Commentaires uniquement, aucun code/contenu touché. Docs narratives (whitepaper, ce log) laissées en FR volontairement. Build OK — statut : fait
+- `[2026-07-11]` — **Chaînes UI FR → EN** (passe contenu) : aria-labels (« Image précédente/suivante », « Fermer la modale », « Crédits et Références »), alt (« Image détaillée du projet », « Agrandissement… », « Aperçu du projet… »), message d'erreur Zod (config.ts), connecteur « et » → « and », role crédit « Encadrement » → « Supervision ». Noms propres (Caisse des Dépôts, École de Design) conservés. Cohérence a11y/SEO sur site anglophone. Build OK — statut : fait
+
+### Déploiement / branches
+- `[2026-07-11]` — **`deploy.yml`** : trigger `deploy/test` → `main`. Migration prod vers `main` : commit session `333f9e8`, `main` créée et poussée sur origin. Reste (côté user, UI GitHub) : définir `main` par défaut, vérifier Pages = GitHub Actions, supprimer `deploy/test` après 1er déploiement vert — statut : en cours
 
 ## 2026-07-11 (suite 3) — Tier 1 (nettoyage faible risque)
 

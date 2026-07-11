@@ -43,7 +43,7 @@ export const isAstroComponent = true;
     {/* ⬅️ Previous Arrow (Desktop) */}
     <ArrowButton
       id="prevBtn"
-      label="Image précédente"
+      label="Previous image"
       direction="left"
       variant={prevInitialVariant as any}
       onClick="window.handleCarouselNavigation(-1)"
@@ -65,7 +65,7 @@ export const isAstroComponent = true;
       <img
         id="carouselImage"
         src={images[0]}
-        alt="Image détaillée du projet"
+        alt="Detailed project image"
         class="w-full h-full object-contain object-center block rounded-2xl cursor-pointer"
         loading="lazy"
         onclick={`showImageModal('${images[0]}')`}
@@ -76,7 +76,7 @@ export const isAstroComponent = true;
     {/* ➡️ Next Arrow (Desktop) */}
     <ArrowButton
       id="nextBtn"
-      label="Image suivante"
+      label="Next image"
       direction="right"
       variant={activeVariant as any}
       onClick="window.handleCarouselNavigation(1)"
@@ -93,7 +93,7 @@ export const isAstroComponent = true;
     {/* ⬅️ Mobile Previous Arrow */}
     <ArrowButton
       id="prevBtnMobile"
-      label="Image précédente"
+      label="Previous image"
       direction="left"
       variant={prevInitialVariant as any}
       onClick="window.handleCarouselNavigation(-1)"
@@ -118,7 +118,7 @@ export const isAstroComponent = true;
     {/* ➡️ Mobile Next Arrow */}
     <ArrowButton
       id="nextBtnMobile"
-      label="Image suivante"
+      label="Next image"
       direction="right"
       variant={activeVariant as any}
       onClick="window.handleCarouselNavigation(1)"

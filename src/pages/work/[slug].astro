@@ -420,7 +420,7 @@ const disabledVariant = "disabled";
           <section
             id={`${project.slug}-credits`}
             role="contentinfo"
-            aria-label="Crédits et Références"
+            aria-label="Credits and References"
             class="space-y-sm text-text-body-secondary mt-3xl border-t border-border-secondary pt-3xl"
           >
             <h2 class="text-base font-semibold text-text-body-primary">
@@ -462,7 +462,7 @@ const disabledVariant = "disabled";
                         {index < teamMembers.length - 2
                           ? ", "
                           : index === teamMembers.length - 2
-                            ? " et "
+                            ? " and "
                             : ""}
                       </span>
                     );
@@ -527,7 +527,7 @@ const disabledVariant = "disabled";
     <button
       id="closeModalBtn"
       class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
-      aria-label="Fermer la modale"
+      aria-label="Close modal"
       onclick="event.stopPropagation(); window.hideImageModal();"
     >
       &times;
@@ -542,7 +542,7 @@ const disabledVariant = "disabled";
       }
       <ArrowButton
         id="modalPrevBtn"
-        label="Image précédente"
+        label="Previous image"
         direction="left"
         variant={disabledVariant as any}
         onClick="window.navigateModal(-1)"
@@ -554,7 +554,7 @@ const disabledVariant = "disabled";
       <img
         id="modalImage"
         data-current-modal-index="0"
-        alt="Agrandissement de l'image du projet"
+        alt="Enlarged project image"
         class="max-w-full max-h-full object-contain"
       />
 
@@ -563,7 +563,7 @@ const disabledVariant = "disabled";
       }
       <ArrowButton
         id="modalNextBtn"
-        label="Image suivante"
+        label="Next image"
         direction="right"
         variant={tertiaryVariant as any}
         onClick="window.navigateModal(1)"
