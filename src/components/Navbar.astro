@@ -1,21 +1,32 @@
 ---
 import Container from "./Container.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { defaultLang } from "../i18n/ui";
+import { useTranslations, getLocalizedPath, stripLocalePrefix, cleanPathname } from "../i18n/utils";
+
+const lang: "en" | "fr" = Astro.currentLocale === "fr" ? "fr" : defaultLang;
+const t = useTranslations(lang);
+const otherLang: "en" | "fr" = lang === "en" ? "fr" : "en";
+
+const currentPath = cleanPathname(Astro.url.pathname);
 
 // Navigation links definition with IDs for tracking
 const navLinks = [
-  { name: "Work", href: "/#projects", id: "work" },
-  { name: "About", href: "/about", id: "about" },
-  { name: "Contact", href: "/#contact", id: "contact" },
+  { name: t("nav.work"), href: getRelativeLocaleUrl(lang, "/#projects"), id: "work" },
+  { name: t("nav.about"), href: getRelativeLocaleUrl(lang, "/about"), id: "about" },
+  { name: t("nav.contact"), href: getRelativeLocaleUrl(lang, "/#contact"), id: "contact" },
 ];
 
-const currentPath = Astro.url.pathname;
+const homeHref = getRelativeLocaleUrl(lang, "/");
+const switcherHref = getLocalizedPath(currentPath, lang, otherLang);
+const isHome = stripLocalePrefix(currentPath, lang) === "/";
+
 // Extract the page name for tracking (e.g.: "home", "about", "900care")
-const pageName =
-  currentPath === "/" ? "home" : currentPath.split("/").filter(Boolean).pop();
+const pageName = isHome ? "home" : currentPath.split("/").filter(Boolean).pop();
 
 // Simplified logic for the initial active state
-function getInitialActive(name: string, path: string) {
-  if (name === "About" && path.includes("/about")) return true;
+function getInitialActive(id: string, path: string) {
+  if (id === "about" && stripLocalePrefix(path, lang).includes("/about")) return true;
   return false;
 }
 ---
@@ -26,22 +37,22 @@ function getInitialActive(name: string, path: string) {
 >
   <Container class="flex justify-between items-center">
     <a
-      href="/"
+      href={homeHref}
       id="nav-logo"
       data-umami-event={`nav-link-logo-from-${pageName}`}
       data-sa-event="nav_logo_click"
       class:list={[
         "text-base transition duration-150 uppercase",
-        currentPath === "/" ? "font-extrabold text-text-body-primary" : "text-text-body-primary font-normal",
+        isHome ? "font-extrabold text-text-body-primary" : "text-text-body-primary font-normal",
       ]}
     >
       Yassine El Idrissi
     </a>
 
-    <div class="hidden md:flex space-x-lg" role="menu">
+    <div class="hidden md:flex items-center space-x-lg" role="menu">
       {
         navLinks.map((link) => {
-          const isActive = getInitialActive(link.name, currentPath);
+          const isActive = getInitialActive(link.id, currentPath);
           return (
             <a
               href={link.href}
@@ -55,7 +66,7 @@ function getInitialActive(name: string, path: string) {
                 isActive
                   ? "font-extrabold text-text-body-accent"
                   : "font-normal text-text-body-primary",
-                  
+
               ]}
             >
               {link.name}
@@ -63,11 +74,20 @@ function getInitialActive(name: string, path: string) {
           );
         })
       }
+      <a
+        href={switcherHref}
+        id="nav-lang-switcher"
+        data-umami-event={`nav-lang-switch-to-${otherLang}-from-${pageName}`}
+        data-sa-event={`nav_lang_${otherLang}_click`}
+        class="nav-item text-base uppercase transition duration-150 font-normal text-text-body-primary border border-stroke-neutral-primary rounded-full px-sm"
+      >
+        {otherLang}
+      </a>
     </div>
 
     <button
       id="mobile-menu-button"
-      aria-label="Toggle navigation menu"
+      aria-label={t("nav.toggleMenu")}
       aria-expanded="false"
       aria-controls="mobile-menu"
       data-umami-event={`nav-mobile-burger-from-${pageName}`}
@@ -135,7 +155,7 @@ function getInitialActive(name: string, path: string) {
     <div role="menu" class="flex flex-col space-y-lg">
       {
         navLinks.map((link) => {
-          const isActive = getInitialActive(link.name, currentPath);
+          const isActive = getInitialActive(link.id, currentPath);
           return (
             <a
               href={link.href}
@@ -155,6 +175,14 @@ function getInitialActive(name: string, path: string) {
           );
         })
       }
+      <a
+        href={switcherHref}
+        data-umami-event={`nav-mobile-lang-switch-to-${otherLang}-from-${pageName}`}
+        data-sa-event={`nav_mobile_lang_${otherLang}_click`}
+        class="text-base uppercase transition duration-150 font-normal text-text-body-primary"
+      >
+        {otherLang}
+      </a>
     </div>
   </Container>
 </div>
@@ -192,7 +220,7 @@ function getInitialActive(name: string, path: string) {
 
   function updateNavActiveState() {
     const currentPath = window.location.pathname;
-    const isHome = currentPath === "/" || currentPath === "/index.html";
+    const isHome = /^\/(fr\/?)?(index\.html)?$/.test(currentPath);
     const footer = document.getElementById("contact");
     const isNearFooter =
       !!footer && footer.getBoundingClientRect().top <= window.innerHeight + 120;
@@ -244,7 +272,7 @@ function getInitialActive(name: string, path: string) {
       if (clickedLink) {
         const navId = clickedLink.getAttribute("data-nav-id");
         const currentPath = window.location.pathname;
-        const isHome = currentPath === "/" || currentPath === "/index.html";
+        const isHome = /^\/(fr\/?)?(index\.html)?$/.test(currentPath);
 
         if (navId === "work") setActiveNavItem("work");
         if (navId === "about") setActiveNavItem("about");

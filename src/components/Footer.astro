@@ -1,6 +1,11 @@
 ---
 import Container from "./Container.astro";
 import CopyIcon from "./CopyIcon.astro";
+import { defaultLang } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
+
+const lang: "en" | "fr" = Astro.currentLocale === "fr" ? "fr" : defaultLang;
+const t = useTranslations(lang);
 
 interface SocialLink {
   name: string;
@@ -35,7 +40,7 @@ if (window.isSecureContext === false && window.location.protocol !== 'http:') {
  }
 
 navigator.clipboard.writeText(email).then(() => {
- const message = "Email copied!";
+ const message = "${t("footer.copiedToast")}";
  let existingToast = document.getElementById('copy-toast');
  if (existingToast) existingToast.remove();
 
@@ -90,17 +95,17 @@ navigator.clipboard.writeText(email).then(() => {
         id="footer-heading"
         class="h-display italic text-text-body-primary text-3xl font-semibold"
       >
-        Let's connect !
+        {t("footer.connect")}
   </h1>
       <p class="text-text-body-primary text-base font-normal">
-        For any questions or collaboration requests.
+        {t("footer.tagline")}
       </p>
 <div
         class="flex items-center space-x-sm bg-background-primary border border-stroke-neutral-primary rounded-full px-lg py-sm-d cursor-pointer transition hover:bg-gray-50 border-stroke-primary-hover shadow-sm"
         onclick={copyToClipboard}
         role="button"
         tabindex="0"
-        aria-label={`Copy contact email address: ${emailAddress}`}
+        aria-label={`${t("footer.copyEmailAria")}: ${emailAddress}`}
       >
         <CopyIcon class="stroke-text-body-accent" />
         <p class="text-text-body-primary text-md font-semibold">
@@ -118,7 +123,7 @@ navigator.clipboard.writeText(email).then(() => {
       class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-md md:space-y-0"
     >
       <small class="text-sm font-normal text-text-body-secondary">
-        &copy; {currentYear} Yassine EL IDRISSI. All rights reserved.
+        &copy; {currentYear} Yassine EL IDRISSI. {t("footer.rights")}
       </small>
 
       <div class="flex space-x-lg">
@@ -128,7 +133,7 @@ navigator.clipboard.writeText(email).then(() => {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Visit my ${link.name} profile`}
+              aria-label={t("footer.visitProfileAria", { name: link.name })}
               data-sa-event={`footer_social_${link.trackingId}`}
               data-umami-event="footer-social-click"
               data-umami-event-type={link.trackingId}

@@ -2,8 +2,11 @@
 import "../styles/global.css";
 
 // Fichier : src/layouts/BaseLayout.astro
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
+import { defaultLang, ui } from "../i18n/ui";
+import { useTranslations, stripLocalePrefix, cleanPathname } from "../i18n/utils";
 
 export interface Props {
   title: string;
@@ -12,9 +15,12 @@ export interface Props {
   structuredData?: Record<string, unknown>; // extra JSON-LD injected in <head>
 }
 
+const lang: "en" | "fr" = Astro.currentLocale === "fr" ? "fr" : defaultLang;
+const t = useTranslations(lang);
+
 const {
   title,
-  description = "Yassine El Idrissi UX Product design official website portfolio.",
+  description = t("meta.defaultDescription"),
   image = "/images/profile-pic.webp",
   structuredData,
 } = Astro.props;
@@ -23,12 +29,28 @@ const {
 const site = Astro.site ?? new URL("https://yassineelidrissi.com");
 // build.format:'file' exposes paths as /about.html — strip the extension so the
 // canonical/OG URL is always the clean, extensionless form GitHub Pages serves.
-const cleanPath = Astro.url.pathname
-  .replace(/\/index\.html$/, "/")
-  .replace(/\.html$/, "");
+const cleanPath = cleanPathname(Astro.url.pathname);
 const canonicalURL =
   new URL(cleanPath || "/", site).href.replace(/(.)\/$/, "$1");
 const ogImage = new URL(image, site).href;
+
+// hreflang alternates: strip the /fr prefix (if any) to get the locale-agnostic
+// path, then rebuild it for each configured locale.
+const pathWithoutLocale = stripLocalePrefix(cleanPath || "/", lang);
+const hreflangMap = {
+  en: "en-US",
+  fr: "fr-FR",
+} as const;
+const alternateLinks = (Object.keys(ui) as Array<keyof typeof ui>).map(
+  (locale) => ({
+    hreflang: hreflangMap[locale],
+    href: new URL(getRelativeLocaleUrl(locale, pathWithoutLocale), site).href,
+  }),
+);
+const ogLocaleMap = {
+  en: "en_US",
+  fr: "fr_FR",
+} as const;
 
 // Site-wide identity for search engines and AI agents
 const personLd = {
@@ -43,13 +65,25 @@ const personLd = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- hreflang alternates for search engines -->
+    {
+      alternateLinks.map((alt) => (
+        <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(getRelativeLocaleUrl(defaultLang, pathWithoutLocale), site).href}
+    />
 
     <!-- Open Graph (link previews on social + read by some AI crawlers) -->
     <meta property="og:type" content="website" />
@@ -58,7 +92,7 @@ const personLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:locale" content="en" />
+    <meta property="og:locale" content={ogLocaleMap[lang]} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />

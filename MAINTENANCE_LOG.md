@@ -6,6 +6,30 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 
 ---
 
+## 2026-07-26 — Scaffolding i18n FR (objectif : scaler le site en version française)
+
+### Décisions cadrage (validées par le propriétaire)
+- **Branche de travail :** `main` uniquement. Une tentative précédente existait sur `feature/multi-lang` (dernier commit « failed », archi inversée FR-racine/EN-préfixé) — **ignorée volontairement**, non reprise.
+- **URL :** EN reste à la racine (non préfixé, aucun `/en/`), FR vit sous `/fr/`. Zéro impact sur les URLs canoniques EN existantes.
+- **Slugs :** `semanticSlug` identique dans les deux langues (`/work/900care` et `/fr/work/900care`) — pas de table de correspondance à maintenir.
+- **Propriété du contenu :** cette passe ne fait que le scaffolding technique + traduction des chaînes UI génériques (nav, footer, libellés de section type Context/Role/Metrics). Le contenu long (bio about.astro, case studies) reste en placeholder `[FR TODO]` — le propriétaire a déjà des traductions prêtes (CV/about + 900.care, Caisse des Dépôts, Batchcooking) qu'il ajoutera lui-même après.
+
+### FAIT
+- `[2026-07-26]` — `astro.config.mjs` — **i18n natif Astro** ajouté (`defaultLocale: 'en'`, `locales: ['en','fr']`, `prefixDefaultLocale: false`) + option i18n de `@astrojs/sitemap` (hreflang auto) + redirections `/fr/*` miroir des redirections EN existantes — statut : fait
+- `[2026-07-26]` — `src/i18n/ui.ts` + `src/i18n/utils.ts` — **dictionnaire de traduction UI** (en/fr) et helpers (`useTranslations`, `getLocalizedPath`, `stripLocalePrefix`, `cleanPathname`) — statut : fait
+- `[2026-07-26]` — `src/content/projects/*.md` → **déplacés dans `src/content/projects/en/`** (via `git mv`, historique préservé) ; `src/content/projects/fr/` créé (vide, en attente du contenu FR du propriétaire). Schéma Zod de `config.ts` inchangé — statut : fait
+- `[2026-07-26]` — `BaseLayout.astro` — `lang` dynamique (`Astro.currentLocale`), `og:locale` mappé, balises `hreflang` (en/fr/x-default) — statut : fait
+- `[2026-07-26]` — `Navbar.astro` / `Footer.astro` — libellés traduits via `t()`, liens construits avec `getRelativeLocaleUrl`, **sélecteur de langue EN|FR** ajouté (desktop + mobile) — statut : fait
+- `[2026-07-26]` — `src/data/home.{en,fr}.ts`, `about.{en,fr}.ts` + `src/components/pages/HomeContent.astro`, `AboutContent.astro` — contenu de `index.astro`/`about.astro` extrait en composants paramétrés par `lang` ; versions FR = placeholders `[FR TODO]` à écraser par le propriétaire — statut : fait
+- `[2026-07-26]` — `src/layouts/ProjectLayout.astro` (nouveau, extrait de l'ancien `work/[slug].astro`) — tous les titres de section/aria-labels traduits via `t()` ; `src/pages/work/[slug].astro` (EN) et `src/pages/fr/work/[slug].astro` (nouveau) filtrent la collection par préfixe de slug (`en/`, `fr/`) — statut : fait
+- `[2026-07-26]` — `ProjectCard.astro` — prop `lang`, libellés Client/Description/Role/View project traduits (corrige au passage un aria-label codé en dur en français sur un site anglophone) — statut : fait
+- `[2026-07-26]` — Build vérifié (`npm run build`) : routes EN + `/fr/`, `/fr/about` générées ; `/fr/work/*` génère 0 page tant qu'aucun `.md` FR n'est déposé (attendu) ; sitemap contient les annotations hreflang pour `/` et `/about` — statut : fait
+
+### DETTE / À SURVEILLER
+- `[2026-07-26]` — **Contenu FR manquant** : `src/data/about.fr.ts`, `src/data/home.fr.ts` et `src/content/projects/fr/*.md` sont à remplir par le propriétaire (traductions déjà prêtes côté propriétaire pour le CV/about + 3 case studies). Tant que non fait, `/fr/*` affiche des placeholders `[FR TODO]` ou 404 sur les projets.
+- `[2026-07-26]` — **`404.astro`** reste une page unique non traduite (GitHub Pages ne sert qu'un seul `404.html`, quel que soit le préfixe de langue) — limitation assumée, pas une dette.
+- `[2026-07-26]` — **`biomimicry.md`** reste EN seul (`isDraft: true`), aucune traduction FR nécessaire tant qu'il n'est pas publié.
+
 ## 2026-07-11 — Audit d'architecture + nettoyage
 
 ### Décisions cadrage (validées par le propriétaire)

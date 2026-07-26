@@ -1,0 +1,131 @@
+---
+// src/components/pages/HomeContent.astro
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import ProjectCard from "../ProjectCard.astro";
+import Container from "../Container.astro";
+import Hero from "../Hero.astro";
+import Cloud from "../Cloud.astro";
+import { useTranslations } from "../../i18n/utils";
+import { home as homeEn } from "../../data/home.en";
+import { home as homeFr } from "../../data/home.fr";
+
+export interface Props {
+  lang: "en" | "fr";
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const home = lang === "fr" ? homeFr : homeEn;
+
+const PlaceholderImage = "/images/profile-pic.webp";
+
+const allProjects = (
+  await getCollection("projects", ({ slug, data }) => {
+    return slug.startsWith(`${lang}/`) && data.isDraft !== true;
+  })
+).sort((a, b) => {
+  const dateA = new Date(a.data.publishDate).getTime();
+  const dateB = new Date(b.data.publishDate).getTime();
+  return dateB - dateA;
+});
+---
+
+<main class="relative">
+  <Cloud
+    variant="large"
+    shade={300}
+    width="600px"
+    blur="md"
+    opacity={0.3}
+    top="-20px"
+    right="-150px"
+    mobile={{ opacity: 0, top: "5vh", right: "35%" }}
+  />
+
+  <Cloud
+    variant="small"
+    shade={200}
+    width="230px"
+    blur="md"
+    opacity={0.3}
+    top="350px"
+    left="80px"
+    rotate={0}
+    mobile={{ opacity: 0.3, top: "20px", left: "39%" }}
+  />
+
+  <Cloud
+    variant="medium"
+    shade={300}
+    width="250px"
+    blur="md"
+    opacity={0.3}
+    bottom="-90px"
+    left="55%"
+    mobile={{ opacity: 0.18, bottom: "-120px", left: "35%" }}
+  />
+
+  <Container class="px-lg pb-5xl flex flex-col gap-5xl md:gap-3xl">
+    <section
+      class="min-h-[calc(100svh-5rem)] flex flex-col justify-center items-center space-y-4xl px-lg"
+    >
+      <Hero
+        title={home.heroTitle}
+        subtitle={home.heroSubtitle}
+        subtitleBreak={home.heroSubtitleBreak}
+        profileImage={PlaceholderImage}
+      />
+
+      <div class="flex flex-col items-center gap-xl">
+        <a
+          href="#projects"
+          class="bg-background-primary border border-stroke-neutral-primary rounded-full px-lg py-sm-d cursor-pointer transition hover:bg-gray-50 border-stroke-primary-hover shadow-sm text-text-body-accent text-md font-semibold"
+        >
+          {t("home.cta")}
+        </a>
+
+        <div class="text-stroke-primary-dark animate-bounce">
+          <a href="#projects" aria-label={t("home.scrollAria")}>
+            <svg
+              width="16"
+              height="39"
+              viewBox="0 0 19 39"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-6"
+            >
+              <path
+                d="M10.455 1.25C10.455 0.559644 9.89531 3.01764e-08 9.20496 0C8.5146 -3.01764e-08 7.95496 0.559644 7.95496 1.25L9.20496 1.25L10.455 1.25ZM8.32107 38.1339C8.80923 38.622 9.60068 38.622 10.0888 38.1339L18.0438 30.1789C18.5319 29.6908 18.5319 28.8993 18.0438 28.4112C17.5556 27.923 16.7642 27.923 16.276 28.4112L9.20495 35.4822L2.13389 28.4112C1.64573 27.923 0.854275 27.923 0.36612 28.4112C-0.122035 28.8993 -0.122035 29.6908 0.36612 30.1789L8.32107 38.1339ZM9.20496 1.25L7.95496 1.25L7.95495 37.25L9.20495 37.25L10.455 37.25L10.455 1.25L9.20496 1.25Z"
+                fill="currentColor"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="projects"
+      role="region"
+      aria-label="Projects"
+      class="flex flex-col space-y-6xl"
+    >
+      {
+        allProjects.map((project, index) => (
+          <ProjectCard
+            id={project.data.semanticSlug}
+            headline={project.data.title}
+            client={project.data.client}
+            description={project.data.description}
+            role={project.data.role}
+            projectLink={getRelativeLocaleUrl(lang, `/work/${project.data.semanticSlug}`)}
+            imageAlt={`Project preview: ${project.data.title}`}
+            imageUrl={project.data.cardImage}
+            direction={index % 2 === 0 ? "reverse" : "default"}
+            lang={lang}
+          />
+        ))
+      }
+    </section>
+  </Container>
+</main>

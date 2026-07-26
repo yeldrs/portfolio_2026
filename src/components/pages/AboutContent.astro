@@ -1,0 +1,168 @@
+---
+// src/components/pages/AboutContent.astro
+import Container from "../Container.astro";
+import Button from "../Button.astro";
+import { about as aboutEn } from "../../data/about.en";
+import { about as aboutFr } from "../../data/about.fr";
+
+export interface Props {
+  lang: "en" | "fr";
+}
+
+const { lang } = Astro.props;
+const about = lang === "fr" ? aboutFr : aboutEn;
+---
+
+<main>
+  <Container class="py-3xl px-lg flex flex-col gap-3xl">
+    {/* SECTION 1: PROFILE & INTRODUCTION */}
+    <section
+      class="flex flex-col md:flex-row md:items-start gap-lg md:gap-xl max-w-3xl"
+    >
+      <div class="space-y-lg flex-1">
+        <h2 class="text-3xl font-extrabold text-text-body-primary">
+          {about.introHeading}
+        </h2>
+        <p class="text-base text-text-body-secondary leading-relaxed">
+          {about.introBody}
+        </p>
+
+        <Button
+          href="#contact"
+          class="mt-lg"
+          data-sa-event="about_contact_click"
+          data-umami-event="about-contact-button"
+        >
+          {about.introCta}
+        </Button>
+      </div>
+    </section>
+
+    {/* SECTION 2: PROFESSIONAL EXPERIENCE */}
+    <section class="w-full max-w-3xl space-y-xl">
+      <h2 class="text-3xl font-bold text-text-body-primary">{about.experienceHeading}</h2>
+      {
+        about.professionalExperience.map((exp) => (
+          <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+              <h3 class="text-base font-semibold text-text-body-primary">
+                {exp.title}
+              </h3>
+            </div>
+            <p class="text-sm font-normal text-text-body-primary mb-md">
+              {exp.company}
+            </p>
+            {exp.highlights && exp.highlights.length > 0 && (
+              <p class="text-sm font-normal text-text-body-secondary leading-relaxed">
+                {exp.highlights.join(". ")}
+              </p>
+            )}
+
+            {exp.cvLink && (
+              <a
+                href={exp.cvLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 mt-2 text-sm font-medium text-text-body-accent no-underline hover:text-text-body-primary hover:underline underline-offset-4 transition-colors"
+              >
+                {exp.cvLinkLabel}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
+                  />
+                </svg>
+              </a>
+            )}
+
+            <p class="text-xs font-normal text-text-body-tertiary mt-1">
+              {exp.duration}
+            </p>
+          </div>
+        ))
+      }
+    </section>
+
+    {/* SECTION 3: TOOLKIT */}
+    <section class="w-full max-w-3xl space-y-xl">
+      <h2 class="text-3xl font-bold text-text-body-primary">
+        {about.toolkitHeading}
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-xl">
+        {
+          about.skillSections.map((section) => (
+            <div class="space-y-md">
+              <h3 class="text-lg font-bold text-text-body-primary flex items-center gap-2">
+                {section.title}
+              </h3>
+              <ul class="space-y-2 text-text-body-primary">
+                {section.skills.map((skill) => (
+                  <li class="p-3 bg-gray-50 rounded-lg">
+                    <p class="font-semibold text-sm">{skill.title}</p>
+                    {skill.description && (
+                      <p class="mt-1 text-xs text-text-body-secondary">
+                        {skill.description}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    {/* SECTION 4: SIGNIFICANT WORK */}
+    <section class="w-full max-w-3xl space-y-xl">
+      <h2 class="text-3xl font-bold text-text-body-primary">
+        {about.significantWorkHeading}
+      </h2>
+      {
+        about.significantWork.map((project) => (
+          <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+              <h3 class="text-base font-semibold text-text-body-primary">
+                {project.title}
+              </h3>
+            </div>
+            <p class="text-sm font-normal text-text-body-secondary leading-relaxed mt-2">
+              {project.description}
+            </p>
+          </div>
+        ))
+      }
+    </section>
+
+    {/* SECTION 5: EDUCATION */}
+    <section class="w-full max-w-3xl space-y-xl">
+      <h2 class="text-3xl font-bold text-text-body-primary">{about.educationHeading}</h2>
+      {
+        about.educationExperience.map((edu) => (
+          <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+              <h3 class="text-base font-semibold text-text-body-primary">
+                {edu.title}
+              </h3>
+            </div>
+            <p class="text-sm font-normal text-text-body-primary mb-md">
+              {edu.school}
+            </p>
+            <p class="text-xs font-normal text-text-body-tertiary mt-1">
+              {edu.year}
+            </p>
+          </div>
+        ))
+      }
+    </section>
+  </Container>
+</main>

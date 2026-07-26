@@ -1,12 +1,12 @@
 ---
-// src/pages/work/[slug].astro
+// src/pages/fr/work/[slug].astro
 import { getCollection } from "astro:content";
-import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import ProjectLayout from "../../../layouts/ProjectLayout.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection(
     "projects",
-    ({ slug, data }) => slug.startsWith("en/") && data.isDraft !== true,
+    ({ slug, data }) => slug.startsWith("fr/") && data.isDraft !== true,
   );
   return projects.map((project) => ({
     params: { slug: project.data.semanticSlug },
@@ -17,4 +17,4 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 ---
 
-<ProjectLayout project={project} lang="en" />
+<ProjectLayout project={project} lang="fr" />

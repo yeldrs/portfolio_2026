@@ -2,7 +2,12 @@
 export const prerender = true;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
-const title = "404 — Page not found";
+import { useTranslations } from "../i18n/utils";
+
+// GitHub Pages serves a single 404.html for any unmatched path regardless of
+// locale prefix, so this page can't be locale-aware — it stays English.
+const t = useTranslations("en");
+const title = `404 — ${t("page404.title")}`;
 ---
 
 <BaseLayout title={title}>
@@ -45,22 +50,21 @@ const title = "404 — Page not found";
         </text>
       </svg>
 
-      <h1 class="text-3xl md:text-4xl font-semibold">Page not found</h1>
+      <h1 class="text-3xl md:text-4xl font-semibold">{t("page404.title")}</h1>
       <p class="text-text-body-accent max-w-xl">
-        Sorry — the page you’re looking for doesn’t exist or has been moved. Try
-        returning to the homepage or browsing my case studies.
+        {t("page404.body")}
       </p>
 
       <div class="flex gap-lg mt-xl">
         <a
           href="/"
           class="inline-flex items-center justify-center rounded px-4 py-2 bg-primary text-white hover:opacity-90"
-          >Go home</a
+          >{t("page404.goHome")}</a
         >
         <a
           href="/#projects"
           class="inline-flex items-center justify-center rounded px-4 py-2 border border-neutral text-text-body-accent hover:bg-neutral/5"
-          >See projects</a
+          >{t("page404.seeProjects")}</a
         >
       </div>
     </Container>

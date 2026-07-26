@@ -14,13 +14,41 @@ export default defineConfig({
     format: 'file'
   },
   output: 'static',
-  integrations: [tailwind(), mdx(), sitemap()],
+
+  // i18n: English is the default locale and stays unprefixed at the root
+  // (matches existing canonical URLs); French lives under /fr/.
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+
+  integrations: [
+    tailwind(),
+    mdx(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'en',
+        locales: {
+          en: 'en-US',
+          fr: 'fr-FR',
+        },
+      },
+    }),
+  ],
   redirects: {
     '/work': '/#projects',
     '/projects': '/#projects',
     '/aboutme': '/about',
     '/logos': '/',
     '/photography': '/',
+    '/fr/work': '/fr/#projects',
+    '/fr/projects': '/fr/#projects',
+    '/fr/aboutme': '/fr/about',
+    '/fr/logos': '/fr/',
+    '/fr/photography': '/fr/',
   }
 });
 // Fichier : astro.config.mjs

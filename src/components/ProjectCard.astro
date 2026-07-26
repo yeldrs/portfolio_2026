@@ -1,5 +1,7 @@
 ---
 import Button from "./Button.astro";
+import { defaultLang } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
 
 export interface Props {
   headline: string;
@@ -11,6 +13,7 @@ export interface Props {
   imageUrl: string;
   direction?: "default" | "reverse";
   id?: string;
+  lang?: "en" | "fr";
 }
 
 const {
@@ -23,7 +26,10 @@ const {
   imageUrl,
   direction = "default",
   id,
+  lang = defaultLang,
 } = Astro.props;
+
+const t = useTranslations(lang);
 
 // --- SHARED TRACKING LOGIC ---
 
@@ -59,7 +65,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
     data-sa-event={eventNameSA}
     data-umami-event="project-image-click"
     data-umami-event-project={projectSlugUmami}
-    aria-label={`Voir le projet : ${headline}`}
+    aria-label={t("project.viewProjectAria", { headline })}
     class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
   >
     <img
@@ -78,7 +84,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
     <div class="space-y-lg">
       <div>
         <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
-          >Client</span
+          >{t("project.client")}</span
         >
         <p class="text-base font-normal text-text-body-primary">
           {client}
@@ -87,7 +93,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 
       <div>
         <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
-          >Description</span
+          >{t("project.description")}</span
         >
         <p class="text-base font-normal text-text-body-primary leading-normal">
           {description}
@@ -96,7 +102,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 
       <div>
         <span class="block text-base font-normal text-text-body-tertiary mb-xxs"
-          >Role</span
+          >{t("project.role")}</span
         >
         <p class="text-base font-normal text-text-body-primary">
           {role}
@@ -110,7 +116,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
         data-umami-event="project-button-click"
         data-umami-event-project={projectSlugUmami}
       >
-        View project
+        {t("project.viewProject")}
       </Button>
     </div>
   </section>
