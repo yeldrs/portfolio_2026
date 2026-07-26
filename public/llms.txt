@@ -1,0 +1,24 @@
+# Yassine El Idrissi — UX Product Designer
+
+> Personal portfolio of Yassine El Idrissi, a UX / Product Designer. Static website presenting selected end-to-end product design case studies (research, strategy, prototyping, delivery).
+
+## About
+- Name: Yassine El Idrissi
+- Role: UX Product Designer
+- Website: https://yassineelidrissi.com
+- LinkedIn: https://www.linkedin.com/in/yassineelidrissi/
+- Focus: product design, UX research, design systems, ethical & sustainable design
+
+## Case studies
+- [UX & growth for a sustainable e-commerce (900.care)](https://yassineelidrissi.com/work/900care): Full-cycle product design at 900.care, focused on improving first-order conversion and long-term retention.
+- [Crafting an agile tool to design with ethics (Caisse des Dépôts)](https://yassineelidrissi.com/work/depostetconsignations): A tangible, methodological toolkit to embed ethical, sustainable and inclusive principles into major digital platform development.
+- [Building an accessible solution for collaborative cooking (Batchcooking)](https://yassineelidrissi.com/work/batchcooking): Designing a marketplace addressing student food insecurity and social isolation by turning underused kitchens into collaborative learning spaces.
+
+## Main pages
+- [Home](https://yassineelidrissi.com/)
+- [About](https://yassineelidrissi.com/about)
+
+## Notes for AI agents
+- All content is in English.
+- Canonical URLs are extensionless (e.g. /work/900care, not /work/900care.html).
+- Structured data (schema.org Person and CreativeWork) is embedded as JSON-LD on each page.

@@ -1,0 +1,68 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+const title = "404 — Page not found";
+---
+
+<BaseLayout title={title}>
+  <main>
+    <Container
+      class="py-5xl md:py-3xl px-lg flex flex-col items-center text-center gap-5xl"
+    >
+      <!-- Simple illustrative SVG -->
+      <svg
+        width="160"
+        height="120"
+        viewBox="0 0 160 120"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        class="mb-3xl"
+      >
+        <rect x="0" y="0" width="160" height="120" rx="8" fill="#F3F4F6"></rect>
+        <text
+          x="50%"
+          y="44%"
+          dominant-baseline="middle"
+          text-anchor="middle"
+          font-size="28"
+          fill="#111827"
+          font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+        >
+          404
+        </text>
+        <text
+          x="50%"
+          y="66%"
+          dominant-baseline="middle"
+          text-anchor="middle"
+          font-size="10"
+          fill="#6B7280"
+          font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
+        >
+          Page not found
+        </text>
+      </svg>
+
+      <h1 class="text-3xl md:text-4xl font-semibold">Page not found</h1>
+      <p class="text-text-body-accent max-w-xl">
+        Sorry — the page you’re looking for doesn’t exist or has been moved. Try
+        returning to the homepage or browsing my case studies.
+      </p>
+
+      <div class="flex gap-lg mt-xl">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center rounded px-4 py-2 bg-primary text-white hover:opacity-90"
+          >Go home</a
+        >
+        <a
+          href="/#projects"
+          class="inline-flex items-center justify-center rounded px-4 py-2 border border-neutral text-text-body-accent hover:bg-neutral/5"
+          >See projects</a
+        >
+      </div>
+    </Container>
+  </main>
+</BaseLayout>

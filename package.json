@@ -1,7 +1,12 @@
 {
-  "name": "astro",
+  "name": "portfolio-yassine-el-idrissi",
+  "description": "Portfolio statique (Astro) de Yassine El Idrissi — designer produit / UX.",
+  "homepage": "https://yassineelidrissi.com",
+  "author": "Yassine El Idrissi",
+  "license": "UNLICENSED",
+  "private": true,
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -13,6 +18,7 @@
     "astro": "^5.14.3"
   },
   "devDependencies": {
+    "@astrojs/sitemap": "^3.6.0",
     "@astrojs/tailwind": "^6.0.2",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",

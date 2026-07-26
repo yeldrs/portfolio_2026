@@ -1,46 +1,65 @@
-# Astro Starter Kit: Basics
+# Portfolio — Yassine El Idrissi
 
-```sh
-npm create astro@latest -- --template basics
+Portfolio personnel de designer produit / UX. Site **100 % statique** généré par Astro : aucun serveur, aucune base de données, aucune logique runtime. Tout est pré-généré au build.
+
+- **Site en ligne :** https://yassineelidrissi.com
+- **Domaine & email :** achetés chez Hostinger (registrar + MX)
+- **Hébergement du site :** GitHub Pages (via `CNAME` + `.github/workflows/deploy.yml`)
+
+## Stack
+
+| Couche | Techno | Rôle |
+|---|---|---|
+| Framework | Astro `^5.14.3` | Génération statique, routing, composants |
+| Contenu | Content Collections (MDX) | Études de cas = fichiers `.md` typés (schéma Zod) |
+| Styles | Tailwind CSS `^3.4.18` | Utilitaires pilotés par des design tokens |
+| Design tokens | `src/styles/tokens.js` | Primitives couleurs / espacements / typo |
+| Build CSS | PostCSS + autoprefixer | Chaîne de compilation Tailwind |
+| Typage | TypeScript strict | Validation du schéma de contenu |
+
+## Démarrage
+
+```bash
+npm install
+npm run dev       # serveur de dev (localhost:4321)
+npm run build     # build de production dans dist/
+npm run preview   # prévisualiser le build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Structure
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```
+src/
+├── pages/            → routing (1 fichier = 1 route)
+│   └── work/[slug].astro → gabarit dynamique, 1 page par projet
+├── layouts/          → BaseLayout.astro (head, SEO, fonts, Navbar, Footer)
+├── components/       → composants .astro
+├── content/
+│   ├── config.ts     → schéma Zod des projets (validation au build)
+│   └── projects/     → le contenu : 1 .md par étude de cas
+└── styles/
+    ├── tokens.js     → primitives du design system
+    └── global.css    → styles globaux + classes .btn
+public/               → servi tel quel (images, CV, favicons, .htaccess, CNAME)
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Ajouter un projet
 
-## 🧞 Commands
+1. Créer `src/content/projects/{nom}.md` (copier `900care.md` comme gabarit — le plus complet).
+2. Renseigner **tous** les champs obligatoires du schéma (`title`, `client`, `role`, `roleDescription`, `context`, `problem`, `keyInsights`, `methodology`, `delivery`, `metrics`, `cardImage`, `semanticSlug`, `publishDate`).
+3. Déposer les images dans `public/images/{projet}/` et les référencer **dans le bon ordre** dans `projectImages` (mapping positionnel — voir whitepaper §5).
+4. `semanticSlug` en kebab-case (minuscules, tirets), sinon le schéma rejette le build.
+5. `npm run build` : si le build passe, le projet apparaît automatiquement sur l'accueil et à `/work/{semanticSlug}`.
 
-All commands are run from the root of the project, from a terminal:
+> Astuce : `isDraft: true` prépare un projet sans le publier.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Design system
 
-## 👀 Want to learn more?
+Chaîne à 3 niveaux : `tokens.js` (primitives) → `tailwind.config.mjs` (noms sémantiques) → composants (classes).
+**Règle d'or : modifier les tokens, jamais de couleur en dur dans un composant.**
+La source opérationnelle du nommage sémantique est **`tailwind.config.mjs`** (voir `MAINTENANCE_LOG.md` pour les points de vigilance connus du DS).
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Documentation & maintenance
+
+- `Whitepaper d'architecture — Portfolio Yassine El Idrissi.txt` — document de référence technique complet.
+- `MAINTENANCE_LOG.md` — journal des actions de maintenance et dette technique suivie.

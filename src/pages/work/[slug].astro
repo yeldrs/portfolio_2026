@@ -1,0 +1,706 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import ProjectCarousel from "../../components/ProjectCarousel.astro";
+import ArrowButton from "../../components/ArrowButton.astro";
+
+// Generate static paths from the MDX files
+export async function getStaticPaths() {
+  // Excludes drafts (isDraft): no page generated for them,
+  // consistent with the homepage filter (index.astro).
+  const projects = await getCollection("projects", ({ data }) => data.isDraft !== true);
+  return projects.map((project) => ({
+    // Use semanticSlug for the 'slug' URL parameter
+    params: { slug: project.data.semanticSlug },
+    props: { project },
+  }));
+}
+
+// Fetch the collection entry and the rendered content
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+// Per-project structured data (schema.org CreativeWork) for search engines / AI agents
+const seoBase = Astro.site ?? new URL("https://yassineelidrissi.com");
+const projectLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: project.data.title,
+  headline: project.data.title,
+  description: project.data.description ?? project.data.context,
+  url: new URL(`/work/${project.data.semanticSlug}`, seoBase).href,
+  image: new URL(project.data.cardImage, seoBase).href,
+  dateCreated: project.data.publishDate,
+  creator: {
+    "@type": "Person",
+    name: "Yassine El Idrissi",
+    url: seoBase.href,
+  },
+  about: project.data.client,
+};
+
+// --- Image logic ---
+const projectImages = project.data.projectImages || [];
+
+// Main images (Index 0, 2, 4, 6)
+const contextImage = projectImages[0] || project.data.cardImage || "";
+const roleImage = projectImages[2] || "";
+const conceptionImage = projectImages[4] || "";
+const resultsImage = projectImages[6] || "";
+
+// Optional images (Index 1, 3, 5, 7)
+const contextImage2 = projectImages[1] || "";
+const roleImage2 = projectImages[3] || "";
+const conceptionImage2 = projectImages[5] || "";
+const resultsImage2 = projectImages[7] || "";
+
+// The carousel now starts at index 8
+const carouselImages = projectImages.slice(8);
+const allModalImages = projectImages;
+
+// --- Type Narrowing for the optional fields ---
+// Using destructuring with a default value for robustness
+const teamMembers = project.data.teamMembers || [];
+const references = project.data.references || [];
+// Using optional chaining (?) to access listItems
+const designConceptionList = project.data.designConception?.listItems || [];
+
+// --- Design System (DS) classes for the Props (Arrow colors) ---
+const DS_CLASSES = {
+  mainDefault: "stroke-primary",
+  mainHover: "stroke-primary-hover",
+  tertiaryDefault: "stroke-tertiary",
+  tertiaryHover: "stroke-tertiary-hover",
+  disabledColor: "stroke-disabled",
+};
+
+const tertiaryVariant = "tertiary";
+const disabledVariant = "disabled";
+---
+
+<BaseLayout
+  title={`Project | ${project.data.title}`}
+  description={project.data.description ?? project.data.context}
+  image={project.data.cardImage}
+  structuredData={projectLd}
+>
+  <Container>
+    <main class="py-3xl max-w-content mx-auto space-y-3xl">
+      <h1
+        class="h-display"
+        set:html={project.data.title}
+      />
+
+      <div class="prose prose-lg dark:prose-invert">
+        <Content />
+      </div>
+
+      <section
+        id={`${project.slug}-diagnosis`}
+        role="region"
+        aria-label="Diagnosis"
+        class="space-y-3xl"
+      >
+        <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">
+          Diagnosis
+        </h2>
+
+        <article
+          id={`${project.slug}-context-problem`}
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Context
+              </h3>
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
+                {project.data.context}
+              </p>
+            </div>
+
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Problem
+              </h3>
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
+                {project.data.problem}
+              </p>
+            </div>
+          </div>
+
+          {/* NEW IMAGE CONTAINER for Context/Problem */}
+          <div class="space-y-md">
+            {
+              contextImage && (
+                <div
+                  onclick={`showImageModal('${contextImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={contextImage}
+                    alt="Context and problem visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              contextImage2 && (
+                <div
+                  onclick={`showImageModal('${contextImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={contextImage2}
+                    alt="Context and problem visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+
+        <article
+          id={`${project.slug}-role-insights`}
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Role
+              </h3>
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
+                {project.data.roleDescription}
+              </p>
+            </div>
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Key insights
+              </h3>
+              {
+                Array.isArray(project.data.keyInsights) ? (
+                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                    {project.data.keyInsights.map((insight) => (
+                      <li set:html={insight} />
+                    ))}
+                  </ul>
+                ) : (
+                  <div
+                    set:html={project.data.keyInsights}
+                    class="text-base text-text-body-primary leading-relaxed text-left"
+                  />
+                )
+              }
+            </div>
+          </div>
+
+          {/* NEW IMAGE CONTAINER for Role/Insights */}
+          <div class="space-y-md">
+            {
+              roleImage && (
+                <div
+                  onclick={`showImageModal('${roleImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={roleImage}
+                    alt="Role and insights visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              roleImage2 && (
+                <div
+                  onclick={`showImageModal('${roleImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={roleImage2}
+                    alt="Role and insights visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </section>
+
+      <ProjectCarousel images={carouselImages} hideArrowsOnMobile={true} />
+
+      <section
+        id={`${project.slug}-conception`}
+        role="region"
+        aria-label="Conception"
+        class="space-y-3xl"
+      >
+        <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">
+          Conception
+        </h2>
+
+        <article
+          id="conception-main"
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Methodology
+              </h3>
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
+                {project.data.methodology}
+              </p>
+            </div>
+
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Design conception
+              </h3>
+              {/* CONDITIONAL DISPLAY OF THE PARAGRAPH */}
+              {
+                project.data.designConception?.paragraph && (
+                  <div
+                    set:html={project.data.designConception.paragraph}
+                    class="text-base text-text-body-primary leading-relaxed text-left"
+                  />
+                )
+              }
+              {/* CONDITIONAL DISPLAY OF THE LIST */}
+              {
+                designConceptionList.length > 0 && (
+                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                    {designConceptionList.map((item) => (
+                      <li set:html={item} />
+                    ))}
+                  </ul>
+                )
+              }
+            </div>
+          </div>
+
+          {/* NEW IMAGE CONTAINER for Conception */}
+          <div class="space-y-md">
+            {
+              conceptionImage && (
+                <div
+                  onclick={`showImageModal('${conceptionImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={conceptionImage}
+                    alt="Conception visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              conceptionImage2 && (
+                <div
+                  onclick={`showImageModal('${conceptionImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={conceptionImage2}
+                    alt="Conception visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </section>
+
+      <section
+        id={`${project.slug}-results`}
+        role="region"
+        aria-label="Results"
+        class="space-y-3xl"
+      >
+        <h2 class="text-3xl font-normal text-text-body-primary mb-3xl">
+          Results
+        </h2>
+
+        <article
+          id={`${project.slug}-results-main`}
+          role="article"
+          class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
+        >
+          <div class="space-y-md">
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Delivery
+              </h3>
+              <p class="text-base text-text-body-primary leading-relaxed text-left">
+                {project.data.delivery}
+              </p>
+            </div>
+
+            <div class="space-y-sm">
+              <h3 class="text-lg font-semibold text-text-body-secondary">
+                Metrics
+              </h3>
+              {/* CONDITIONAL LOGIC for Metrics */}
+              {
+                Array.isArray(project.data.metrics) ? (
+                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                    {project.data.metrics.map((metric) => (
+                      <li set:html={metric} />
+                    ))}
+                  </ul>
+                ) : (
+                  <div
+                    set:html={project.data.metrics}
+                    class="text-base text-text-body-primary leading-relaxed text-left"
+                  />
+                )
+              }
+            </div>
+          </div>
+
+          {/* NEW IMAGE CONTAINER for Results */}
+          <div class="space-y-md">
+            {
+              resultsImage && (
+                <div
+                  onclick={`showImageModal('${resultsImage}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={resultsImage}
+                    alt="Results visualization"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+            {
+              resultsImage2 && (
+                <div
+                  onclick={`showImageModal('${resultsImage2}')`}
+                  class="relative w-full rounded-2xl overflow-hidden bg-background-primary cursor-pointer block"
+                >
+                  <img
+                    src={resultsImage2}
+                    alt="Results visualization secondary"
+                    class="w-full h-auto object-contain object-center block rounded-2xl transition-transform hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </section>
+
+      {/* ---------------------------------------------------- */}
+      {/* CREDITS SECTION (FULLY OPTIONAL AND ROBUST) */}
+      {/* ---------------------------------------------------- */}
+
+      {
+        (project.data.clientDetails?.name ||
+          teamMembers.length > 0 ||
+          references.length > 0) && (
+          <section
+            id={`${project.slug}-credits`}
+            role="contentinfo"
+            aria-label="Credits and References"
+            class="space-y-sm text-text-body-secondary mt-3xl border-t border-border-secondary pt-3xl"
+          >
+            <h2 class="text-base font-semibold text-text-body-primary">
+              Credits & References
+            </h2>
+
+            <div class="text-xs space-y-xxs">
+              <p>
+                <>
+                  <strong>Author and conceptor : </strong>
+                  <a
+                    href="https://www.linkedin.com/in/yassineelidrissi/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="underline hover:text-text-body-primary transition-colors"
+                  >
+                    Yassine El Idrissi
+                  </a>
+                </>
+              </p>
+
+              {/* Line 1: Team (teamMembers) */}
+              {teamMembers.length > 0 && (
+                <p>
+                  <strong>In collaboration with :</strong>
+                  {teamMembers.map((member, index) => {
+                    if (!member.name) return null;
+                    return (
+                      <span>
+                        <a
+                          href={member.link || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="underline hover:text-text-body-primary transition-colors"
+                        >
+                          {member.name}
+                        </a>
+                        {member.role && <span>, {member.role}</span>}
+                        {index < teamMembers.length - 2
+                          ? ", "
+                          : index === teamMembers.length - 2
+                            ? " and "
+                            : ""}
+                      </span>
+                    );
+                  })}
+                </p>
+              )}
+
+              {/* Line 2: Client (Displays if clientDetails exists AND if the client name exists) */}
+              {project.data.clientDetails?.name && (
+                <p>
+                  <strong>Client :</strong>{" "}
+                  <a
+                    href={project.data.clientDetails.link || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="underline hover:text-text-body-primary transition-colors"
+                  >
+                    {project.data.clientDetails.name}
+                  </a>
+                  .
+                </p>
+              )}
+
+              {/* Line 3: References/Mentors */}
+              {references.length > 0 && (
+                <p>
+                  <strong>References :</strong>
+                  {references.map((ref, index) => {
+                    if (!ref.name) return null;
+                    return (
+                      <span>
+                        <a
+                          href={ref.link || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="underline hover:text-text-body-primary transition-colors"
+                        >
+                          {ref.name}
+                        </a>
+                        {ref.role && <span>, {ref.role}</span>}
+                        {index < references.length - 1 ? " | " : ""}
+                      </span>
+                    );
+                  })}
+                </p>
+              )}
+            </div>
+          </section>
+        )
+      }
+    </main>
+  </Container>
+
+  <div
+    id="imageModal"
+    class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out"
+    aria-modal="true"
+    role="dialog"
+    onclick="window.hideImageModal()"
+  >
+    {/* Close button */}
+    <button
+      id="closeModalBtn"
+      class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
+      aria-label="Close modal"
+      onclick="event.stopPropagation(); window.hideImageModal();"
+    >
+      &times;
+    </button>
+
+    <div
+      class="relative flex items-center justify-center w-full h-full"
+      onclick="event.stopPropagation()"
+    >
+      {
+        /* ⬅️ Modal Previous Arrow (Added styling classes for disabling) */
+      }
+      <ArrowButton
+        id="modalPrevBtn"
+        label="Previous image"
+        direction="left"
+        variant={disabledVariant as any}
+        onClick="window.navigateModal(-1)"
+        class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
+        {...DS_CLASSES}
+      />
+
+      {/* The image itself */}
+      <img
+        id="modalImage"
+        data-current-modal-index="0"
+        alt="Enlarged project image"
+        class="max-w-full max-h-full object-contain"
+      />
+
+      {
+        /* ➡️ Modal Next Arrow (Added styling classes for disabling) */
+      }
+      <ArrowButton
+        id="modalNextBtn"
+        label="Next image"
+        direction="right"
+        variant={tertiaryVariant as any}
+        onClick="window.navigateModal(1)"
+        class="absolute right-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
+        {...DS_CLASSES}
+      />
+    </div>
+  </div>
+
+  <script define:vars={{ images: allModalImages }} is:inline>
+    // --- Fix for JS Robustness ---
+
+    // 1. Definition of global-scope (or pseudo-global) variables
+    const projectImages = images; // Use the variable passed by Astro
+    const TOTAL_MODAL_IMAGES = projectImages.length;
+
+    // Declare these variables on window for Astro SPA view transitions / navigation
+    window.isModalOpen = false;
+    window.isInitialized = false;
+
+    // 2. Define the functions on the Window object for immediate accessibility
+
+    window.navigateModal = function (direction) {
+      const modalImg = document.getElementById("modalImage");
+      if (!modalImg || TOTAL_MODAL_IMAGES <= 1 || !window.isModalOpen) return;
+
+      let currentIndex = parseInt(modalImg.dataset.currentModalIndex) || 0;
+      let newIndex = currentIndex + direction;
+
+      // STOP logic at the ends
+      if (newIndex >= TOTAL_MODAL_IMAGES || newIndex < 0) {
+        return;
+      }
+
+      modalImg.src = projectImages[newIndex];
+      modalImg.dataset.currentModalIndex = newIndex.toString();
+
+      updateModalArrows(newIndex, TOTAL_MODAL_IMAGES);
+    };
+
+    window.showImageModal = function (imageUrl) {
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+
+      if (!modal || !modalImg || !imageUrl) return; // Stop if the elements are not there
+
+      // 🚨 New logic: If the modal is already open, hide it and retry to avoid state issues
+      if (window.isModalOpen) {
+        window.hideImageModal();
+      }
+
+      const initialIndex = projectImages.indexOf(imageUrl);
+      let initialModalIndex = initialIndex === -1 ? 0 : initialIndex;
+
+      modalImg.src = imageUrl;
+      modalImg.dataset.currentModalIndex = initialModalIndex.toString();
+
+      // Show the modal (important to do before modifying the state)
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      window.isModalOpen = true;
+
+      // Handle the display of the arrows
+      if (initialIndex !== -1 && TOTAL_MODAL_IMAGES > 1) {
+        updateModalArrows(initialModalIndex, TOTAL_MODAL_IMAGES);
+      } else {
+        // Hide all arrows (single image or non-navigable)
+        updateModalArrows(-1, 0);
+      }
+
+      modal.focus();
+    };
+
+    window.hideImageModal = function () {
+      const modal = document.getElementById("imageModal");
+      if (modal && window.isModalOpen) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        window.isModalOpen = false;
+      }
+    };
+
+    // --- Internal helper function (Uses the CSS disabling classes) ---
+
+    function updateModalArrows(index, total) {
+      const prevBtn = document.getElementById("modalPrevBtn");
+      const nextBtn = document.getElementById("modalNextBtn");
+
+      if (!prevBtn || !nextBtn) return;
+
+      const hideAll = total <= 1 || index === -1;
+
+      if (hideAll) {
+        prevBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+      } else {
+        prevBtn.classList.remove("hidden");
+        nextBtn.classList.remove("hidden");
+      }
+
+      // Handling the 'disabled' state
+      const isPrevDisabled = index <= 0;
+      prevBtn.disabled = isPrevDisabled;
+
+      const isNextDisabled = index >= total - 1;
+      nextBtn.disabled = isNextDisabled;
+    }
+
+    function attachKeyboardHandler() {
+      if (window.isInitialized) return;
+
+      document.addEventListener("keydown", (event) => {
+        if (window.isModalOpen) {
+          if (event.key === "Escape") {
+            window.hideImageModal();
+          } else if (event.key === "ArrowLeft") {
+            window.navigateModal(-1);
+          } else if (event.key === "ArrowRight") {
+            window.navigateModal(1);
+          }
+        }
+      });
+      window.isInitialized = true;
+    }
+
+    // --- Initialization ---
+    // We use DOMContentLoaded to ensure the elements are in the DOM before attaching the handler
+    document.addEventListener("DOMContentLoaded", () => {
+      attachKeyboardHandler();
+    });
+    // We also attach on swap for Astro View Transitions
+    document.addEventListener("astro:after-swap", attachKeyboardHandler);
+  </script>
+
+  <style>
+    .prose {
+      max-width: none;
+    }
+  </style>
+</BaseLayout>

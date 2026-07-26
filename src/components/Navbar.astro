@@ -1,221 +1,317 @@
 ---
-import Container from './Container.astro';
+import Container from "./Container.astro";
 
-// Définition des liens de navigation
+// Navigation links definition with IDs for tracking
 const navLinks = [
-    { name: 'Work', href: '/#projects' }, 
-    { name: 'About me', href: '/about' },
-    { name: 'Contact', href: '/#contact-footer' }, 
+  { name: "Work", href: "/#projects", id: "work" },
+  { name: "About", href: "/about", id: "about" },
+  { name: "Contact", href: "/#contact", id: "contact" },
 ];
 
 const currentPath = Astro.url.pathname;
+// Extract the page name for tracking (e.g.: "home", "about", "900care")
+const pageName =
+  currentPath === "/" ? "home" : currentPath.split("/").filter(Boolean).pop();
 
-// Détermine si un lien doit être actif dans la barre de navigation.
-function isActive(link: { name: string, href: string }, current: string): boolean {
-    
-    if (link.name === 'Contact') {
-        return false;
-    }
-    
-    const linkPath = link.href.split('#')[0] || '/'; 
-
-    if (linkPath === '/') {
-        return current === '/' || current.endsWith('/index.html');
-    }
-
-    return current === linkPath || current.startsWith(linkPath + '/');
+// Simplified logic for the initial active state
+function getInitialActive(name: string, path: string) {
+  if (name === "About" && path.includes("/about")) return true;
+  return false;
 }
 ---
 
-<nav 
-    id="main-navbar" 
-    class:list={[
-        "py-md", 
-        "sticky top-0", 
-        "z-[60]", 
-        "bg-background-primary/95 backdrop-blur-sm"
-    ]}
-    role="navigation" 
-    aria-label="Main navigation"
+<nav
+  id="main-navbar"
+  class="py-md sticky top-0 z-[60] bg-background-primary/95 backdrop-blur-sm"
 >
-    
-    <Container class="flex justify-between items-center">
-        
-        <a 
-            href="/" 
-            class="text-xl font-extrabold text-text-body-primary hover:text-text-body-secondary transition duration-150 uppercase"
-            aria-label="Yassine El Idrissi - Retour à l'accueil"
-        >
-            Yassine El Idrissi
-        </a>
-    
-        <div class="hidden md:flex space-x-lg" role="menu">
-            {navLinks.map((link) => {
-                const isLinkActive = isActive(link, currentPath);
-                
-                return (
-                    <a 
-                        href={link.href} 
-                        class:list={[
-                            "text-base", 
-                            "text-text-body-primary", 
-                            "hover:text-text-body-secondary", 
-                            "transition duration-150",
-                            "uppercase",
-                            isLinkActive ? "font-extrabold" : "font-normal" 
-                        ]}
-                        aria-current={isLinkActive ? 'page' : undefined}
-                        role="menuitem"
-                    >
-                        {link.name}
-                    </a>
-                );
-            })}
-        </div>
+  <Container class="flex justify-between items-center">
+    <a
+      href="/"
+      id="nav-logo"
+      data-umami-event={`nav-link-logo-from-${pageName}`}
+      data-sa-event="nav_logo_click"
+      class:list={[
+        "text-base transition duration-150 uppercase",
+        currentPath === "/" ? "font-extrabold text-text-body-primary" : "text-text-body-primary font-normal",
+      ]}
+    >
+      Yassine El Idrissi
+    </a>
 
-        <button 
-            id="mobile-menu-button" 
-            aria-label="Toggle navigation menu"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
+    <div class="hidden md:flex space-x-lg" role="menu">
+      {
+        navLinks.map((link) => {
+          const isActive = getInitialActive(link.name, currentPath);
+          return (
+            <a
+              href={link.href}
+              id={`nav-link-${link.id}`}
+              data-nav-id={link.id}
+              data-umami-event={`nav-link-${link.id}-from-${pageName}`}
+              data-umami-event-name={link.name}
+              data-sa-event={`nav_${link.id}_click`}
+              class:list={[
+                "nav-item text-base uppercase transition duration-150",
+                isActive
+                  ? "font-extrabold text-text-body-accent"
+                  : "font-normal text-text-body-primary",
+                  
+              ]}
+            >
+              {link.name}
+            </a>
+          );
+        })
+      }
+    </div>
+
+    <button
+      id="mobile-menu-button"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-umami-event={`nav-mobile-burger-from-${pageName}`}
+      data-sa-event="nav_mobile_burger_click"
+      class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
+    >
+      <div id="burger-icon" class="w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-full h-full"
         >
-            <div id="burger-icon" class="w-6 h-6 absolute"> 
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </div>
-            <div id="close-icon" class="hidden w-6 h-6 absolute">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </div>
-        </button>
-        
-    </Container>
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="11" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </div>
+      <div id="close-icon" class="hidden w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-full h-full"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+      <div id="close-icon" class="hidden w-6 h-6 absolute">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+    </button>
+  </Container>
 </nav>
 
-<div 
-    id="mobile-menu" 
-    class="md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-background-primary/95 backdrop-blur-sm 
-            transition-opacity duration-300 ease-in-out opacity-0 invisible overflow-y-auto"
-    aria-hidden="true"
-    role="dialog"
+<div
+  id="mobile-menu"
+  class="md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-background-primary/95 backdrop-blur-sm transition-opacity duration-300 ease-in-out opacity-0 invisible overflow-y-auto"
+  aria-hidden="true"
+  role="dialog"
 >
-    <Container class="flex flex-col space-y-lg pt-lg pb-xl"> 
-        <div role="menu" class="flex flex-col space-y-lg w-full"> {navLinks.map((link) => {
-                const isLinkActive = isActive(link, currentPath);
-
-                return (
-                    <a 
-                        href={link.href} 
-                        class:list={[
-                            "text-xl", 
-                            "text-text-body-primary", 
-                            "hover:text-text-body-secondary", 
-                            "transition duration-150",
-                            "uppercase",
-                            "w-full",
-                            isLinkActive ? "font-extrabold" : "font-normal" 
-                        ]}
-                        aria-current={isLinkActive ? 'page' : undefined}
-                        role="menuitem"
-                    >
-                        {link.name}
-                    </a>
-                );
-            })}
-        </div>
-    </Container>
+  <Container class="flex flex-col space-y-lg pt-lg pb-xl">
+    <div role="menu" class="flex flex-col space-y-lg">
+      {
+        navLinks.map((link) => {
+          const isActive = getInitialActive(link.name, currentPath);
+          return (
+            <a
+              href={link.href}
+              data-nav-id={link.id}
+              data-umami-event={`nav-mobile-link-${link.id}-from-${pageName}`}
+              data-umami-event-name={link.name}
+              data-sa-event={`nav_mobile_${link.id}_click`}
+              class:list={[
+                "text-base uppercase transition duration-150",
+                isActive
+                  ? "font-extrabold text-text-body-accent"
+                  : "font-normal text-text-body-primary",
+              ]}
+            >
+              {link.name}
+            </a>
+          );
+        })
+      }
+    </div>
+  </Container>
 </div>
 
-<script is:inline>
-    const TRANSITION_DURATION = 300; 
-    const NAVBAR_ID = 'main-navbar';
+<script>
+  let navInteractionsInitialized = false;
 
-    function handleScrollAnchors(e) {
-        const targetLink = e.target.closest('a[href*="#"]');
-        if (!targetLink) return;
+  function setNavItemState(element: any, isActive: boolean, isLogo = false) {
+    if (!element) return;
 
-        const hash = targetLink.hash;
-        const targetElement = hash ? document.querySelector(hash) : null;
+    element.classList.toggle("font-extrabold", isActive);
+    element.classList.toggle("font-normal", !isActive);
 
-        if (targetElement) {
-            e.preventDefault();
-            
-            const navbar = document.getElementById(NAVBAR_ID);
-            const navbarHeight = navbar ? navbar.offsetHeight : 0;
-            
-            const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
-            const scrollPosition = targetPosition - navbarHeight - 20; 
-
-            window.scrollTo({
-                top: scrollPosition,
-                behavior: 'smooth'
-            });
-            
-            if (hash) {
-                 window.history.pushState(null, '', hash);
-            }
-        }
+    if (isLogo) {
+      element.classList.remove("text-text-body-accent");
+      element.classList.add("text-text-body-primary");
+      return;
     }
 
-    window.toggleMobileMenu = function() {
-        const menu = document.getElementById('mobile-menu');
-        const button = document.getElementById('mobile-menu-button');
-        const burgerIcon = document.getElementById('burger-icon');
-        const closeIcon = document.getElementById('close-icon');
-        
-        if (!menu || !button || !burgerIcon || !closeIcon) return;
+    element.classList.toggle("text-text-body-accent", isActive);
+    element.classList.toggle("text-text-body-primary", !isActive);
+  }
 
-        const isHidden = menu.classList.contains('invisible');
-        
-        button.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-        menu.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
-        
-        if (isHidden) {
-            menu.classList.remove('invisible');
-            setTimeout(() => {
-                 menu.classList.add('opacity-100');
-            }, 10); 
-            
-            burgerIcon.classList.add('hidden');
-            closeIcon.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; 
-        } else {
-            menu.classList.remove('opacity-100');
-            
-            setTimeout(() => {
-                menu.classList.add('invisible');
-                document.body.style.overflow = ''; 
-            }, TRANSITION_DURATION); 
-            
-            burgerIcon.classList.remove('hidden');
-            closeIcon.classList.add('hidden');
+  function setActiveNavItem(activeId: string | null) {
+    const logo = document.getElementById("nav-logo");
+    const workLinks = document.querySelectorAll('[data-nav-id="work"]');
+    const aboutLinks = document.querySelectorAll('[data-nav-id="about"]');
+    const contactLinks = document.querySelectorAll('[data-nav-id="contact"]');
+
+    setNavItemState(logo, activeId === "logo", true);
+    workLinks.forEach((link) => setNavItemState(link, activeId === "work"));
+    aboutLinks.forEach((link) => setNavItemState(link, activeId === "about"));
+    contactLinks.forEach((link) => setNavItemState(link, activeId === "contact"));
+  }
+
+  function updateNavActiveState() {
+    const currentPath = window.location.pathname;
+    const isHome = currentPath === "/" || currentPath === "/index.html";
+    const footer = document.getElementById("contact");
+    const isNearFooter =
+      !!footer && footer.getBoundingClientRect().top <= window.innerHeight + 120;
+
+    if (isHome && isNearFooter) {
+      setActiveNavItem("contact");
+      return;
+    }
+
+    if (isHome && window.scrollY < 120) {
+      setActiveNavItem("logo");
+      return;
+    }
+
+    if (isHome) {
+      const projectsSection = document.getElementById("projects");
+      const projectsRect = projectsSection?.getBoundingClientRect();
+      const isProjectsInView =
+        !!projectsSection &&
+        projectsRect !== undefined &&
+        projectsRect.top <= window.innerHeight * 0.45 &&
+        projectsRect.bottom >= window.innerHeight * 0.15;
+
+      if (isProjectsInView) {
+        setActiveNavItem("work");
+        return;
+      }
+    }
+
+    if (currentPath.includes("/about")) {
+      setActiveNavItem("about");
+      return;
+    }
+
+    setActiveNavItem(null);
+  }
+
+  function setupNavInteractions() {
+    if (navInteractionsInitialized) return;
+    navInteractionsInitialized = true;
+
+    updateNavActiveState();
+
+    document.addEventListener("click", (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const clickedLink = target?.closest("[data-nav-id]");
+      const clickedLogo = target?.closest("#nav-logo");
+
+      if (clickedLink) {
+        const navId = clickedLink.getAttribute("data-nav-id");
+        const currentPath = window.location.pathname;
+        const isHome = currentPath === "/" || currentPath === "/index.html";
+
+        if (navId === "work") setActiveNavItem("work");
+        if (navId === "about") setActiveNavItem("about");
+        if (navId === "contact") {
+          setActiveNavItem(isHome ? "contact" : null);
         }
+      }
+
+      if (clickedLogo) {
+        setActiveNavItem("logo");
+      }
+    });
+
+    window.addEventListener("scroll", updateNavActiveState, { passive: true });
+    window.addEventListener("resize", updateNavActiveState);
+  }
+
+  function setupMobileMenu() {
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const burgerIcon = document.getElementById("burger-icon");
+    const closeIcon = document.getElementById("close-icon");
+
+    if (!mobileMenuButton || !mobileMenu) return;
+
+    const toggleMenu = () => {
+      const isOpen = mobileMenu.classList.contains("opacity-100");
+
+      if (isOpen) {
+        mobileMenu.classList.remove("opacity-100", "visible");
+        mobileMenu.classList.add("opacity-0", "invisible");
+        burgerIcon?.classList.remove("hidden");
+        closeIcon?.classList.add("hidden");
+        mobileMenuButton.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+      } else {
+        mobileMenu.classList.remove("opacity-0", "invisible");
+        mobileMenu.classList.add("opacity-100", "visible");
+        burgerIcon?.classList.add("hidden");
+        closeIcon?.classList.remove("hidden");
+        mobileMenuButton.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+      }
     };
 
-    function attachHandlers() {
-        const button = document.getElementById('mobile-menu-button');
-        
-        if (button) {
-             button.removeEventListener('click', window.toggleMobileMenu);
-             button.addEventListener('click', window.toggleMobileMenu);
-        }
-        
-        const mobileLinks = document.querySelectorAll('#mobile-menu a');
-        mobileLinks.forEach(link => {
-            link.removeEventListener('click', window.toggleMobileMenu);
-            link.addEventListener('click', window.toggleMobileMenu);
-        });
-        
-        document.removeEventListener('click', handleScrollAnchors);
-        document.addEventListener('click', handleScrollAnchors);
-    }
+    mobileMenuButton.addEventListener("click", toggleMenu);
 
-    attachHandlers();
-    document.addEventListener('astro:after-swap', attachHandlers);
+    const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+    mobileMenuLinks.forEach((link) => {
+      link.addEventListener("click", toggleMenu);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setupNavInteractions();
+    setupMobileMenu();
+  });
+  document.addEventListener("astro:after-swap", () => {
+    setupNavInteractions();
+    setupMobileMenu();
+  });
 </script>
+
+<style>
+  .nav-item,
+  #nav-logo {
+    transition: color 0.2s ease, font-weight 0.2s ease;
+    will-change: color, font-weight;
+  }
+</style>

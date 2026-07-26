@@ -2,7 +2,7 @@
 import {
   tokens
 } from './src/styles/tokens.js';
-// 🚨 CORRECTION : Importez defaultTheme pour pouvoir l'utiliser
+// 🚨 FIX: Import defaultTheme so it can be used
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
@@ -14,47 +14,21 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Cette ligne définit Manrope comme la nouvelle police 'sans' par défaut
-        // 🚨 CORRECTION : defaultTheme est maintenant défini
+      
         sans: ['Manrope', ...defaultTheme.fontFamily.sans],
+        serif: ['Lora', 'ui-serif', 'Georgia', 'serif'],
       },
-      // Colors: map a few semantic names to primitive values
+      // Colors: consumes the semantic layer directly (single source = tokens.js).
+      // No duplicated mapping here → no possible divergence.
       colors: {
-        'background-primary': tokens.primitives.color.base.white,
-        'background-brand': tokens.primitives.color['blue-chill'][600],
-        
-        // 💡 NOUVEAU: background-accent-primary (Couleur Active)
-        'background-accent-primary': tokens.primitives.color['blue-chill'][500],
-        
-        // 💡 NOUVEAU: background-disabled (Couleur Inactive/Désactivée)
-        'background-disabled': tokens.primitives.color.gray[300],
-        
-        'text-body-primary': tokens.primitives.color.base.black,
-        'text-body-tertiary': tokens.primitives.color.gray[400],
-        'text-body-secondary': tokens.primitives.color.gray[600],
-        'text-body-accent': tokens.primitives.color['blue-chill'][600],
-        'button-background-primary': tokens.primitives.color['blue-chill'][600],
-        'button-text-primary': tokens.primitives.color.base.white,
-        // ✅ NOUVEAU : Couleurs Primary Hover et Active
-        'button-hover-primary': tokens.primitives.color['blue-chill'][400],
-        'button-active-primary': tokens.primitives.color['blue-chill'][500], // Utilisation du 500 pour l'état actif comme dans votre configuration précédente.
-        
-    // ✅ NOUVEAU : Couleurs Secondary
-        'button-background-secondary': tokens.primitives.color.gray[950],
-        'button-hover-secondary': tokens.primitives.color.gray[800],
-        'button-active-secondary': tokens.primitives.color.gray[800], // Ajout d'un état actif pour complétude
-        'stroke-primary': tokens.primitives.color['blue-chill'][400],
-        'stroke-primary-hover': tokens.primitives.color['blue-chill'][200],
-        'stroke-primary-dark': tokens.primitives.color['blue-chill'][500],
-        'stroke-neutral-primary': tokens.primitives.color.gray[300],
-        'stroke-tertiary': tokens.primitives.color.gray[50],
-        'stroke-tertiary-hover': tokens.primitives.color.gray[200],
-        'stroke-disabled': tokens.primitives.color.gray[300],
+        ...tokens.semantic.colors,
       },
 
-      // Font sizes (Styles Composés: [font-size, {lineHeight: ratio}])
+
+
+      // Font sizes (Composed styles: [font-size, {lineHeight: ratio}])
       fontSize: {
-        // Corps de texte
+        // Body text
         'sm': [tokens.primitives.fontSize.sm, {
           lineHeight: '1.143'
         }], // 14px / 16px
@@ -67,7 +41,7 @@ export default {
           lineHeight: '1.333'
         }], 
 
-        // Reste des tailles pour complétude
+        // Remaining sizes for completeness
         '2xl': [tokens.primitives.fontSize['2xl'], {
           lineHeight: '1.167'
         }], // 24px / 28px
@@ -82,7 +56,7 @@ export default {
           lineHeight: '1.111'
         }],
 
-        // Titres restants
+        // Remaining headings
         '5xl': [tokens.primitives.fontSize['5xl'], {
           lineHeight: '1'
         }], 
@@ -91,14 +65,17 @@ export default {
         }],
       },
 
-      // Font weights (Reste inchangé)
+      // Font weights (Unchanged)
       fontWeight: {
         extrabold: tokens.primitives.fontWeight.extrabold,
+        bold: tokens.primitives.fontWeight.bold,
         semibold: tokens.primitives.fontWeight.semibold,
+        thick: tokens.primitives.fontWeight.thick,
         normal: tokens.primitives.fontWeight.normal,
+        thin: tokens.primitives.fontWeight.thin,
       },
 
-      // Spacing scale (Reste inchangé)
+      // Spacing scale (Unchanged)
       spacing: {
         'xxs': tokens.primitives.spacing.xxs,
         'xs': tokens.primitives.spacing.xs,
@@ -114,7 +91,7 @@ export default {
         '6xl': tokens.primitives.spacing['6xl'],
       },
 
-      // Border radius (Reste inchangé)
+      // Border radius (Unchanged)
       borderRadius: {
         md: tokens.primitives.borderRadius.md,
         xl: tokens.primitives.borderRadius.xl,
@@ -122,23 +99,23 @@ export default {
         card: tokens.semantic.border.radius.card,
       },
 
-      // Max width (container) (Reste inchangé)
+      // Max width (container) (Unchanged)
       maxWidth: {
         content: tokens.semantic.layout.container.maxWidth,
       },
 
-      // Aspect ratio token (Reste inchangé)
+      // Aspect ratio token (Unchanged)
       aspectRatio: {
         card: tokens.semantic.layout.image.aspectRatio,
       },
 
-      // Gap tokens for grids (Reste inchangé)
+      // Gap tokens for grids (Unchanged)
       gap: {
         grid: tokens.semantic.layout.grid.gap.base,
         'grid-lg': tokens.semantic.layout.grid.gap.large,
       },
 
-      // Scale (Reste inchangé)
+      // Scale (Unchanged)
       scale: {
         '120': '1.20',
         '130': '1.30',

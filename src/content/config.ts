@@ -5,7 +5,7 @@ import { defineCollection, z } from "astro:content";
 const projectCollection = defineCollection({
  type: "content",
  schema: z.object({
-  // ... Champs existants ...
+  semanticSlug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'The semantic slug must be lowercase, without spaces, and use hyphens (kebab-case).'),
   title: z.string(),
   client: z.string(),
   description: z.string().optional(),
@@ -28,21 +28,21 @@ const projectCollection = defineCollection({
   publishDate: z.string(),
   isDraft: z.boolean().default(false),
 
-  // NOUVEAUX CHAMPS DYNAMIQUES POUR LES CRÉDITS
+  // NEW DYNAMIC FIELDS FOR CREDITS
 
   clientDetails: z
    .object({
-    name: z.string().optional(), // 🎯 RENDU OPTIONNEL
-    link: z.string().url().optional(), // 🎯 RENDU OPTIONNEL
+    name: z.string().optional(), // 🎯 MADE OPTIONAL
+    link: z.string().url().optional(), // 🎯 MADE OPTIONAL
    })
    .optional(),
 
   teamMembers: z
    .array(
     z.object({
-     name: z.string().optional(), // 🎯 RENDU OPTIONNEL
-     link: z.string().url().optional(), // 🎯 RENDU OPTIONNEL
-          role: z.string().optional(), // 🎯 RENDU OPTIONNEL (pour la virgule)
+     name: z.string().optional(), // 🎯 MADE OPTIONAL
+     link: z.string().url().optional(), // 🎯 MADE OPTIONAL
+          role: z.string().optional(), // 🎯 MADE OPTIONAL (for the comma)
     }),
    )
    .optional(),
@@ -50,8 +50,8 @@ const projectCollection = defineCollection({
   references: z
    .array(
     z.object({
-     name: z.string().optional(), // 🎯 RENDU OPTIONNEL
-     link: z.string().url().optional(), // 🎯 RENDU OPTIONNEL
+     name: z.string().optional(), // 🎯 MADE OPTIONAL
+     link: z.string().url().optional(), // 🎯 MADE OPTIONAL
      role: z.string().optional(),
     }),
    )
