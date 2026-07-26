@@ -2,15 +2,16 @@
 // src/pages/fr/work/[slug].astro
 import { getCollection } from "astro:content";
 import ProjectLayout from "../../../layouts/ProjectLayout.astro";
+import { withResolvedImages } from "../../../content/resolveImages";
 
 export async function getStaticPaths() {
-  const projects = await getCollection(
-    "projects",
+  const everyProject = await getCollection("projects");
+  const projects = everyProject.filter(
     ({ slug, data }) => slug.startsWith("fr/") && data.isDraft !== true,
   );
   return projects.map((project) => ({
     params: { slug: project.data.semanticSlug },
-    props: { project },
+    props: { project: withResolvedImages(project, everyProject) },
   }));
 }
 

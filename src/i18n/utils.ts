@@ -42,3 +42,12 @@ export function getLocalizedPath(
 ): string {
   return getRelativeLocaleUrl(toLang, stripLocalePrefix(pathname, fromLang));
 }
+
+// Project titles carry raw numeric HTML entities (e.g. "&#8209;" for a
+// non-breaking hyphen) meant for set:html rendering. Astro's text
+// interpolation escapes the "&" itself in plain-text contexts (<title>,
+// alt, JSON-LD), double-escaping the entity into literal text — decode it
+// first wherever the title is used as plain text instead of set:html.
+export function plainText(html: string): string {
+  return html.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
+}

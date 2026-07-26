@@ -1,7 +1,7 @@
 ---
 import Button from "./Button.astro";
 import { defaultLang } from "../i18n/ui";
-import { useTranslations } from "../i18n/utils";
+import { useTranslations, plainText } from "../i18n/utils";
 
 export interface Props {
   headline: string;
@@ -30,6 +30,7 @@ const {
 } = Astro.props;
 
 const t = useTranslations(lang);
+const plainHeadline = plainText(headline);
 
 // --- SHARED TRACKING LOGIC ---
 
@@ -52,7 +53,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 <article
   id={id ?? undefined}
   role="article"
-  aria-label={headline}
+  aria-label={plainHeadline}
   class={`flex flex-col md:flex-row gap-xl md:gap-3xl ${directionClass} md:items-start`}
 >
   <h1
@@ -65,7 +66,7 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
     data-sa-event={eventNameSA}
     data-umami-event="project-image-click"
     data-umami-event-project={projectSlugUmami}
-    aria-label={t("project.viewProjectAria", { headline })}
+    aria-label={t("project.viewProjectAria", { headline: plainHeadline })}
     class="block group flex-1 md:basis-1/2 relative rounded-2xl aspect-[4/3] order-2 md:order-none overflow-hidden"
   >
     <img

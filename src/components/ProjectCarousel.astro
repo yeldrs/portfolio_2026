@@ -1,15 +1,19 @@
 ---
 // src/components/ProjectCarousel.astro
 import ArrowButton from "./ArrowButton.astro";
+import { defaultLang } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
 
 export interface Props {
   images: string[];
   // 🚨 1. Add the new prop
   hideArrowsOnMobile?: boolean;
+  lang?: "en" | "fr";
 }
 
 // 🚨 2. Destructure the new prop (defaults to true to apply the hiding)
-const { images, hideArrowsOnMobile = true } = Astro.props;
+const { images, hideArrowsOnMobile = true, lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
 
 if (!images || images.length === 0) return null;
 
@@ -36,14 +40,14 @@ export const isAstroComponent = true;
 
 <section
   id="project-carousel"
-  aria-label="Project Image Carousel"
+  aria-label={t("project.carouselAria")}
   class="space-y-md my-3xl"
 >
   <div class="flex items-center justify-between">
     {/* ⬅️ Previous Arrow (Desktop) */}
     <ArrowButton
       id="prevBtn"
-      label="Previous image"
+      label={t("modal.previous")}
       direction="left"
       variant={prevInitialVariant as any}
       onClick="window.handleCarouselNavigation(-1)"
@@ -65,7 +69,7 @@ export const isAstroComponent = true;
       <img
         id="carouselImage"
         src={images[0]}
-        alt="Detailed project image"
+        alt={t("project.detailedImageAlt")}
         class="w-full h-full object-contain object-center block rounded-2xl cursor-pointer"
         loading="lazy"
         onclick={`showImageModal('${images[0]}')`}
@@ -76,7 +80,7 @@ export const isAstroComponent = true;
     {/* ➡️ Next Arrow (Desktop) */}
     <ArrowButton
       id="nextBtn"
-      label="Next image"
+      label={t("modal.next")}
       direction="right"
       variant={activeVariant as any}
       onClick="window.handleCarouselNavigation(1)"
@@ -93,7 +97,7 @@ export const isAstroComponent = true;
     {/* ⬅️ Mobile Previous Arrow */}
     <ArrowButton
       id="prevBtnMobile"
-      label="Previous image"
+      label={t("modal.previous")}
       direction="left"
       variant={prevInitialVariant as any}
       onClick="window.handleCarouselNavigation(-1)"
@@ -107,7 +111,7 @@ export const isAstroComponent = true;
         dots.map((dot) => (
           <button
             data-index={dot.index}
-            aria-label={`Go to slide ${dot.index + 1}`}
+            aria-label={t("project.goToSlide", { index: String(dot.index + 1) })}
             class={`w-3 h-3 rounded-full transition-colors ${dot.index === 0 ? "bg-background-accent-primary" : "bg-background-disabled"}`}
             onclick={`window.updateImageFromDot(${dot.index})`}
           />
@@ -118,7 +122,7 @@ export const isAstroComponent = true;
     {/* ➡️ Mobile Next Arrow */}
     <ArrowButton
       id="nextBtnMobile"
-      label="Next image"
+      label={t("modal.next")}
       direction="right"
       variant={activeVariant as any}
       onClick="window.handleCarouselNavigation(1)"

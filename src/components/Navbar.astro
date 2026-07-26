@@ -1,5 +1,6 @@
 ---
 import Container from "./Container.astro";
+import FlagIcon from "./icons/FlagIcon.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { defaultLang } from "../i18n/ui";
 import { useTranslations, getLocalizedPath, stripLocalePrefix, cleanPathname } from "../i18n/utils";
@@ -20,6 +21,13 @@ const navLinks = [
 const homeHref = getRelativeLocaleUrl(lang, "/");
 const switcherHref = getLocalizedPath(currentPath, lang, otherLang);
 const isHome = stripLocalePrefix(currentPath, lang) === "/";
+
+const LANG_META = {
+  en: { label: "EN" },
+  fr: { label: "FR" },
+} as const;
+const currentLangMeta = LANG_META[lang];
+const otherLangMeta = LANG_META[otherLang];
 
 // Extract the page name for tracking (e.g.: "home", "about", "900care")
 const pageName = isHome ? "home" : currentPath.split("/").filter(Boolean).pop();
@@ -74,15 +82,46 @@ function getInitialActive(id: string, path: string) {
           );
         })
       }
-      <a
-        href={switcherHref}
-        id="nav-lang-switcher"
-        data-umami-event={`nav-lang-switch-to-${otherLang}-from-${pageName}`}
-        data-sa-event={`nav_lang_${otherLang}_click`}
-        class="nav-item text-base uppercase transition duration-150 font-normal text-text-body-primary border border-stroke-neutral-primary rounded-full px-sm"
-      >
-        {otherLang}
-      </a>
+      <div class="relative" id="lang-switcher">
+        <button
+          type="button"
+          id="lang-switcher-button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="lang-switcher-menu"
+          aria-label={t("nav.languageSwitcher")}
+          class="flex items-center gap-1.5 text-sm font-normal text-text-body-primary py-xxs"
+        >
+          <FlagIcon lang={lang} />
+          <span class="uppercase">{currentLangMeta.label}</span>
+        </button>
+
+        <div
+          id="lang-switcher-menu"
+          role="menu"
+          class="hidden absolute right-0 top-full mt-1.5 w-max rounded-lg border border-stroke-neutral-primary bg-background-primary shadow-sm overflow-hidden z-50"
+        >
+          <span
+            role="menuitem"
+            aria-current="true"
+            class="flex items-center gap-2 px-sm py-xs text-sm font-semibold text-text-body-primary"
+          >
+            <FlagIcon lang={lang} />
+            <span class="uppercase">{currentLangMeta.label}</span>
+          </span>
+          <a
+            href={switcherHref}
+            role="menuitem"
+            id="nav-lang-switcher"
+            data-umami-event={`nav-lang-switch-to-${otherLang}-from-${pageName}`}
+            data-sa-event={`nav_lang_${otherLang}_click`}
+            class="flex items-center gap-2 px-sm py-xs text-sm font-normal text-text-body-secondary hover:text-text-body-primary hover:bg-gray-50 transition-colors"
+          >
+            <FlagIcon lang={otherLang} />
+            <span class="uppercase">{otherLangMeta.label}</span>
+          </a>
+        </div>
+      </div>
     </div>
 
     <button
@@ -175,14 +214,21 @@ function getInitialActive(id: string, path: string) {
           );
         })
       }
-      <a
-        href={switcherHref}
-        data-umami-event={`nav-mobile-lang-switch-to-${otherLang}-from-${pageName}`}
-        data-sa-event={`nav_mobile_lang_${otherLang}_click`}
-        class="text-base uppercase transition duration-150 font-normal text-text-body-primary"
-      >
-        {otherLang}
-      </a>
+      <div class="flex items-center gap-md pt-sm" role="group" aria-label={t("nav.languageSwitcher")}>
+        <span class="flex items-center gap-1.5 text-sm font-semibold text-text-body-primary" aria-current="true">
+          <FlagIcon lang={lang} />
+          <span class="uppercase">{currentLangMeta.label}</span>
+        </span>
+        <a
+          href={switcherHref}
+          data-umami-event={`nav-mobile-lang-switch-to-${otherLang}-from-${pageName}`}
+          data-sa-event={`nav_mobile_lang_${otherLang}_click`}
+          class="flex items-center gap-1.5 text-sm font-normal text-text-body-secondary transition-colors hover:text-text-body-primary"
+        >
+          <FlagIcon lang={otherLang} />
+          <span class="uppercase">{otherLangMeta.label}</span>
+        </a>
+      </div>
     </div>
   </Container>
 </div>
@@ -290,6 +336,41 @@ function getInitialActive(id: string, path: string) {
     window.addEventListener("resize", updateNavActiveState);
   }
 
+  function setupLangSwitcher() {
+    const button = document.getElementById("lang-switcher-button");
+    const menu = document.getElementById("lang-switcher-menu");
+    const wrapper = document.getElementById("lang-switcher");
+    if (!button || !menu || !wrapper) return;
+
+    const closeMenu = () => {
+      menu.classList.add("hidden");
+      button.setAttribute("aria-expanded", "false");
+    };
+
+    const toggleMenu = () => {
+      const isOpen = !menu.classList.contains("hidden");
+      if (isOpen) {
+        closeMenu();
+      } else {
+        menu.classList.remove("hidden");
+        button.setAttribute("aria-expanded", "true");
+      }
+    };
+
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleMenu();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!wrapper.contains(event.target as Node)) closeMenu();
+    });
+
+    document.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenu();
+    });
+  }
+
   function setupMobileMenu() {
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
@@ -329,10 +410,12 @@ function getInitialActive(id: string, path: string) {
   document.addEventListener("DOMContentLoaded", () => {
     setupNavInteractions();
     setupMobileMenu();
+    setupLangSwitcher();
   });
   document.addEventListener("astro:after-swap", () => {
     setupNavInteractions();
     setupMobileMenu();
+    setupLangSwitcher();
   });
 </script>
 

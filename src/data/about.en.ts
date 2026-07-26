@@ -164,4 +164,13 @@ export const about: AboutData = {
       school: "Quasar Institute for Advanced Design, Rome, Italy",
     },
   ],
+
+  languagesHeading: "Languages",
+  languages: [
+    { name: "French", level: "Native" },
+    { name: "English", level: "C1" },
+    { name: "Italian", level: "C1" },
+    { name: "Spanish", level: "A2" },
+    { name: "Arabic", level: "A1" },
+  ],
 };

@@ -1,12 +1,12 @@
 ---
 // src/pages/fr/index.astro
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import HomeContent from "../../components/pages/HomeContent.astro";
+import HomeLayout from "../../layouts/HomeLayout.astro";
 import { useTranslations } from "../../i18n/utils";
 
 const t = useTranslations("fr");
 ---
 
 <BaseLayout title={t("meta.homeTitle")} description={t("meta.homeDescription")}>
-  <HomeContent lang="fr" />
+  <HomeLayout lang="fr" />
 </BaseLayout>

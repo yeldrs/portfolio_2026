@@ -1,102 +1,141 @@
 // src/data/about.fr.ts
-// [FR TODO] placeholder copy — replace every marked field with the user's
-// already-translated CV/about content. Structure must stay in sync with about.en.ts.
+// Contenu reconstruit à partir de src/data/ELIDRISSI_Yassine_RESUME.md (CV fourni par
+// l'utilisateur). "Significant Work" n'était pas couvert par ce CV : les 3 items sont une
+// traduction directe du contenu EN existant, à relire/ajuster par l'utilisateur.
 
 import type { AboutData } from "./about.types";
 
 export const about: AboutData = {
-  introHeading: "[FR TODO] My name is Yassine and I'm a Product designer.",
-  introBody: "[FR TODO] intro body",
-  introCta: "[FR TODO] Let's connect",
+  introHeading: "Je suis Yassine El Idrissi, Designer Ops et stratégie produit.",
+  introBody:
+    "Spécialisé en UX, je transforme les insights utilisateur en leviers concrets de performance business où l'inclusivité, l'accessibilité et l'éthique deviennent des critères de conception.",
+  introCta: "Discutons",
 
-  experienceHeading: "[FR TODO] Experience",
+  experienceHeading: "Expérience",
   professionalExperience: [
     {
-      title: "[FR TODO] UX Product Designer",
-      company: "900.care - D2C Startup",
-      duration: "Sept. 2024 - Sept. 2025 (Paris)",
-      highlights: ["[FR TODO] highlight"],
+      title: "Product designer R&D",
+      company: "Freelance",
+      duration: "11/2025 - Actuellement, à distance",
+      highlights: [
+        "Healthcare : conception d'un SaaS de suivi alimentaire ciblant le public vulnérable avec une UX non-anxiogène et modulaire.",
+        "Déploiement d'une architecture RAG locale sans transfert externe.",
+      ],
+      trackingSlug: "product-rd-freelance",
+      cvLink: "/documents/Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE_FR.pdf",
+      cvLinkLabel: "Télécharger mon CV pour en savoir plus",
+    },
+    {
+      title: "UX Product designer",
+      company: "900.care",
+      duration: "09/2024 - 09/2025, Paris",
+      highlights: [
+        "Taux de conversion : augmentation de 5.4% à 5.9%.",
+        "Rétention : stabilisée au-dessus de 70%.",
+        "Panier moyen : +47% suite à la refonte du tunnel de vente.",
+        "Protocoles de recherche : enquêtes quantitatives, entretiens qualitatifs.",
+        "Maquettes hi-fi et développement d'un design système scalable.",
+        "Nouvel espace client, optimisation du parcours de désabonnement, refonte de la page d'accueil et du catalogue produits.",
+      ],
       trackingSlug: "900-care",
-      cvLink: "/documents/Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE.pdf",
-      cvLinkLabel: "[FR TODO] Download my resume to see more",
     },
     {
-      title: "[FR TODO] Web Designer",
-      company: "Freelance",
-      duration: "2023 - 2024 (Remote)",
-      highlights: ["[FR TODO] highlight"],
-      trackingSlug: "freelance-web",
+      title: "UX/UI, Interaction Designer (Freelance)",
+      company: "OLA, MCB, OsteoDS",
+      duration: "07/2023 - 07/2024, à distance",
+      highlights: [
+        "Prototypage e-commerce pour valider la viabilité d'offres commerciales.",
+        "Maintenance de systèmes low-code sur Webflow, WordPress et Wix-Studio.",
+        "Audit et stratégies de référencement naturel SEO.",
+        "Cours particuliers de PAO : InDesign, Photoshop, suivi d'examens.",
+      ],
+      trackingSlug: "freelance-uxui",
     },
     {
-      title: "[FR TODO] Art Director",
-      company: "Freelance",
-      duration: "June. 2022 - Jan. 2023 (Paris)",
-      highlights: ["[FR TODO] highlight"],
-      trackingSlug: "freelance-da",
-    },
-    {
-      title: "[FR TODO] Art Director",
-      company: "Maison Le Roux - Food Industry",
-      duration: "March 2021 - July 2022 (Paris)",
-      highlights: ["[FR TODO] highlight"],
+      title: "Art Director (Stage et freelance)",
+      company: "Maison Le Roux",
+      duration: "05/2022 - 06/2024, Paris",
+      highlights: [
+        "« Salon du Chocolat 2022 » : design de deux espaces de vente éphémères.",
+        "Refonte du brand book, application sur l'ensemble des points de contact.",
+        "Direction créative pour le packaging, l'édition, le retail et la photographie.",
+      ],
       trackingSlug: "maison-le-roux",
     },
   ],
 
-  toolkitHeading: "[FR TODO] My toolkit for impact",
+  toolkitHeading: "Compétences",
   skillSections: [
     {
-      title: "[FR TODO] Core Design & Tools",
+      title: "Analyse et stratégie",
       skills: [
-        { title: "[FR TODO] End-to-end design", description: "[FR TODO] description" },
-        { title: "[FR TODO] Figma / Loveable / Framer", description: "[FR TODO] description" },
-        { title: "[FR TODO] Adobe Suite / Affinity", description: "[FR TODO] description" },
-        { title: "[FR TODO] Web coding", description: "[FR TODO] description" },
+        { title: "KPI, OKR" },
+        { title: "Qualitative, Quantitative" },
+        { title: "Metabase, Datadog" },
       ],
     },
     {
-      title: "[FR TODO] Methodology & Business",
+      title: "Outils de design",
       skills: [
-        { title: "[FR TODO] Data & UX analytics", description: "[FR TODO] description" },
-        { title: "[FR TODO] Data-driven design", description: "[FR TODO] description" },
-        { title: "[FR TODO] Agile & autonomy", description: "[FR TODO] description" },
-        { title: "[FR TODO] Communication & collaboration", description: "[FR TODO] description" },
+        { title: "UI Design, Figma, Framer, Adobe" },
+        { title: "Design Systems" },
+        { title: "Scrum, Sprint Planning" },
       ],
     },
     {
-      title: "[FR TODO] Tech Imperatives",
+      title: "AI et Web",
       skills: [
-        { title: "[FR TODO] Accessibility", description: "[FR TODO] description" },
-        { title: "[FR TODO] AI & automation", description: "[FR TODO] description" },
-        { title: "[FR TODO] Sustainable & responsible design", description: "[FR TODO] description" },
-        { title: "[FR TODO] Care-design & health-tech", description: "[FR TODO] description" },
+        { title: "Claude Code, MCP" },
+        { title: "HTML/CSS, GitHub, SEO" },
+        { title: "Automatisation n8n" },
       ],
     },
   ],
 
-  significantWorkHeading: "[FR TODO] Significant Work",
+  significantWorkHeading: "Projets marquants",
   significantWork: [
-    { title: "[FR TODO] FoodTech - Batchcooking plateform", description: "[FR TODO] description" },
-    { title: "[FR TODO] Sustainable agile toolkit - Caisse des Dépôts", description: "[FR TODO] description" },
-    { title: "[FR TODO] Animal Health - Digital Support Service", description: "[FR TODO] description" },
+    {
+      title: "FoodTech - Plateforme Batchcooking",
+      description:
+        "Co-développement du MVP d'un service numérique qui renforce le lien social et l'autonomie alimentaire des étudiants.",
+    },
+    {
+      title: "Kit agile durable - Caisse des Dépôts",
+      description:
+        "Création d'un outil de gestion de projet pour développer des produits intégrant l'éthique, la durabilité et les principes inclusifs. Équipe de 3 designers.",
+    },
+    {
+      title: "Santé animale - Service d'accompagnement digital",
+      description:
+        "Conception et prototypage d'une application synchronisée avec des objets connectés pour aider les utilisateurs à prendre soin d'animaux ayant des besoins spécifiques.",
+    },
   ],
 
-  educationHeading: "[FR TODO] Education",
+  educationHeading: "Formations",
   educationExperience: [
     {
       year: "2024-2025",
-      title: "[FR TODO] Master in Project Management and UX Design",
-      school: "ISCOD, France (Intensive 12-month program under an apprenticeship contract)",
+      title: "Mastère Management de Projets UX, RNCP 7",
+      school: "ISCOD, apprentissage, France",
     },
     {
       year: "2020-2022",
-      title: "[FR TODO] Master in Digital Design",
-      school: "École de Design Nantes Atlantique, France",
+      title: "Master en Design Digital",
+      school: "EDNA, Nantes, France",
     },
     {
       year: "2016-2019",
-      title: "[FR TODO] Bachelor in Graphic Design",
-      school: "Quasar Institute for Advanced Design, Rome, Italy",
+      title: "Bachelor en Design Graphique",
+      school: "Quasar Institute, Rome, Italy",
     },
+  ],
+
+  languagesHeading: "Langues",
+  languages: [
+    { name: "Français", level: "Langue maternelle" },
+    { name: "Anglais", level: "C1" },
+    { name: "Italien", level: "C1" },
+    { name: "Espagnol", level: "A2" },
+    { name: "Arabe", level: "A1" },
   ],
 };

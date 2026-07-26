@@ -1,9 +1,9 @@
 ---
-// src/components/pages/AboutContent.astro
-import Container from "../Container.astro";
-import Button from "../Button.astro";
-import { about as aboutEn } from "../../data/about.en";
-import { about as aboutFr } from "../../data/about.fr";
+// src/layouts/AboutLayout.astro
+import Container from "../components/Container.astro";
+import Button from "../components/Button.astro";
+import { about as aboutEn } from "../data/about.en";
+import { about as aboutFr } from "../data/about.fr";
 
 export interface Props {
   lang: "en" | "fr";
@@ -163,6 +163,21 @@ const about = lang === "fr" ? aboutFr : aboutEn;
           </div>
         ))
       }
+    </section>
+
+    {/* SECTION 6: LANGUAGES */}
+    <section class="w-full max-w-3xl space-y-xl">
+      <h2 class="text-3xl font-bold text-text-body-primary">{about.languagesHeading}</h2>
+      <ul class="flex flex-wrap gap-sm">
+        {
+          about.languages.map((language) => (
+            <li class="px-3 py-1.5 bg-gray-50 rounded-lg text-sm text-text-body-primary">
+              <span class="font-semibold">{language.name}</span>
+              <span class="text-text-body-secondary"> — {language.level}</span>
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </Container>
 </main>

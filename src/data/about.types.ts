@@ -12,7 +12,7 @@ export interface ProfessionalExperience {
 
 export interface Skill {
   title: string;
-  description: string;
+  description?: string;
 }
 
 export interface SkillSection {
@@ -31,6 +31,11 @@ export interface EducationExperience {
   school: string;
 }
 
+export interface Language {
+  name: string;
+  level: string;
+}
+
 export interface AboutData {
   introHeading: string;
   introBody: string;
@@ -43,4 +48,6 @@ export interface AboutData {
   significantWork: SignificantWork[];
   educationHeading: string;
   educationExperience: EducationExperience[];
+  languagesHeading: string;
+  languages: Language[];
 }

@@ -9,16 +9,21 @@
 - LinkedIn: https://www.linkedin.com/in/yassineelidrissi/
 - Focus: product design, UX research, design systems, ethical & sustainable design
 
-## Case studies
+## Case studies (English)
 - [UX & growth for a sustainable e-commerce (900.care)](https://yassineelidrissi.com/work/900care): Full-cycle product design at 900.care, focused on improving first-order conversion and long-term retention.
 - [Crafting an agile tool to design with ethics (Caisse des Dépôts)](https://yassineelidrissi.com/work/depostetconsignations): A tangible, methodological toolkit to embed ethical, sustainable and inclusive principles into major digital platform development.
 - [Building an accessible solution for collaborative cooking (Batchcooking)](https://yassineelidrissi.com/work/batchcooking): Designing a marketplace addressing student food insecurity and social isolation by turning underused kitchens into collaborative learning spaces.
 
+## Études de cas (Français)
+- [UX & croissance pour un e-commerce durable (900.care)](https://yassineelidrissi.com/fr/work/900care)
+- [Concevoir un outil agile pour designer avec éthique (Caisse des Dépôts)](https://yassineelidrissi.com/fr/work/depostetconsignations)
+- [Concevoir une solution accessible pour la cuisine collaborative (Batchcooking)](https://yassineelidrissi.com/fr/work/batchcooking)
+
 ## Main pages
-- [Home](https://yassineelidrissi.com/)
-- [About](https://yassineelidrissi.com/about)
+- [Home](https://yassineelidrissi.com/) / [Accueil FR](https://yassineelidrissi.com/fr)
+- [About](https://yassineelidrissi.com/about) / [À propos FR](https://yassineelidrissi.com/fr/about)
 
 ## Notes for AI agents
-- All content is in English.
+- The site is bilingual: English at the root (no prefix), French under /fr/. Every English page has a French equivalent at the same path prefixed with /fr/, cross-linked via hreflang.
 - Canonical URLs are extensionless (e.g. /work/900care, not /work/900care.html).
-- Structured data (schema.org Person and CreativeWork) is embedded as JSON-LD on each page.
+- Structured data (schema.org Person and CreativeWork) is embedded as JSON-LD on each page, with an inLanguage field matching the page's locale.

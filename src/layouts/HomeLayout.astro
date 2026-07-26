@@ -1,14 +1,15 @@
 ---
-// src/components/pages/HomeContent.astro
+// src/layouts/HomeLayout.astro
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import ProjectCard from "../ProjectCard.astro";
-import Container from "../Container.astro";
-import Hero from "../Hero.astro";
-import Cloud from "../Cloud.astro";
-import { useTranslations } from "../../i18n/utils";
-import { home as homeEn } from "../../data/home.en";
-import { home as homeFr } from "../../data/home.fr";
+import ProjectCard from "../components/ProjectCard.astro";
+import Container from "../components/Container.astro";
+import Hero from "../components/Hero.astro";
+import Cloud from "../components/Cloud.astro";
+import { useTranslations, plainText } from "../i18n/utils";
+import { withResolvedImages } from "../content/resolveImages";
+import { home as homeEn } from "../data/home.en";
+import { home as homeFr } from "../data/home.fr";
 
 export interface Props {
   lang: "en" | "fr";
@@ -20,15 +21,15 @@ const home = lang === "fr" ? homeFr : homeEn;
 
 const PlaceholderImage = "/images/profile-pic.webp";
 
-const allProjects = (
-  await getCollection("projects", ({ slug, data }) => {
-    return slug.startsWith(`${lang}/`) && data.isDraft !== true;
-  })
-).sort((a, b) => {
-  const dateA = new Date(a.data.publishDate).getTime();
-  const dateB = new Date(b.data.publishDate).getTime();
-  return dateB - dateA;
-});
+const everyProject = await getCollection("projects");
+const allProjects = everyProject
+  .filter(({ slug, data }) => slug.startsWith(`${lang}/`) && data.isDraft !== true)
+  .map((project) => withResolvedImages(project, everyProject))
+  .sort((a, b) => {
+    const dateA = new Date(a.data.publishDate).getTime();
+    const dateB = new Date(b.data.publishDate).getTime();
+    return dateB - dateA;
+  });
 ---
 
 <main class="relative">
@@ -107,7 +108,7 @@ const allProjects = (
     <section
       id="projects"
       role="region"
-      aria-label="Projects"
+      aria-label={t("home.projectsAria")}
       class="flex flex-col space-y-6xl"
     >
       {
@@ -119,7 +120,7 @@ const allProjects = (
             description={project.data.description}
             role={project.data.role}
             projectLink={getRelativeLocaleUrl(lang, `/work/${project.data.semanticSlug}`)}
-            imageAlt={`Project preview: ${project.data.title}`}
+            imageAlt={t("home.projectPreviewAlt", { title: plainText(project.data.title) })}
             imageUrl={project.data.cardImage}
             direction={index % 2 === 0 ? "reverse" : "default"}
             lang={lang}

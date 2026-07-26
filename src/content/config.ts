@@ -23,7 +23,10 @@ const projectCollection = defineCollection({
    .optional(),
   delivery: z.string(),
   metrics: z.union([z.string(), z.array(z.string())]),
-  cardImage: z.string(),
+  // Images are declared once, in the en/ entry. Other locales omit both fields
+  // entirely and inherit them at build time (see src/content/resolveImages.ts) —
+  // this keeps image edits to a single file regardless of how many languages exist.
+  cardImage: z.string().optional(),
   projectImages: z.array(z.string()).min(1).optional(),
   publishDate: z.string(),
   isDraft: z.boolean().default(false),

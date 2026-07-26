@@ -1,11 +1,12 @@
 ---
 // src/layouts/ProjectLayout.astro
 import type { CollectionEntry } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import BaseLayout from "./BaseLayout.astro";
 import Container from "../components/Container.astro";
 import ProjectCarousel from "../components/ProjectCarousel.astro";
 import ArrowButton from "../components/ArrowButton.astro";
-import { useTranslations } from "../i18n/utils";
+import { useTranslations, plainText } from "../i18n/utils";
 
 export interface Props {
   project: CollectionEntry<"projects">;
@@ -16,17 +17,20 @@ const { project, lang } = Astro.props;
 const t = useTranslations(lang);
 const { Content } = await project.render();
 
+const plainTitle = plainText(project.data.title);
+
 // Per-project structured data (schema.org CreativeWork) for search engines / AI agents
 const seoBase = Astro.site ?? new URL("https://yassineelidrissi.com");
 const projectLd = {
   "@context": "https://schema.org",
   "@type": "CreativeWork",
-  name: project.data.title,
-  headline: project.data.title,
+  name: plainTitle,
+  headline: plainTitle,
   description: project.data.description ?? project.data.context,
-  url: new URL(`/work/${project.data.semanticSlug}`, seoBase).href,
+  url: new URL(getRelativeLocaleUrl(lang, `/work/${project.data.semanticSlug}`), seoBase).href,
   image: new URL(project.data.cardImage, seoBase).href,
   dateCreated: project.data.publishDate,
+  inLanguage: lang === "fr" ? "fr-FR" : "en-US",
   creator: {
     "@type": "Person",
     name: "Yassine El Idrissi",
@@ -75,7 +79,7 @@ const disabledVariant = "disabled";
 ---
 
 <BaseLayout
-  title={`${t("project.titlePrefix")} | ${project.data.title}`}
+  title={`${t("project.titlePrefix")} | ${plainTitle}`}
   description={project.data.description ?? project.data.context}
   image={project.data.cardImage}
   structuredData={projectLd}
@@ -230,7 +234,7 @@ const disabledVariant = "disabled";
         </article>
       </section>
 
-      <ProjectCarousel images={carouselImages} hideArrowsOnMobile={true} />
+      <ProjectCarousel images={carouselImages} hideArrowsOnMobile={true} lang={lang} />
 
       <section
         id={`${project.data.semanticSlug}-conception`}

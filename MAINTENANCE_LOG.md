@@ -6,6 +6,27 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 
 ---
 
+## 2026-07-26 (suite 3) — Icônes drapeaux réelles, alignement dropdown, attribution
+
+### FAIT
+- `[2026-07-26]` — `src/components/icons/FlagIcon.astro` (nouveau) : icônes drapeaux circulaires EN/FR extraites du composant Figma fourni par le propriétaire (2 variants), taille ajustée à 20px, `clipPath` avec id unique par instance (`node:crypto` `randomUUID()`) pour éviter les doublons d'id SVG. Remplace les points pleins `bg-background-brand` dans `Navbar.astro` (bouton desktop, dropdown, version mobile) — statut : fait
+- `[2026-07-26]` — `Navbar.astro` : dropdown resserré (`min-w-[6.5rem]` → `w-max`, `mt-2` → `mt-1.5`) pour qu'il colle exactement à la largeur de son contenu et reste bien aligné à droite sous le nav-link de langue. Vérifié en navigateur (mesure JS des `getBoundingClientRect`, bord droit bouton = bord droit dropdown au pixel près) puis visuellement après resserrement — statut : fait
+- `[2026-07-26]` — `.claude/settings.json` (nouveau) : `attribution.commit`/`attribution.pr` mis à `""` — Claude ne sera plus jamais cité comme co-auteur dans les commits/PR de ce repo — statut : fait
+- `[2026-07-26]` — `CLAUDE.md` — règle dure ajoutée : ne jamais créditer Claude/un assistant IA (commits, PR, site) — statut : fait
+
+## 2026-07-26 (suite 2) — Images single-source, switcher discret, CLAUDE.md refresh
+
+### FAIT — images (single source of truth en/)
+- `[2026-07-26]` — `src/content/config.ts` : `cardImage` rendu optionnel (Zod) pour permettre aux fiches `fr/*.md` de l'omettre — `projectImages` déjà optionnel — statut : fait
+- `[2026-07-26]` — `src/content/resolveImages.ts` (nouveau) : résout `cardImage`/`projectImages` manquants sur une entrée en cherchant l'entrée `en/` de même `semanticSlug`, au build. Branché dans `HomeLayout.astro` (liste projets FR) et `src/pages/fr/work/[slug].astro` — statut : fait
+- `[2026-07-26]` — Retiré `cardImage`/`projectImages` des 4 fiches `src/content/projects/fr/*.md` (900care, batchcooking, caissedesdepots, biomimicry) — les images se gèrent désormais **uniquement** dans les fichiers `en/*.md` équivalents, propagées automatiquement à toutes les langues. Vérifié : `/fr/work/*` et la liste projets `/fr` affichent toujours les bonnes images après build — statut : fait
+
+### FAIT — sélecteur de langue (design plus discret)
+- `[2026-07-26]` — `Navbar.astro` : remplacement des emoji drapeaux par un point plein `bg-background-brand` (couleur de marque existante, pas de nouvelle couleur ajoutée) + libellé texte, suppression du bouton en pill bordée (trop massif) au profit d'un déclencheur minimal, dropdown compact avec bordure fine `border-stroke-neutral-primary`. Design fourni par le propriétaire (export Figma), couleurs vérifiées 1:1 avec les tokens existants (`#4364E8` = accent-action/600, `#030712`/`#4A5565` = text-body-primary/secondary, `#D1D5DC` = stroke-neutral-primary) — statut : fait
+
+### FAIT — process
+- `[2026-07-26]` — `CLAUDE.md` — refonte complète post-i18n : carte d'architecture (routing bilingue, `i18n/`, `data/`, `layouts/`, `content/projects/{en,fr}/`), nouvelle section "i18n architecture", nouvelle section "Image convention" (single source en/), règles dures ajoutées (jamais redéclarer cardImage/projectImages en fr/, jamais de string en dur hors `ui.ts`), dette connue mise à jour (home.fr.ts placeholder, asymétrie about.en/fr voulue, CV PDF FR manquant) — statut : fait
+
 ## 2026-07-26 — Scaffolding i18n FR (objectif : scaler le site en version française)
 
 ### Décisions cadrage (validées par le propriétaire)
@@ -26,9 +47,33 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 - `[2026-07-26]` — Build vérifié (`npm run build`) : routes EN + `/fr/`, `/fr/about` générées ; `/fr/work/*` génère 0 page tant qu'aucun `.md` FR n'est déposé (attendu) ; sitemap contient les annotations hreflang pour `/` et `/about` — statut : fait
 
 ### DETTE / À SURVEILLER
-- `[2026-07-26]` — **Contenu FR manquant** : `src/data/about.fr.ts`, `src/data/home.fr.ts` et `src/content/projects/fr/*.md` sont à remplir par le propriétaire (traductions déjà prêtes côté propriétaire pour le CV/about + 3 case studies). Tant que non fait, `/fr/*` affiche des placeholders `[FR TODO]` ou 404 sur les projets.
+- `[2026-07-26]` — ~~Contenu FR manquant (case studies)~~ → **RÉSOLU** (voir suite ci-dessous, 3 fiches FR ajoutées par le propriétaire). `src/data/home.fr.ts` (hero accueil) reste en placeholder `[FR TODO]`.
 - `[2026-07-26]` — **`404.astro`** reste une page unique non traduite (GitHub Pages ne sert qu'un seul `404.html`, quel que soit le préfixe de langue) — limitation assumée, pas une dette.
 - `[2026-07-26]` — **`biomimicry.md`** reste EN seul (`isDraft: true`), aucune traduction FR nécessaire tant qu'il n'est pas publié.
+
+## 2026-07-26 (suite) — Contenu FR, audit exhaustif, refactor rangement, switcher, SEO
+
+### FAIT — contenu et audit
+- `[2026-07-26]` — 3 fiches `.md` FR ajoutées par le propriétaire dans `src/content/projects/fr/` (900.care, Caisse des Dépôts, Batchcooking, + biomimicry-draft) — schéma Zod validé, build OK, pages `/fr/work/*` générées. Images partagées avec les fichiers EN (mêmes chemins `/images/...`), rien à dupliquer.
+- `[2026-07-26]` — Bugs trouvés et corrigés pendant l'audit exhaustif FR/EN (contenu, alt, aria-labels, SEO) : trait d'union insécable (`&#8209;`) double-échappé en texte brut dans `<title>`/alt/JSON-LD sur les pages projet (pré-existant, touchait déjà l'EN) → nouveau helper `plainText()` dans `i18n/utils.ts` ; carrousel (`ProjectCarousel.astro`) et section projets de l'accueil (`HomeContent.astro`) pas du tout câblés à la traduction → corrigé ; aria-label codé en dur en français sur `ProjectCard.astro` même côté EN → corrigé.
+- `[2026-07-26]` — `src/data/about.fr.ts` reconstruit à partir du CV fourni par le propriétaire (`src/data/ELIDRISSI_Yassine_RESUME.md`) : nouvelle expérience « Product designer R&D », compétences restructurées (Analyse et stratégie / Outils de design / AI et Web), formations, projets marquants (2 repris du wording FR déjà validé des case studies, 1 traduit directement). `about.en.ts` volontairement laissé inchangé (décision propriétaire : ne mettre à jour que le FR pour l'instant) — statut : fait
+- `[2026-07-26]` — **Section Langues** ajoutée à `about.types.ts` (nouveau champ `languages`) + `about.en.ts` et `about.fr.ts` (Français/Native, Anglais/C1, Italien/C1, Espagnol/A2, Arabe/A1) + rendu dans `AboutLayout.astro` — statut : fait
+- `[2026-07-26]` — CV téléchargeable FR : lien pointe vers `/documents/Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE_FR.pdf` — fichier PDF à déposer par le propriétaire, sinon 404 — statut : en attente du fichier
+
+### FAIT — rangement architecture
+- `[2026-07-26]` — `src/components/pages/{Home,About}Content.astro` → **déplacés vers `src/layouts/{Home,About}Layout.astro`** (renommés, imports corrigés), pour aligner avec `ProjectLayout.astro`/`BaseLayout.astro`. Règle désormais explicite : `pages/` = routing pur (fichiers fins), `layouts/` = composition réelle de la page, `components/` = briques UI réutilisables. Décision propriétaire : pas de migration home/about vers Content Collections pour l'instant (TypeScript reste adapté, contenu qui change peu) — statut : fait
+
+### FAIT — sélecteur de langue (UX)
+- `[2026-07-26]` — `Navbar.astro` — logique inversée : le bouton affiche désormais la langue **active** (drapeau + code, ex. 🇬🇧 EN), au clic un petit dropdown liste les deux langues (active = span inerte non cliquable, autre = lien cliquable vers l'équivalent de la page courante). Changement de langue uniquement sur sélection de l'autre langue. Vérifié en navigateur (dev server + Claude in Chrome) : ouverture/fermeture du dropdown, aller-retour EN→FR→EN en conservant la même page — statut : fait
+- Note : sur ce poste Windows/Chrome, les emoji drapeaux s'affichent en code pays ("GB"/"FR") plutôt qu'en drapeau coloré — limitation de rendu des polices Windows, pas un bug côté code.
+
+### FAIT — SEO FR (suite à demande explicite)
+- `[2026-07-26]` — `inLanguage` (schema.org) ajouté au JSON-LD `Person` (`BaseLayout.astro`) et `CreativeWork` (`ProjectLayout.astro`), reflète `en-US`/`fr-FR` selon la page — statut : fait
+- `[2026-07-26]` — Sitemap : hreflang désormais présent aussi sur les 3 pages `/work/*` (absent lors du premier build car le contenu FR n'existait pas encore) — vérifié, aucun changement de code nécessaire — statut : fait (auto-résolu)
+- `[2026-07-26]` — `public/llms.txt` — mis à jour : liste les 3 case studies FR, mentionne le site bilingue et le champ `inLanguage` — statut : fait
+
+### FAIT — process
+- `[2026-07-26]` — `CLAUDE.md` — ajout d'une consigne explicite : lire `MAINTENANCE_LOG.md` une fois en début de session (pas à chaque message), et ajouter une entrée datée après tout changement majeur (skip pour les micro-edits) — statut : fait
 
 ## 2026-07-11 — Audit d'architecture + nettoyage
 
