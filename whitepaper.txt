@@ -80,7 +80,7 @@ des redirections (/work → /#projects, /aboutme → /about, etc.)
 Statuts : Actif (utilisé) · Orphelin (jamais importé/branché) · Vestige (résidu à nettoyer) · Config (ne pas toucher sans raison).
 
 3.1 Composants (src/components/)
-FichierRôleImporté parStatutContainer.astroConteneur largeur max8 fichiersActif (le plus utilisé)Button.astroBouton design system4 fichiersActifArrowButton.astroBouton flèche (carousel/nav)2 fichiersActifNavbar.astroBarre de navigationBaseLayoutActifFooter.astroPied de page + contact réelBaseLayoutActifHero.astroBloc d'accroche accueilindexActifProjectCard.astroCarte projet (liste accueil)indexActifProjectCarousel.astroCarrousel d'images projet[slug]ActifDivider.astroSéparateur visuelindexActifCopyIcon.astroIcône « copier l'email »FooterActifCloud.astroNuage décoratif SVG paramétrable (forme/couleur/flou via props) — consomme tokens.js en JS directindexActif3.2 Pages, layout, contenu
+FichierRôleImporté parStatutContainer.astroConteneur largeur max7 fichiersActif (le plus utilisé)Button.astroBouton design system2 fichiersActifArrowButton.astroBouton flèche (carousel/nav)2 fichiersActifNavbar.astroBarre de navigationBaseLayoutActifFooter.astroPied de page + contact réelBaseLayoutActifHero.astroBloc d'accroche accueilindexActifProjectCard.astroCarte projet (liste accueil)indexActifProjectCarousel.astroCarrousel d'images projet[slug]ActifDivider.astroSéparateur visuelindexActifCopyIcon.astroIcône « copier l'email »FooterActifCloud.astroNuage décoratif SVG paramétrable (forme/couleur/flou via props) — consomme tokens.js en JS directindexActif3.2 Pages, layout, contenu
 FichierRôleStatutpages/index.astroAccueil : Hero + liste dynamique des projetsActifpages/about.astroPage à proposActifpages/404.astroPage d'erreurActifpages/work/[slug].astroGabarit projet (~680 lignes)Actif — le plus gros fichier, voir §7layouts/BaseLayout.astroEnveloppe HTML : head, SEO, fonts, Navbar, FooterActifcontent/config.tsSchéma Zod des projetsActif — critiquecontent/projects/900care.mdÉtude de cas 900.careActifcontent/projects/caissedesdepots.mdÉtude de cas CDCActifcontent/projects/batchcooking.mdÉtude de cas BatchcookingActif3.3 Design system et config
 FichierRôleStatutstyles/tokens.jsPrimitives (couleurs, espacements, typo)Actif — source de véritéstyles/global.cssStyles globaux + classes .btnActiftailwind.config.mjsMapping tokens → classes utilitairesActif — critiqueastro.config.mjsConfig build + redirectionsConfigpostcss.config.mjsChaîne CSSConfig — ne pas touchertsconfig.jsonTypeScript strictConfigpackage.jsonDépendances / scriptsConfig3.4 Fichiers à examiner / nettoyer
 Items restants (le nettoyage des orphelins Welcome/ContactFormSection, du fichier agent vide, de la pollution .htaccess et du README template a déjà été effectué — voir MAINTENANCE_LOG.md).
@@ -110,7 +110,7 @@ Boutons : button-background-primary + états hover/active, variantes secondary
 Bordures : stroke-primary (+ hover/dark), stroke-secondary (gris clair, séparateurs), stroke-neutral-primary, stroke-tertiary (+ hover), stroke-disabled
 Typographie : Manrope (sans, corps) et Lora (serif, titres display) — AUTO-HÉBERGÉES en .woff2 variables (sous-ensemble latin) via @font-face dans global.css, déclarées font-sans / font-serif dans tailwind.config.mjs. Plus de dépendance Google Fonts. Échelle de sm à 6xl avec interlignage pré-calculé ; convention titres : H1 = text-4xl, H2 = text-3xl, H3 = text-lg.
 Espacements : échelle nommée xxs (2px) → 6xl (112px). Utilisée pour marges, paddings, gaps.
-Rayons : md (6px), xl (12px), card (12px).
+Rayons : md (6px), xl (12px), 2xl (16px), card (12px).
 
 4.3 Modifier le design en sécurité
 ObjectifOù intervenirRisqueChanger la couleur de marquetokens.js → primitives → palette accent-action (ou re-pointer background-brand dans semantic.colors)FaibleRenommer/ajouter un rôle couleurtokens.js → semantic.colorsFaible (Tailwind suit automatiquement)Changer la policeajouter le .woff2 dans public/fonts/ + @font-face dans global.css + fontFamily dans tailwind.config.mjs + preload dans BaseLayout.astroMoyenAjuster un espacement globaltokens.js → primitives.spacingFaibleStyliser un boutonglobal.css (.btn) ou Button.astroFaible✅ Source unique : depuis la consolidation du DS, les couleurs sémantiques vivent UNIQUEMENT dans tokens.js › semantic.colors et sont consommées telles quelles par tailwind.config.mjs (colors: { ...tokens.semantic.colors }). Il n'y a plus de mapping dupliqué : éditer semantic.colors suffit, aucun risque de divergence. Ne jamais recréer un objet colors « en dur » dans tailwind.config.
@@ -121,9 +121,12 @@ Parcours complet d'un projet, du .md à la page en ligne :
 
 Index 0 → image de contexte (principale)
 Index 1 → image de contexte (secondaire, optionnelle)
-Index 2 → image de rôle
-Index 4 → image de conception
-Index 6 → image de résultats
+Index 2 → image de rôle (principale)
+Index 3 → image de rôle (secondaire, optionnelle)
+Index 4 → image de conception (principale)
+Index 5 → image de conception (secondaire, optionnelle)
+Index 6 → image de résultats (principale)
+Index 7 → image de résultats (secondaire, optionnelle)
 Index 8+ → carrousel
 work/[slug].astro lit ces positions exactes pour placer chaque image dans la bonne section.
 
@@ -182,6 +185,7 @@ Dans les MDX, les images sont placées par leur position dans projectImages (0=c
 7.6 Sitemap automatisé (résolu). @astrojs/sitemap est actif dans astro.config.mjs → dist/sitemap-index.xml généré au build (brouillons et redirections exclus automatiquement). L'ancien public/sitemap.xml manuel a été supprimé ; robots.txt pointe vers /sitemap-index.xml. Plus rien à mettre à jour à la main.
 7.7 Artefacts et code mort restants. repomix-output.xml (~126 Ko régénérable, à passer en .gitignore), validate-frontmatter.cjs (cassé/redondant), la règle morte de global.css (variables CSS --color-bg / --color-text jamais définies) et le brouillon biomimicry.md (images à fournir avant publication) restent à trancher. Voir §3.4.
 7.8 Taille de [slug].astro. ~680 lignes dans un seul fichier-gabarit. Fonctionnel mais dense. Si les études de cas se complexifient, envisager d'extraire les sections répétées (Diagnosis, Conception, Results) en sous-composants.
+7.9 Token fontSize.xs orphelin. tokens.js › primitives.fontSize définit xs (12px), mais tailwind.config.mjs ne le reprend pas dans son override fontSize (seuls sm→6xl sont redéfinis) → la classe text-xs retombe sur la valeur par défaut de Tailwind, pas sur le token. Violation silencieuse de la règle d'or « tokens-only ». À aligner : soit ajouter xs à l'override Tailwind, soit retirer la primitive si elle n'est pas destinée à être utilisée.
 Annexe — Résumé exécutif pour reprise rapide
 Nature : portfolio Astro statique, 3 projets, hébergé sur GitHub Pages (domaine + email chez Hostinger).
 Pour ajouter un projet : un fichier .md dans content/projects/, respecter le schéma et l'ordre des images. Rien d'autre.
