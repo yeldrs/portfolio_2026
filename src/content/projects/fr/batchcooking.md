@@ -1,44 +1,42 @@
 ---
 # Images gérées uniquement dans src/content/projects/en/batchcooking.md — voir resolveImages.ts
 semanticSlug: "batchcooking"
-title: "Concevoir une solution accessible pour la cuisine collaborative"
-client: "Projet personnel d'innovation sociale"
+client: "Projet personnel"
+title: "Un service collaboratif pour cuisiner en groupe"
+description: "Concevoir un service pour lutter contre la précarité alimentaire étudiante et l'isolement social, en transformant des cuisines sous-utilisées en espaces d'apprentissage collaboratifs."
 role: "Product designer"
-roleDescription: "En partenariat avec un Data Scientist, j'ai piloté la phase de discovery, de la recherche utilisateur primaire et du proof of concept physique jusqu'au prototypage low-fidelity. Mon rôle était de garantir que l'expérience utilisateur passe en premier, et que notre projet évolue vers un modèle économique au service d'un vrai lien humain."
-description: "Conception d'une marketplace pour explorer l'insécurité alimentaire étudiante et l'isolement social, en transformant des cuisines sous-utilisées en espaces d'apprentissage collaboratif."
-context: "Le projet est parti d'une observation directe dans les grandes villes comme Paris : l'insécurité alimentaire étudiante et la sous-utilisation des espaces existants. Les étudiants manquent d'espace adéquat, de ressources, d'outils, d'organisation et de connaissances pour cuisiner des repas sains et diversifiés. Notre vision était de transformer des cuisines inutilisées en hubs à faible coût pour l'échange social et l'apprentissage culinaire pratique."
-problem: "Comment un service digital peut-il fournir aux étudiants des grandes villes les ressources nécessaires pour adopter des habitudes alimentaires saines et durables ? Et ainsi transformer une contrainte logistique en opportunité sociale ?"
+roleDescription: "En binôme avec un Data Scientist, j'ai piloté la phase de discovery et conception UX : recherche utilisateur, preuve de concept physique et prototypage basse-fidélité. Mon rôle était de garantir que l'expérience utilisateur reste prioritaire, et que le projet évolue vers un modèle économique au service d'un lien social réel."
+context: "Le projet est parti d'un constat de terrain dans les grandes villes comme Paris : la précarité alimentaire étudiante et la sous-utilisation des espaces existants. Les étudiants manquent d'espace, de ressources, d'outils, d'organisation et de connaissances pour cuisiner de manière saine tout en optimisant leur temps. Notre vision fut de transformer des cuisines inutilisées en hubs d'apprentissage culinaire low-cost."
+problem: "Comment un service digital peut-il donner aux étudiants les ressources nécessaires pour adopter des habitudes alimentaires saines et durables ? Et ainsi transformer une contrainte logistique en opportunité sociale."
 keyInsights:
- - "La recherche initiale a identifié les freins à l'autonomie étudiante : pas seulement le coût et l'espace, mais aussi des déficits critiques en organisation, nutrition et connaissances culinaires."
- - "La proposition de valeur du service repose sur l'engagement social et l'apprentissage. Les utilisateurs semblaient très motivés par l'opportunité de se rencontrer, de partager une culture et d'apprendre de nouvelles compétences culinaires."
- - "L'algorithme de matching devait être centré sur l'humain, en priorisant des affinités comme les valeurs partagées, l'envie d'enseigner/d'apprendre, et bien sûr les habitudes alimentaires."
-
-methodology: "J'ai adopté une approche service-first, validée sur le terrain. Le projet a priorisé un Proof of Concept (PoC) non-digital avant tout développement d'interface, afin de s'assurer de la viabilité du concept central. Cela a permis d'économiser des ressources de développement et de recentrer le scope du MVP."
-
+ - "La recherche initiale a mis en évidence les freins à l'autonomie des étudiants : au-delà du coût et de l'espace, de vrais manques en organisation, en connaissances nutritionnelles et en compétences culinaires."
+ - "La proposition de valeur repose sur l'engagement social et l'apprentissage. Les testeurs se sont montrés très motivés à l'idée de rencontrer d'autres personnes, partager leurs connaissances et apprendre de nouvelles techniques de cuisine."
+ - "L'algorithme de mise en relation devait rester centré sur les préférences personnelles, en priorisant des affinités comme les valeurs partagées, l'envie d'apprendre ou de transmettre, et bien sûr les habitudes alimentaires."
+methodology: "Nous avons priorisé une approche terrain avant l'écran : une preuve de concept (PoC) non-digitale a permis de valider le concept avant tout développement d'interface. Cela a évité de mobiliser des ressources de développement et cadré le périmètre du futur MVP."
 designConception:
   paragraph: |
-    Nous avons utilisé le parcours utilisateur validé et les insights issus du PoC physique pour définir les fonctionnalités et la logique essentielles du premier prototype digital. Une décision stratégique clé a été de transformer le simple profil d'hôte en un Passeport de Confiance Sociale, en priorisant les fonctionnalités qui transmettent la sécurité et le retour de la communauté plutôt que de simples détails d'annonce. Pour garantir un fort taux d'adoption, nous avons formalisé les critères de matching (âge, distance, préférences alimentaires, quantité), qui ont servi de spécifications techniques au Data Scientist pour optimiser l'algorithme de recommandation. J'ai également construit ce premier prototype comme un MVP pour garantir de futurs tests et itérations.
+    Les observations et les retours issus des ateliers de test nous ont permis de définir les premières fonctionnalités et la logique du prototype de base. Par exemple, une décision stratégique a été de transformer le simple profil d'hôte en un "Passeport de Confiance Social", en priorisant les éléments rassurants tels que les retours de la communauté plutôt que les informations d'annonces génériques. Pour encourager un bon taux d'adoption, un algorithme de matching formalise des critères tels que l'âge, la distance ou les préférences alimentaires pour optimiser les recommandations.
   listItems: []
-delivery: "Le projet a livré avec succès un Concept Validé et les Fondations de l'Expérience. Ce processus a prouvé que le problème utilisateur central (construire la confiance) était résolvable par le design, réduisant le risque d'investir dans le développement avant d'avoir validé le product-market fit.\n\nLivrables clés : Prototype Low-Fidelity (Figma) du parcours critique de matching/réservation, Architecture d'Information centrée sur la confiance, et une synthèse complète de la recherche utilisateur."
+delivery: "Grâce à la synthèse de la recherche utilisateur, nous avons validé les frictions principales, à commencer par le manque de confiance entre inconnus. Une fois le parcours utilisateur de base confirmé via les tests terrain, on a construit un prototype Figma puis développé un MVP local."
 metrics:
-- "KPI d'Adoption du Service : Atteindre 200 nouvelles inscriptions dans les 3 premiers mois post-lancement."
-- "KPI de Confiance Validée : Maintenir un taux de complétion de profil de 80% ou plus."
-- "KPI de Taux de Matching Initial : Atteindre un taux de matching Hôte & Cuisinier supérieur à 60% dans les 3 premiers mois, validant la précision de l'algorithme basé sur les affinités."
-- "KPI de Valeur Sociale : S'assurer que 75% des utilisateurs rapportent avoir appris une nouvelle compétence culinaire ou organisationnelle après leur première session, validant la composante pédagogique."
+ - "Cible d'adoption définie : 200 nouvelles inscriptions dans les 3 premiers mois post-lancement."
+ - "Cible de confiance définie : taux de complétion de profil de 80% ou plus."
+ - "Cible de matching définie : taux de mise en relation hôte/cuisinier supérieur à 60% dans les 3 premiers mois."
+ - "Cible de valeur sociale définie : 75% des utilisateurs déclarant avoir appris une compétence culinaire ou méthode d'organisation après leur première session."
 publishDate: "2020-05-20"
 isDraft: false
 # =================================================
 # CHAMPS CRÉDITS OBLIGATOIRES / OPTIONNELS
 # =================================================
 
-# clientDetails: 
+# clientDetails:
 #  name: "Projet Personnel d'Innovation Sociale"
 #  link: "https://yourportfolio.com/batchcooking"
 
-teamMembers: 
- - name: "Yannick Zelle" # <-- Correction: Indentation correcte
-   role: "Data Scientist, développeur backend" # <-- Correction: Indentation correcte
-   link: "https://github.com/Lazel102" # <-- Correction: Indentation correcte
+teamMembers:
+ - name: "Yannick Zelle"
+   role: "Data Scientist, backend developper"
+   link: "https://github.com/Lazel102"
 
 references: []
 ---

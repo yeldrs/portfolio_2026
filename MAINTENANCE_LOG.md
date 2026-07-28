@@ -6,6 +6,19 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 
 ---
 
+## 2026-07-28 (suite 3) — Publication FR : traductions finalisées, CV FR ajouté, merge sur `main`
+
+### FAIT
+- `[2026-07-28]` — `src/content/projects/{en,fr}/{900care,batchcooking,caissedesdepots}.md` — **copie FR finalisée par le propriétaire** (titres, description, méthodologie, insights, delivery, métriques réécrits en FR), corrections mineures de coquilles côté EN (typos, ponctuation) — build vérifié — statut : fait
+- `[2026-07-28]` — `public/documents/` — **CV FR ajouté** (`cv_UXPRODUCTDESIGNER_EL_IDRISSI_YASSINE.pdf`) et **CV EN remplacé** (`Resume_UXPRODUCTDESIGNER_EL_IDRISSI_YASSINE.pdf`, ancien fichier `Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE.pdf` retiré) ; `src/data/about.en.ts` et `about.fr.ts` (`cvLink`) mis à jour pour pointer vers les nouveaux noms de fichiers — vérifié : les deux PDF sont bien copiés dans `dist/documents/` au build — statut : fait
+- `[2026-07-28]` — `src/data/home.fr.ts` — commentaire d'en-tête obsolète `[FR TODO]` retiré ; le contenu du hero FR était déjà traduit, seul le commentaire était périmé — statut : fait
+- `[2026-07-28]` — **`lang` mergé (fast-forward) sur `main` et poussé** — site FR live, déploiement GitHub Pages déclenché — statut : fait
+
+### DETTE / À SURVEILLER
+- `[2026-07-28]` — ~~CV FR manquant (404 sur `/fr/about`)~~ → **RÉSOLU** (voir ci-dessus).
+- `[2026-07-28]` — `about.fr.ts` — la section "Significant Work" reste une traduction directe EN→FR non vérifiée contre le CV réel (signalé en commentaire d'en-tête du fichier) — à relire/valider par le propriétaire.
+- `[2026-07-28]` — Traduction FR annoncée par le propriétaire comme **~90% complète** au moment de la publication — pas de gap connu identifié en dehors des deux points ci-dessus, mais à revalider visuellement sur le site live.
+
 ## 2026-07-28 — Suppression du CV brut (numéro de téléphone en clair, dépôt public)
 
 ### FAIT — sécurité / vie privée

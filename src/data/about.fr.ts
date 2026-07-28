@@ -22,7 +22,7 @@ export const about: AboutData = {
         "Déploiement d'une architecture RAG locale sans transfert externe.",
       ],
       trackingSlug: "product-rd-freelance",
-      cvLink: "/documents/Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE_FR.pdf",
+      cvLink: "/documents/cv_UXPRODUCTDESIGNER_EL_IDRISSI_YASSINE.pdf",
       cvLinkLabel: "Télécharger mon CV pour en savoir plus",
     },
     {

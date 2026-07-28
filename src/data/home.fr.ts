@@ -1,5 +1,4 @@
 // src/data/home.fr.ts
-// [FR TODO] placeholder copy — replace with the user's already-translated hero text.
 
 import type { HomeData } from "./home.types";
 

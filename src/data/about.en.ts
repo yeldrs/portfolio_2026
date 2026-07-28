@@ -18,7 +18,7 @@ export const about: AboutData = {
         "End-to-End role in an Agile team to maximize conversion, retention, and product discovery.",
       ],
       trackingSlug: "900-care",
-      cvLink: "/documents/Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE.pdf",
+      cvLink: "/documents/Resume_UXPRODUCTDESIGNER_EL_IDRISSI_YASSINE.pdf",
       cvLinkLabel: "Download my resume to see more",
     },
     {
