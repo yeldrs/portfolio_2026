@@ -110,6 +110,89 @@ const personLd = {
       data-website-id="52b0a573-2288-46c1-9e4f-a27cdae08238"></script>
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script>
+      // Frustration-click detection: same bucket (element + ~40px radius) hit
+      // repeatedly within a short window. Interactive elements (real links,
+      // buttons, anything already carrying a data-umami-event) need 3 hits to
+      // count as a "rage-click" — impatience, not necessarily a bug. Anything
+      // else (a heading, an image with no link, plain text) needs only 2 —
+      // that's someone expecting a click to do something that was never
+      // going to. A non-empty text selection at fire time is skipped, since
+      // that's almost always a double-click-to-select-a-word, not frustration.
+      (function () {
+        const WINDOW_MS = 1500;
+        const RADIUS_PX = 40;
+        const RAGE_THRESHOLD = 3;
+        const DEAD_THRESHOLD = 2;
+
+        let buffer: { el: Element; x: number; y: number; time: number }[] = [];
+
+        function track(name: string, data: Record<string, string>) {
+          if ((window as any).umami) (window as any).umami.track(name, data);
+        }
+
+        function isInteractive(el: Element): boolean {
+          const tag = el.tagName;
+          if (["A", "BUTTON", "INPUT", "SELECT", "TEXTAREA", "LABEL"].includes(tag)) return true;
+          if (el.hasAttribute("data-umami-event")) return true;
+          if (el.hasAttribute("onclick")) return true;
+          const role = el.getAttribute("role");
+          if (role && ["button", "link", "menuitem", "tab"].includes(role)) return true;
+          const tabindex = el.getAttribute("tabindex");
+          if (tabindex && tabindex !== "-1") return true;
+          return false;
+        }
+
+        function closestInteractive(el: Element | null): Element | null {
+          let node = el;
+          while (node && node !== document.body) {
+            if (isInteractive(node)) return node;
+            node = node.parentElement;
+          }
+          return null;
+        }
+
+        function describeElement(el: Element): string {
+          return (
+            el.getAttribute("data-umami-event") ||
+            el.id ||
+            el.getAttribute("aria-label") ||
+            (el.tagName === "A" && el.getAttribute("href")) ||
+            el.textContent?.trim().slice(0, 40) ||
+            el.tagName.toLowerCase()
+          );
+        }
+
+        document.addEventListener("click", (event: MouseEvent) => {
+          const target = event.target as Element | null;
+          if (!target) return;
+
+          const interactiveEl = closestInteractive(target);
+          const bucketEl = interactiveEl || target;
+          const isDeadCandidate = !interactiveEl;
+          const threshold = isDeadCandidate ? DEAD_THRESHOLD : RAGE_THRESHOLD;
+
+          const now = Date.now();
+          buffer = buffer.filter((c) => now - c.time < WINDOW_MS);
+          buffer.push({ el: bucketEl, x: event.clientX, y: event.clientY, time: now });
+
+          const matches = buffer.filter(
+            (c) =>
+              c.el === bucketEl &&
+              Math.abs(c.x - event.clientX) < RADIUS_PX &&
+              Math.abs(c.y - event.clientY) < RADIUS_PX,
+          );
+
+          if (matches.length !== threshold) return;
+          if (isDeadCandidate && (document.getSelection()?.toString().length ?? 0) > 0) return;
+
+          track(isDeadCandidate ? "dead-click" : "rage-click", {
+            element: describeElement(bucketEl),
+            page: window.location.pathname,
+          });
+        });
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
       rel="icon"
