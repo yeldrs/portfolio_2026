@@ -6,6 +6,18 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 
 ---
 
+## 2026-07-28 (suite 4) — Fix 404 `/fr/` (lien logo + sélecteur de langue), tailles drapeaux/dropdown nav
+
+### FAIT — bug routing FR
+- `[2026-07-28]` — **`/fr/` (avec slash final) renvoyait 404 sur GitHub Pages** — `build.format:'file'` génère `dist/fr.html` pour `src/pages/fr/index.astro`, jamais `dist/fr/index.html`, donc toute URL générée avec un slash final sur la racine FR (`/fr/`) 404 (pas de rewrite côté GH Pages). Or `getRelativeLocaleUrl(locale, "/")` d'Astro ajoute systématiquement ce slash pour une racine de locale — cassait en pratique le **lien logo/accueil** et le **sélecteur de langue EN→FR** dans `Navbar.astro` (`homeHref`, `switcherHref`), le **hreflang FR** dans `BaseLayout.astro`, et les cibles de redirection `/fr/logos` et `/fr/photography` dans `astro.config.mjs` — statut : fait
+- `[2026-07-28]` — `src/i18n/utils.ts` — nouvelle fonction `stripTrailingSlash()` (préserve `"/"` seul, sinon retire le slash final) ; appliquée dans `getLocalizedPath()`, dans `Navbar.astro` (`homeHref`), et dans `BaseLayout.astro` (hreflang par locale + hreflang `x-default`) — statut : fait
+- `[2026-07-28]` — `astro.config.mjs` — cibles de redirection `/fr/logos` et `/fr/photography` changées de `/fr/` vers `/fr` — statut : fait
+- Choix délibéré : correction ciblée à la source (URLs générées) plutôt que passage de `build.format` à `'directory'` (qui aurait résolu le problème à la racine mais change la forme d'URL de tout le site et le comportement GH Pages — décision utilisateur explicite de ne pas y toucher) — statut : fait, `npm run build` vérifié (hreflang FR et redirections `/fr/logos`→`/fr` confirmés dans `dist/`)
+
+### FAIT — UI navbar
+- `[2026-07-28]` — `src/components/icons/FlagIcon.astro` — icônes drapeaux réduites de `20x20` à `17.5x17.5` (≈1/8 plus petit, demande utilisateur) — statut : fait
+- `[2026-07-28]` — `src/components/Navbar.astro` — menu déroulant du sélecteur de langue desktop : `right-0` remplacé par `left-1/2 -translate-x-1/2` pour centrer le dropdown sous le bouton de langue sélectionnée — statut : fait
+
 ## 2026-07-28 (suite 3) — Publication FR : traductions finalisées, CV FR ajouté, merge sur `main`
 
 ### FAIT
