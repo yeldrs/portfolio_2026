@@ -1,7 +1,7 @@
 // src/data/about.fr.ts
-// Contenu reconstruit à partir de src/data/ELIDRISSI_Yassine_RESUME.md (CV fourni par
-// l'utilisateur). "Significant Work" n'était pas couvert par ce CV : les 3 items sont une
-// traduction directe du contenu EN existant, à relire/ajuster par l'utilisateur.
+// Contenu reconstruit à partir du CV fourni par l'utilisateur. "Significant Work" n'était
+// pas couvert par ce CV : les 3 items sont une traduction directe du contenu EN existant,
+// à relire/ajuster par l'utilisateur.
 
 import type { AboutData } from "./about.types";
 
@@ -69,25 +69,52 @@ export const about: AboutData = {
     {
       title: "Analyse et stratégie",
       skills: [
-        { title: "KPI, OKR" },
-        { title: "Qualitative, Quantitative" },
-        { title: "Metabase, Datadog" },
+        {
+          title: "KPI, OKR",
+          description: "Alignement des choix de design avec les objectifs business.",
+        },
+        {
+          title: "Qualitative, Quantitative",
+          description: "Entretiens et enquêtes pour fonder les décisions de design.",
+        },
+        {
+          title: "Metabase, Datadog",
+          description: "Suivi et analyse de la donnée comportementale.",
+        },
       ],
     },
     {
       title: "Outils de design",
       skills: [
-        { title: "UI Design, Figma, Framer, Adobe" },
-        { title: "Design Systems" },
-        { title: "Scrum, Sprint Planning" },
+        {
+          title: "UI Design, Figma, Framer, Adobe",
+          description: "Prototypage haute-fidélité et direction visuelle.",
+        },
+        {
+          title: "Design Systems",
+          description: "Conception et maintenance de design systems scalables.",
+        },
+        {
+          title: "Scrum, Sprint Planning",
+          description: "Maîtrise des rituels agiles et autonomie sur le processus de design.",
+        },
       ],
     },
     {
-      title: "AI et Web",
+      title: "IA et Web",
       skills: [
-        { title: "Claude Code, MCP" },
-        { title: "HTML/CSS, GitHub, SEO" },
-        { title: "Automatisation n8n" },
+        {
+          title: "Claude Code, MCP",
+          description: "Assistance IA appliquée à la conception et au développement.",
+        },
+        {
+          title: "HTML/CSS, GitHub, SEO",
+          description: "Connaissances techniques web et communication avec les développeurs.",
+        },
+        {
+          title: "Automatisation n8n",
+          description: "Automatisation de workflows pour gagner en efficacité.",
+        },
       ],
     },
   ],
@@ -95,14 +122,16 @@ export const about: AboutData = {
   significantWorkHeading: "Projets marquants",
   significantWork: [
     {
-      title: "FoodTech - Plateforme Batchcooking",
+      title: "Une solution accessible pour la cuisine collaborative",
       description:
         "Co-développement du MVP d'un service numérique qui renforce le lien social et l'autonomie alimentaire des étudiants.",
+      href: "/fr/work/batchcooking",
     },
     {
-      title: "Kit agile durable - Caisse des Dépôts",
+      title: "Un outil agile pour designer avec éthique",
       description:
         "Création d'un outil de gestion de projet pour développer des produits intégrant l'éthique, la durabilité et les principes inclusifs. Équipe de 3 designers.",
+      href: "/fr/work/depostetconsignations",
     },
     {
       title: "Santé animale - Service d'accompagnement digital",

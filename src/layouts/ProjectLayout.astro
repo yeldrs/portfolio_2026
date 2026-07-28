@@ -19,6 +19,14 @@ const { Content } = await project.render();
 
 const plainTitle = plainText(project.data.title);
 
+// context is optional and may be a bullet list (see keyInsights/metrics
+// pattern) — meta description and JSON-LD both require a flat string, so
+// collapse it here.
+const contextSummary = Array.isArray(project.data.context)
+  ? project.data.context.join(" ").replace(/<[^>]+>/g, "")
+  : (project.data.context ?? "").replace(/<[^>]+>/g, "");
+const metaDescription = project.data.description ?? contextSummary;
+
 // Per-project structured data (schema.org CreativeWork) for search engines / AI agents
 const seoBase = Astro.site ?? new URL("https://yassineelidrissi.com");
 const projectLd = {
@@ -26,7 +34,7 @@ const projectLd = {
   "@type": "CreativeWork",
   name: plainTitle,
   headline: plainTitle,
-  description: project.data.description ?? project.data.context,
+  description: metaDescription,
   url: new URL(getRelativeLocaleUrl(lang, `/work/${project.data.semanticSlug}`), seoBase).href,
   image: new URL(project.data.cardImage, seoBase).href,
   dateCreated: project.data.publishDate,
@@ -65,6 +73,25 @@ const references = project.data.references || [];
 // Using optional chaining (?) to access listItems
 const designConceptionList = project.data.designConception?.listItems || [];
 
+// All section fields (context, problem, roleDescription, keyInsights,
+// methodology, delivery, metrics) are optional — hide a section's
+// heading/body entirely when its value is missing or empty.
+function hasContent(value?: string | string[]): boolean {
+  if (!value) return false;
+  if (Array.isArray(value)) return value.some((item) => item.trim() !== "");
+  return value.trim() !== "";
+}
+
+const hasContext = hasContent(project.data.context);
+const hasProblem = hasContent(project.data.problem);
+const hasRoleDescription = hasContent(project.data.roleDescription);
+const hasKeyInsights = hasContent(project.data.keyInsights);
+const hasMethodology = hasContent(project.data.methodology);
+const hasDesignConception =
+  Boolean(project.data.designConception?.paragraph?.trim()) || designConceptionList.length > 0;
+const hasDelivery = hasContent(project.data.delivery);
+const hasMetrics = hasContent(project.data.metrics);
+
 // --- Design System (DS) classes for the Props (Arrow colors) ---
 const DS_CLASSES = {
   mainDefault: "stroke-primary",
@@ -80,7 +107,7 @@ const disabledVariant = "disabled";
 
 <BaseLayout
   title={`${t("project.titlePrefix")} | ${plainTitle}`}
-  description={project.data.description ?? project.data.context}
+  description={metaDescription}
   image={project.data.cardImage}
   structuredData={projectLd}
 >
@@ -111,23 +138,49 @@ const disabledVariant = "disabled";
           class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
         >
           <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.context")}
-              </h3>
-              <p class="text-base text-text-body-primary leading-relaxed text-left">
-                {project.data.context}
-              </p>
-            </div>
+            {
+              hasContext && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.context")}
+                  </h3>
+                  {Array.isArray(project.data.context) ? (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {project.data.context.map((item) => (
+                        <li set:html={item} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      set:html={project.data.context}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                </div>
+              )
+            }
 
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.problem")}
-              </h3>
-              <p class="text-base text-text-body-primary leading-relaxed text-left">
-                {project.data.problem}
-              </p>
-            </div>
+            {
+              hasProblem && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.problem")}
+                  </h3>
+                  {Array.isArray(project.data.problem) ? (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {project.data.problem.map((item) => (
+                        <li set:html={item} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      set:html={project.data.problem}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                </div>
+              )
+            }
           </div>
 
           <div class="space-y-md">
@@ -170,33 +223,48 @@ const disabledVariant = "disabled";
           class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
         >
           <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.role")}
-              </h3>
-              <p class="text-base text-text-body-primary leading-relaxed text-left">
-                {project.data.roleDescription}
-              </p>
-            </div>
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.keyInsights")}
-              </h3>
-              {
-                Array.isArray(project.data.keyInsights) ? (
-                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
-                    {project.data.keyInsights.map((insight) => (
-                      <li set:html={insight} />
-                    ))}
-                  </ul>
-                ) : (
-                  <div
-                    set:html={project.data.keyInsights}
-                    class="text-base text-text-body-primary leading-relaxed text-left"
-                  />
-                )
-              }
-            </div>
+            {
+              hasRoleDescription && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.role")}
+                  </h3>
+                  {Array.isArray(project.data.roleDescription) ? (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {project.data.roleDescription.map((item) => (
+                        <li set:html={item} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      set:html={project.data.roleDescription}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                </div>
+              )
+            }
+            {
+              hasKeyInsights && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.keyInsights")}
+                  </h3>
+                  {Array.isArray(project.data.keyInsights) ? (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {project.data.keyInsights.map((insight) => (
+                        <li set:html={insight} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <div
+                      set:html={project.data.keyInsights}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                </div>
+              )
+            }
           </div>
 
           <div class="space-y-md">
@@ -252,37 +320,50 @@ const disabledVariant = "disabled";
           class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
         >
           <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.methodology")}
-              </h3>
-              <p class="text-base text-text-body-primary leading-relaxed text-left">
-                {project.data.methodology}
-              </p>
-            </div>
+            {
+              hasMethodology && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.methodology")}
+                  </h3>
+                  {Array.isArray(project.data.methodology) ? (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {project.data.methodology.map((item) => (
+                        <li set:html={item} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      set:html={project.data.methodology}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                </div>
+              )
+            }
 
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.designConception")}
-              </h3>
-              {
-                project.data.designConception?.paragraph && (
-                  <div
-                    set:html={project.data.designConception.paragraph}
-                    class="text-base text-text-body-primary leading-relaxed text-left"
-                  />
-                )
-              }
-              {
-                designConceptionList.length > 0 && (
-                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
-                    {designConceptionList.map((item) => (
-                      <li set:html={item} />
-                    ))}
-                  </ul>
-                )
-              }
-            </div>
+            {
+              hasDesignConception && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.designConception")}
+                  </h3>
+                  {project.data.designConception?.paragraph && (
+                    <div
+                      set:html={project.data.designConception.paragraph}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                  {designConceptionList.length > 0 && (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {designConceptionList.map((item) => (
+                        <li set:html={item} />
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )
+            }
           </div>
 
           <div class="space-y-md">
@@ -336,34 +417,49 @@ const disabledVariant = "disabled";
           class="grid grid-cols-1 md:grid-cols-2 gap-y-3xl md:gap-x-4xl items-start"
         >
           <div class="space-y-md">
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.delivery")}
-              </h3>
-              <p class="text-base text-text-body-primary leading-relaxed text-left">
-                {project.data.delivery}
-              </p>
-            </div>
+            {
+              hasDelivery && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.delivery")}
+                  </h3>
+                  {Array.isArray(project.data.delivery) ? (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {project.data.delivery.map((item) => (
+                        <li set:html={item} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p
+                      set:html={project.data.delivery}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                </div>
+              )
+            }
 
-            <div class="space-y-sm">
-              <h3 class="text-lg font-semibold text-text-body-secondary">
-                {t("project.metrics")}
-              </h3>
-              {
-                Array.isArray(project.data.metrics) ? (
-                  <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
-                    {project.data.metrics.map((metric) => (
-                      <li set:html={metric} />
-                    ))}
-                  </ul>
-                ) : (
-                  <div
-                    set:html={project.data.metrics}
-                    class="text-base text-text-body-primary leading-relaxed text-left"
-                  />
-                )
-              }
-            </div>
+            {
+              hasMetrics && (
+                <div class="space-y-sm">
+                  <h3 class="text-lg font-semibold text-text-body-secondary">
+                    {t("project.metrics")}
+                  </h3>
+                  {Array.isArray(project.data.metrics) ? (
+                    <ul class="list-disc pl-5 text-base text-text-body-primary leading-relaxed text-left">
+                      {project.data.metrics.map((metric) => (
+                        <li set:html={metric} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <div
+                      set:html={project.data.metrics}
+                      class="text-base text-text-body-primary leading-relaxed text-left"
+                    />
+                  )}
+                </div>
+              )
+            }
           </div>
 
           <div class="space-y-md">
@@ -427,7 +523,7 @@ const disabledVariant = "disabled";
                     href="https://www.linkedin.com/in/yassineelidrissi/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="underline hover:text-text-body-primary transition-colors"
+                    class="link"
                   >
                     Yassine El Idrissi
                   </a>
@@ -446,7 +542,7 @@ const disabledVariant = "disabled";
                           href={member.link || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="underline hover:text-text-body-primary transition-colors"
+                          class="link"
                         >
                           {member.name}
                         </a>
@@ -470,7 +566,7 @@ const disabledVariant = "disabled";
                     href={project.data.clientDetails.link || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="underline hover:text-text-body-primary transition-colors"
+                    class="link"
                   >
                     {project.data.clientDetails.name}
                   </a>
@@ -490,7 +586,7 @@ const disabledVariant = "disabled";
                           href={ref.link || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="underline hover:text-text-body-primary transition-colors"
+                          class="link"
                         >
                           {ref.name}
                         </a>

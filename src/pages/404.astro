@@ -2,6 +2,7 @@
 export const prerender = true;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/Container.astro";
+import Button from "../components/Button.astro";
 import { useTranslations } from "../i18n/utils";
 
 // GitHub Pages serves a single 404.html for any unmatched path regardless of
@@ -10,63 +11,30 @@ const t = useTranslations("en");
 const title = `404 — ${t("page404.title")}`;
 ---
 
-<BaseLayout title={title}>
-  <main>
-    <Container
-      class="py-5xl md:py-3xl px-lg flex flex-col items-center text-center gap-5xl"
+<BaseLayout title={title} description={t("page404.body")}>
+  <Container class="py-6xl flex flex-col items-center text-center gap-lg">
+    <p
+      class="h-display italic font-semibold text-heading-accent text-5xl md:text-6xl"
+      aria-hidden="true"
     >
-      <!-- Simple illustrative SVG -->
-      <svg
-        width="160"
-        height="120"
-        viewBox="0 0 160 120"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        class="mb-3xl"
-      >
-        <rect x="0" y="0" width="160" height="120" rx="8" fill="#F3F4F6"></rect>
-        <text
-          x="50%"
-          y="44%"
-          dominant-baseline="middle"
-          text-anchor="middle"
-          font-size="28"
-          fill="#111827"
-          font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
-        >
-          404
-        </text>
-        <text
-          x="50%"
-          y="66%"
-          dominant-baseline="middle"
-          text-anchor="middle"
-          font-size="10"
-          fill="#6B7280"
-          font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
-        >
-          Page not found
-        </text>
-      </svg>
+      404
+    </p>
 
-      <h1 class="text-3xl md:text-4xl font-semibold">{t("page404.title")}</h1>
-      <p class="text-text-body-accent max-w-xl">
-        {t("page404.body")}
-      </p>
+    <h1 class="h-display text-3xl md:text-4xl">
+      {t("page404.title")}
+    </h1>
 
-      <div class="flex gap-lg mt-xl">
-        <a
-          href="/"
-          class="inline-flex items-center justify-center rounded px-4 py-2 bg-primary text-white hover:opacity-90"
-          >{t("page404.goHome")}</a
-        >
-        <a
-          href="/#projects"
-          class="inline-flex items-center justify-center rounded px-4 py-2 border border-neutral text-text-body-accent hover:bg-neutral/5"
-          >{t("page404.seeProjects")}</a
-        >
-      </div>
-    </Container>
-  </main>
+    <p class="text-lg font-normal text-text-body-secondary max-w-[480px]">
+      {t("page404.body")}
+    </p>
+
+    <Button
+      href="/"
+      class="mt-lg"
+      data-umami-event="404-go-home-button"
+      data-sa-event="404_go_home_click"
+    >
+      {t("page404.goHome")}
+    </Button>
+  </Container>
 </BaseLayout>

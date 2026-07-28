@@ -4,7 +4,8 @@
 import type { HomeData } from "./home.types";
 
 export const home: HomeData = {
-  heroTitle: "[FR TODO] Hello, I'm Yassine",
-  heroSubtitle: "[FR TODO] hero subtitle",
-  heroSubtitleBreak: "[FR TODO] hero subtitle break",
+  heroTitle: "Salut, moi c'est Yassine",
+heroSubtitle:
+  "Je suis product designer, je transforme les insights utilisateurs en expériences mesurables, à forte valeur et surtout...",
+heroSubtitleBreak: "... conçues pour les gens.",
 };

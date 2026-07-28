@@ -52,10 +52,19 @@ const about = lang === "fr" ? aboutFr : aboutEn;
             <p class="text-sm font-normal text-text-body-primary mb-md">
               {exp.company}
             </p>
-            {exp.highlights && exp.highlights.length > 0 && (
-              <p class="text-sm font-normal text-text-body-secondary leading-relaxed">
-                {exp.highlights.join(". ")}
-              </p>
+            {exp.highlights && exp.highlights.length > 1 ? (
+              <ul class="list-disc pl-5 text-sm font-normal text-text-body-secondary leading-relaxed space-y-1">
+                {exp.highlights.map((highlight) => (
+                  <li>{highlight}</li>
+                ))}
+              </ul>
+            ) : (
+              exp.highlights &&
+              exp.highlights.length === 1 && (
+                <p class="text-sm font-normal text-text-body-secondary leading-relaxed">
+                  {exp.highlights[0]}
+                </p>
+              )
             )}
 
             {exp.cvLink && (
@@ -132,7 +141,16 @@ const about = lang === "fr" ? aboutFr : aboutEn;
           <div class="space-y-sm pb-lg border-b border-stroke-secondary last:border-b-0">
             <div class="flex flex-col md:flex-row md:justify-between md:items-start">
               <h3 class="text-base font-semibold text-text-body-primary">
-                {project.title}
+                {project.href ? (
+                  <a
+                    href={project.href}
+                    class="hover:text-text-body-accent hover:underline underline-offset-4 transition-colors"
+                  >
+                    {project.title}
+                  </a>
+                ) : (
+                  project.title
+                )}
               </h3>
             </div>
             <p class="text-sm font-normal text-text-body-secondary leading-relaxed mt-2">
@@ -173,7 +191,7 @@ const about = lang === "fr" ? aboutFr : aboutEn;
           about.languages.map((language) => (
             <li class="px-3 py-1.5 bg-gray-50 rounded-lg text-sm text-text-body-primary">
               <span class="font-semibold">{language.name}</span>
-              <span class="text-text-body-secondary"> — {language.level}</span>
+              <span class="text-text-body-secondary">{lang === "fr" ? ` : ${language.level}` : ` — ${language.level}`}</span>
             </li>
           ))
         }

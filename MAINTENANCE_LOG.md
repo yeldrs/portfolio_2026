@@ -6,6 +6,48 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 
 ---
 
+## 2026-07-28 — Suppression du CV brut (numéro de téléphone en clair, dépôt public)
+
+### FAIT — sécurité / vie privée
+- `[2026-07-28]` — `src/data/ELIDRISSI_Yassine_RESUME.md` **supprimé du dépôt**. Ce fichier (notes CV brutes ayant servi à reconstruire `about.fr.ts`, cf. entrée `2026-07-26`) contenait le numéro de téléphone personnel du propriétaire en clair. Le dépôt `yeldrs/portfolio_2026` étant **public**, ce numéro était visible par quiconque consultait le repo — statut : fait
+- `[2026-07-28]` — `src/data/about.fr.ts` — commentaire d'en-tête mis à jour pour ne plus référencer le fichier supprimé (contenu déjà migré, rien d'autre ne change) — statut : fait
+- **Important — non résolu** : la suppression retire le fichier de l'état actuel du dépôt mais **pas de l'historique Git** — le commit `604a7ee` (déjà poussé sur `origin/lang`, public) contient toujours le numéro en clair et reste consultable via l'historique GitHub. Une purge complète nécessiterait une réécriture d'historique (`git filter-repo`/BFG) + `force-push` sur une branche publique — action destructive, non effectuée sans confirmation explicite du propriétaire — statut : à décider par le propriétaire
+- Audit de vie privée plus large mené le même jour (téléphone, adresse, email perso, identifiant GitHub) : aucune adresse postale ni email Gmail trouvés ailleurs dans le dépôt ou le site ; le CV PDF téléchargeable (`public/documents/Resume_UXDESIGNEROPS_EL_IDRISSI_YASSINE.pdf`, historique inclus) était déjà correctement expurgé (« N° on demand ») — statut : fait (audit), aucune autre action nécessaire pour l'instant
+
+## 2026-07-28 — Fix lien externe CDC (YAML + rendu), token de lien, refonte 404
+
+### FAIT — lien externe CDC (SEO)
+- `[2026-07-28]` — `src/content/projects/{en,fr}/caissedesdepots.md` — champ `context` : le `<a href="...">` inséré par le propriétaire utilisait des guillemets doubles imbriqués dans une valeur YAML déjà entre guillemets doubles → **YAML invalide, build cassé** (`js-yaml` : *bad indentation of a mapping entry*). Corrigé en passant les attributs de la balise `<a>` en guillemets simples (`href='...' target='_blank' rel='noopener'`) — statut : fait
+- `[2026-07-28]` — `src/layouts/ProjectLayout.astro` — bug de rendu découvert en marge du fix ci-dessus : `context`/`problem`/`roleDescription`/`methodology`/`delivery` utilisaient une interpolation brute (`{project.data.field}`) pour le cas chaîne simple (non-tableau), qui échappe le HTML — un lien inséré dans ces champs s'affichait comme texte littéral (`&lt;a href=...&gt;`) au lieu d'un vrai lien cliquable. `keyInsights`/`metrics` géraient déjà correctement ce cas via `set:html`. Les 5 champs alignés sur ce pattern (`<p set:html={...} />`) — statut : fait
+- Vérifié : `npm run build` passe, lien CDC inspecté dans `dist/work/depostetconsignations.html` → balise `<a>` réelle et cliquable — statut : fait
+
+### FAIT — token de style hyperlien
+- `[2026-07-28]` — `src/styles/tokens.js` — nouveaux rôles sémantiques `text-link` (gray-600) / `text-link-hover` (black), formalisant le style déjà utilisé de façon ad hoc (4 fois, en dur) dans la section Credits de `ProjectLayout.astro` — statut : fait
+- `[2026-07-28]` — `src/styles/global.css` — nouvelle classe composant `.link` (`underline text-text-link hover:text-text-link-hover transition-colors`) — statut : fait
+- `[2026-07-28]` — `ProjectLayout.astro` — les 4 occurrences en dur (`class="underline hover:text-text-body-primary transition-colors"`) remplacées par `class="link"` ; lien CDC (`context`, en+fr) mis à jour avec `class='link'` — statut : fait
+- Note : couleurs reprises telles quelles de l'existant (Credits), non vérifiées contre Figma — à confirmer par le propriétaire si un style de lien différent est prévu côté design.
+
+### FAIT — refonte page 404
+- `[2026-07-28]` — `src/pages/404.astro` — reconstruite entièrement. Retiré : classes Tailwind inexistantes/inertes (`bg-primary`, `border-neutral`, `text-primary` — aucune ne correspond à un token ou à la palette Tailwind par défaut), SVG illustratif avec couleurs hex en dur et texte "Page not found" gravé dans l'image (non traduisible, dupliquait le `<h1>`), `<main>` imbriqué dans le `<main>` de `BaseLayout` (HTML invalide) — statut : fait
+- `[2026-07-28]` — Reconstruite avec les briques existantes uniquement : chiffre « 404 » décoratif (`aria-hidden`) au style du Hero homepage (`h-display italic font-semibold text-heading-accent`), vrai `<h1>` avec le titre traduit (clé `page404.title` déjà existante), composant `Button` (variant `primary`) pour le CTA — statut : fait
+- `[2026-07-28]` — Sur demande du propriétaire, second CTA « See projects » retiré (un seul bouton « Go home »). Clé i18n `page404.seeProjects` (en+fr) supprimée de `src/i18n/ui.ts`, devenue inutilisée — statut : fait
+- Vérifié : `npm run build` passe ; page testée en navigateur (Chrome via preview server) sur route inexistante → rendu conforme, navbar/footer présents (voir ci-dessous), CTA fonctionnel — statut : fait
+- Discuté avec le propriétaire : navbar/footer volontairement conservés sur la 404 (seul chemin de recovery si "Go home" n'est pas la destination voulue ; cohérence de marque ; `BaseLayout` les fournit déjà sans coût supplémentaire) — décision documentée, pas une dette.
+
+## 2026-07-27 (suite) — Champs de section optionnels, sections masquées si vides
+
+### FAIT
+- `[2026-07-27]` — `src/content/config.ts` : `context`, `problem`, `roleDescription`, `keyInsights`, `methodology`, `delivery`, `metrics` passent en `.optional()` (schéma Zod) — chaque section du case study est désormais optionnelle, plus seulement `designConception` — statut : fait
+- `[2026-07-27]` — `src/layouts/ProjectLayout.astro` : ajout d'un helper `hasContent()` + booléens `hasContext`/`hasProblem`/`hasRoleDescription`/`hasKeyInsights`/`hasMethodology`/`hasDesignConception`/`hasDelivery`/`hasMetrics` — chaque bloc titre+corps est masqué si le champ correspondant est absent ou vide (chaîne vide, tableau vide, ou tableau ne contenant que des chaînes vides). `contextSummary` (fallback meta description/JSON-LD) gère aussi `context` désormais `undefined` — statut : fait
+- Vérifié : `npm run build` passe sans erreur sur les 3 case studies existants (EN+FR), tous les champs étant actuellement renseignés donc aucune section masquée en pratique — comportement de masquage non testé visuellement avec un champ réellement vide (à faire si l'utilisateur omet un champ dans une prochaine fiche) — statut : fait (schéma/rendu), à vérifier visuellement à l'usage
+
+## 2026-07-27 — Bullet points sur tous les champs de section, règle dure anti-rédaction
+
+### FAIT
+- `[2026-07-27]` — `src/content/config.ts` : `context`, `problem`, `roleDescription`, `methodology`, `delivery` passent de `z.string()` à `z.union([z.string(), z.array(z.string())])`, même pattern que `keyInsights`/`metrics` déjà en place — statut : fait
+- `[2026-07-27]` — `src/layouts/ProjectLayout.astro` : rendu conditionnel (`Array.isArray(...)` → `<ul class="list-disc">` sinon `<p>`) ajouté pour ces 5 champs, identique au pattern `keyInsights`/`metrics`. Ajout de `contextSummary`/`metaDescription` (frontmatter du layout) pour garder une description meta/JSON-LD en texte plat même quand `context` est un tableau — statut : fait
+- `[2026-07-27]` — `CLAUDE.md` — règle dure ajoutée : aucune édition de rédaction (case studies, CV/about, homepage, tout contenu user-owned) sans demande ou validation explicite du propriétaire, même en marge d'un changement structurel — statut : fait
+
 ## 2026-07-26 (suite 3) — Icônes drapeaux réelles, alignement dropdown, attribution
 
 ### FAIT

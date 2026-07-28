@@ -135,9 +135,13 @@ Empty slots are `""` and must be preserved, not removed. Declared once in `en/*.
 
 ## Content schema (src/content/config.ts) — required fields
 
-`semanticSlug` (kebab-case, regex-enforced), `title`, `client`, `role`, `roleDescription`, `context`, `problem`, `keyInsights` (string or array), `methodology`, `delivery`, `metrics` (string or array), `publishDate`. `isDraft` defaults to `false`.
+`semanticSlug` (kebab-case, regex-enforced), `title`, `client`, `role`, `publishDate`. `isDraft` defaults to `false`.
 
-Optional: `description`, `designConception` (`paragraph`, `listItems`), `cardImage`, `projectImages`, `clientDetails`, `teamMembers`, `references`. `cardImage`/`projectImages` are optional in the schema specifically so `fr/*.md` can omit them (see image convention) — an `en/*.md` entry should still always provide them in practice.
+Optional: `description`, `roleDescription`, `context`, `problem`, `keyInsights`, `methodology`, `delivery`, `metrics` (each string or array — see "Section fields" below), `designConception` (`paragraph`, `listItems`), `cardImage`, `projectImages`, `clientDetails`, `teamMembers`, `references`. `cardImage`/`projectImages` are optional in the schema specifically so `fr/*.md` can omit them (see image convention) — an `en/*.md` entry should still always provide them in practice.
+
+### Section fields (context, problem, roleDescription, keyInsights, methodology, designConception, delivery, metrics)
+
+Each is optional and accepts a plain string or a `string[]` (rendered as a bulleted list) — `ProjectLayout.astro` computes a `has*` boolean per field (`hasContext`, `hasProblem`, etc.) and hides that section's heading + body entirely when the field is missing or empty (empty string, empty array, or an array of only blank strings). Omitting a field in a `.md` file is enough to hide its section on the case-study page — no other change needed.
 
 ## Hard rules — never do these
 
@@ -149,6 +153,7 @@ Optional: `description`, `designConception` (`paragraph`, `listItems`), `cardIma
 - Never reintroduce resolved debt: duplicate redirect sources (`.htaccess` is gone, `astro.config.mjs` is the only source), a manual sitemap, a Google Fonts dependency, or `deploy/test` as the prod branch (prod is `main`).
 - Never propose SSR, a database, or a runtime backend — the site is contractually 100% static.
 - Content (titles, metrics, case-study copy, CV/about copy) belongs to the user — never invent or embellish it. A faithful, clearly-flagged translation of copy the user already wrote (e.g. EN → FR) is acceptable when asked; inventing new claims or phrasing is not.
+- Never edit the actual wording/copy ("rédaction") of any content the user owns — project case studies (`src/content/projects/**`), CV/about (`src/data/about.*.ts`), homepage (`src/data/home.*.ts`), or any other user-authored text — without the user's explicit request or validation for that specific edit. This applies even when the edit looks like an improvement, a typo fix, or a natural side-effect of a structural/schema change: touching schema, layout, or rendering logic around a field (e.g. adding list support) must never itself alter the field's existing wording. Flag any wording that seems to need a fix and wait for confirmation instead of changing it.
 - Never credit Claude/an AI assistant as co-author or contributor anywhere — not in git commits, not in PR descriptions, not on the site itself. `.claude/settings.json` sets `attribution.commit`/`attribution.pr` to `""` to enforce this at the tool level; don't override it locally or re-add a "Co-Authored-By" / "Generated with Claude Code" trailer by hand.
 
 If a request would break one of the above: stop, name the specific convention it violates (cite the whitepaper section if relevant), and propose the compliant alternative before writing code.

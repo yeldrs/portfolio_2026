@@ -1,36 +1,37 @@
 ---
 # Images gérées uniquement dans src/content/projects/en/900care.md — voir resolveImages.ts
 semanticSlug: "900care"
-title: "UX & croissance pour un e&#8209;commerce durable"
 client: "900.care"
-description: "Design produit complet chez 900.care, axé sur l'amélioration de la conversion au premier achat et la rétention long terme."
-role: "Recherche UX et Design produit"
-roleDescription: "En tant que product designer, j'étais responsable du cycle complet, de la recherche utilisateur jusqu'à la livraison des maquettes finales, en collaboration étroite avec le Product Manager pour définir les objectifs et déployer les solutions avec l'équipe de développeurs."
-context: "900.care est une startup D2C avec un modèle d'abonnement pour des produits d'hygiène et d'entretien de la maison. Sa rentabilité dépend fortement de la valeur de la première commande, pour encourager la rétention et compenser le coût d'acquisition client (CAC). La page d'accueil et le tunnel de vente étaient des points de friction majeurs, ne convertissant pas assez efficacement les visiteurs et n'encourageant pas suffisamment la découverte de la gamme de produits."
-problem: "Comment concevoir le parcours utilisateur pour stabiliser un taux de conversion au-dessus de 5% et augmenter la valeur moyenne de commande (AOV), tout en renforçant la proposition de valeur de la marque ?"
-
+title: "Croissance e-commerce via modèle d'abonnement"
+description: "Design produit end-to-end chez 900.care, avec l'objectif d'améliorer la conversion du site, et la rétention long terme."
+role: "UX Research et Product Design"
+roleDescription: "En tant que product designer, j'ai piloté l'ensemble du cycle de conception, de la recherche utilisateur jusqu'aux maquettes finales. En collaboration avec le Product Manager et l'équipe de développement, nous avons définit les objectifs, déployé les fonctionnalités puis mesuré leur impact."
+context: "900.care est une startup D2C avec un modèle d'abonnement spücialisée dans la vente de produits d'hygiène et d'entretien. Son chiffre d'affaire dépend fortement de la valeur de la première commande. Le défis devient alors de favoriser la rétention et compenser le coût d'acquisition client (CAC). La page d'accueil et le tunnel de vente étaient les principaux points de friction : le taux de conversion était bas et la découverte du catalogue produit n'était pas suffisamment mise en avant."
+problem: "Comment concevoir un parcours utilisateur capable de stabiliser le taux de conversion au-dessus de 5%, augmenter le panier moyen (AOV) et le taux de rétention, tout en renforçant la proposition de valeur de la marque ?"
 keyInsights:
- - "L'analyse des données (Metabase, Datadog) a révélé une sous-performance de la découvrabilité produit."
- - "Les entretiens qualitatifs (27 menés) ont confirmé une surcharge cognitive, une navigation contre-intuitive et un tunnel de vente trop long."
- - "Le problème de fond était donc lié à la complexité du site et au manque de fonctionnalités intelligentes."
-
-methodology: "J'ai adopté une approche data-informed. Chaque décision de design reposait sur une hypothèse issue de la recherche utilisateur (qualitative et quantitative). Mon process incluait le journey mapping (cartographie UX), le prototypage sur Figma, et des tests utilisateurs réguliers. La collaboration avec le product manager et les développeurs via le sprint planning était essentielle pour des livraisons rapides."
+ - "Les 27 entretiens qualitatifs menés ont confirmé une surcharge cognitive, une navigation contre-intuitive et un tunnel de vente trop complexe."
+ - "L'analyse des sessions utilisateur (Metabase, Datadog) ont révélé l'inefficacitè de la navigation sur le catalogue produit et dans le portail client."
+ - "Le problème de fond tenait donc à la complexité du site, à la fluidité du parcours utilisateur et au manque de fonctionnalités intelligentes."
+methodology: "J'ai adopté une approche basée de l'analyse de données : chaque hypothèse de design est issue de la recherche utilisateur (qualitative et quantitative). J'ai cartographié le parcours utilisateur (UX mapping), concu les prototypes sur Figma et effectué des tests utilisateurs réguliers. La collaboration avec le Product Manager et les développeurs via des sprints a été essentielle pour livrer rapidement."
 designConception:
   paragraph: |
-    J'ai conçu une nouvelle structure de page d'accueil, en priorisant une proposition de valeur claire et la mise en avant stratégique des bundles, qui génèrent une AOV plus élevée. J'ai prototypé plusieurs versions low-fidelity de modales d'upsell/cross-sell pour les tests utilisateurs et challenger nos hypothèses. L'objectif était de suggérer des produits complémentaires en douceur, sans interrompre le parcours d'achat principal.
-  # listItems: (optionnel, peut être omis si vide)
-delivery: "Nous avons lancé avec succès le nouveau flux d'upsell, refondu la page d'accueil, le catalogue produit et mis en place une nouvelle section de gestion des commandes en cours. La livraison incluait des maquettes entièrement documentées, des prototypes interactifs, une mise à jour avancée du design system, des insights utilisateurs et le protocole de recherche."
-metrics: "Obtenu une augmentation de +47% de la valeur moyenne du panier (AOV) et réduit le churn de 25% après le lancement."
+
+delivery: "Déploiement d'un nouveau parcours d'upsell / cross-sell (livrés en MVPs puis itérés post-lancement). Création d'un nouvel espace de gestion de commandes, refonte complète de la page d'accueil, du catalogue produit, du portail client ainsi que du flux de désabonnement pour de réduire le churn. Les livrables incluaient des maquettes entièrement documentées, des prototypes interactifs, une refonte poussée du design system, ainsi que les insights et protocoles de recherche associés."
+
+metrics:
+  - "+47 % de panier moyen suite à la refonte du funnel de vente et à l'intégration de l'upsell."
+
+  - "Augmentation du taux de conversion global de 5,4 % à 5,9 %."
+
+  - "Taux de rétention stabilisé à >70 %."
 publishDate: "2024-10-25"
 isDraft: false
 # =================================================
-# CHAMPS CRÉDITS OBLIGATOIRES / OPTIONNELS
+# CREDIT FIELDS REQUIRED / OPTIONAL
 # =================================================
-
 clientDetails:
  name: "900.care"
  link: "https://900.care/"
-
 teamMembers: []
  
 references:

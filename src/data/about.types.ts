@@ -23,6 +23,7 @@ export interface SkillSection {
 export interface SignificantWork {
   title: string;
   description: string;
+  href?: string;
 }
 
 export interface EducationExperience {

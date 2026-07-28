@@ -129,14 +129,16 @@ export const about: AboutData = {
   significantWorkHeading: "Significant Work",
   significantWork: [
     {
-      title: "FoodTech - Batchcooking plateform",
+      title: "An accessible solution for collaborative cooking",
       description:
         "Co-developed the MVP of a digital service that enhances social connection and food autonomy for students.",
+      href: "/work/batchcooking",
     },
     {
-      title: "Sustainable agile toolkit - Caisse des Dépôts",
+      title: "An agile tool to design with ethics",
       description:
         "Created a project management tool to develop products that integrate ethics, sustainability, and inclusive principles. Team of 3 designers.",
+      href: "/work/depostetconsignations",
     },
     {
       title: "Animal Health - Digital Support Service",

@@ -30,8 +30,8 @@ client: "Caisse des Dépôts et Consignations (CDC)"
 description: "A tangible, methodological toolkit to track ethical, sustainable, and inclusive principles into major digital platform development."
 role: "Product designer"
 roleDescription: "I was part of a 2 to 5 person team for 8 months, handling the full spectrum: deep research, strategic concept, testing, and prototyping the final solution. The client 'Caisse des Dépots et Consignation' selected our project for subsequent development."
-context: "According to IDC, in 2022, the environmental impact of digital technology was exacerbated by the growth of data creation, estimated at 22.8%. This trend pushed the sector's carbon footprint toward an estimated 4% of global greenhouse gas emissions. This context triggered a conscious approach for the CDC. As a key financial institution, the CDC, through its Digital Factory's Design Studio, launched a proactive shift from a 'techno-vorous' approach to 'Thoughtful Digital.'"
-problem: "'How to do better with less?' How can we create a cohesive, adaptive, and engaging methodological tool to harmonize ethical, eco-design, and inclusive principles across diverse projects. How to effectively translate abstract concepts into tangible, actionable steps? The main barrier was a critical lack of a common, shared vocabulary across teams."
+context: "The digital sector already accounts for 3 to 4% of global greenhouse gas emissions, an impact growing by roughly 6% per year (<a href='https://theshiftproject.org/en/publications/virtual-worlds-networks/' target='_blank' rel='noopener' class='link'>The Shift Project, 2021</a>). This context triggered a conscious approach for the CDC. As a key financial institution, the CDC, through its Design Studio, launched a shift from a 'techno-vorous' approach to 'Thoughtful Digital.'"
+problem: "How to do better with less? How can we create a cohesive, adaptive, and engaging methodological tool to harmonize ethical, eco-design, and inclusive principles across diverse projects. How to effectively translate abstract concepts into tangible, actionable steps? The main barrier was a critical lack of a common, shared vocabulary across teams."
 keyInsights:
   - "Strategic Alignment: Overcoming the lack of a shared vocabulary and securing formal decision-making."
   - "Frugal & Scalable Design: The solution had to ensure scalability to save time, money, and energy."
@@ -56,8 +56,7 @@ delivery: "The concept was selected by the CDC and green-lit for subsequent inte
 metrics:
   - "CDC winning award and published in the EDNA magazine."
   - "Successfully delivered the prototype, including the production of 36 ready-to-use cards and a scalable database blueprint."
-  - "Achieve a 70% implementation of the prioritized tasks from the theoretical plan into the project's backlog within the first month"
-  - "User Satisfaction: Achieve a Net Promoter Score of 7/10 or higher from Project Managers who used Archipel."
+  - "User Satisfaction: Achieve a Net Promoter Score of 7/10 during the workshop at he Digital Factory."
 publishDate: "2022-05-15"
 isDraft: false
 

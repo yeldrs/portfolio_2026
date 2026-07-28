@@ -10,19 +10,21 @@ const projectCollection = defineCollection({
   client: z.string(),
   description: z.string().optional(),
   role: z.string(),
-  roleDescription: z.string(),
-  context: z.string(),
-  problem: z.string(),
-  keyInsights: z.union([z.string(), z.array(z.string())]),
-  methodology: z.string(),
+  // Section fields below are optional — ProjectLayout.astro hides each
+  // section's heading/body when its value is missing or empty.
+  roleDescription: z.union([z.string(), z.array(z.string())]).optional(),
+  context: z.union([z.string(), z.array(z.string())]).optional(),
+  problem: z.union([z.string(), z.array(z.string())]).optional(),
+  keyInsights: z.union([z.string(), z.array(z.string())]).optional(),
+  methodology: z.union([z.string(), z.array(z.string())]).optional(),
   designConception: z
    .object({
     paragraph: z.string().optional(),
     listItems: z.array(z.string()).optional(),
    })
    .optional(),
-  delivery: z.string(),
-  metrics: z.union([z.string(), z.array(z.string())]),
+  delivery: z.union([z.string(), z.array(z.string())]).optional(),
+  metrics: z.union([z.string(), z.array(z.string())]).optional(),
   // Images are declared once, in the en/ entry. Other locales omit both fields
   // entirely and inherit them at build time (see src/content/resolveImages.ts) —
   // this keeps image edits to a single file regardless of how many languages exist.

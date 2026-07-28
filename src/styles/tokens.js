@@ -130,6 +130,11 @@ const semantic = {
     "stroke-tertiary": primitives.color.gray[50],
     "stroke-tertiary-hover": primitives.color.gray[200],
     "stroke-disabled": primitives.color.gray[300],
+
+    // Hyperlinks — mirrors the pre-existing Credits-section link treatment
+    // (underline + darken-on-hover), now named as a reusable semantic role.
+    "text-link": primitives.color.gray[600],
+    "text-link-hover": primitives.color.base.black,
   },
 
   layout: {

@@ -65,7 +65,6 @@ export const ui = {
     "page404.body":
       "Sorry — the page you're looking for doesn't exist or has been moved. Try returning to the homepage or browsing my case studies.",
     "page404.goHome": "Go home",
-    "page404.seeProjects": "See projects",
   },
   fr: {
     "meta.defaultDescription":
@@ -76,7 +75,7 @@ export const ui = {
     "meta.aboutTitle": "À propos de Yassine El Idrissi - Product Designer",
     "meta.aboutDescription":
       "À propos de Yassine El Idrissi, UX Product Designer — expérience, compétences et parcours en design produit de bout en bout, de la recherche à la livraison.",
-    "nav.work": "Travail",
+    "nav.work": "Projets",
     "nav.about": "À propos",
     "nav.contact": "Contact",
     "nav.toggleMenu": "Afficher/masquer le menu de navigation",
@@ -124,7 +123,6 @@ export const ui = {
     "page404.body":
       "Désolé — la page que vous cherchez n'existe pas ou a été déplacée. Retournez à l'accueil ou parcourez mes études de cas.",
     "page404.goHome": "Accueil",
-    "page404.seeProjects": "Voir les projets",
   },
 } as const;
 

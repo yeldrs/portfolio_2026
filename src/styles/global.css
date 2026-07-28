@@ -58,4 +58,7 @@ html {
     /* FIX: Using full semantic classes */
     @apply border border-background-primary text-text-body-primary bg-transparent;
   }
+  .link {
+    @apply underline text-text-link hover:text-text-link-hover transition-colors;
+  }
 }

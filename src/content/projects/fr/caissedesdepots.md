@@ -1,57 +1,54 @@
 ---
-# Images gérées uniquement dans src/content/projects/en/caissedesdepots.md — voir resolveImages.ts
+# Images gérées uniquement dans src/content/projects/en/depostetconsignations.md — voir resolveImages.ts
 semanticSlug: "depostetconsignations"
-title: "Concevoir un outil agile pour designer avec éthique"
 client: "Caisse des Dépôts et Consignations (CDC)"
-description: "Un kit méthodologique tangible pour intégrer les principes éthiques, durables et inclusifs dans le développement de grandes plateformes digitales."
+title: "Concevoir un outil agile pour designer avec éthique"
+description: "Un outil méthodologique tangible pour intégrer les principes d'éthique, de sobriété et d'inclusion dans le développement de plateformes numériques majeures."
 role: "Product designer"
-roleDescription: "J'ai fait partie d'une équipe de 2 à 5 personnes pendant 8 mois, en gérant tout le spectre : recherche approfondie, concept stratégique, tests, et prototypage de la solution finale. Le client 'Caisse des Dépôts et Consignations' a sélectionné notre projet pour un développement ultérieur."
-context: "Selon IDC, en 2022, l'impact environnemental du numérique a été exacerbé par la croissance de la création de données, estimée à 22,8%. Cette tendance a poussé l'empreinte carbone du secteur vers environ 4% des émissions mondiales de gaz à effet de serre. Ce contexte a déclenché une démarche consciente pour la CDC. En tant qu'institution financière clé, la CDC, à travers le Design Studio de sa Digital Factory, a lancé un virage proactif d'une approche 'techno-vore' vers un 'Numérique Responsable'."
-problem: "'Comment faire mieux avec moins ?' Comment créer un outil méthodologique cohérent, adaptatif et engageant pour harmoniser les principes éthiques, d'éco-conception et d'inclusion à travers des projets divers. Comment traduire efficacement des concepts abstraits en étapes concrètes et actionnables ? Le principal frein était un manque critique de vocabulaire commun et partagé entre les équipes."
+roleDescription: "Pendant 8 mois, au sein d'une équipe de 2 à 5 personnes, j'ai couvert l'ensemble des processus de veille de recherche, idéation, tests et prototypage de la solution finale. La Caisse des Dépôts et Consignations a retenu notre projet pour un développement en interne."
+context: "Le numérique représente aujourd'hui 3 à 4% des émissions mondiales de gaz à effet de serre, un impact qui augmente d'environ 6% par an (<a href='https://theshiftproject.org/en/publications/virtual-worlds-networks/' target='_blank' rel='noopener' class='link'>The Shift Project, 2021</a>). Ce constat a déclenché une prise de conscience à la CDC, qui, via sa Digital Factory, a décidé de passer d'une approche 'technovore' à un numérique plus responsable."
+problem: "Comment faire mieux avec moins ? Comment créer un outil méthodologique cohérent, adaptatif et engageant pour intégrer les principes d'éthique, d'éco-conception et d'inclusion au sein de projets numériques variés. Comment traduire efficacement des concepts abstraits en étapes concrètes et actionnables ? Le principal frein était l'absence d'un vocabulaire commun entre les différentes équipes."
 keyInsights:
-  - "Alignement stratégique : dépasser le manque de vocabulaire partagé et sécuriser une prise de décision formelle."
-  - "Design frugal et scalable : la solution devait garantir une scalabilité permettant d'économiser du temps, de l'argent et de l'énergie."
-  - "Apprentissage tangible : la manipulation physique était nécessaire en complément du support digital, pour favoriser la rétention des connaissances et les interactions lors des réunions d'équipe."
-
-methodology: |
-  Nous avons adopté une approche structurée en double diamant :
-  1. Recherche et définition : identification des problèmes et solutions à travers les piliers Éco-conception, Design Inclusif et Design Éthique.
-  2. Alignement du concept : formalisation d'une vision centrée sur l'« Architecture et Structure de l'Information » pour créer un modèle de référence centralisé, scalable et synthétisé.
-  3. Raffinement : développement de trois concepts, avec sélection finale des tuiles modulaires « Archipel » pour leur potentiel à faciliter un apprentissage collaboratif et pratique.
-
+ - "Alignement stratégique : dépasser l'absence de vocabulaire commun et vérouiller une prise de décision formelle."
+ - "Design frugal : la solution devait garantir une scalabilité, économiser du temps, de l'argent et de l'énergie."
+ - "Apprentissage tangible : En complément d'un support digital, la manipulation physique était nécessaire pour favoriser la mémorisation et les interactions lors de réunions."
+methodology:
+ - "Nous avons adopté une approche en double diamant :"
+ - "Recherche et définition : identification des problèmes à travers les piliers Éco-conception, Design inclusif et éthique."
+ - "Alignement du concept : formalisation d'une vision centrée sur l'architecture et la structure de l'information, pour créer une première table de référence scalable."
+ - "Raffinage : développement et confrontation de trois concepts différents. Les résultats des enquêtes nous ont menés à développer le concept 'Archipel' sous forme de tuiles, pour faciliter une utilisation collaborative, pratique et modulable."
 designConception:
   paragraph: |
-    Le concept retenu, « Archipel », est un ensemble de tuiles physiques de construction de projet. Il fonctionne comme une aide simple et adaptative pour la conception de projets transverses. Dans ce cas précis, il couvre la durabilité, l'éthique et l'inclusion. La carte physique de l'outil peut être digitalisée et synchronisée avec des plateformes de planification (ex : Jira, Trello). Chaque tuile est codée par couleur selon sa catégorie (éthique/inclusif/éco), son attribution de rôle, et dédie un espace pour des détails personnalisés afin d'aider les managers à cadrer et suivre leurs projets.
+    Le concept retenu, 'Archipel', est un ensemble de tuiles de construction de projet. Il fonctionne comme un support de cadrage et de suivi de projets transverses, ici appliqué aux enjeux de durabilité, d'éthique et d'inclusion. Les schémas conçus avec l'outil peuvent être digitalisés et synchronisés avec des plateformes de gestion de projet (Jira, Trello). Afin d'accompagner les managers à structurer et piloter leurs projets, chaque tuile est possède une couleur de catügorie, une attribution de rôle ainsi qu'un espace neutre pour ajouter des détails personnalisés. On retrouve notemment:
   listItems:
-    - La Notion et la Tâche spécifiques à réaliser.
-    - Le Responsable désigné (Chef de projet, Designer, ou Développeur).
-    - La Priorité et le Calendrier de mise en œuvre.
-
-delivery: "Le concept a été sélectionné par la CDC et validé pour un développement interne ultérieur. J'ai présenté l'étude à la Nantes Digital Week et nous avons animé un atelier de développement dédié avec l'équipe design interne de la CDC à Paris. Livraison d'un prototype physique final (tuiles découpées au laser, overlays graphiques, et fixation magnétique) prêt à être scalé."
-
+    - "La tâche spécifique à réaliser."
+    - "Le responsable désigné (Chef de projet, Designer, Développeur ect)."
+    - "La priorisation et le calendrier de mise en œuvre."
+delivery:
+ - "Le concept a été sélectionné par la CDC pour un développement interne ultérieur. J'ai présenté l'étude à la Nantes Digital Week et nous avons animé un atelier de développement avec l'équipe design interne de la CDC. Nous avons livré:"
+ - "Une première table contenant les données imprimables de 50 potentielles cartes"
+ - "Un prototype physique (36 tuiles réutilisables découpées au laser, couches graphiques, fixation magnétique)."
 metrics:
-  - "La CDC a remporté un prix et le projet a été publié dans le magazine EDNA."
-  - "Prototype livré avec succès, incluant la production de 36 cartes prêtes à l'emploi et un blueprint de base de données scalable."
-  - "Atteinte de 70% de mise en œuvre des tâches priorisées du plan théorique dans le backlog du projet, dès le premier mois."
-  - "Satisfaction utilisateur : Net Promoter Score de 7/10 ou plus obtenu auprès des chefs de projet ayant utilisé Archipel."
+  - "Projet primé par la CDC et publié dans le magazine EDNA."
+  - "Livraison du prototype, incluant la production de 36 cartes prêtes à l'emploi et une de base de données scalable."
+  - "Satisfaction utilisateur : Net Promoter Score de 7/10 ou plus auprès des participants à l'atelier à la Design Factory."
 publishDate: "2022-05-15"
 isDraft: false
-
 # =================================================
-# NOUVEAUX CHAMPS POUR LA SECTION CRÉDITS
+# CREDIT FIELDS REQUIRED / OPTIONAL
 # =================================================
-teamMembers:
-  - name: "Louis Richard Marschal"
-    link: "https://www.linkedin.com/in/louis-richard-marschal-3b073ab2/"
-  - name: "Duaa Ali"
-    link: "https://www.linkedin.com/in/duaa-ali-design/"
 clientDetails:
-  name: "Caisse des Dépôts et Consignations (CDC)"
-  link: "https://www.caissedesdepots.fr/"
+ name: "Caisse des Dépôts et Consignations (CDC)"
+ link: "https://www.caissedesdepots.fr/"
+teamMembers:
+ - name: "Louis Richard Marschal"
+   link: "https://www.linkedin.com/in/louis-richard-marschal-3b073ab2/"
+ - name: "Duaa Ali"
+   link: "https://www.linkedin.com/in/duaa-ali-design/"
 references:
-  - name: "L'École de Design Nantes Atlantique"
-    link: "https://lecolededesign.com/"
-  - name: "Matthieu Gioani"
-    link: "https://www.linkedin.com/in/matthieugioani/"
-    role: "Supervision"
+ - name: "L'École de Design Nantes Atlantique"
+   link: "https://lecolededesign.com/"
+ - name: "Matthieu Gioani"
+   link: "https://www.linkedin.com/in/matthieugioani/"
+   role: "Supervision"
 ---
