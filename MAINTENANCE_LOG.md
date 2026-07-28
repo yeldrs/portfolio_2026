@@ -6,6 +6,12 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 
 ---
 
+## 2026-07-28 (suite 6) — Correction du vrai bug d'espacement mobile sous l'image de la project card
+
+### FAIT
+- `[2026-07-28]` — Le fix précédent (`gap-xl` → `gap-lg` sur `<article>` dans `ProjectCard.astro`, voir "suite 4"/entrée du même jour) était correct mais insuffisant — le propriétaire a signalé que rien n'avait visuellement changé. Cause réelle trouvée par mesure directe du DOM (`getBoundingClientRect`) sur le site live : `<section>` utilisait aussi `space-y-lg`, dont le sélecteur Tailwind (`:not([hidden])`) n'exclut que les éléments portant l'**attribut HTML** `hidden`, pas la **classe CSS** `.hidden`. Le titre desktop-only à l'intérieur (`hidden md:block`) est caché via la classe, pas l'attribut — sur mobile, Tailwind le comptait quand même comme frère pour le calcul de marge, ajoutant un second `margin-top: 24px` fantôme devant le bloc Client, en plus du gap déjà corrigé entre l'image et la section (48px cumulés au lieu de 24px partout ailleurs dans la carte) — statut : fait
+- `[2026-07-28]` — `src/components/ProjectCard.astro` — `<section>` passé de `space-y-lg` à `flex flex-col gap-lg` : le `gap` flexbox ne s'applique qu'entre éléments réellement rendus, quelle que soit la méthode de masquage — insensible à ce piège — statut : fait, vérifié par mesure DOM directe (`gapImgToClientLabel` et `gapClientValueToDescriptionLabel` = 24px exactement, identiques) sur build `preview` avant push
+
 ## 2026-07-28 (suite 5) — Audit analytics : consolidation sur Umami, abandon Hotjar/Simple Analytics
 
 ### FAIT — stack analytics
