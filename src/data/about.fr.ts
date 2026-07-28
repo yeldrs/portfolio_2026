@@ -44,7 +44,7 @@ export const about: AboutData = {
       company: "OLA, MCB, OsteoDS",
       duration: "07/2023 - 07/2024, à distance",
       highlights: [
-        "Prototypage e-commerce pour valider la viabilité d'offres commerciales.",
+        "Prototypage e‑commerce pour valider la viabilité d'offres commerciales.",
         "Maintenance de systèmes low-code sur Webflow, WordPress et Wix-Studio.",
         "Audit et stratégies de référencement naturel SEO.",
         "Cours particuliers de PAO : InDesign, Photoshop, suivi d'examens.",

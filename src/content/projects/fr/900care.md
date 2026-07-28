@@ -2,7 +2,7 @@
 # Images gérées uniquement dans src/content/projects/en/900care.md — voir resolveImages.ts
 semanticSlug: "900care"
 client: "900.care"
-title: "Croissance e-commerce via modèle d'abonnement"
+title: "Croissance e&#8209;commerce via modèle d'abonnement"
 description: "Design produit end-to-end chez 900.care, avec l'objectif d'améliorer la conversion du site, et la rétention long terme."
 role: "UX Research et Product Design"
 roleDescription: "En tant que product designer, j'ai piloté l'ensemble du cycle de conception, de la recherche utilisateur jusqu'aux maquettes finales. En collaboration avec le Product Manager et l'équipe de développement, nous avons défini les objectifs, déployé les fonctionnalités puis mesuré leur impact."
