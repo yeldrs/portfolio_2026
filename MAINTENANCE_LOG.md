@@ -6,6 +6,20 @@ Complète l'ACTION LOG historique du whitepaper (`Whitepaper d'architecture — 
 
 ---
 
+## 2026-07-28 (suite 5) — Audit analytics : consolidation sur Umami, abandon Hotjar/Simple Analytics
+
+### FAIT — stack analytics
+- `[2026-07-28]` — Audit demandé par le propriétaire : trois trackers tournaient simultanément dans `BaseLayout.astro` (Umami Cloud, Simple Analytics, Hotjar) + un script Contentsquare mort en commentaire. **Hotjar pose un problème de conformité RGPD/CNIL** (cookies + enregistrement de session = tracker non-essentiel nécessitant un consentement préalable, absent du site) — signalé et validé par le propriétaire — statut : fait
+- `[2026-07-28]` — `src/layouts/BaseLayout.astro` — scripts Hotjar et Simple Analytics retirés, commentaire Contentsquare mort retiré. Umami Cloud (`data-website-id` inchangé) reste seul tracker — aucune perte de données historiques — statut : fait
+- `[2026-07-28]` — `data-sa-event` (attributs) et `sa_event()`/`window.sa_event` (JS) retirés de `Navbar.astro`, `Footer.astro`, `ProjectCard.astro`, `AboutLayout.astro`, `404.astro`, commentaire obsolète corrigé dans `Button.astro` — statut : fait
+- `[2026-07-28]` — Deux points de conversion identifiés sans tracking : téléchargement du CV (`AboutLayout.astro`, lien `exp.cvLink`) et clics sortants "Significant Work" — `data-umami-event` ajouté aux deux, réutilisant le champ `trackingSlug` déjà présent dans `about.types.ts`/`about.{en,fr}.ts` mais jamais câblé — statut : fait
+- Vérifié : `npm run build` passe, `dist/about.html` inspecté (scripts Hotjar/SA absents, seule occurrence "Hotjar" restante = texte du CV du propriétaire listant l'outil comme compétence, non touché) — statut : fait
+
+### DETTE / À SURVEILLER
+- `[2026-07-28]` — Session Replay Umami (v3.1+, rrweb) demandé en bonus par le propriétaire mais réservé au palier Cloud "Business" (~200 $/mo) ; propriétaire a choisi de rester sur Cloud sans Replay pour l'instant — à reconsidérer si self-host envisagé un jour.
+- `[2026-07-28]` — Exclusion des visites du propriétaire (2 PC + 1 mobile) : méthode officielle Umami = `localStorage.setItem('umami.disabled', 1)` par navigateur/appareil (pas de blocage IP côté Cloud) — à mettre en place manuellement par le propriétaire, pas une action de code.
+- `[2026-07-28]` — Rage clicks / dead clicks : non natif à Umami, nécessiterait un script custom (`umami.track()` sur détection de clics répétés/sans effet) — proposé au propriétaire, pas encore implémenté (en attente de décision).
+
 ## 2026-07-28 (suite 4) — Fix 404 `/fr/` (lien logo + sélecteur de langue), tailles drapeaux/dropdown nav
 
 ### FAIT — bug routing FR
