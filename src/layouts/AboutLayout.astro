@@ -30,7 +30,6 @@ const about = lang === "fr" ? aboutFr : aboutEn;
         <Button
           href="#contact"
           class="mt-lg"
-          data-sa-event="about_contact_click"
           data-umami-event="about-contact-button"
         >
           {about.introCta}
@@ -72,6 +71,9 @@ const about = lang === "fr" ? aboutFr : aboutEn;
                 href={exp.cvLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-umami-event="cv-download"
+                data-umami-event-source={exp.trackingSlug}
+                data-umami-event-lang={lang}
                 class="inline-flex items-center gap-1 mt-2 text-sm font-medium text-text-body-accent no-underline hover:text-text-body-primary hover:underline underline-offset-4 transition-colors"
               >
                 {exp.cvLinkLabel}
@@ -144,6 +146,8 @@ const about = lang === "fr" ? aboutFr : aboutEn;
                 {project.href ? (
                   <a
                     href={project.href}
+                    data-umami-event="about-significant-work-click"
+                    data-umami-event-project={project.href.split("/").pop()}
                     class="hover:text-text-body-accent hover:underline underline-offset-4 transition-colors"
                   >
                     {project.title}

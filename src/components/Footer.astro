@@ -30,8 +30,7 @@ const copyToClipboard = `(function(e) {
 const email = "${emailAddress}";
 const clickedElement = e.currentTarget; 
 
-// Manual tracking for Simple Analytics & Umami on click
-if (window.sa_event) sa_event("footer_email_copy");
+// Manual tracking for Umami on click
 if (window.umami) umami.track("footer-email-copy");
 
 if (window.isSecureContext === false && window.location.protocol !== 'http:') {
@@ -134,7 +133,6 @@ navigator.clipboard.writeText(email).then(() => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t("footer.visitProfileAria", { name: link.name })}
-              data-sa-event={`footer_social_${link.trackingId}`}
               data-umami-event="footer-social-click"
               data-umami-event-type={link.trackingId}
               class="text-text-body-primary hover:text-gray-600 transition-colors"

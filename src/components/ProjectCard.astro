@@ -34,13 +34,6 @@ const plainHeadline = plainText(headline);
 
 // --- SHARED TRACKING LOGIC ---
 
-// Format for Simple Analytics (snake_case: view_project_900_care)
-const projectSlugSA = client
-  .toLowerCase()
-  .replace(/\s+/g, "_")
-  .replace(/[^\w_]/g, "");
-const eventNameSA = `view_project_${projectSlugSA}`;
-
 // Format for Umami (kebab-case: 900-care)
 const projectSlugUmami = client
   .toLowerCase()
@@ -63,7 +56,6 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
 
   <a
     href={projectLink}
-    data-sa-event={eventNameSA}
     data-umami-event="project-image-click"
     data-umami-event-project={projectSlugUmami}
     aria-label={t("project.viewProjectAria", { headline: plainHeadline })}
@@ -113,7 +105,6 @@ const directionClass = direction === "reverse" ? "md:flex-row-reverse" : "";
     <div>
       <Button
         href={projectLink}
-        data-sa-event={eventNameSA}
         data-umami-event="project-button-click"
         data-umami-event-project={projectSlugUmami}
       >

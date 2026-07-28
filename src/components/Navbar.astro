@@ -48,7 +48,6 @@ function getInitialActive(id: string, path: string) {
       href={homeHref}
       id="nav-logo"
       data-umami-event={`nav-link-logo-from-${pageName}`}
-      data-sa-event="nav_logo_click"
       class:list={[
         "text-base transition duration-150 uppercase",
         isHome ? "font-extrabold text-text-body-primary" : "text-text-body-primary font-normal",
@@ -68,7 +67,6 @@ function getInitialActive(id: string, path: string) {
               data-nav-id={link.id}
               data-umami-event={`nav-link-${link.id}-from-${pageName}`}
               data-umami-event-name={link.name}
-              data-sa-event={`nav_${link.id}_click`}
               class:list={[
                 "nav-item text-base uppercase transition duration-150",
                 isActive
@@ -114,7 +112,6 @@ function getInitialActive(id: string, path: string) {
             role="menuitem"
             id="nav-lang-switcher"
             data-umami-event={`nav-lang-switch-to-${otherLang}-from-${pageName}`}
-            data-sa-event={`nav_lang_${otherLang}_click`}
             class="flex items-center gap-2 px-sm py-xs text-sm font-normal text-text-body-secondary hover:text-text-body-primary hover:bg-gray-50 transition-colors"
           >
             <FlagIcon lang={otherLang} />
@@ -130,7 +127,6 @@ function getInitialActive(id: string, path: string) {
       aria-expanded="false"
       aria-controls="mobile-menu"
       data-umami-event={`nav-mobile-burger-from-${pageName}`}
-      data-sa-event="nav_mobile_burger_click"
       class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
     >
       <div id="burger-icon" class="w-6 h-6 absolute">
@@ -201,7 +197,6 @@ function getInitialActive(id: string, path: string) {
               data-nav-id={link.id}
               data-umami-event={`nav-mobile-link-${link.id}-from-${pageName}`}
               data-umami-event-name={link.name}
-              data-sa-event={`nav_mobile_${link.id}_click`}
               class:list={[
                 "text-base uppercase transition duration-150",
                 isActive
@@ -222,7 +217,6 @@ function getInitialActive(id: string, path: string) {
         <a
           href={switcherHref}
           data-umami-event={`nav-mobile-lang-switch-to-${otherLang}-from-${pageName}`}
-          data-sa-event={`nav_mobile_lang_${otherLang}_click`}
           class="flex items-center gap-1.5 text-sm font-normal text-text-body-secondary transition-colors hover:text-text-body-primary"
         >
           <FlagIcon lang={otherLang} />
