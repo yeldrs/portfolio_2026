@@ -34,13 +34,21 @@ export function stripLocalePrefix(pathname: string, lang: UiLocale): string {
   return cleaned.slice(prefix.length) || "/";
 }
 
+// build.format:'file' never emits a directory index.html (e.g. src/pages/fr/index.astro
+// builds to dist/fr.html, not dist/fr/index.html), so a trailing-slash locale-root URL
+// like "/fr/" 404s on GitHub Pages — Astro's getRelativeLocaleUrl(locale, "/") always
+// appends one. Strip it everywhere except the true site root ("/").
+export function stripTrailingSlash(path: string): string {
+  return path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
+}
+
 // Builds the equivalent path in another locale, preserving the current route.
 export function getLocalizedPath(
   pathname: string,
   fromLang: UiLocale,
   toLang: UiLocale,
 ): string {
-  return getRelativeLocaleUrl(toLang, stripLocalePrefix(pathname, fromLang));
+  return stripTrailingSlash(getRelativeLocaleUrl(toLang, stripLocalePrefix(pathname, fromLang)));
 }
 
 // Project titles carry raw numeric HTML entities (e.g. "&#8209;" for a

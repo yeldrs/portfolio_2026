@@ -3,7 +3,7 @@ import Container from "./Container.astro";
 import FlagIcon from "./icons/FlagIcon.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { defaultLang } from "../i18n/ui";
-import { useTranslations, getLocalizedPath, stripLocalePrefix, cleanPathname } from "../i18n/utils";
+import { useTranslations, getLocalizedPath, stripLocalePrefix, cleanPathname, stripTrailingSlash } from "../i18n/utils";
 
 const lang: "en" | "fr" = Astro.currentLocale === "fr" ? "fr" : defaultLang;
 const t = useTranslations(lang);
@@ -18,7 +18,7 @@ const navLinks = [
   { name: t("nav.contact"), href: getRelativeLocaleUrl(lang, "/#contact"), id: "contact" },
 ];
 
-const homeHref = getRelativeLocaleUrl(lang, "/");
+const homeHref = stripTrailingSlash(getRelativeLocaleUrl(lang, "/"));
 const switcherHref = getLocalizedPath(currentPath, lang, otherLang);
 const isHome = stripLocalePrefix(currentPath, lang) === "/";
 
@@ -99,7 +99,7 @@ function getInitialActive(id: string, path: string) {
         <div
           id="lang-switcher-menu"
           role="menu"
-          class="hidden absolute right-0 top-full mt-1.5 w-max rounded-lg border border-stroke-neutral-primary bg-background-primary shadow-sm overflow-hidden z-50"
+          class="hidden absolute left-1/2 -translate-x-1/2 top-full mt-1.5 w-max rounded-lg border border-stroke-neutral-primary bg-background-primary shadow-sm overflow-hidden z-50"
         >
           <span
             role="menuitem"

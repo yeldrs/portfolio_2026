@@ -47,8 +47,8 @@ export default defineConfig({
     '/fr/work': '/fr/#projects',
     '/fr/projects': '/fr/#projects',
     '/fr/aboutme': '/fr/about',
-    '/fr/logos': '/fr/',
-    '/fr/photography': '/fr/',
+    '/fr/logos': '/fr',
+    '/fr/photography': '/fr',
   }
 });
 // Fichier : astro.config.mjs

@@ -6,7 +6,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import { defaultLang, ui } from "../i18n/ui";
-import { useTranslations, stripLocalePrefix, cleanPathname } from "../i18n/utils";
+import { useTranslations, stripLocalePrefix, cleanPathname, stripTrailingSlash } from "../i18n/utils";
 
 export interface Props {
   title: string;
@@ -44,7 +44,7 @@ const hreflangMap = {
 const alternateLinks = (Object.keys(ui) as Array<keyof typeof ui>).map(
   (locale) => ({
     hreflang: hreflangMap[locale],
-    href: new URL(getRelativeLocaleUrl(locale, pathWithoutLocale), site).href,
+    href: new URL(stripTrailingSlash(getRelativeLocaleUrl(locale, pathWithoutLocale)), site).href,
   }),
 );
 const ogLocaleMap = {
@@ -83,7 +83,7 @@ const personLd = {
     <link
       rel="alternate"
       hreflang="x-default"
-      href={new URL(getRelativeLocaleUrl(defaultLang, pathWithoutLocale), site).href}
+      href={new URL(stripTrailingSlash(getRelativeLocaleUrl(defaultLang, pathWithoutLocale)), site).href}
     />
 
     <!-- Open Graph (link previews on social + read by some AI crawlers) -->
