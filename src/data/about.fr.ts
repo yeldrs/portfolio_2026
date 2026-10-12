@@ -131,7 +131,7 @@ export const about: AboutData = {
       title: "Un outil agile pour designer avec éthique",
       description:
         "Création d'un outil de gestion de projet pour développer des produits intégrant l'éthique, la durabilité et les principes inclusifs. Équipe de 3 designers.",
-      href: "/fr/work/depostetconsignations",
+      href: "/fr/work/depotsetconsignations",
     },
     {
       title: "Santé animale - Service d'accompagnement digital",

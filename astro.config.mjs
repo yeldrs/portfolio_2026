@@ -49,5 +49,7 @@ export default defineConfig({
     '/fr/aboutme': '/fr/about',
     '/fr/logos': '/fr',
     '/fr/photography': '/fr',
+    '/work/depostetconsignations': '/work/depotsetconsignations',
+    '/fr/work/depostetconsignations': '/fr/work/depotsetconsignations',
   }
 });

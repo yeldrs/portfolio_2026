@@ -8,6 +8,15 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ---
 
+## 2026-10-12 — Slug Caisse des Dépôts corrigé + /fr/ 404
+
+- `caissedesdepots.yaml` — `semanticSlug` `depostetconsignations` → `depotsetconsignations` — typo d'origine, orthographe alignée sur le site client (consignations.caissedesdepots.fr) pour le SEO.
+- `astro.config.mjs` — redirections `/work/depostetconsignations` et `/fr/work/…` vers le nouveau slug — ancienne URL déjà indexée/partagée.
+- `about.{en,fr}.ts`, `public/llms.txt` — liens mis à jour vers le nouveau slug.
+- `public/fr/index.html` — redirection vers `/fr` — `build.format:'file'` n'émet pas `fr/index.html`, donc `/fr/` renvoyait 404 sur GitHub Pages.
+
+---
+
 ## 2026-09-06 — Restructuration: scalabilité manuelle + IA, économie de tokens
 
 Branch `refactor/structure-2026`. Audit → 6 phases. See the plan for the full rationale.

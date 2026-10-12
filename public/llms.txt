@@ -11,12 +11,12 @@
 
 ## Case studies (English)
 - [UX & growth for a sustainable e-commerce (900.care)](https://yassineelidrissi.com/work/900care): Full-cycle product design at 900.care, focused on improving first-order conversion and long-term retention.
-- [Crafting an agile tool to design with ethics (Caisse des Dépôts)](https://yassineelidrissi.com/work/depostetconsignations): A tangible, methodological toolkit to embed ethical, sustainable and inclusive principles into major digital platform development.
+- [Crafting an agile tool to design with ethics (Caisse des Dépôts)](https://yassineelidrissi.com/work/depotsetconsignations): A tangible, methodological toolkit to embed ethical, sustainable and inclusive principles into major digital platform development.
 - [Building an accessible solution for collaborative cooking (Batchcooking)](https://yassineelidrissi.com/work/batchcooking): Designing a marketplace addressing student food insecurity and social isolation by turning underused kitchens into collaborative learning spaces.
 
 ## Études de cas (Français)
 - [UX & croissance pour un e-commerce durable (900.care)](https://yassineelidrissi.com/fr/work/900care)
-- [Concevoir un outil agile pour designer avec éthique (Caisse des Dépôts)](https://yassineelidrissi.com/fr/work/depostetconsignations)
+- [Concevoir un outil agile pour designer avec éthique (Caisse des Dépôts)](https://yassineelidrissi.com/fr/work/depotsetconsignations)
 - [Concevoir une solution accessible pour la cuisine collaborative (Batchcooking)](https://yassineelidrissi.com/fr/work/batchcooking)
 
 ## Main pages

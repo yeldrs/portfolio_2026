@@ -138,7 +138,7 @@ export const about: AboutData = {
       title: "An agile tool to design with ethics",
       description:
         "Created a project management tool to develop products that integrate ethics, sustainability, and inclusive principles. Team of 3 designers.",
-      href: "/work/depostetconsignations",
+      href: "/work/depotsetconsignations",
     },
     {
       title: "Animal Health - Digital Support Service",
