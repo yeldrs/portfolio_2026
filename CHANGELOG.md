@@ -10,15 +10,17 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ## 2026-11-06 — Page "Conception et atelier" (/workshop, /fr/atelier), non liée
 
-Implémentée depuis le canevas Claude Design "Section conception tangible".
+Implémentée depuis le canevas Claude Design "Section conception tangible", puis retravaillée avec le propriétaire.
 
-- `src/pages/workshop.astro`, `src/pages/fr/atelier.astro` + `src/layouts/WorkshopLayout.astro` — nouvelle page: filtres, bande défilante + fiche (desktop), liste dépliable (mobile). JS vanilla inline, tout le contenu est rendu au build.
-- `src/components/{IconButton,FilterChips,ProcessSteps,WorkshopCard,WorkshopDetail,WorkshopCardOpen}.astro` — nouveaux atomes.
-- `src/data/workshop.{fr,en}.ts`, `workshop.types.ts`, `workshop.media.ts` — contenu FR copié tel quel du design; EN = traduction non relue; images à part (langue neutre). Placeholders `[Date]` / `[Équipe à compléter]` retirés.
-- `src/styles/tokens.js` — +`background-accent-subtle` (accent 50), +`stroke-primary-subtle` (accent 300) — couleurs du design sans rôle sémantique existant.
-- `src/i18n/utils.ts`, `BaseLayout.astro` — slugs par langue (`LOCALE_SLUGS`): le sélecteur de langue et les hreflang suivent `/workshop` <-> `/fr/atelier`. `BaseLayout` gagne la prop `noindex`.
+- `src/pages/workshop.astro`, `src/pages/fr/atelier.astro` + `src/layouts/WorkshopLayout.astro` — nouvelle page: filtres (Bois, 3D et plans, Prototypage), tous les projets empilés avec fiche complète (desktop: panneau 7/5 colonnes, mobile: carte). JS vanilla inline, contenu pré-rendu. Hauteur max de la fiche = fenêtre entière, hauteur min = image principale entière.
+- `src/components/ImageModal.astro` — modale plein écran extraite de `ProjectLayout` et partagée avec la page atelier (`showImageModal(url, liste?)`).
+- `src/components/{FilterChips,ProcessSteps,WorkshopCard,WorkshopDetail,WorkshopCardOpen,IconButton}.astro` — nouveaux atomes. `WorkshopCard` et `IconButton` ne sont plus utilisés (reliquat de la bande défilante).
+- `src/data/workshop.{fr,en}.ts`, `workshop.types.ts`, `workshop.media.ts`, `workshop.skills.ts` — contenu des 6 projets visibles (le projet étagère est masqué: `hidden: true`, pas de photos). Savoir-faire = liste unique tirée du CV de reconversion, référencée par id. Images par projet: `public/images/workshop/<id>/`, `fit` cover/contain par projet. EN = traduction non relue.
+- `src/styles/tokens.js` — +`background-accent-subtle` (accent 50), +`text-body-accent-strong` (accent 800) — pilules de savoir-faire; aucun nom sémantique existant.
+- `src/i18n/utils.ts`, `BaseLayout.astro` — slugs par langue (`LOCALE_SLUGS`): sélecteur de langue et hreflang suivent `/workshop` <-> `/fr/atelier`. `BaseLayout` gagne la prop `noindex`.
 - `astro.config.mjs` — filtre sitemap pour exclure la page tant qu'elle n'est pas publiée.
-- `public/images/workshop/*.webp` — 8 images (Biomimétisme, Polybud) converties en WebP.
+- `public/images/workshop/**` — WebP optimisés (1600 px). Les originaux trop petits ou non utilisés sont rangés hors du repo (`../_originals-portfolio_2026`).
+- `.design-sync/` — config + générateur du projet design system Claude Design (bundle ignoré par git).
 
 ---
 
