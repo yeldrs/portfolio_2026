@@ -20,8 +20,12 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const data = lang === "fr" ? workshopFr : workshopEn;
 
-const items: WorkshopItem[] = data.projects.map((p) => ({
+// Hidden projects are skipped and the visible ones renumbered, so there is no gap.
+const items: WorkshopItem[] = data.projects
+  .filter((p) => !p.hidden)
+  .map((p, i) => ({
   ...p,
+  n: String(i + 1).padStart(2, "0"),
   cover: workshopMedia[p.id]?.cover,
   gallery: workshopMedia[p.id]?.gallery ?? [],
   fit: workshopMedia[p.id]?.fit ?? "contain",

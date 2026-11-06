@@ -20,6 +20,8 @@ export interface WorkshopProject {
   /** Ids into SKILLS (workshop.skills.ts), shared across projects and locales. */
   skills: SkillId[];
   steps: string[];
+  /** Set to true to keep the project in the data but off the page (e.g. no photos yet). */
+  hidden?: boolean;
   /** Omit while unknown: the Team block is hidden when absent. */
   team?: string;
 }

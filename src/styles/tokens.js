@@ -111,6 +111,7 @@ const semantic = {
     "text-body-secondary": primitives.color.gray[600],
     "text-body-tertiary": primitives.color.gray[400],
     "text-body-accent": primitives.color["accent-action"][600],
+    "text-body-accent-strong": primitives.color["accent-action"][800], // darker accent text on accent-subtle (non-interactive labels)
     "text-heading-accent": primitives.color["accent-action"][600],
 
     // Buttons
@@ -126,7 +127,6 @@ const semantic = {
     "stroke-primary": primitives.color["accent-action"][400],
     "stroke-primary-hover": primitives.color["accent-action"][200],
     "stroke-primary-dark": primitives.color["accent-action"][500],
-    "stroke-primary-subtle": primitives.color["accent-action"][300],
     "stroke-secondary": primitives.color.gray[200], // subtle separators (Footer, about)
     "stroke-neutral-primary": primitives.color.gray[300],
     "stroke-tertiary": primitives.color.gray[50],
