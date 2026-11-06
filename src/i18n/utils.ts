@@ -42,13 +42,32 @@ export function stripTrailingSlash(path: string): string {
   return path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
 }
 
+// Routes whose slug differs per locale. Keys are the default-locale path, values the
+// path inside the non-default locale (after its prefix). Add a route here AND its page.
+const LOCALE_SLUGS: Partial<Record<UiLocale, Record<string, string>>> = {
+  fr: { "/workshop": "/atelier" },
+};
+
+// Default-locale path -> the path used inside `lang` (identity for most routes).
+export function toLocaleSlug(path: string, lang: UiLocale): string {
+  return LOCALE_SLUGS[lang]?.[path] ?? path;
+}
+
+// Path inside `lang` -> the default-locale path (inverse of toLocaleSlug).
+export function toDefaultSlug(path: string, lang: UiLocale): string {
+  const map = LOCALE_SLUGS[lang];
+  if (!map) return path;
+  return Object.entries(map).find(([, localized]) => localized === path)?.[0] ?? path;
+}
+
 // Builds the equivalent path in another locale, preserving the current route.
 export function getLocalizedPath(
   pathname: string,
   fromLang: UiLocale,
   toLang: UiLocale,
 ): string {
-  return stripTrailingSlash(getRelativeLocaleUrl(toLang, stripLocalePrefix(pathname, fromLang)));
+  const neutral = toDefaultSlug(stripLocalePrefix(pathname, fromLang), fromLang);
+  return stripTrailingSlash(getRelativeLocaleUrl(toLang, toLocaleSlug(neutral, toLang)));
 }
 
 // Project titles carry raw numeric HTML entities (e.g. "&#8209;" for a

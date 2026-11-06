@@ -22,6 +22,8 @@ Format: `- [ ] <area> — <what> — <why> (<severity>)`
 
 ## Assets
 
+- [ ] `/workshop` + `/fr/atelier` — page construite mais NON publiée (noindex, hors sitemap, pas de lien navbar). Avant de la lier: relire `src/data/workshop.en.ts` (traduction EN non relue), fournir les dates (projets 03, 05, 06, 07), l'équipe (`team`), les photos manquantes (projets 02 et 04), valider les savoir-faire par projet (`workshop.skills.ts`, traductions EN non relues), trancher les images CDC à légendes anglaises et les photos basse résolution (limonadier, Polybud ; originaux dans `../_originals-portfolio_2026`), puis retirer le filtre sitemap dans `astro.config.mjs`, la prop `noindex` des deux pages, et ajouter la clé de nav dans `ui.ts` + `Navbar.astro`. (medium)
+
 - [ ] `public/documents/` — FR CV PDF: `about.fr.ts` `cvLink` points to a file the owner has
       not supplied yet → 404 on `/fr/about` download. (medium — broken link)
 - [ ] Case-study `og:image` is still the WebP `cover` (home/about now use a JPEG). Export

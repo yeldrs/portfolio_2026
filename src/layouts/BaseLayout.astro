@@ -7,7 +7,14 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import { defaultLang, ui } from "../i18n/ui";
 import { LOCALES } from "../i18n/locales";
-import { useTranslations, stripLocalePrefix, cleanPathname, stripTrailingSlash } from "../i18n/utils";
+import {
+  useTranslations,
+  stripLocalePrefix,
+  cleanPathname,
+  stripTrailingSlash,
+  toLocaleSlug,
+  toDefaultSlug,
+} from "../i18n/utils";
 
 export interface Props {
   title: string;
@@ -15,6 +22,7 @@ export interface Props {
   image?: string; // relative path used for og:image / twitter:image
   imageAlt?: string; // alt text for the social preview image
   structuredData?: Record<string, unknown>; // extra JSON-LD injected in <head>
+  noindex?: boolean; // keep a built-but-unlisted page out of search results
 }
 
 const lang: "en" | "fr" = Astro.currentLocale === "fr" ? "fr" : defaultLang;
@@ -26,6 +34,7 @@ const {
   image = "/images/og-default.jpg",
   imageAlt = "Yassine El Idrissi, UX Product Designer",
   structuredData,
+  noindex = false,
 } = Astro.props;
 
 // Absolute URLs for SEO / social / structured data (Astro.site = https://yassineelidrissi.com)
@@ -39,11 +48,14 @@ const ogImage = new URL(image, site).href;
 
 // hreflang alternates: strip the /fr prefix (if any) to get the locale-agnostic
 // path, then rebuild it for each configured locale.
-const pathWithoutLocale = stripLocalePrefix(cleanPath || "/", lang);
+const pathWithoutLocale = toDefaultSlug(stripLocalePrefix(cleanPath || "/", lang), lang);
 const alternateLinks = (Object.keys(ui) as Array<keyof typeof ui>).map(
   (locale) => ({
     hreflang: LOCALES[locale].bcp47,
-    href: new URL(stripTrailingSlash(getRelativeLocaleUrl(locale, pathWithoutLocale)), site).href,
+    href: new URL(
+      stripTrailingSlash(getRelativeLocaleUrl(locale, toLocaleSlug(pathWithoutLocale, locale))),
+      site,
+    ).href,
   }),
 );
 
@@ -67,6 +79,7 @@ const personLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonicalURL} />
 
     <!-- hreflang alternates for search engines -->

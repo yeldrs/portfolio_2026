@@ -1,0 +1,99 @@
+---
+// src/components/WorkshopCardOpen.astro
+// Mobile project card, always expanded.
+import ProcessSteps from "./ProcessSteps.astro";
+import type { WorkshopItem } from "../data/workshop.types";
+
+export interface Props {
+  item: WorkshopItem;
+  labels: {
+    context: string;
+    skills: string;
+    process: string;
+    team: string;
+    photoSoon: string;
+    zoom: string;
+  };
+}
+
+const { item, labels } = Astro.props;
+---
+
+<article
+  class="w-full p-sm bg-background-primary border-2 border-transparent rounded-2xl shadow-sm text-text-body-primary"
+>
+  <div class="relative h-[200px] rounded-md overflow-hidden bg-gray-100">
+    {
+      item.cover ? (
+        <button
+          type="button"
+          data-ws-zoom="0"
+          aria-label={labels.zoom}
+          class="block w-full h-full p-0 m-0 cursor-zoom-in"
+        >
+          <img
+            src={item.cover}
+            alt={item.title}
+            loading="lazy"
+            class="w-full h-full object-cover block"
+          />
+        </button>
+      ) : (
+        <span class="absolute inset-0 flex items-center justify-center text-sm text-text-body-tertiary">
+          {labels.photoSoon}
+        </span>
+      )
+    }
+  </div>
+  <div class="flex justify-between items-start gap-sm-d mt-sm-d">
+    <div class="min-w-0 flex-1">
+      <div class="truncate text-sm text-text-body-tertiary">{item.n} · {item.short}</div>
+      <h2 class="mt-xs mb-xxs font-serif text-2xl font-semibold leading-tight">{item.title}</h2>
+      <div class="text-sm text-text-body-secondary">{item.ctx}</div>
+    </div>
+  </div>
+  {
+    item.gallery.length > 0 && (
+      <div class="flex gap-sm overflow-x-auto mt-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {item.gallery.map((src, i) => (
+          <button
+            type="button"
+            data-ws-zoom={i + (item.cover ? 1 : 0)}
+            aria-label={labels.zoom}
+            class="flex-none w-[150px] h-[90px] p-0 m-0 rounded-md overflow-hidden bg-gray-100 cursor-zoom-in"
+          >
+            <img src={src} alt="" loading="lazy" class="w-full h-full object-cover block" />
+          </button>
+        ))}
+      </div>
+    )
+  }
+  <div class="mt-lg">
+    <span class="block mb-xxs text-text-body-tertiary">{labels.context}</span>
+    <p class="m-0 leading-normal">{item.summary}</p>
+  </div>
+  <div class="mt-md">
+    <span class="block mb-sm text-text-body-tertiary">{labels.skills}</span>
+    <div class="flex flex-wrap gap-sm">
+      {
+        item.skillLabels.map((skill) => (
+          <span class="inline-flex items-center justify-center min-h-6 px-sm-d rounded-full bg-gray-100 text-text-body-secondary text-xs font-medium text-center">
+            {skill}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+  <div class="mt-md">
+    <span class="block mb-sm text-text-body-tertiary">{labels.process}</span>
+    <ProcessSteps steps={item.steps} vertical />
+  </div>
+  {
+    item.team && (
+      <div class="mt-md">
+        <span class="block mb-xxs text-text-body-tertiary">{labels.team}</span>
+        <p class="m-0 leading-normal">{item.team}</p>
+      </div>
+    )
+  }
+</article>

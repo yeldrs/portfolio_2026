@@ -1,0 +1,30 @@
+---
+// src/components/FilterChips.astro
+// Single-select filter pills. The active chip is marked with aria-pressed (styled via
+// the aria-pressed: variant); the page script toggles it. First filter starts active.
+import type { WorkshopFilter } from "../data/workshop.types";
+
+export interface Props {
+  filters: WorkshopFilter[];
+  label: string;
+}
+
+const { filters, label } = Astro.props;
+---
+
+<div role="group" aria-label={label} class="flex flex-nowrap gap-sm">
+  {
+    filters.map((f, i) => (
+      <button
+        type="button"
+        data-ws-filter={f.id}
+        aria-pressed={i === 0 ? "true" : "false"}
+        data-umami-event="workshop-filter"
+        data-umami-event-filter={f.id}
+        class="inline-flex items-center justify-center flex-none min-h-10 px-md rounded-full border border-stroke-primary-hover bg-background-primary text-text-body-accent text-sm font-semibold text-center cursor-pointer shadow-sm aria-pressed:bg-button-background-primary aria-pressed:border-button-background-primary aria-pressed:text-button-text-primary"
+      >
+        {f.label}
+      </button>
+    ))
+  }
+</div>

@@ -8,6 +8,20 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ---
 
+## 2026-11-06 — Page "Conception et atelier" (/workshop, /fr/atelier), non liée
+
+Implémentée depuis le canevas Claude Design "Section conception tangible".
+
+- `src/pages/workshop.astro`, `src/pages/fr/atelier.astro` + `src/layouts/WorkshopLayout.astro` — nouvelle page: filtres, bande défilante + fiche (desktop), liste dépliable (mobile). JS vanilla inline, tout le contenu est rendu au build.
+- `src/components/{IconButton,FilterChips,ProcessSteps,WorkshopCard,WorkshopDetail,WorkshopCardOpen}.astro` — nouveaux atomes.
+- `src/data/workshop.{fr,en}.ts`, `workshop.types.ts`, `workshop.media.ts` — contenu FR copié tel quel du design; EN = traduction non relue; images à part (langue neutre). Placeholders `[Date]` / `[Équipe à compléter]` retirés.
+- `src/styles/tokens.js` — +`background-accent-subtle` (accent 50), +`stroke-primary-subtle` (accent 300) — couleurs du design sans rôle sémantique existant.
+- `src/i18n/utils.ts`, `BaseLayout.astro` — slugs par langue (`LOCALE_SLUGS`): le sélecteur de langue et les hreflang suivent `/workshop` <-> `/fr/atelier`. `BaseLayout` gagne la prop `noindex`.
+- `astro.config.mjs` — filtre sitemap pour exclure la page tant qu'elle n'est pas publiée.
+- `public/images/workshop/*.webp` — 8 images (Biomimétisme, Polybud) converties en WebP.
+
+---
+
 ## 2026-10-12 — Slug Caisse des Dépôts corrigé + /fr/ 404
 
 - `caissedesdepots.yaml` — `semanticSlug` `depostetconsignations` → `depotsetconsignations` — typo d'origine, orthographe alignée sur le site client (consignations.caissedesdepots.fr) pour le SEO.

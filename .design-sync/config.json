@@ -1,0 +1,5 @@
+{
+  "projectId": "d1414a9b-5779-405f-9773-ea2fd3e92ce7",
+  "shape": "custom",
+  "build": "node .design-sync/build-ds.mjs . .design-sync/ds-bundle"
+}

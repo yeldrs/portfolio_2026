@@ -29,6 +29,8 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap({
+      // Built but unlisted pages (see BACKLOG.md). Remove the entry to publish.
+      filter: (page) => !/\/(workshop|atelier)\/?$/.test(page),
       i18n: {
         defaultLocale: 'en',
         locales: {

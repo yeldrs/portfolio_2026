@@ -1,0 +1,30 @@
+---
+// src/components/ProcessSteps.astro
+// Numbered steps: a horizontal rule-topped row, or a vertical list when `vertical`.
+export interface Props {
+  steps: string[];
+  vertical?: boolean;
+}
+
+const { steps, vertical = false } = Astro.props;
+---
+
+<ol class:list={["list-none m-0 p-0 flex", vertical ? "flex-col" : "flex-row gap-sm"]}>
+  {
+    steps.map((step, i) => (
+      <li
+        class:list={[
+          "border-stroke-primary-subtle",
+          vertical
+            ? "flex items-center gap-sm-d py-sm border-t"
+            : "flex-1 basis-0 min-w-0 pt-sm border-t-2",
+        ]}
+      >
+        <span class:list={["text-xs text-text-body-tertiary", vertical ? "w-6" : "block"]}>
+          {String(i + 1).padStart(2, "0")}
+        </span>
+        <span class="text-sm font-semibold leading-snug">{step}</span>
+      </li>
+    ))
+  }
+</ol>

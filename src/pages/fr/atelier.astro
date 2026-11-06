@@ -1,0 +1,16 @@
+---
+// src/pages/fr/atelier.astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WorkshopLayout from "../../layouts/WorkshopLayout.astro";
+import { useTranslations } from "../../i18n/utils";
+
+const t = useTranslations("fr");
+---
+
+<BaseLayout
+  title={t("meta.workshopTitle")}
+  description={t("meta.workshopDescription")}
+  noindex
+>
+  <WorkshopLayout lang="fr" />
+</BaseLayout>

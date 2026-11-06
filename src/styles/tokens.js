@@ -104,6 +104,7 @@ const semantic = {
     "background-page": primitives.color.surface.page,
     "background-accent-primary": primitives.color["accent-action"][500],
     "background-disabled": primitives.color.gray[300],
+    "background-accent-subtle": primitives.color["accent-action"][50],
 
     // Text
     "text-body-primary": primitives.color.base.black,
@@ -125,6 +126,7 @@ const semantic = {
     "stroke-primary": primitives.color["accent-action"][400],
     "stroke-primary-hover": primitives.color["accent-action"][200],
     "stroke-primary-dark": primitives.color["accent-action"][500],
+    "stroke-primary-subtle": primitives.color["accent-action"][300],
     "stroke-secondary": primitives.color.gray[200], // subtle separators (Footer, about)
     "stroke-neutral-primary": primitives.color.gray[300],
     "stroke-tertiary": primitives.color.gray[50],

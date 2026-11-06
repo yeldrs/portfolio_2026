@@ -1,0 +1,38 @@
+---
+// src/components/IconButton.astro
+// Round 44px chevron button. `disabled` renders the muted state (non-interactive).
+export interface Props {
+  dir: "prev" | "next" | "up" | "down";
+  label: string;
+  disabled?: boolean;
+  class?: string;
+  [x: string]: any;
+}
+
+const { dir, label, disabled = false, class: className = "", ...rest } = Astro.props;
+
+const paths = {
+  prev: "M10 3l-5 5 5 5",
+  next: "M6 3l5 5-5 5",
+  up: "M3 10l5-5 5 5",
+  down: "M3 6l5 5 5-5",
+};
+---
+
+<button
+  type="button"
+  aria-label={label}
+  disabled={disabled}
+  class={`inline-flex items-center justify-center w-11 h-11 p-0 rounded-full cursor-pointer bg-background-primary border border-stroke-primary-hover text-text-body-accent shadow-sm disabled:cursor-default disabled:border-stroke-secondary disabled:text-text-body-tertiary ${className}`}
+  {...rest}
+>
+  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="block">
+    <path
+      d={paths[dir]}
+      stroke="currentColor"
+      stroke-width="2"
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+</button>

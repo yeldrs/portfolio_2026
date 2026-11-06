@@ -1,0 +1,91 @@
+---
+// src/components/WorkshopCard.astro
+// Project card for the workshop strip (default) and the mobile list (`compact`).
+// Selection is a button state: aria-pressed (set by the page script) drives the border
+// and shadow. The data-ws-* hooks are read by WorkshopLayout's script.
+import type { WorkshopItem } from "../data/workshop.types";
+
+export interface Props {
+  item: WorkshopItem;
+  selected?: boolean;
+  compact?: boolean;
+  photoSoon: string;
+}
+
+const { item, selected = false, compact = false, photoSoon } = Astro.props;
+const hook = compact ? { "data-ws-open": item.id } : { "data-ws-select": item.id };
+---
+
+<button
+  type="button"
+  aria-pressed={selected ? "true" : "false"}
+  data-umami-event="workshop-card-click"
+  data-umami-event-project={item.id}
+  {...hook}
+  class="block w-full p-sm m-0 text-left cursor-pointer bg-background-primary text-text-body-primary border-2 border-transparent rounded-2xl shadow-lg aria-pressed:border-stroke-primary-dark aria-pressed:shadow-sm"
+>
+  {
+    compact ? (
+      <span class="flex items-stretch gap-sm-d">
+        <span class="relative block flex-none w-[88px] min-h-[88px] rounded-md overflow-hidden bg-gray-100">
+          {item.cover && (
+            <img
+              src={item.cover}
+              alt={item.title}
+              loading="lazy"
+              class="w-full h-full object-cover block"
+            />
+          )}
+        </span>
+        <span class="flex flex-col gap-xs flex-1 min-w-0">
+          <span class="block truncate text-xs text-text-body-tertiary">
+            {item.n} · {item.short}
+          </span>
+          <span class="font-serif text-lg font-semibold leading-tight line-clamp-2">
+            {item.title}
+          </span>
+          <span class="block truncate mt-auto text-sm text-text-body-secondary">{item.ctx}</span>
+        </span>
+        <span
+          aria-hidden="true"
+          class="self-center flex items-center justify-center flex-none w-11 h-11 rounded-full border border-stroke-primary-hover bg-background-primary text-text-body-accent"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" class="block">
+            <path
+              d="M3 6l5 5 5-5"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      </span>
+    ) : (
+      <>
+        <span class="relative block aspect-video rounded-md overflow-hidden bg-gray-100">
+          {item.cover ? (
+            <img
+              src={item.cover}
+              alt={item.title}
+              loading="lazy"
+              class="w-full h-full object-cover block"
+            />
+          ) : (
+            <span class="absolute inset-0 flex items-center justify-center text-sm text-text-body-tertiary">
+              {photoSoon}
+            </span>
+          )}
+        </span>
+        <span class="block truncate mt-sm-d text-sm text-text-body-tertiary">
+          {item.n} · {item.short}
+        </span>
+        <span class="block truncate mt-xs font-serif text-xl font-semibold leading-tight">
+          {item.title}
+        </span>
+        <span class="block truncate mt-xxs text-sm text-text-body-secondary">{item.ctx}</span>
+      </>
+    )
+  }
+</button>
