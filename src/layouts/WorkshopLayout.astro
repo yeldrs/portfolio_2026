@@ -1,6 +1,6 @@
 ---
 // src/layouts/WorkshopLayout.astro
-import ArrowButton from "../components/ArrowButton.astro";
+import ImageModal from "../components/ImageModal.astro";
 import Container from "../components/Container.astro";
 import FilterChips from "../components/FilterChips.astro";
 import WorkshopDetail from "../components/WorkshopDetail.astro";
@@ -24,6 +24,7 @@ const items: WorkshopItem[] = data.projects.map((p) => ({
   ...p,
   cover: workshopMedia[p.id]?.cover,
   gallery: workshopMedia[p.id]?.gallery ?? [],
+  fit: workshopMedia[p.id]?.fit ?? "contain",
   skillLabels: p.skills.map((id) => skillLabel(id, lang)),
 }));
 
@@ -72,43 +73,7 @@ const labels = {
     </div>
   </Container>
 
-  <div
-    data-ws-modal
-    hidden
-    role="dialog"
-    aria-modal="true"
-    class="fixed inset-0 z-[9999] bg-black/80 items-center justify-center p-4 cursor-zoom-out [&:not([hidden])]:flex"
-  >
-    <button
-      type="button"
-      data-ws-modal-close
-      aria-label={t("modal.close")}
-      class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
-    >
-      &times;
-    </button>
-    <div class="relative flex items-center justify-center w-full h-full" data-ws-modal-body>
-      <ArrowButton
-        id="wsModalPrev"
-        label={t("modal.previous")}
-        direction="left"
-        variant="tertiary"
-        class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
-      />
-      <img
-        data-ws-modal-img
-        alt={t("modal.enlargedImageAlt")}
-        class="max-w-full max-h-full object-contain"
-      />
-      <ArrowButton
-        id="wsModalNext"
-        label={t("modal.next")}
-        direction="right"
-        variant="tertiary"
-        class="absolute right-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
-      />
-    </div>
-  </div>
+  <ImageModal />
 </div>
 
 <script>
@@ -127,39 +92,6 @@ const labels = {
       }
     }
 
-    const modal = root.querySelector<HTMLElement>("[data-ws-modal]");
-    const modalImg = root.querySelector<HTMLImageElement>("[data-ws-modal-img]");
-    const prevBtn = root.querySelector<HTMLButtonElement>("#wsModalPrev");
-    const nextBtn = root.querySelector<HTMLButtonElement>("#wsModalNext");
-    let modalList: string[] = [];
-    let modalIndex = 0;
-    let lastFocus: HTMLElement | null = null;
-
-    function showModalAt(i: number) {
-      if (!modalImg || i < 0 || i >= modalList.length) return;
-      modalIndex = i;
-      modalImg.src = modalList[i];
-      const navigable = modalList.length > 1;
-      for (const b of [prevBtn, nextBtn]) b?.classList.toggle("hidden", !navigable);
-      if (prevBtn) prevBtn.disabled = i <= 0;
-      if (nextBtn) nextBtn.disabled = i >= modalList.length - 1;
-    }
-
-    function openModal(images: string[], index: number) {
-      if (!modal || images.length === 0) return;
-      lastFocus = document.activeElement as HTMLElement | null;
-      modalList = images;
-      modal.hidden = false;
-      showModalAt(index);
-      modal.querySelector<HTMLElement>("[data-ws-modal-close]")?.focus();
-    }
-
-    function closeModal() {
-      if (!modal || modal.hidden) return;
-      modal.hidden = true;
-      lastFocus?.focus();
-    }
-
     function selectThumb(detail: HTMLElement, idx: string) {
       for (const img of detail.querySelectorAll<HTMLElement>("[data-ws-main]")) {
         img.classList.toggle("hidden", img.dataset.wsMain !== idx);
@@ -169,33 +101,18 @@ const labels = {
       }
     }
 
-    document.addEventListener("keydown", (event) => {
-      if (!modal || modal.hidden) return;
-      if (event.key === "Escape") closeModal();
-      else if (event.key === "ArrowLeft") showModalAt(modalIndex - 1);
-      else if (event.key === "ArrowRight") showModalAt(modalIndex + 1);
-    });
-
     root.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
-
-      if (modal && !modal.hidden) {
-        if (target.closest("#wsModalPrev")) return showModalAt(modalIndex - 1);
-        if (target.closest("#wsModalNext")) return showModalAt(modalIndex + 1);
-        if (target.closest("[data-ws-modal-close]") || !target.closest("[data-ws-modal-body]")) {
-          return closeModal();
-        }
-        if (target.closest("[data-ws-modal-img]")) return;
-        return closeModal();
-      }
 
       const zoom = target.closest<HTMLElement>("[data-ws-zoom]");
       if (zoom) {
         const section = zoom.closest<HTMLElement>("[data-ws-item]");
         const images: string[] = JSON.parse(section?.dataset.images ?? "[]");
-        const visible = zoom.querySelector<HTMLElement>("[data-ws-main]:not([hidden])");
+        const visible = zoom.querySelector<HTMLElement>("[data-ws-main]:not(.hidden)");
         const index = zoom.dataset.wsZoom ? Number(zoom.dataset.wsZoom) : Number(visible?.dataset.wsMain ?? 0);
-        return openModal(images, index);
+        (window as unknown as { showImageModal: (url: string, list: string[]) => void })
+          .showImageModal(images[index], images);
+        return;
       }
 
       const chip = target.closest<HTMLElement>("[data-ws-filter]");

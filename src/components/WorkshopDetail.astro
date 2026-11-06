@@ -22,12 +22,12 @@ export interface Props {
 const { item, labels } = Astro.props;
 
 const images = [...(item.cover ? [item.cover] : []), ...item.gallery];
-const offset = item.cover ? 1 : 0;
-// One thumbnail per gallery image, padded to full rows of 3.
-const slotCount = Math.max(3, Math.ceil(item.gallery.length / 3) * 3);
-const slots = Array.from({ length: slotCount }, (_, i) => i).map((i) => ({
-  url: item.gallery[i] ?? "",
-  idx: i + offset,
+// One thumbnail per image, the main image included (so it can be re-selected),
+// padded to at least one row of 4.
+const slotCount = Math.max(4, images.length);
+const slots = Array.from({ length: slotCount }, (_, i) => ({
+  url: images[i] ?? "",
+  idx: i,
   label: labels.photoN.replace("{index}", String(i + 1)),
 }));
 ---
@@ -51,7 +51,11 @@ const slots = Array.from({ length: slotCount }, (_, i) => i).map((i) => ({
                 alt={item.title}
                 data-ws-main={i}
                 loading="lazy"
-                class:list={["w-full h-full object-contain", i !== 0 && "hidden"]}
+                class:list={[
+                  "w-full h-full",
+                  item.fit === "cover" ? "object-cover" : "object-contain",
+                  i !== 0 && "hidden",
+                ]}
               />
             ))}
           </button>
@@ -62,7 +66,7 @@ const slots = Array.from({ length: slotCount }, (_, i) => i).map((i) => ({
         )
       }
     </div>
-    <div class="grid grid-flow-col auto-cols-[calc((100%-2*theme(spacing.sm-d))/3)] gap-sm-d mt-sm-d overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div class="grid grid-flow-col auto-cols-[calc((100%-3*theme(spacing.sm-d))/4)] gap-sm-d mt-sm-d overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {
         slots.map((s) => (
           <button

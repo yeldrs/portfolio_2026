@@ -35,6 +35,7 @@ export interface WorkshopData {
 export interface WorkshopItem extends WorkshopProject {
   cover?: string;
   gallery: string[];
+  fit: "cover" | "contain";
   /** `skills` resolved to the current locale's labels. */
   skillLabels: string[];
 }

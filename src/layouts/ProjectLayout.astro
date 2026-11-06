@@ -7,7 +7,7 @@ import Container from "../components/Container.astro";
 import ProjectCarousel from "../components/ProjectCarousel.astro";
 import ProjectSection from "../components/ProjectSection.astro";
 import ProjectFigure from "../components/ProjectFigure.astro";
-import ArrowButton from "../components/ArrowButton.astro";
+import ImageModal from "../components/ImageModal.astro";
 import { LOCALES } from "../i18n/locales";
 import { useTranslations, plainText } from "../i18n/utils";
 
@@ -97,9 +97,6 @@ const designConceptionList = copy.designConception?.listItems || [];
 const hasDesignConception =
   Boolean(copy.designConception?.paragraph?.trim()) || designConceptionList.length > 0;
 
-// Both modal arrows render visible; the disabled-at-the-ends state is driven by
-// the `disabled` attribute + the `disabled:opacity-30` class, set from JS.
-const arrowVariant = "tertiary";
 ---
 
 <BaseLayout
@@ -368,142 +365,5 @@ const arrowVariant = "tertiary";
     </div>
   </Container>
 
-  <div
-    id="imageModal"
-    class="fixed inset-0 z-[9999] bg-black/80 hidden items-center justify-center p-4 cursor-zoom-out"
-    aria-modal="true"
-    role="dialog"
-    onclick="window.hideImageModal()"
-  >
-    {/* Close button */}
-    <button
-      id="closeModalBtn"
-      class="absolute top-4 right-4 text-white text-3xl z-10 p-2 leading-none hover:text-red-400"
-      aria-label={t("modal.close")}
-      onclick="event.stopPropagation(); window.hideImageModal();"
-    >
-      &times;
-    </button>
-
-    <div
-      class="relative flex items-center justify-center w-full h-full"
-      onclick="event.stopPropagation()"
-    >
-      <ArrowButton
-        id="modalPrevBtn"
-        label={t("modal.previous")}
-        direction="left"
-        variant={arrowVariant as any}
-        onClick="window.navigateModal(-1)"
-        class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
-      />
-
-      <img
-        id="modalImage"
-        data-current-modal-index="0"
-        alt={t("modal.enlargedImageAlt")}
-        class="max-w-full max-h-full object-contain"
-      />
-
-      <ArrowButton
-        id="modalNextBtn"
-        label={t("modal.next")}
-        direction="right"
-        variant={arrowVariant as any}
-        onClick="window.navigateModal(1)"
-        class="absolute right-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
-      />
-    </div>
-  </div>
-
-  <script define:vars={{ carousel: carouselImages }} is:inline>
-    // The modal pages through the carousel images only. A standard section image
-    // opens on its own — index -1, no arrows, keyboard nav is a no-op.
-    const modalImages = Array.isArray(carousel) ? carousel : [];
-
-    window.isModalOpen = false;
-    window.isInitialized = false;
-
-    window.navigateModal = function (direction) {
-      const modalImg = document.getElementById("modalImage");
-      if (!modalImg || !window.isModalOpen) return;
-
-      const currentIndex = parseInt(modalImg.dataset.currentModalIndex);
-      if (isNaN(currentIndex) || currentIndex < 0) return; // not a carousel image
-
-      const newIndex = currentIndex + direction;
-      if (newIndex < 0 || newIndex >= modalImages.length) return;
-
-      modalImg.src = modalImages[newIndex];
-      modalImg.dataset.currentModalIndex = String(newIndex);
-      updateModalArrows(newIndex);
-    };
-
-    window.showImageModal = function (imageUrl) {
-      const modal = document.getElementById("imageModal");
-      const modalImg = document.getElementById("modalImage");
-      if (!modal || !modalImg || !imageUrl) return;
-
-      if (window.isModalOpen) window.hideImageModal();
-
-      const index = modalImages.indexOf(imageUrl); // -1 for a standalone image
-      modalImg.src = imageUrl;
-      modalImg.dataset.currentModalIndex = String(index);
-
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-      window.isModalOpen = true;
-
-      updateModalArrows(index);
-      modal.focus();
-    };
-
-    window.hideImageModal = function () {
-      const modal = document.getElementById("imageModal");
-      if (modal && window.isModalOpen) {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-        window.isModalOpen = false;
-      }
-    };
-
-    // index === -1 (standalone image) or a carousel of 0/1 → no arrows at all.
-    function updateModalArrows(index) {
-      const prevBtn = document.getElementById("modalPrevBtn");
-      const nextBtn = document.getElementById("modalNextBtn");
-      if (!prevBtn || !nextBtn) return;
-
-      const navigable = index >= 0 && modalImages.length > 1;
-      prevBtn.classList.toggle("hidden", !navigable);
-      nextBtn.classList.toggle("hidden", !navigable);
-
-      prevBtn.disabled = !navigable || index <= 0;
-      nextBtn.disabled = !navigable || index >= modalImages.length - 1;
-    }
-
-    function attachKeyboardHandler() {
-      if (window.isInitialized) return;
-
-      document.addEventListener("keydown", (event) => {
-        if (window.isModalOpen) {
-          if (event.key === "Escape") {
-            window.hideImageModal();
-          } else if (event.key === "ArrowLeft") {
-            window.navigateModal(-1);
-          } else if (event.key === "ArrowRight") {
-            window.navigateModal(1);
-          }
-        }
-      });
-      window.isInitialized = true;
-    }
-
-    // --- Initialization ---
-    // We use DOMContentLoaded to ensure the elements are in the DOM before attaching the handler
-    document.addEventListener("DOMContentLoaded", () => {
-      attachKeyboardHandler();
-    });
-    // We also attach on swap for Astro View Transitions
-    document.addEventListener("astro:after-swap", attachKeyboardHandler);
-  </script>
+  <ImageModal images={carouselImages} />
 </BaseLayout>
