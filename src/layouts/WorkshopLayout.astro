@@ -162,7 +162,7 @@ const labels = {
 
     function selectThumb(detail: HTMLElement, idx: string) {
       for (const img of detail.querySelectorAll<HTMLElement>("[data-ws-main]")) {
-        img.hidden = img.dataset.wsMain !== idx;
+        img.classList.toggle("hidden", img.dataset.wsMain !== idx);
       }
       for (const b of detail.querySelectorAll<HTMLElement>("[data-ws-thumb]")) {
         b.setAttribute("aria-pressed", String(b.dataset.wsThumb === idx));

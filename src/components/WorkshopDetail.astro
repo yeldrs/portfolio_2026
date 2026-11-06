@@ -33,10 +33,10 @@ const slots = Array.from({ length: slotCount }, (_, i) => i).map((i) => ({
 ---
 
 <section
-  class="grid grid-cols-12 gap-x-xl p-xl w-full bg-background-primary border border-stroke-secondary rounded-2xl text-text-body-primary"
+  class="grid grid-cols-12 grid-rows-[minmax(0,1fr)] gap-x-xl p-xl w-full max-h-[calc(100svh-theme(spacing.3xl)-theme(spacing.xl))] bg-background-primary border border-stroke-secondary rounded-2xl text-text-body-primary"
 >
-  <div class="col-span-7 min-w-0">
-    <div class="relative h-[min(360px,40vh)] rounded-xl overflow-hidden bg-gray-100">
+  <div class="col-span-7 min-w-0 min-h-0">
+    <div class="relative w-full aspect-video min-h-64 max-h-[calc(100svh-theme(spacing.3xl)-theme(spacing.xl)-2*theme(spacing.xl)-theme(spacing.24)-theme(spacing.sm-d))] rounded-xl overflow-hidden bg-gray-100">
       {
         images.length > 0 ? (
           <button
@@ -46,15 +46,14 @@ const slots = Array.from({ length: slotCount }, (_, i) => i).map((i) => ({
             class="block w-full h-full p-0 m-0 cursor-zoom-in"
           >
             {images.map((src, i) => (
-            <img
-              src={src}
-              alt={item.title}
-              data-ws-main={i}
-              hidden={i !== 0}
-              loading="lazy"
-              class="w-full h-full object-cover block"
-            />
-          ))}
+              <img
+                src={src}
+                alt={item.title}
+                data-ws-main={i}
+                loading="lazy"
+                class:list={["w-full h-full object-contain", i !== 0 && "hidden"]}
+              />
+            ))}
           </button>
         ) : (
           <span class="absolute inset-0 flex items-center justify-center text-sm text-text-body-tertiary">
@@ -72,7 +71,7 @@ const slots = Array.from({ length: slotCount }, (_, i) => i).map((i) => ({
             aria-pressed={s.url && s.idx === 0 ? "true" : "false"}
             disabled={!s.url}
             data-ws-thumb={s.idx}
-            class="block h-[min(96px,10vh)] p-0 m-0 overflow-hidden cursor-pointer bg-gray-100 border-2 border-transparent rounded-xl disabled:cursor-default aria-pressed:border-stroke-primary-dark"
+            class="block h-24 p-0 m-0 overflow-hidden cursor-pointer bg-gray-100 border-2 border-transparent rounded-xl disabled:cursor-default aria-pressed:border-stroke-primary-dark"
           >
             {s.url && (
               <img
@@ -88,7 +87,7 @@ const slots = Array.from({ length: slotCount }, (_, i) => i).map((i) => ({
     </div>
   </div>
 
-  <div class="col-span-5 min-w-0 flex flex-col gap-lg">
+  <div class="col-span-5 min-w-0 min-h-0 overflow-y-auto flex flex-col gap-lg">
     <div>
       <p class="m-0 mb-xs text-sm font-semibold text-text-body-accent">{item.line}</p>
       <h2 class="m-0 font-serif text-3xl font-semibold">{item.title}</h2>
