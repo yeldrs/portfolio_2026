@@ -85,6 +85,16 @@ navigator.clipboard.writeText(email).then(() => {
         <p class="text-base text-text-body-secondary leading-relaxed">
           {about.introBody}
         </p>
+        <p class="text-base text-text-body-secondary leading-relaxed">
+          {about.introWorkshop}
+          <a
+            href={lang === "fr" ? "/fr/atelier" : "/workshop"}
+            class="underline text-text-body-primary font-semibold"
+            data-umami-event="about-workshop-link"
+          >
+            {about.introWorkshopLink}
+          </a>
+        </p>
 
         <Button
           href={`mailto:${emailAddress}`}

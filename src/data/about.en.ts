@@ -7,6 +7,8 @@ export const about: AboutData = {
   introBody:
     "I focus on user research and business performance, turning user insights into genuine interactions that stimulate growth, answer needs and keep people coming back. I am committed to projects that have a social and environmental impact",
   introCta: "Let's connect",
+  introWorkshop: "Woodworker at heart.",
+  introWorkshopLink: "Check the workshop",
 
   experienceHeading: "Experience",
   professionalExperience: [
