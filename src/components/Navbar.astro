@@ -20,24 +20,36 @@ const homeHref = stripTrailingSlash(getRelativeLocaleUrl(lang, "/"));
 // path portion ("/fr/") 404s on GitHub Pages for the same reason homeHref needs
 // stripTrailingSlash (build.format:'file' never emits dist/fr/index.html). Reuse the
 // already-stripped homeHref instead.
-const navLinks = [
-  { name: t("nav.work"), href: `${homeHref}#projects`, id: "work" },
-  { name: t("nav.about"), href: getRelativeLocaleUrl(lang, "/about"), id: "about" },
-  { name: t("nav.contact"), href: `${homeHref}#contact`, id: "contact" },
-];
+const strippedPath = stripLocalePrefix(currentPath, lang);
+const isHome = strippedPath === "/";
+// Workshop is a standalone mini-site: its own "work" link, no About, same-page contact anchor.
+const isWorkshop = strippedPath === "/workshop" || strippedPath === "/atelier";
+
+const navLinks = isWorkshop
+  ? [
+      { name: t("nav.work"), href: currentPath, id: "work" },
+      { name: t("nav.contact"), href: "#contact", id: "contact" },
+    ]
+  : [
+      { name: t("nav.work"), href: `${homeHref}#projects`, id: "work" },
+      { name: t("nav.about"), href: getRelativeLocaleUrl(lang, "/about"), id: "about" },
+      { name: t("nav.contact"), href: `${homeHref}#contact`, id: "contact" },
+    ];
 
 const switcherHref = getLocalizedPath(currentPath, lang, otherLang);
-const isHome = stripLocalePrefix(currentPath, lang) === "/";
 
 const currentLangMeta = LOCALES[lang];
 const otherLangMeta = LOCALES[otherLang];
 
 // Extract the page name for tracking (e.g.: "home", "about", "900care")
-const pageName = isHome ? "home" : currentPath.split("/").filter(Boolean).pop();
+const pageName = isHome ? "home" : isWorkshop ? "workshop" : currentPath.split("/").filter(Boolean).pop();
+// Prefix makes workshop events filterable in Umami
+const ev = isWorkshop ? "workshop-" : "";
 
 // Simplified logic for the initial active state
 function getInitialActive(id: string, path: string) {
   if (id === "about" && stripLocalePrefix(path, lang).includes("/about")) return true;
+  if (id === "work" && isWorkshop) return true;
   return false;
 }
 ---
@@ -48,9 +60,9 @@ function getInitialActive(id: string, path: string) {
 >
   <Container class="flex justify-between items-center">
     <a
-      href={homeHref}
+      href={isWorkshop ? currentPath : homeHref}
       id="nav-logo"
-      data-umami-event={`nav-link-logo-from-${pageName}`}
+      data-umami-event={`${ev}nav-link-logo-from-${pageName}`}
       class:list={[
         "text-base transition duration-150 uppercase",
         isHome ? "font-extrabold text-text-body-primary" : "text-text-body-primary font-normal",
@@ -68,7 +80,7 @@ function getInitialActive(id: string, path: string) {
               href={link.href}
               id={`nav-link-${link.id}`}
               data-nav-id={link.id}
-              data-umami-event={`nav-link-${link.id}-from-${pageName}`}
+              data-umami-event={`${ev}nav-link-${link.id}-from-${pageName}`}
               data-umami-event-name={link.name}
               class:list={[
                 "nav-item text-base uppercase transition duration-150",
@@ -114,7 +126,7 @@ function getInitialActive(id: string, path: string) {
             href={switcherHref}
             role="menuitem"
             id="nav-lang-switcher"
-            data-umami-event={`nav-lang-switch-to-${otherLang}-from-${pageName}`}
+            data-umami-event={`${ev}nav-lang-switch-to-${otherLang}-from-${pageName}`}
             class="flex items-center gap-2 px-sm py-xs text-sm font-normal text-text-body-secondary hover:text-text-body-primary hover:bg-gray-50 transition-colors"
           >
             <FlagIcon lang={otherLang} />
@@ -129,7 +141,7 @@ function getInitialActive(id: string, path: string) {
       aria-label={t("nav.toggleMenu")}
       aria-expanded="false"
       aria-controls="mobile-menu"
-      data-umami-event={`nav-mobile-burger-from-${pageName}`}
+      data-umami-event={`${ev}nav-mobile-burger-from-${pageName}`}
       class="md:hidden text-text-body-primary relative h-10 w-10 flex items-center justify-center p-0"
     >
       <div id="burger-icon" class="w-6 h-6 absolute">
@@ -198,7 +210,7 @@ function getInitialActive(id: string, path: string) {
             <a
               href={link.href}
               data-nav-id={link.id}
-              data-umami-event={`nav-mobile-link-${link.id}-from-${pageName}`}
+              data-umami-event={`${ev}nav-mobile-link-${link.id}-from-${pageName}`}
               data-umami-event-name={link.name}
               class:list={[
                 "text-base uppercase transition duration-150",
@@ -219,7 +231,7 @@ function getInitialActive(id: string, path: string) {
         </span>
         <a
           href={switcherHref}
-          data-umami-event={`nav-mobile-lang-switch-to-${otherLang}-from-${pageName}`}
+          data-umami-event={`${ev}nav-mobile-lang-switch-to-${otherLang}-from-${pageName}`}
           class="flex items-center gap-1.5 text-sm font-normal text-text-body-secondary transition-colors hover:text-text-body-primary"
         >
           <FlagIcon lang={otherLang} />
@@ -295,6 +307,11 @@ function getInitialActive(id: string, path: string) {
 
     if (currentPath.includes("/about")) {
       setActiveNavItem("about");
+      return;
+    }
+
+    if (/\/(workshop|atelier)(\.html)?\/?$/.test(currentPath)) {
+      setActiveNavItem(isNearFooter ? "contact" : "work");
       return;
     }
 

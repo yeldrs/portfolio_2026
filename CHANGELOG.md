@@ -8,6 +8,13 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ---
 
+## 2026-11-07 — Atelier en page autonome + Umami `workshop-`
+
+- `src/components/Navbar.astro` — sur `/workshop` et `/fr/atelier`: liens Work (vers l'atelier, actif) + Contact (`#contact`), sans About; le logo pointe vers l'atelier. Mêmes liens en desktop et mobile.
+- `Navbar.astro`, `Footer.astro` — événements Umami préfixés `workshop-` sur cette page (nav, langue, burger, footer, copie d'email); `pageName` = `workshop` pour EN et FR. Autres pages inchangées.
+
+---
+
 ## 2026-11-06 — Page "Conception et atelier" (/workshop, /fr/atelier), non liée
 
 Implémentée depuis le canevas Claude Design "Section conception tangible", puis retravaillée avec le propriétaire.

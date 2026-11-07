@@ -23,6 +23,9 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
+const isWorkshop = /\/(workshop|atelier)(\.html)?\/?$/.test(Astro.url.pathname);
+const ev = isWorkshop ? "workshop-" : "";
+
 const currentYear = new Date().getFullYear();
 const emailAddress = "contact@yassineelidrissi.com";
 
@@ -31,7 +34,7 @@ const email = "${emailAddress}";
 const clickedElement = e.currentTarget; 
 
 // Manual tracking for Umami on click
-if (window.umami) umami.track("footer-email-copy");
+if (window.umami) umami.track("${ev}footer-email-copy");
 
 if (window.isSecureContext === false && window.location.protocol !== 'http:') {
    console.error("Clipboard access restricted.");
@@ -133,7 +136,7 @@ navigator.clipboard.writeText(email).then(() => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t("footer.visitProfileAria", { name: link.name })}
-              data-umami-event="footer-social-click"
+              data-umami-event={`${ev}footer-social-click`}
               data-umami-event-type={link.trackingId}
               class="text-text-body-primary hover:text-gray-600 transition-colors"
             >
