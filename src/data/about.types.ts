@@ -42,7 +42,6 @@ export interface AboutData {
   introBody: string;
   introCta: string;
   introWorkshop: string;
-  introWorkshopLink: string;
   experienceHeading: string;
   professionalExperience: ProfessionalExperience[];
   toolkitHeading: string;

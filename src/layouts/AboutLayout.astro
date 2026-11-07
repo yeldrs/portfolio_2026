@@ -85,13 +85,6 @@ navigator.clipboard.writeText(email).then(() => {
         <p class="text-base text-text-body-secondary leading-relaxed">
           {about.introBody}
           {about.introWorkshop}
-          <a
-            href={lang === "fr" ? "/fr/atelier" : "/workshop"}
-            class="link"
-            data-umami-event="about-workshop-link"
-          >
-            {about.introWorkshopLink}
-          </a>
         </p>
 
         <Button

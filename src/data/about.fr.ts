@@ -11,7 +11,6 @@ export const about: AboutData = {
     "Spécialisé en UX, je transforme les insights utilisateur en leviers concrets de performance business où l'inclusivité, l'accessibilité et l'éthique deviennent des critères de conception.",
   introCta: "Discutons",
   introWorkshop: "Hors écran, j'adore travailler le bois.",
-  introWorkshopLink: "Voir l'atelier",
 
   experienceHeading: "Expérience",
   professionalExperience: [
