@@ -84,12 +84,10 @@ navigator.clipboard.writeText(email).then(() => {
         </h2>
         <p class="text-base text-text-body-secondary leading-relaxed">
           {about.introBody}
-        </p>
-        <p class="text-base text-text-body-secondary leading-relaxed">
           {about.introWorkshop}
           <a
             href={lang === "fr" ? "/fr/atelier" : "/workshop"}
-            class="underline text-text-body-primary font-semibold"
+            class="link"
             data-umami-event="about-workshop-link"
           >
             {about.introWorkshopLink}
