@@ -30,7 +30,7 @@ const primitives = {
       page: "#f4f7f8",
     },
 
-    // Accent / brand color — action (violet)
+    // Accent / brand color — action (indigo blue)
     "accent-action": {
       50: "#eef1ff",
       100: "#dfe5ff",

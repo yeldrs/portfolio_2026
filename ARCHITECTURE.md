@@ -167,7 +167,7 @@ tokens.js primitives   →   tokens.js semantic.colors   →   component .astro
                             ↑ consumed as-is by tailwind.config.mjs
 ```
 
-- **Level 1 — `primitives`**: raw values. Brand colour = the `accent-action` palette (violet),
+- **Level 1 — `primitives`**: raw values. Brand colour = the `accent-action` palette (indigo blue),
   50 → 950. Plus a grey ramp, `surface.page`, and white/black.
 - **Level 2 — `semantic.colors`**: role names (`background-brand`, `text-body-primary`,
   `button-background-primary`, `stroke-secondary`, `text-link`, …) that reference the

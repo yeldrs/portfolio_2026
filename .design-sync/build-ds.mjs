@@ -159,7 +159,7 @@ const swCss = `.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(
 
 const prim = (key) => Object.entries(P.color[key]).map(([k, v]) => [`${key}-${k}`, v]);
 w("preview/colors-gray.html", card("Colors", "Gray ramp", swCss, swatches("Gray", prim("gray"))));
-w("preview/colors-accent.html", card("Colors", "Accent action ramp", swCss, swatches("Accent action (violet)", prim("accent-action"))));
+w("preview/colors-accent.html", card("Colors", "Accent action ramp", swCss, swatches("Accent action (indigo blue)", prim("accent-action"))));
 w(
   "preview/colors-base.html",
   card("Colors", "Base and surface", swCss, swatches("Base and surface", [
@@ -224,7 +224,7 @@ w("README.md", `# portfolio_2026 design system
 Source of truth: \`src/styles/tokens.js\` in the yeldrs/portfolio_2026 repo. This project is a generated mirror, pushed on request with /design-sync. Do not edit tokens here; change them in the repo and sync again.
 
 ## Foundations
-- Colors: gray ramp, accent-action (violet) ramp, base white/black, page surface #f4f7f8. Components use the semantic roles (background-*, text-*, button-*, stroke-*, text-link), never raw ramps.
+- Colors: gray ramp, accent-action (indigo blue) ramp, base white/black, page surface #f4f7f8. Components use the semantic roles (background-*, text-*, button-*, stroke-*, text-link), never raw ramps.
 - Type: Manrope (sans, UI and body), Lora (serif, display headings; italic for hero and footer accents). Scale 12 to 60px.
 - Spacing: xxs 2px to 6xl 112px. Radius: md 6, xl 12, 2xl 16, card 12, pills are fully rounded.
 - Layout: container max 1200px (rendered as max-w-7xl), card images 4:3.
@@ -242,7 +242,7 @@ Source of truth: \`src/styles/tokens.js\` in the yeldrs/portfolio_2026 repo. Thi
 `);
 w("SKILL.md", `---
 name: portfolio-2026-design
-description: Design with the portfolio_2026 design system (violet accent, Manrope and Lora, rounded-full buttons, 4:3 cards). Use for new pages, layouts and components of Yassine El Idrissi's portfolio.
+description: Design with the portfolio_2026 design system (indigo blue accent, Manrope and Lora, rounded-full buttons, 4:3 cards). Use for new pages, layouts and components of Yassine El Idrissi's portfolio.
 ---
 
 Read README.md, link colors_and_type.css and ui_kits/portfolio/kit.css, and reuse the existing components (navbar, hero, project card, section, footer, buttons). Use CSS variables only.
