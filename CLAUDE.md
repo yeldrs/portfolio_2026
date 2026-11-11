@@ -23,6 +23,8 @@ Published case studies: 900.care, Caisse des Dépôts, Batchcooking. Draft: biom
 3. Deeper architecture rationale → `ARCHITECTURE.md`, on demand.
 4. Exact content contract → `src/content/config.ts` (the Zod schema is the authority).
 
+Multi-agent work (Claude Code principal, OpenCode secondary): rules in **`AGENTS.md`**.
+
 Common tasks have a step-by-step skill in `.claude/skills/`: `add-case-study`,
 `translate-content`, `predeploy-check`.
 

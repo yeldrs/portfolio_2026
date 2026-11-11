@@ -2,6 +2,7 @@
 
 Open items only — what's left to do. Read this at session start.
 Done → one line in `CHANGELOG.md`, removed from here. Keep this file short.
+Every change here adds a line to `docs/BACKLOG_LOG.md`; never delete a task, mark it "Écarté".
 
 Format: `- [ ] <area> — <what> — <why> (<severity>)`
 
