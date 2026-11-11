@@ -209,13 +209,15 @@ const arrowBtn =
     container-type: inline-size;
     --wg-k: 0.001;
     --wf-u: calc(100cqw * var(--wg-k));
-    /* The mat keeps a visible margin above and below the screens: the fade completes
-       before the first frame, so the backdrop starts before the mockups. */
-    padding-block: theme("spacing.2xl") theme("spacing.xl");
+    /* A 32px step under the "Screens" label (8px label margin + 24px), like the rest
+       of the page rhythm; the mat starts at the rail top. */
+    padding-block: theme("spacing.lg") theme("spacing.xl");
   }
   .wg-mat {
     position: absolute;
-    inset: 0;
+    /* Stops before the caption row (caption + device chip sit below the frames) and
+       covers the 24px band above the screens. */
+    inset: 0 0 theme("spacing.4xl");
     pointer-events: none;
     --mat-minor: color-mix(in srgb, theme("colors.stroke-neutral-primary") 30%, transparent);
     --mat-major: color-mix(in srgb, theme("colors.stroke-neutral-primary") 60%, transparent);
@@ -230,16 +232,17 @@ const arrowBtn =
       theme("spacing.md") theme("spacing.md"),
       theme("spacing.md") theme("spacing.md");
     /* Fades out on every side but is already at full strength behind the first screens. */
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
     mask-composite: intersect;
   }
   .wg-rail-track {
     position: relative;
     display: flex;
     align-items: flex-end;
-    gap: theme("spacing.md");
+    /* Gap = two 16px mat cells: the grid keeps its rhythm between the screens. */
+    gap: theme("spacing.xl");
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-padding-inline-start: theme("spacing.md");
@@ -259,16 +262,15 @@ const arrowBtn =
   @media (min-width: theme("screens.md")) {
     .wg-rail {
       --wg-k: 0.000358;
-      padding-block: theme("spacing.3xl") theme("spacing.2xl");
+      padding-block: theme("spacing.lg") theme("spacing.2xl");
     }
     .wg-rail-track {
-      gap: theme("spacing.lg");
       padding-inline-start: 0;
       scroll-padding-inline-start: 0;
     }
     /* Outside the content column: the mat runs into the gutter and past the container. */
     .wg-mat {
-      inset: 0 calc(-1 * theme("spacing.3xl"));
+      inset: 0 calc(-1 * theme("spacing.3xl")) calc(theme("spacing.4xl") + theme("spacing.md"));
     }
   }
 
@@ -279,22 +281,21 @@ const arrowBtn =
     --u: calc((var(--stage-h) - theme("spacing.3xl") * 2) / var(--ref));
     height: var(--stage-h);
   }
-  /* Hi-fi stage: a discreet dot grid, like a measuring canvas, that runs past the stage
-     and fades out on every side so it starts before the screens. */
+  /* Hi-fi stage: a discreet dot grid, like a measuring canvas. The dots fade on the
+     same rhythm as the screens: an elliptical vignette with soft corners instead of a
+     hard rectangular fade. */
   .wg-spot-mat {
     position: absolute;
     inset: calc(-1 * theme("spacing.3xl")) 0 calc(-1 * theme("spacing.2xl"));
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, theme("colors.gray.400") 45%, transparent) calc(theme("spacing.xxs") / 2),
+      color-mix(in srgb, theme("colors.gray.400") 35%, transparent) calc(theme("spacing.xxs") / 2),
       transparent theme("spacing.xxs")
     );
-    background-size: theme("spacing.md") theme("spacing.md");
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%), linear-gradient(transparent 0%, #000 8%, #000 92%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%), linear-gradient(transparent 0%, #000 8%, #000 92%, transparent 100%);
-    mask-composite: intersect;
+    background-size: calc(theme("spacing.md") * 0.75) calc(theme("spacing.md") * 0.75);
+    -webkit-mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, #000 46%, transparent 100%);
+    mask-image: radial-gradient(ellipse 72% 78% at 50% 50%, #000 46%, transparent 100%);
   }
   .wg-track {
     /* Opacity mask, like a gradient dragged across the screens: they simply disappear toward the stage edges. */
@@ -323,7 +324,7 @@ const arrowBtn =
     box-shadow: theme("boxShadow.sm");
   }
   .wg-flat {
-    box-shadow: theme("boxShadow.sm");
+    box-shadow: theme("boxShadow.md");
   }
   .wg-ritem:hover .wg-flat {
     border-color: theme("colors.button-background-primary");

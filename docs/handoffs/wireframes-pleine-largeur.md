@@ -17,23 +17,27 @@ compris quand le fond dépasse le conteneur sur desktop.
     (`-mx-md`), dans le conteneur à partir de `md`.
   - Le libellé « Screens » reste dans la colonne de texte.
 - `src/components/workflow/WorkflowGallery.astro`
-  - Rail : le fond quadrillé (`.wg-mat`) est plus haut et plus bas que les écrans, et
-    déborde à gauche et à droite de la colonne sur desktop. Le masque de fondu se termine
-    avant le haut des maquettes.
+  - Rail : le fond quadrillé (`.wg-mat`) cadre les maquettes, pas les légendes : il commence
+    au bord haut du rail (24 px au-dessus des écrans, 32 px sous le libellé « Screens ») et
+    s'arrête 14 px sous les écrans, avant la ligne légende + type d'appareil. Il déborde à
+    gauche et à droite de la colonne sur desktop.
   - Rail : le voile de fin de défilement à droite est devenu un masque CSS sur la piste,
     pour ne plus recouvrir le fond.
   - Rail : `scroll-padding-inline-start` aligné sur le padding gauche, pour que le
     scroll-snap ne coupe plus le premier écran.
   - Rail, grille : couleur neutre (`stroke-neutral-primary`, 30 % / 60 %), mailles de
     16 px et repères majeurs tous les 64 px. Le padding haut de la piste est retiré et le
-    padding gauche desktop passe à 0 : le coin haut-gauche du premier écran tombe sur une
-    intersection majeure de la grille.
-  - Rail, grille : ombre légère (`boxShadow.sm`) sur `.wg-flat`, sous chaque écran.
+    padding gauche desktop passe à 0.
+  - Rail, espacement : 32 px entre les écrans, soit deux mailles de 16 px ; le rythme de la
+    grille continue d'un écran à l'autre.
+  - Rail, grille : ombre portée `boxShadow.md` sur `.wg-flat` (l'ancien `sm` était
+    invisible), sous chaque écran.
   - Spotlight : le cadre gris `rounded-card` devient un canevas de points qui déborde de
     la scène et se fond sur les quatre côtés. Les écrans et les contrôles restent inchangés.
-  - Spotlight, points : échelle réduite (16 px) et opacité adoucie (gray-400 à 45 %) ;
-    masques de fondu resserrés (6 % / 94 % horizontal, 8 % / 92 % vertical) pour que le
-    dégradé ne mange plus le champ de points.
+  - Spotlight, points : maille resserrée à 12 px, point de 1 px à 35 % de gray-400.
+    Le double masque linéaire est remplacé par un masque radial (ellipse 72 % x 78 %,
+    opaque jusqu'à 46 %) : fondu plus doux, coins arrondis, disparition alignée sur celle
+    des maquettes.
 - `src/components/workflow/WorkflowScreen.astro`
   - Légende et liste de repères : `px-md` sur mobile pour rester alignées avec le texte
     quand l'image de la galerie grid est en pleine largeur.
@@ -52,16 +56,17 @@ compris quand le fond dépasse le conteneur sur desktop.
 - [x] Mobile : largeur de la galerie = 390 px (x = 0), pas de débordement horizontal du
       document, premier écran du rail à x = 16 (padding conservé)
 - [x] Desktop : pas de débordement horizontal du document, le fond dépasse bien la colonne
-- [x] Grille rail alignée : écart du premier écran à la grille mesuré à 64 px sur x et y,
-      soit un multiple exact de la maille majeure (64 px)
+- [x] Rail : marges mesurées — 24 px de fond au-dessus des écrans, 14 px en dessous, arrêt
+      2 px avant la ligne de légende ; 32 px de gap entre écrans
+- [x] Hi-fi : le champ de points utilise un seul masque radial ; rendu vérifié en 390 px et
+      1440 px (fondu doux, coins arrondis)
 
 ## Points non finis
 
-- Pas de test sur appareil physique ni sur Safari : les deux fonds utilisent le même
-  couple `mask-image` / `-webkit-mask-composite: source-in` que l'ancien rail.
+- Pas de test sur appareil physique ni sur Safari : le rail utilise encore le couple
+  `mask-image` / `-webkit-mask-composite: source-in` pour son fondu à droite.
 - Les interactions du projecteur (flèches, clic sur un voisin, zoom) n'ont pas été
-  rejouées après le retrait de `overflow-hidden` sur `.wg-spot` ; le DOM et le script
-  n'ont pas changé, seul le fond a bougé.
+  rejouées après le changement de fond ; le DOM et le script n'ont pas changé.
 - La page FR n'a pas été ouverte : elle utilise les mêmes composants et les mêmes classes.
 
 ## Décisions prises (propriétaire)
