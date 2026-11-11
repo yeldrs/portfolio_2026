@@ -13,8 +13,13 @@ Les règles du projet (contenu, tokens, i18n, textes de l'auteur) restent dans `
 1. Lire `git branch --show-current`.
 2. Branche `agent/*` : travailler, sur cette branche seulement.
 3. Autre branche (hors principal) : **s'arrêter sans rien modifier**. Déduire un nom de tâche court (minuscules, tirets), puis afficher une commande prête à copier :
-   `.\scripts\agent.ps1 opencode <tache> --prompt '<demande du propriétaire>'`
-   Une apostrophe dans le prompt s'écrit doublée (`''`).
+   ```
+   $p = @'
+   <demande du propriétaire, texte brut, apostrophes libres>
+   '@
+   .\scripts\agent.ps1 opencode <tache> --prompt $p
+   ```
+   Le `'@` de fermeture doit être seul en début de ligne. Ne jamais mettre le prompt entre apostrophes simples.
 4. Le principal (Claude Code) commence par lire `BACKLOG.md`, lister les branches `agent/*` et les fichiers `docs/handoffs/` non relus, puis présenter chaque travail comme « fait par X, non relu » avant toute fusion. Il signale les fichiers touchés par plusieurs branches.
 
 ## Interdits communs (tous les agents)
