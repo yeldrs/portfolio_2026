@@ -18,13 +18,18 @@ compris quand le fond dépasse le conteneur sur desktop.
   - Le libellé « Screens » reste dans la colonne de texte.
 - `src/components/workflow/WorkflowGallery.astro`
   - Rail : le fond quadrillé (`.wg-mat`) cadre les maquettes, pas les légendes : il commence
-    au bord haut du rail (24 px au-dessus des écrans, 32 px sous le libellé « Screens ») et
-    s'arrête 14 px sous les écrans, avant la ligne légende + type d'appareil. Il déborde à
-    gauche et à droite de la colonne sur desktop.
+    8 px sous le haut du rail (16 px au-dessus des écrans, 16 px sous le libellé « Screens »)
+    et s'arrête 14 px sous les écrans, avant la ligne légende + type d'appareil. Il déborde
+    à gauche et à droite de la colonne sur desktop.
   - Rail : le voile de fin de défilement à droite est devenu un masque CSS sur la piste,
     pour ne plus recouvrir le fond.
   - Rail : `scroll-padding-inline-start` aligné sur le padding gauche, pour que le
     scroll-snap ne coupe plus le premier écran.
+  - Rail, échelle : `--wg-u: 0.4px` par dp (au lieu d'un ratio lié à la largeur du
+    conteneur). Les tailles d'appareil étant des multiples de 40 dp, chaque écran fait
+    144 x 320 (téléphone), 320 x 512 (tablette) ou 512 x 320 (desktop) et tombe donc
+    exactement sur les lignes de 16 px. L'ancien ratio donnait des largeurs fractionnaires
+    (115,47 px) qui ne pouvaient pas s'aligner.
   - Rail, grille : couleur neutre (`stroke-neutral-primary`, 30 % / 60 %), mailles de
     16 px et repères majeurs tous les 64 px. Le padding haut de la piste est retiré et le
     padding gauche desktop passe à 0.
@@ -34,10 +39,13 @@ compris quand le fond dépasse le conteneur sur desktop.
     invisible), sous chaque écran.
   - Spotlight : le cadre gris `rounded-card` devient un canevas de points qui déborde de
     la scène et se fond sur les quatre côtés. Les écrans et les contrôles restent inchangés.
+  - Spotlight, étendue : le canevas reprend les contraintes du rail, 16 px au-dessus et en
+    dessous des écrans (au lieu de 64 px au-dessus de la scène), 64 px de débord latéral
+    sur desktop. Les contrôles (type d'appareil, loupe, pagination) sortent du champ.
   - Spotlight, points : maille resserrée à 12 px, point de 1 px à 35 % de gray-400.
-    Le double masque linéaire est remplacé par un masque radial (ellipse 72 % x 78 %,
-    opaque jusqu'à 46 %) : fondu plus doux, coins arrondis, disparition alignée sur celle
-    des maquettes.
+    Le double masque linéaire est remplacé par une vignette radiale `closest-side` avec
+    paliers adoucis (26 % / 52 % / 76 %) : le dégradé atteint zéro pile sur les bords,
+    sans arête visible, et tourne avec les coins.
 - `src/components/workflow/WorkflowScreen.astro`
   - Légende et liste de repères : `px-md` sur mobile pour rester alignées avec le texte
     quand l'image de la galerie grid est en pleine largeur.
@@ -56,10 +64,12 @@ compris quand le fond dépasse le conteneur sur desktop.
 - [x] Mobile : largeur de la galerie = 390 px (x = 0), pas de débordement horizontal du
       document, premier écran du rail à x = 16 (padding conservé)
 - [x] Desktop : pas de débordement horizontal du document, le fond dépasse bien la colonne
-- [x] Rail : marges mesurées — 24 px de fond au-dessus des écrans, 14 px en dessous, arrêt
+- [x] Rail : marges mesurées — 16 px de fond au-dessus des écrans, 14 px en dessous, arrêt
       2 px avant la ligne de légende ; 32 px de gap entre écrans
-- [x] Hi-fi : le champ de points utilise un seul masque radial ; rendu vérifié en 390 px et
-      1440 px (fondu doux, coins arrondis)
+- [x] Rail, alignement : les quatre bords de chaque écran mesurés à 0 modulo 16 px par
+      rapport à l'origine de la grille, en 1440 px et en 390 px
+- [x] Hi-fi : canevas mesuré à 16 px au-dessus et en dessous des écrans ; un seul masque
+      radial `closest-side` ; rendu vérifié en 390 px et 1440 px, aucun bord net
 
 ## Points non finis
 
