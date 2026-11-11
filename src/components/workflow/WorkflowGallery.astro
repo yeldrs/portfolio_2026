@@ -1,0 +1,417 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import WorkflowFrame from "./WorkflowFrame.astro";
+import WorkflowDeviceChip from "./WorkflowDeviceChip.astro";
+import { workflowImage, zoomUrl } from "../../data/workflow.images";
+import { useTranslations } from "../../i18n/utils";
+
+type Block = CollectionEntry<"workflow">["data"]["en"]["blocks"][number];
+type Screen = Block["screens"][number];
+
+export interface Props {
+  lang: "en" | "fr";
+  gallery: "pairs" | "rail" | "spotlight";
+  screens: Screen[];
+  /** Screens sharing a group id page through each other in the preview modal. */
+  group: string;
+  /** Spotlight: 1-based screen shown on arrival. */
+  startAt?: number;
+}
+
+const { lang, gallery, screens, group, startAt = 1 } = Astro.props;
+const start = Math.min(Math.max(startAt, 1), screens.length) - 1;
+const t = useTranslations(lang);
+
+// Real device sizes (dp / pt). The rail draws every frame at the same scale; the spotlight
+// sizes every frame against the tallest one.
+function size(s: Screen) {
+  if (s.device === "tablet") return s.landscape ? { w: 1280, h: 800 } : { w: 800, h: 1280 };
+  if (s.device === "desktop") return { w: 1280, h: 800 };
+  return { w: 360, h: 800 };
+}
+
+const items = await Promise.all(
+  screens.map(async (s, i) => {
+    const image = workflowImage(s.src);
+    const before = workflowImage(s.before?.src);
+    return {
+      ...s,
+      n: i + 1,
+      image,
+      before,
+      zoom: image && s.alt ? await zoomUrl(image) : undefined,
+      beforeAlt: s.before?.alt,
+      beforeZoom: before ? await zoomUrl(before) : undefined,
+      dp: size(s),
+    };
+  }),
+);
+type Item = (typeof items)[number];
+
+const ref = Math.max(...items.map((s) => s.dp.h));
+const frame = (s: Item) => ({
+  device: s.device,
+  platform: s.platform,
+  theme: s.theme,
+  landscape: s.landscape,
+  browser: s.browser,
+});
+const zoomBtn =
+  "block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent";
+const arrowBtn =
+  "absolute top-1/2 z-[3] flex h-xl w-xl -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-background-primary p-0 text-text-body-accent shadow-sm disabled:cursor-default disabled:opacity-30 md:h-2xl md:w-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent";
+---
+
+{/* File: src/components/workflow/WorkflowGallery.astro */}
+
+{
+  gallery === "pairs" && (
+    <div class="grid grid-cols-1 gap-x-xl gap-y-2xl sm:grid-cols-2">
+      {items.map((s) => (
+        <figure class="m-0 flex flex-col gap-sm">
+          <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-sm gap-y-xs">
+            <p class="m-0 text-xs font-bold text-text-body-secondary">{t("workflow.wireframe")}</p>
+            <span aria-hidden="true" />
+            <p class="m-0 text-xs font-bold text-text-body-secondary">{t("workflow.finalScreen")}</p>
+
+            {s.beforeZoom ? (
+              <button type="button" data-zoom={s.beforeZoom} data-zoom-group={group} aria-label={t("workflow.zoomAria", { caption: `${t("workflow.wireframe")}, ${s.caption}` })} class={zoomBtn}>
+                <WorkflowFrame {...frame(s)} image={s.before} alt={s.beforeAlt} sizes="(min-width: 640px) 200px, 40vw" class="w-full" />
+              </button>
+            ) : (
+              <WorkflowFrame {...frame(s)} class="w-full" />
+            )}
+
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg flex-none text-gray-500">
+              <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
+            </svg>
+
+            {s.zoom ? (
+              <button type="button" data-zoom={s.zoom} data-zoom-group={group} aria-label={t("workflow.zoomAria", { caption: s.caption })} class={zoomBtn}>
+                <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes="(min-width: 640px) 200px, 40vw" class="w-full" />
+              </button>
+            ) : (
+              <WorkflowFrame {...frame(s)} class="w-full" />
+            )}
+          </div>
+          <figcaption class="flex flex-col gap-xs text-sm text-text-body-primary">
+            <b class="font-bold">{s.caption}</b>
+            {s.sub && <span class="text-xs text-text-body-secondary">{s.sub}</span>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  )
+}
+
+{
+  gallery === "rail" && (
+    <div class="wg-rail relative" role="group" aria-label={t("workflow.galleryAria")}>
+      {/* Cutting-mat grid: design-phase backdrop, fades out on every side. */}
+      <span aria-hidden="true" class="wg-mat" />
+      <div class="wg-rail-track">
+        {items.map((s) => {
+          const Tag = s.zoom ? "button" : "div";
+          return (
+            <Tag
+              class:list={["wg-ritem flex flex-none flex-col gap-sm border-0 bg-transparent p-0 text-left", s.zoom && "cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"]}
+              style={`--w:${s.dp.w}`}
+              {...(s.zoom ? { type: "button", "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
+            >
+              {/* Wireframes are flat screens: no device frame, just the screen itself. */}
+              <span class="wg-flat block overflow-hidden rounded-md border border-gray-300 bg-gray-100" style={`aspect-ratio:${s.dp.w}/${s.dp.h}`}>
+                {s.image ? (
+                  <Image src={s.image} alt={s.alt ?? ""} widths={[240, 480, 960]} sizes="(min-width: 768px) 420px, 60vw" format="webp" loading="lazy" decoding="async" class="block h-full w-full object-cover object-top" />
+                ) : (
+                  <span aria-hidden="true" class="flex h-full flex-col gap-sm p-md">
+                    <span class="block h-md w-full rounded-md bg-gray-200" />
+                    <span class="block h-sm w-3/5 rounded-md bg-gray-200" />
+                    <span class="block w-full flex-1 rounded-md bg-gray-200" />
+                  </span>
+                )}
+              </span>
+              <span class="flex flex-col items-center gap-sm text-center text-xs text-text-body-secondary">
+                <span class="whitespace-nowrap">{s.caption}</span>
+                <WorkflowDeviceChip device={s.device} label={t(`workflow.device.${s.device}`)} />
+              </span>
+            </Tag>
+          );
+        })}
+      </div>
+      <span aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-3xl bg-gradient-to-r from-transparent to-background-page" />
+    </div>
+  )
+}
+
+{
+  gallery === "spotlight" && (
+    <div
+      data-spot
+      data-start={start}
+      data-count-template={t("workflow.galleryCount", { n: "{n}", total: String(items.length) })}
+      role="group"
+      aria-label={t("workflow.galleryAria")}
+      style={`--ref:${ref};--first:${items[0].dp.w};--last:${items[items.length - 1].dp.w}`}
+      class="wg-spot relative overflow-hidden rounded-card bg-gray-200"
+    >
+      <div class="absolute inset-x-0 top-md z-[3] flex flex-wrap items-center justify-center gap-sm px-2xl text-sm text-text-body-primary">
+        <b data-spot-title class="text-xs font-medium text-text-body-secondary">{items[start].caption}</b>
+        <WorkflowDeviceChip switchable device={items[start].device} label={t(`workflow.device.${items[start].device}`)} />
+        <button type="button" data-spot-zoom aria-label={t("workflow.expandCurrent")} class="flex h-lg w-lg cursor-zoom-in items-center justify-center rounded-full border border-stroke-secondary bg-background-primary p-0 text-text-body-accent hover:border-button-background-primary disabled:cursor-default disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent" disabled={!items[start].zoom}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-sm-d w-sm-d"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z" /></svg>
+        </button>
+      </div>
+      <div data-spot-track class="wg-track">
+        {items.map((s, i) => {
+          const Tag = s.zoom ? "button" : "div";
+          return (
+            <Tag
+              class:list={["wg-item flex-none border-0 bg-transparent p-0 text-left", s.zoom && "cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"]}
+              style={`--w:${s.dp.w}`}
+              data-on={String(i === start)}
+              data-caption={s.caption}
+              data-device={s.device}
+              data-device-label={t(`workflow.device.${s.device}`)}
+              data-has-zoom={String(Boolean(s.zoom))}
+              {...(s.zoom ? { type: "button", "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
+            >
+              <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
+            </Tag>
+          );
+        })}
+      </div>
+      <button type="button" data-spot-prev aria-label={t("workflow.galleryPrev")} class:list={[arrowBtn, "left-sm md:left-md"]} disabled={start === 0}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
+      </button>
+      <button type="button" data-spot-next aria-label={t("workflow.galleryNext")} class:list={[arrowBtn, "right-sm md:right-md"]} disabled={start === items.length - 1}>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" /></svg>
+      </button>
+      <div class="absolute inset-x-0 bottom-md z-[3] flex items-center justify-center gap-md">
+        <span aria-hidden="true" class="flex gap-sm">
+          {items.map((_, i) => (
+            <i data-spot-dot data-on={String(i === start)} class="block h-sm w-sm rounded-full bg-gray-400 data-[on=true]:w-lg data-[on=true]:bg-button-background-primary motion-safe:transition-all" />
+          ))}
+        </span>
+        <span data-spot-count aria-live="polite" class="text-xs font-bold text-text-body-secondary">
+          {t("workflow.galleryCount", { n: String(start + 1), total: String(items.length) })}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  /* Scale factors are unitless ratios (px per dp of the device), not design tokens:
+     frames keep the real proportions between phone, tablet and desktop. */
+  .wg-rail {
+    container-type: inline-size;
+    --wg-k: 0.001;
+    --wf-u: calc(100cqw * var(--wg-k));
+  }
+  .wg-rail {
+    padding-block: theme("spacing.md");
+  }
+  .wg-mat {
+    position: absolute;
+    inset: 0 0 0 calc(-1 * theme("spacing.lg"));
+    pointer-events: none;
+    --mat-minor: color-mix(in srgb, theme("colors.stroke-primary-hover") 45%, transparent);
+    --mat-major: color-mix(in srgb, theme("colors.stroke-primary-hover") 90%, transparent);
+    background-image:
+      linear-gradient(var(--mat-major) calc(theme("spacing.xxs") / 2), transparent 0),
+      linear-gradient(90deg, var(--mat-major) calc(theme("spacing.xxs") / 2), transparent 0),
+      linear-gradient(var(--mat-minor) calc(theme("spacing.xxs") / 2), transparent 0),
+      linear-gradient(90deg, var(--mat-minor) calc(theme("spacing.xxs") / 2), transparent 0);
+    background-size:
+      calc(theme("spacing.lg") * 5) calc(theme("spacing.lg") * 5),
+      calc(theme("spacing.lg") * 5) calc(theme("spacing.lg") * 5),
+      theme("spacing.lg") theme("spacing.lg"),
+      theme("spacing.lg") theme("spacing.lg");
+    /* Fades out on every side but stays at full strength behind the first screens. */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 55%, transparent 100%), linear-gradient(transparent, #000 22%, #000 78%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 55%, transparent 100%), linear-gradient(transparent, #000 22%, #000 78%, transparent);
+    mask-composite: intersect;
+  }
+  .wg-rail-track {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: theme("spacing.md");
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: theme("spacing.xs") theme("spacing.3xl") theme("spacing.sm") theme("spacing.xxs");
+  }
+  .wg-rail-track::-webkit-scrollbar {
+    display: none;
+  }
+  .wg-ritem {
+    width: calc(var(--w) * var(--wf-u));
+    scroll-snap-align: start;
+  }
+  @media (min-width: theme("screens.md")) {
+    .wg-rail {
+      --wg-k: 0.000358;
+    }
+    .wg-rail-track {
+      gap: theme("spacing.lg");
+    }
+  }
+
+  /* Spotlight: stage with a fixed height; every frame is sized against the tallest device. */
+  .wg-spot {
+    container-type: inline-size;
+    --stage-h: calc(theme("spacing.6xl") * 4);
+    --u: calc((var(--stage-h) - theme("spacing.3xl") * 2) / var(--ref));
+    height: var(--stage-h);
+  }
+  /* Hi-fi stage: very discreet dot grid, like a measuring canvas. */
+  .wg-spot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(
+      circle at center,
+      color-mix(in srgb, theme("colors.gray.400") 55%, transparent) calc(theme("spacing.xxs") / 2),
+      transparent theme("spacing.xxs")
+    );
+    background-size: theme("spacing.lg") theme("spacing.lg");
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  }
+  .wg-track {
+    /* Opacity mask, like a gradient dragged across the screens: they simply disappear toward the stage edges. */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: theme("spacing.md");
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: calc(theme("spacing.2xl") + theme("spacing.lg"));
+    padding-inline-start: calc(50cqw - var(--first) * var(--u) / 2);
+    padding-inline-end: calc(50cqw - var(--last) * var(--u) / 2);
+  }
+  .wg-track::-webkit-scrollbar {
+    display: none;
+  }
+  .wg-item {
+    width: calc(var(--w) * var(--u));
+    scroll-snap-align: center;
+  }
+  .wg-item :global(.pf) {
+    box-shadow: theme("boxShadow.sm");
+  }
+  .wg-ritem:hover .wg-flat {
+    border-color: theme("colors.button-background-primary");
+  }
+  @media (min-width: theme("screens.md")) {
+    .wg-spot {
+      --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.3xl"));
+    }
+    .wg-track {
+      gap: theme("spacing.lg");
+    }
+  }
+</style>
+
+<script>
+  // Spotlight: the screen nearest the centre is the current one (sharp, zoomable); the
+  // others are dimmed and scroll to the centre when clicked. Arrows and keys step through.
+  function init(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>("[data-spot-track]");
+    if (!track) return;
+    const items = Array.from(track.querySelectorAll<HTMLElement>(".wg-item"));
+    const dots = Array.from(root.querySelectorAll<HTMLElement>("[data-spot-dot]"));
+    const prev = root.querySelector<HTMLButtonElement>("[data-spot-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-spot-next]");
+    const title = root.querySelector<HTMLElement>("[data-spot-title]");
+    const chip = root.querySelector<HTMLElement>("[data-device-chip]");
+    const chipLabel = root.querySelector<HTMLElement>("[data-device-label]");
+    const zoom = root.querySelector<HTMLButtonElement>("[data-spot-zoom]");
+    const count = root.querySelector<HTMLElement>("[data-spot-count]");
+    const template = root.dataset.countTemplate ?? "{n} / {total}";
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let current = Number(root.dataset.start ?? 0);
+
+    const set = (i: number) => {
+      if (i === current && items[i].dataset.on === "true") return;
+      current = i;
+      items.forEach((el, k) => (el.dataset.on = String(k === i)));
+      dots.forEach((el, k) => (el.dataset.on = String(k === i)));
+      if (prev) prev.disabled = i === 0;
+      if (next) next.disabled = i === items.length - 1;
+      if (title) title.textContent = items[i].dataset.caption ?? "";
+      if (chip) chip.dataset.device = items[i].dataset.device ?? "phone";
+      if (chipLabel) chipLabel.textContent = items[i].dataset.deviceLabel ?? "";
+      if (zoom) zoom.disabled = items[i].dataset.hasZoom !== "true";
+      if (count) count.textContent = template.replace("{n}", String(i + 1)).replace("{total}", String(items.length));
+    };
+
+    const goTo = (i: number) => {
+      const el = items[Math.max(0, Math.min(items.length - 1, i))];
+      track.scrollTo({
+        left: el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2,
+        behavior: reduce.matches ? "auto" : "smooth",
+      });
+    };
+
+    // Arrive on the chosen screen, instantly (no animation).
+    const first = items[current];
+    track.scrollTo({ left: first.offsetLeft - (track.clientWidth - first.offsetWidth) / 2, behavior: "auto" });
+
+    let frame = 0;
+    track.addEventListener(
+      "scroll",
+      () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const mid = track.scrollLeft + track.clientWidth / 2;
+          let best = 0;
+          let bestDist = Infinity;
+          items.forEach((el, k) => {
+            const dist = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
+            if (dist < bestDist) {
+              bestDist = dist;
+              best = k;
+            }
+          });
+          set(best);
+        });
+      },
+      { passive: true },
+    );
+
+    // A dimmed neighbour comes to the centre instead of opening the modal.
+    track.addEventListener(
+      "click",
+      (event) => {
+        const el = (event.target as Element).closest<HTMLElement>(".wg-item");
+        const i = el ? items.indexOf(el) : -1;
+        if (i >= 0 && i !== current) {
+          event.stopPropagation();
+          goTo(i);
+        }
+      },
+      true,
+    );
+
+    zoom?.addEventListener("click", () => items[current].click());
+    prev?.addEventListener("click", () => goTo(current - 1));
+    next?.addEventListener("click", () => goTo(current + 1));
+    root.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") goTo(current - 1);
+      else if (event.key === "ArrowRight") goTo(current + 1);
+      else return;
+      event.preventDefault();
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-spot]").forEach(init);
+</script>

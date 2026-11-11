@@ -20,6 +20,18 @@ Format: `- [ ] <area> — <what> — <why> (<severity>)`
 - [ ] `src/data/about.en.ts` vs `about.fr.ts` — intentionally out of sync (FR rebuilt from a
       newer CV, EN left older). Tracked, not drift. Revisit only if the owner asks. (info)
 
+## Workflow page (branche feat/workflow-page)
+
+- [ ] Logos manquants: UXtweak, class-variance-authority, axe-core (pas dans simple-icons, aucun kit presse trouvé). Placeholder carré pointillé en attendant. Claude Design utilise la marque Claude, Google Play Console la marque Google Play (à confirmer). (medium)
+- [ ] Captures: Tenon fournies (4 wireframes, 10 écrans hi-fi dont UI kit). Restent en placeholder: Food Journal, portfolio, et les deux légendes sans capture du hi-fi Tenon (boutons avant/après Material 3). Étapes 1, 2, 4, 5: pas d'écran voulu (sauf captures réelles gardées en 4 et 5); idées pour 4 et 5: audit de conformité au design (design QA), commentaires Vercel, tickets de backlog, commentaires du UI kit, design handoff. (medium)
+- [ ] Relire la traduction FR des 5 étapes et de `workflow.fr.ts`. Trancher les points ouverts du brief (stance IA, lien dépôt public, Food Journal, Tenon). (medium)
+- [ ] Bandeau de clôture vers le contact: pas de texte fourni dans le brief, le pied de page "Let's connect !" tient lieu de clôture. (low)
+- [ ] Logos équipe/projet dans les tags (carré pointillé pour l'instant). (low)
+- [ ] `DeviceFrame.astro` — branché dans les galeries (`WorkflowGallery`, hi-fi Tenon en cadre sombre). À décider: UI kit Tenon sans cadre desktop (l'image a déjà sa barre de fenêtre); variante navigateur pour les web apps. (low)
+- [ ] Canevas Claude Design: `Hifi-B-mobile` a encore l'ancien style d'onglets et l'ancien filtre; à resynchroniser avec le desktop et la liste d'outils non interactive. (low)
+
+- [ ] Workflow: valider les schémas d'outils Food Journal / portfolio (flèches déduites des textes), les légendes et alt des écrans Tenon (rédigés par l'assistant, dont « Teaser »), et ajouter les bannières Food Journal et portfolio (`src/assets/workflow/banner-<id>.webp`, 1800x600; Tenon en 1024x500 à refaire en 1800x600). Différencier visuellement les étapes 2, 4 et 5. Vérifier le mobile des galeries (rail, projecteur) et le flou du UI kit au centre du projecteur. (medium)
+
 ## Assets
 
 - [ ] `/workshop` + `/fr/atelier` — page construite mais NON publiée (noindex, hors sitemap, aucun lien depuis le reste du site). Navbar déjà en mode autonome sur la page (Work = atelier, Contact, sans About; logo = atelier; événements Umami préfixés `workshop-`). À faire avant de la lier: relire `workshop.en.ts` et les noms EN de `workshop.skills.ts` (traductions non relues); réafficher les dates (retirées pour l'instant) et confirmer la durée CDC (6 mois ici, 8 mois dans l'étude de cas); fournir les photos du projet étagère puis retirer son `hidden: true`; valider les savoir-faire par projet; trancher les images CDC à légendes anglaises, le type de la pierre de Quiberon et les photos basse résolution (limonadier, Polybud); supprimer les images non affichées restées dans `public/images/workshop/<id>/`; resynchroniser le design system Claude Design (tokens ajoutés); puis retirer le filtre sitemap dans `astro.config.mjs` et la prop `noindex` des deux pages, et décider d'où on y accède (lien depuis le site, retour vers l'accueil). Option: suivre aussi les clics miniatures/zoom (aucun événement Umami aujourd'hui). (medium)

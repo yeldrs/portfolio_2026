@@ -1,0 +1,28 @@
+---
+import ToolLogo from "./ToolLogo.astro";
+import { toolNames } from "../../data/workflow.tools";
+
+export interface Props {
+  title: string;
+  /** Catalogue ids, drawn as a logo pyramid: the first on top, the next two below. */
+  toolIds: [string, string, string];
+}
+
+const { title, toolIds } = Astro.props;
+const [top, left, right] = toolIds;
+---
+
+{/* File: src/components/workflow/WorkflowBonusTag.astro */}
+<span
+  class="flex w-fit items-center rounded-md border border-stroke-primary-hover bg-gradient-to-r from-background-accent-subtle from-50% via-background-accent-subtle via-70% to-background-primary px-sm-d py-sm text-xs font-semibold leading-tight text-text-body-accent-strong shadow-md absolute bottom-[calc(100%-theme(spacing.md))] right-md z-[2] rotate-3"
+>
+  <span class="block max-w-[10ch] text-balance">{title}</span>
+  <span class="sr-only">{toolIds.map((id) => toolNames[id] ?? id).join(", ")}</span>
+  <span aria-hidden="true" class="-ml-xs flex flex-col items-center gap-xxs">
+    <ToolLogo id={top} variant="bare" />
+    <span class="flex gap-xxs">
+      <ToolLogo id={left} variant="bare" />
+      <ToolLogo id={right} variant="bare" />
+    </span>
+  </span>
+</span>

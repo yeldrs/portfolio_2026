@@ -6,6 +6,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import Container from "../components/Container.astro";
 import Hero from "../components/Hero.astro";
 import Cloud from "../components/Cloud.astro";
+import WorkflowTeaser from "../components/workflow/WorkflowTeaser.astro";
 import { useTranslations, plainText } from "../i18n/utils";
 import { home as homeEn } from "../data/home.en";
 import { home as homeFr } from "../data/home.fr";
@@ -129,5 +130,7 @@ const allProjects = (await getCollection("projects"))
         ))
       }
     </section>
+
+    <WorkflowTeaser lang={lang} />
   </Container>
 </div>

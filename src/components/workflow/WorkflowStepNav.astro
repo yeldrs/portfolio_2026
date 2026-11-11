@@ -1,0 +1,142 @@
+---
+import WorkflowStepIcon from "./WorkflowStepIcon.astro";
+import type { WorkflowStep } from "../../data/workflow.loader";
+import { useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+  steps: WorkflowStep[];
+  /** "desktop" lives in the grid beside the steps; "mobile" sits above the grid, pinned. */
+  variant: "desktop" | "mobile";
+}
+
+const { lang, steps, variant } = Astro.props;
+const t = useTranslations(lang);
+
+const linkBase =
+  "relative flex gap-sm-d text-sm text-text-body-primary no-underline aria-[current=step]:font-bold aria-[current=step]:text-text-body-accent font-medium";
+const badge =
+  "relative z-[1] flex-none flex items-center justify-center w-xl h-xl rounded-full border border-gray-500 bg-background-primary text-sm font-bold group-aria-[current=step]/link:border-button-background-primary group-aria-[current=step]/link:bg-button-background-primary group-aria-[current=step]/link:text-button-text-primary";
+---
+
+{/* File: src/components/workflow/WorkflowStepNav.astro */}
+
+{variant === "desktop" && (
+<nav aria-label={t("workflow.stepsNavAria")} class="hidden md:block sticky top-[var(--site-nav-h,theme(spacing.3xl))] self-start">
+  <p class="m-0 mb-lg text-sm font-bold text-text-body-secondary">{t("workflow.stepsLabel")}</p>
+  <ol class="m-0 list-none p-0">
+    {
+      steps.map((step, i) => (
+        <li class="relative pb-md">
+          {i < steps.length - 1 && (
+            <span
+              aria-hidden="true"
+              class="absolute left-[calc(theme(spacing.md)-theme(spacing.xxs)/2)] top-xl bottom-0 border-l-2 border-stroke-primary-hover"
+            />
+          )}
+          <a
+            href={`#${step.id}`}
+            data-step-link={step.order}
+            aria-current={i === 0 ? "step" : undefined}
+            class={`group/link steplink min-h-2xl py-xs ${linkBase}`}
+          >
+            <span aria-hidden="true" class={badge}><WorkflowStepIcon order={step.order} /></span>
+            <span class="pt-xs">{step.title}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+)}
+
+{variant === "mobile" && (
+<nav
+  aria-label={t("workflow.stepsNavAria")}
+  data-step-menu
+  class="md:hidden sticky top-[var(--site-nav-h,theme(spacing.3xl))] z-[2] -mx-md px-md bg-background-page border-b border-stroke-neutral-primary"
+>
+  <details class="group">
+    <summary class="flex min-h-2xl cursor-pointer list-none items-center justify-between gap-md py-sm [&::-webkit-details-marker]:hidden">
+      <span
+        data-step-label
+        data-template={t("workflow.stepOf", { n: "{n}", total: String(steps.length), title: "{title}" })}
+        class="text-sm font-bold text-text-body-accent"
+      >
+        {t("workflow.stepOf", { n: "1", total: String(steps.length), title: steps[0].title })}
+      </span>
+      <span aria-hidden="true" class="flex-none flex items-center justify-center w-xl h-xl rounded-full border border-stroke-primary-hover bg-background-primary text-text-body-accent">
+        <svg viewBox="0 0 16 16" fill="none" class="w-md h-md motion-safe:transition-transform group-open:rotate-180">
+          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </summary>
+    <ol class="m-0 list-none px-0 pb-md pt-sm">
+      {
+        steps.map((step, i) => (
+          <li>
+            <a
+              href={`#${step.id}`}
+              data-step-link={step.order}
+              aria-current={i === 0 ? "step" : undefined}
+              class={`group/link steplink min-h-2xl items-center ${linkBase}`}
+            >
+              <span aria-hidden="true" class={badge}><WorkflowStepIcon order={step.order} /></span>
+              <span>{step.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </details>
+</nav>
+)}
+
+<script>
+  // Keep sticky elements flush under the site navbar: publish its real height (and the
+  // mobile step menu's) as CSS variables, and follow resizes (menu opened, rotation).
+  const header = document.querySelector<HTMLElement>("body > header");
+  const menu = document.querySelector<HTMLElement>("[data-step-menu]");
+  const publish = () => {
+    const root = document.documentElement.style;
+    root.setProperty("--site-nav-h", `${header?.offsetHeight ?? 0}px`);
+    root.setProperty("--step-menu-h", `${menu?.offsetHeight ?? 0}px`);
+  };
+  publish();
+  if ("ResizeObserver" in window) {
+    const ro = new ResizeObserver(publish);
+    if (header) ro.observe(header);
+    if (menu) ro.observe(menu);
+  }
+  window.addEventListener("resize", publish);
+
+  // Progressive enhancement: mark the step on screen as current (aria-current) and
+  // update the mobile summary. Content and navigation work without it.
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("section[data-step]"));
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-step-link]"));
+  const label = document.querySelector<HTMLElement>("[data-step-label]");
+
+  function setCurrent(section: HTMLElement) {
+    const n = section.dataset.step;
+    for (const a of links) {
+      if (a.dataset.stepLink === n) a.setAttribute("aria-current", "step");
+      else a.removeAttribute("aria-current");
+    }
+    if (label?.dataset.template) {
+      label.textContent = label.dataset.template
+        .replace("{n}", n ?? "")
+        .replace("{title}", section.dataset.stepTitle ?? "");
+    }
+  }
+
+  if (sections.length && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length) setCurrent(visible[0].target as HTMLElement);
+      },
+      { rootMargin: "-25% 0px -65% 0px" },
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
+</script>

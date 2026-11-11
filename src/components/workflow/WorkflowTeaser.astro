@@ -1,0 +1,102 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Button from "../Button.astro";
+import ToolLogo from "./ToolLogo.astro";
+import WorkflowBonusTag from "./WorkflowBonusTag.astro";
+import { getWorkflowSteps } from "../../data/workflow.loader";
+import { toolNames } from "../../data/workflow.tools";
+import { workflow as workflowEn } from "../../data/workflow.en";
+import { workflow as workflowFr } from "../../data/workflow.fr";
+import { useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const page = lang === "fr" ? workflowFr : workflowEn;
+const steps = await getWorkflowSteps(lang);
+// Steps whose tool list fades out at the bottom, to hint at more tools than shown.
+// Bonus tag tools, drawn as a pyramid (1 on top, 2 below), logos only.
+const bonusTools: [string, string, string] = ["umami", "datadog", "metabase"];
+const fadedSteps = new Set(["step-3", "step-4", "step-5"]);
+---
+
+{/* File: src/components/workflow/WorkflowTeaser.astro */}
+<section
+  aria-labelledby="teaser-title"
+  class="w-full md:mt-2xl"
+>
+  <div class="mx-auto flex max-w-prose flex-col items-center text-center">
+    <p class="m-0 mb-sm text-sm font-semibold text-text-body-secondary">{page.eyebrow}</p>
+    <h2 id="teaser-title" class="m-0 font-serif text-4xl font-semibold text-balance">{page.title}</h2>
+    <p class="m-0 mt-md text-base leading-normal text-text-body-primary">{page.teaserIntro}</p>
+    <div class="mt-lg">
+      <Button
+        href={getRelativeLocaleUrl(lang, "/workflow")}
+        variant="secondary"
+        data-umami-event="home-workflow-teaser-cta"
+      >
+        {t("workflow.cta")}
+      </Button>
+    </div>
+  </div>
+
+  <div class="relative mt-0 lg:mt-2xl">
+    <span
+      aria-hidden="true"
+      class="absolute -left-md -right-md top-[calc(theme(spacing.2xl)+theme(spacing.md)*2)] border-t-2 border-stroke-primary-hover md:-left-xl md:-right-xl lg:left-0 lg:right-0 lg:top-[calc(theme(spacing.md)*2)]"
+    />
+    {/* Below lg the cards scroll sideways and snap (carousel); the wrapper is the focusable scroller. */}
+    <div
+      role="region"
+      aria-label={t("workflow.teaserScrollAria")}
+      tabindex="0"
+      class="relative -mx-md snap-x snap-mandatory overflow-x-auto scroll-pl-md pt-2xl md:-mx-xl md:scroll-pl-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent lg:mx-0 lg:snap-none lg:overflow-visible lg:scroll-pl-0 lg:pt-0"
+    >
+    <ol
+      aria-label={t("workflow.teaserAria")}
+      class="relative m-0 flex list-none items-start gap-lg p-0 pb-xs pl-md pr-lg md:pl-xl md:pr-xl lg:grid lg:grid-cols-5 lg:items-stretch lg:pb-0 lg:pl-0 lg:pr-0"
+    >
+      {
+        steps.map((step, i) => (
+          <li
+            class:list={[
+              "relative flex w-[calc(theme(spacing.5xl)*2.5)] flex-none snap-start flex-col gap-sm-d rounded-xl border border-stroke-secondary bg-background-primary px-md pt-md lg:w-auto",
+              fadedSteps.has(step.id)
+                ? "pb-2xl after:pointer-events-none after:absolute after:-bottom-px after:-inset-x-px after:h-1/2 after:rounded-b-xl after:bg-gradient-to-t after:from-background-page after:from-10% after:via-background-page/50 after:to-transparent after:content-['']"
+                : "pb-sm-d lg:self-start",
+            ]}
+          >
+            {i === steps.length - 1 && <WorkflowBonusTag title={t("workflow.bonusTitle")} toolIds={bonusTools} />}
+            <span
+              aria-hidden="true"
+              class="relative z-[1] flex h-xl w-xl flex-none items-center justify-center rounded-xl border border-button-background-primary bg-background-primary text-base font-bold text-text-body-accent"
+            >
+              {step.order}
+            </span>
+            <span class="text-base font-semibold leading-normal text-text-body-primary">
+              {step.title}
+            </span>
+            <span aria-hidden="true" class="block border-t border-stroke-secondary" />
+            <ul class="m-0 grid list-none grid-cols-1 gap-0 p-0">
+              {step.teaserTools.map((id) => (
+                <li class="flex min-h-xl items-center gap-sm text-sm font-medium text-text-body-primary">
+                  <ToolLogo id={id} tone="accent" />
+                  <span>{toolNames[id] ?? id}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+    </div>
+    {/* Fade on the screen edge (the list bleeds out of the page margin): tells there are more cards. Narrower than the list's right padding, so the last card is fully clear at the end. */}
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-y-0 -right-md z-[3] w-lg bg-gradient-to-l from-background-page to-transparent md:-right-xl lg:hidden"
+    />
+  </div>
+</section>

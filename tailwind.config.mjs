@@ -108,6 +108,7 @@ export default {
       // Max width (container) (Unchanged)
       maxWidth: {
         content: tokens.semantic.layout.container.maxWidth,
+        prose: tokens.semantic.layout.prose.maxWidth,
       },
 
       // Aspect ratio token (Unchanged)

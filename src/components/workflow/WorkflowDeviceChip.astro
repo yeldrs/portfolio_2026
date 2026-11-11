@@ -1,0 +1,44 @@
+---
+export interface Props {
+  device: "phone" | "tablet" | "desktop";
+  label: string;
+  /** Spotlight: the three icons are drawn and the script shows the one matching data-device. */
+  switchable?: boolean;
+  class?: string;
+}
+
+const { device, label, switchable = false, class: className } = Astro.props;
+const icons = {
+  phone: "M17 1.01 7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z",
+  tablet: "M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 1.99-.9 1.99-2L23 6c0-1.1-.9-2-2-2zm-2 14H5V6h14v12z",
+  desktop: "M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z",
+};
+const shown = switchable ? (Object.keys(icons) as (keyof typeof icons)[]) : [device];
+---
+
+{/* File: src/components/workflow/WorkflowDeviceChip.astro */}
+<span
+  data-device={device}
+  data-device-chip
+  class:list={["inline-flex w-fit items-center gap-xs rounded-full border border-stroke-secondary bg-background-primary py-xxs pl-xs pr-sm text-xs font-semibold text-text-body-secondary", className]}
+>
+  {
+    shown.map((d) => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" data-icon={d} class="h-md w-md flex-none">
+        <path d={icons[d]} />
+      </svg>
+    ))
+  }
+  <span data-device-label>{label}</span>
+</span>
+
+<style>
+  [data-device-chip][data-device="phone"] [data-icon="tablet"],
+  [data-device-chip][data-device="phone"] [data-icon="desktop"],
+  [data-device-chip][data-device="tablet"] [data-icon="phone"],
+  [data-device-chip][data-device="tablet"] [data-icon="desktop"],
+  [data-device-chip][data-device="desktop"] [data-icon="phone"],
+  [data-device-chip][data-device="desktop"] [data-icon="tablet"] {
+    display: none;
+  }
+</style>

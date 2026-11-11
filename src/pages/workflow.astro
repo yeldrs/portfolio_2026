@@ -1,0 +1,14 @@
+---
+// src/pages/workflow.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WorkflowLayout from "../layouts/WorkflowLayout.astro";
+import { useTranslations } from "../i18n/utils";
+
+const t = useTranslations("en");
+---
+
+<BaseLayout title={t("meta.workflowTitle")} description={t("meta.workflowDescription")}
+  footerHeading="h2"
+>
+  <WorkflowLayout lang="en" />
+</BaseLayout>

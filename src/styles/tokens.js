@@ -143,6 +143,10 @@ const semantic = {
     container: {
       maxWidth: "1200px",
     },
+    // Readable line length for long-form paragraphs (workflow page).
+    prose: {
+      maxWidth: "672px",
+    },
     image: {
       aspectRatio: "4/3",
     },

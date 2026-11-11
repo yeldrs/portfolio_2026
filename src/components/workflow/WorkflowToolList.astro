@@ -1,0 +1,37 @@
+---
+import ToolLogo from "./ToolLogo.astro";
+import { useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+  tools: { id: string; name: string }[];
+}
+
+const { lang, tools } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{/* File: src/components/workflow/WorkflowToolList.astro */}
+<details class="group">
+  <summary
+    class="inline-flex max-w-full cursor-pointer list-none items-center gap-sm rounded-md py-xs text-sm font-semibold text-text-body-secondary hover:text-text-body-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent [&::-webkit-details-marker]:hidden"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-md w-md flex-none">
+      <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z" />
+    </svg>
+    <span>{t("workflow.toolListTitle")}</span>
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" class="h-md w-md flex-none motion-safe:transition-transform group-open:rotate-180">
+      <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </summary>
+  <ul class="m-0 mt-sm flex list-none flex-wrap gap-sm p-0">
+    {
+      tools.map((tool) => (
+        <li class="inline-flex items-center gap-xs rounded-full border border-stroke-neutral-primary bg-background-primary px-sm-d py-xs text-sm text-text-body-primary">
+          <ToolLogo id={tool.id} variant="bare" />
+          {tool.name}
+        </li>
+      ))
+    }
+  </ul>
+</details>

@@ -1,0 +1,122 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ToolLogo from "./ToolLogo.astro";
+import WorkflowDiagram from "./WorkflowDiagram.astro";
+import WorkflowGallery from "./WorkflowGallery.astro";
+import WorkflowScreen from "./WorkflowScreen.astro";
+import { useTranslations } from "../../i18n/utils";
+
+type Block = CollectionEntry<"workflow">["data"]["en"]["blocks"][number];
+
+export interface Props {
+  lang: "en" | "fr";
+  block: Block;
+  /** Anchor id, used by the in-panel index of a project with two sub-blocks. */
+  id: string;
+  /** Show the sub-block heading (steps 3 and 5). */
+  showHeading: boolean;
+}
+
+const { lang, block, id, showHeading } = Astro.props;
+const t = useTranslations(lang);
+
+const dt = "m-0 mb-sm text-sm font-bold text-text-body-secondary";
+const body = "m-0 text-base leading-relaxed text-justify text-text-body-primary [hyphens:auto]";
+---
+
+{/* File: src/components/workflow/WorkflowBlock.astro */}
+<div id={id} class="flex flex-col gap-lg scroll-mt-[calc(theme(spacing.4xl)+theme(spacing.3xl))]">
+  {
+    showHeading && block.heading && (
+      <div class="flex flex-wrap items-center gap-x-sm-d gap-y-xs">
+        <h3 class="m-0 font-serif text-2xl font-semibold">{block.heading}</h3>
+      </div>
+    )
+  }
+  {
+    block.status === "not-applicable" ? (
+      <p class="m-0 text-base text-text-body-secondary">{t("workflow.notApplicableStep")}</p>
+    ) : (
+      <>
+        {/* Two columns from md: approach and tools on the left, constraints and correction on the right. */}
+        <div class="grid grid-cols-1 gap-x-xl gap-y-lg md:grid-cols-2 md:items-start">
+          <dl class="m-0 flex flex-col gap-lg">
+            <div>
+              <dt class={dt}>{t("workflow.approach")}</dt>
+              <dd class="m-0"><p class={body}>{block.approach}</p></dd>
+            </div>
+            {!block.diagram && block.tools.length > 0 && (
+              <div>
+                <dt class={dt}>{t("workflow.tools")}</dt>
+                <dd class="m-0">
+                  <ul class="m-0 grid list-none grid-cols-1 gap-x-lg gap-y-md p-0 sm:grid-cols-2">
+                    {block.tools.map((tool) => (
+                      <li class="flex items-center gap-sm text-sm text-text-body-primary">
+                        <ToolLogo id={tool.id} variant="bare" size="lg" />
+                        <span>
+                          {tool.label}
+                          {tool.note && (
+                            <span class="block text-xs font-normal text-text-body-secondary">{tool.note}</span>
+                          )}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </div>
+            )}
+          </dl>
+          {(block.constraints || block.correction) && (
+            <dl class="m-0 flex flex-col gap-lg">
+              {block.constraints && (
+                <div>
+                  <dt class={dt}>{t("workflow.constraints")}</dt>
+                  <dd class="m-0"><p class={body}>{block.constraints}</p></dd>
+                </div>
+              )}
+              {block.correction && (
+                <div class="rounded-md border border-stroke-secondary bg-gray-50 p-md">
+                  <dt class={dt}>{t("workflow.correction")}</dt>
+                  <dd class="m-0">
+                    <p class="m-0 text-sm leading-relaxed text-justify text-text-body-primary [hyphens:auto]">{block.correction}</p>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          )}
+        </div>
+        {block.diagram && <WorkflowDiagram lang={lang} diagram={block.diagram} id={`dg-${id}`} />}
+        {block.link && (
+          <p class="m-0 text-base">
+            <a href={block.link} target="_blank" rel="noopener noreferrer" class="link font-semibold">
+              {block.linkLabel ?? block.link}
+            </a>
+          </p>
+        )}
+        {block.callToAction && <p class="m-0 text-base font-semibold text-text-body-accent">{block.callToAction}</p>}
+        {block.screens.length > 0 && (
+          <div>
+            <p class={dt}>{t("workflow.screens")}</p>
+            {block.gallery === "grid" ? (
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-lg items-start">
+                {block.screens.map((screen, i) => (
+                  <WorkflowScreen
+                    lang={lang}
+                    index={i + 1}
+                    caption={screen.caption}
+                    src={screen.src}
+                    alt={screen.alt}
+                    callouts={screen.callouts}
+                    group={id}
+                  />
+                ))}
+              </div>
+            ) : (
+              <WorkflowGallery lang={lang} gallery={block.gallery} screens={block.screens} group={id} startAt={block.startAt} />
+            )}
+          </div>
+        )}
+      </>
+    )
+  }
+</div>

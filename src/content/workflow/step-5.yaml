@@ -1,0 +1,153 @@
+# Step 5: Verification, accessibility and release
+order: 5
+teaserTools: [github, vercel, google-play, app-store]
+
+en:
+  title: "Test and release"
+  globalText: "I do not trust a change until something other than the agent that made it has checked it. That means automated gates (type check, lint, build, tests), contrast measured from real values, and a pass in the real product. I also state what has not been tested. What passes is then released. The release path, the store listing or the deploy pipeline decides what users actually see, so I decide what ships and what stays switched off, and have the agent script the repeatable parts."
+  blocks:
+    - project: tenon
+      heading: "Verification and accessibility"
+      approachLabel: "Contrast audit, device checks"
+      approach: "One test script runs the rules tests (28 documented jumps), layout and margin checks, font-size and spacing-grid checks, and a scene smoke test. Contrast is computed from the tokens: all 20 required checks pass, and 8 exceptions are decided and written down with reasons. A color-blind simulation (three types) runs on real captures, and pegs also differ by shape, shadow and engraved mark. A test enforces touch targets of at least 48 dp."
+      tools:
+        - { id: godot, label: "Godot test scripts", note: "rules tests, layout, smoke test" }
+        - { label: "A contrast script", note: "token contrast" }
+        - { label: "A color-blind simulation", note: "3 types, real captures" }
+        - { id: google-play, label: "The Google Play pre-launch report" }
+      constraints: "A mobile game, so WCAG applies to color and size; keyboard criteria do not map directly."
+      correction: "Screen reader support is not tested on a device. Icon buttons have accessible names in two languages, but dragging a peg is not reachable with a screen reader. Accessibility work is in progress and I do not claim full support."
+    - project: tenon
+      heading: "Release"
+      approachLabel: "Google Play release"
+      approach: "A signed Android App Bundle went to open testing in late October 2026, then version code 4 was prepared for the production step on 9 November. The store listing was prepared by script: screenshots generated from a real 46-move solution, tablet captures, a banner, and French and English texts. Monetization (ads and purchase) is built and tested but switched off for the first release. A script audits the bundle."
+      tools:
+        - { id: godot, label: "Godot export", note: "signed app bundle" }
+        - { id: google-play, label: "Google Play Console", note: "open testing, production" }
+        - { label: "Scripts for store assets and bundle audit" }
+      constraints: "Data Safety form, privacy policy, pre-launch checks, and no ads or purchase in version one."
+      correction: "The default export option produced an unsigned bundle on the first release. The lesson is recorded and a guard now checks the export presets."
+      link: "https://play.google.com/store/apps/details?id=com.slowgrain.tenon"
+      linkLabel: "Google Play listing"
+    - project: food-journal
+      heading: "Verification and accessibility"
+      approachLabel: "Type check, lint, build, axe"
+      approach: "Every feature ends with the same checks: type check, lint and production build, then a pass in a real browser. One full axe-core audit covered 15 screens in light and dark themes and reached zero violations after fixes. The routes it did not cover are listed explicitly. Contrast values and the fixes behind them are documented in the token file."
+      tools:
+        - { label: "TypeScript strict mode", note: "type checking" }
+        - { id: eslint, label: "ESLint", note: "linting" }
+        - { id: nextjs, label: "The Next.js build", note: "production build" }
+        - { id: axe-core, label: "axe-core", note: "15-screen audit, light and dark" }
+        - { label: "A browser tool", note: "real-browser checks" }
+      constraints: "WCAG 2.2 AA as a minimum."
+      correction: "Known gaps remain: the document language is set to English on a French app, there is no skip link, the navigation does not mark the current page, and no automated accessibility check runs in a pipeline. The audit was a one-off."
+    - project: food-journal
+      heading: "Release"
+      approachLabel: "Preview deploys, no public release"
+      approach: "Deployed on Vercel from Git, with a documented production deploy of the redesign. Reviewer comments left on preview deployments were pulled through a tool, triaged, answered and resolved. The product is pre-production by its own rules: no real sensitive data runs in production until a hosting-compliance question is settled."
+      tools:
+        - { id: vercel, label: "Vercel", note: "Git deploys, previews" }
+        - { label: "GitHub pull requests" }
+        - { label: "A Vercel integration for review comments" }
+      constraints: "Privacy, data protection and security come first, with row-level security on the database."
+      callToAction: "No public demo. If this project interests you, get in touch."
+    - project: portfolio
+      heading: "Verification and accessibility"
+      approachLabel: "Build gate, honest audit"
+      approach: "Build and type check run in CI, and the type check is non-blocking. I audited the site by reading the code and computing contrast from the tokens, which produced a concrete fix list: no skip link, no reduced-motion handling, a mobile menu that stays hidden to assistive technology when open, a footer email control that does not respond to the keyboard, and tertiary text at about 2.4:1 contrast. No automated accessibility check exists yet."
+      tools:
+        - { id: astro, label: "Astro build", note: "CI build" }
+        - { label: "astro check", note: "type check, non-blocking" }
+        - { id: github-actions, label: "GitHub Actions", note: "CI build, type check" }
+        - { label: "Contrast calculation from the tokens" }
+      constraints: "A static site with custom components (carousel, modal, mobile menu), so keyboard behavior is built by hand."
+      correction: "Clickable case-study figures were bare elements with a click handler. They now expose a button role, a label, focus, and Enter and Space handling."
+      screens:
+        - caption: "Keyboard focus on a case-study figure."
+          src: "portfolio-verification-01.webp"
+          alt: "Case-study page on desktop with a visible keyboard focus outline around the Conception figure."
+    - project: portfolio
+      heading: "Release"
+      approachLabel: "Push to main, GitHub Pages"
+      approach: "Every push to main builds and deploys to GitHub Pages through GitHub Actions, on a custom domain. The sitemap is generated at build, and the site ships canonical URLs, language alternates, Open Graph data, structured data and a machine-readable summary file. Analytics is a privacy-respecting script restricted to the production domain, with custom events that detect rage clicks and dead clicks."
+      tools:
+        - { id: github-actions, label: "GitHub Actions", note: "build, deploy on push" }
+        - { id: github-pages, label: "GitHub Pages", note: "hosting, custom domain" }
+        - { id: umami, label: "Umami", note: "privacy analytics, click events" }
+      constraints: "No server, no database, no cookie banner. The registrar handles DNS and email only."
+      correction: "The type check in CI is non-blocking, so a type error would not stop a deploy. It is open debt."
+
+fr:
+  title: "Tester et livrer"
+  globalText: "Je ne fais pas confiance à un changement tant qu'autre chose que l'agent qui l'a produit ne l'a pas vérifié. Cela passe par des contrôles automatisés (vérification de types, lint, build, tests), un contraste mesuré à partir des valeurs réelles, et un passage dans le vrai produit. J'indique aussi ce qui n'a pas été testé. Ce qui passe est ensuite publié. Le chemin de mise en production, la fiche de store ou le pipeline de déploiement décide de ce que les utilisateurs voient réellement, donc je décide de ce qui part et de ce qui reste désactivé, et je fais scripter par l'agent les parties répétables."
+  blocks:
+    - project: tenon
+      heading: "Vérification et accessibilité"
+      approachLabel: "Audit de contraste, tests sur appareil"
+      approach: "Un script de test lance les tests de règles (28 sauts documentés), des contrôles de mise en page et de marges, des contrôles de taille de police et de grille d'espacement, et un test de fumée de scène. Le contraste est calculé à partir des tokens : les 20 vérifications requises passent, et 8 exceptions sont décidées et consignées avec leurs raisons. Une simulation de daltonisme (trois types) tourne sur de vraies captures, et les pions se distinguent aussi par la forme, l'ombre et une marque gravée. Un test impose des cibles tactiles d'au moins 48 dp."
+      tools:
+        - { id: godot, label: "Scripts de test Godot", note: "tests de règles, mise en page, fumée" }
+        - { label: "Un script de contraste", note: "contraste des tokens" }
+        - { label: "Une simulation de daltonisme", note: "3 types, vraies captures" }
+        - { id: google-play, label: "Le rapport de pré-lancement de Google Play" }
+      constraints: "Un jeu mobile, donc les WCAG s'appliquent à la couleur et à la taille ; les critères clavier ne s'appliquent pas directement."
+      correction: "La prise en charge des lecteurs d'écran n'est pas testée sur un appareil. Les boutons d'icônes ont des noms accessibles en deux langues, mais le glissement d'un pion n'est pas accessible avec un lecteur d'écran. Le travail d'accessibilité est en cours et je ne revendique pas une prise en charge complète."
+    - project: tenon
+      heading: "Mise en production"
+      approachLabel: "Publication sur Google Play"
+      approach: "Un Android App Bundle signé est passé en test ouvert fin octobre 2026, puis le version code 4 a été préparé pour l'étape de production le 9 novembre. La fiche de store a été préparée par script : captures générées à partir d'une vraie solution en 46 coups, captures tablette, une bannière, et des textes en français et en anglais. La monétisation (publicités et achat) est construite et testée mais désactivée pour la première version. Un script audite le bundle."
+      tools:
+        - { id: godot, label: "Export Godot", note: "app bundle signé" }
+        - { id: google-play, label: "Google Play Console", note: "test ouvert, production" }
+        - { label: "Des scripts pour les visuels de store et l'audit du bundle" }
+      constraints: "Formulaire de sécurité des données, politique de confidentialité, vérifications de pré-lancement, et ni publicité ni achat dans la version un."
+      correction: "L'option d'export par défaut a produit un bundle non signé à la première publication. La leçon est consignée et un garde-fou vérifie maintenant les presets d'export."
+      link: "https://play.google.com/store/apps/details?id=com.slowgrain.tenon"
+      linkLabel: "Fiche Google Play"
+    - project: food-journal
+      heading: "Vérification et accessibilité"
+      approachLabel: "Types, lint, build, axe"
+      approach: "Chaque fonctionnalité se termine par les mêmes vérifications : vérification de types, lint et build de production, puis un passage dans un vrai navigateur. Un audit axe-core complet a couvert 15 écrans dans les thèmes clair et sombre et a atteint zéro violation après corrections. Les routes qu'il n'a pas couvertes sont listées explicitement. Les valeurs de contraste et les corrections qui les sous-tendent sont documentées dans le fichier de tokens."
+      tools:
+        - { label: "TypeScript en mode strict", note: "vérification de types" }
+        - { id: eslint, label: "ESLint", note: "lint" }
+        - { id: nextjs, label: "Le build Next.js", note: "build de production" }
+        - { id: axe-core, label: "axe-core", note: "audit de 15 écrans, clair et sombre" }
+        - { label: "Un outil de navigation", note: "tests en vrai navigateur" }
+      constraints: "WCAG 2.2 AA au minimum."
+      correction: "Des lacunes connues subsistent : la langue du document est réglée sur l'anglais dans une application française, il n'y a pas de lien d'évitement, la navigation n'indique pas la page courante, et aucune vérification d'accessibilité automatisée ne tourne dans un pipeline. L'audit était ponctuel."
+    - project: food-journal
+      heading: "Mise en production"
+      approachLabel: "Déploiements de prévisualisation, pas de publication"
+      approach: "Déployé sur Vercel depuis Git, avec un déploiement de production documenté de la refonte. Les commentaires de relecture laissés sur les déploiements de prévisualisation ont été récupérés par un outil, triés, traités et résolus. Le produit est en pré-production selon ses propres règles : aucune donnée sensible réelle ne tourne en production tant qu'une question de conformité d'hébergement n'est pas réglée."
+      tools:
+        - { id: vercel, label: "Vercel", note: "déploiements Git, prévisualisations" }
+        - { label: "Les pull requests GitHub" }
+        - { label: "Une intégration Vercel pour les commentaires de relecture" }
+      constraints: "La vie privée, la protection des données et la sécurité passent en premier, avec une sécurité au niveau des lignes sur la base de données."
+      callToAction: "Pas de démo publique. Si ce projet vous intéresse, contactez-moi."
+    - project: portfolio
+      heading: "Vérification et accessibilité"
+      approachLabel: "Contrôle au build, audit honnête"
+      approach: "Le build et la vérification de types tournent en CI, et la vérification de types est non bloquante. J'ai audité le site en lisant le code et en calculant le contraste à partir des tokens, ce qui a produit une liste de corrections concrète : pas de lien d'évitement, pas de prise en compte de la réduction des animations, un menu mobile qui reste caché aux technologies d'assistance quand il est ouvert, un contrôle d'e-mail dans le pied de page qui ne répond pas au clavier, et un texte tertiaire à environ 2,4:1 de contraste. Aucune vérification d'accessibilité automatisée n'existe encore."
+      tools:
+        - { id: astro, label: "Build Astro", note: "build CI" }
+        - { label: "astro check", note: "vérification de types, non bloquante" }
+        - { id: github-actions, label: "GitHub Actions", note: "build CI, vérification de types" }
+        - { label: "Calcul du contraste à partir des tokens" }
+      constraints: "Un site statique avec des composants sur mesure (carrousel, modale, menu mobile), donc le comportement au clavier est construit à la main."
+      correction: "Les figures cliquables des études de cas étaient des éléments nus avec un gestionnaire de clic. Elles exposent maintenant un rôle de bouton, un libellé, le focus, et la gestion des touches Entrée et Espace."
+      screens:
+        - caption: "Le focus clavier sur une figure d'étude de cas."
+          src: "portfolio-verification-01.webp"
+          alt: "Page d'étude de cas sur desktop avec un contour de focus clavier visible autour de la figure Conception."
+    - project: portfolio
+      heading: "Mise en production"
+      approachLabel: "Push sur main, GitHub Pages"
+      approach: "Chaque push sur main construit et déploie sur GitHub Pages via GitHub Actions, sur un domaine personnalisé. Le sitemap est généré au build, et le site fournit des URL canoniques, des alternatives de langue, des données Open Graph, des données structurées et un fichier de résumé lisible par machine. L'analytique est un script respectueux de la vie privée, limité au domaine de production, avec des événements personnalisés qui détectent les clics répétés et les clics sans effet."
+      tools:
+        - { id: github-actions, label: "GitHub Actions", note: "build, déploiement au push" }
+        - { id: github-pages, label: "GitHub Pages", note: "hébergement, domaine personnalisé" }
+        - { id: umami, label: "Umami", note: "analytique privée, événements de clics" }
+      constraints: "Pas de serveur, pas de base de données, pas de bandeau de cookies. Le registraire gère uniquement le DNS et l'e-mail."
+      correction: "La vérification de types en CI est non bloquante, donc une erreur de types n'empêcherait pas un déploiement. C'est une dette ouverte."

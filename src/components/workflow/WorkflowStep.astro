@@ -1,0 +1,84 @@
+---
+import WorkflowStepIcon from "./WorkflowStepIcon.astro";
+import WorkflowBlock from "./WorkflowBlock.astro";
+import type { WorkflowStep } from "../../data/workflow.loader";
+import { useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+  step: WorkflowStep;
+}
+
+const { lang, step } = Astro.props;
+const t = useTranslations(lang);
+
+// Only the project picked in the page-level selector (WorkflowProjectTabs) is shown.
+// Classes are written out in full so Tailwind can see them: one per project index.
+const panelOn = [
+  "group-has-[.r0:checked]/tabs:block",
+  "group-has-[.r1:checked]/tabs:block",
+  "group-has-[.r2:checked]/tabs:block",
+];
+
+const n = step.order;
+---
+
+{/* File: src/components/workflow/WorkflowStep.astro */}
+<section
+  id={step.id}
+  data-step={n}
+  data-step-title={step.title}
+  aria-labelledby={`${step.id}-title`}
+  class="flex flex-col gap-lg py-3xl border-t border-stroke-neutral-primary scroll-mt-[calc(theme(spacing.4xl)+theme(spacing.3xl))] first:border-t-0 first:pt-xl last:pb-0"
+>
+  <div class="flex flex-wrap items-center gap-x-md gap-y-sm">
+    <span
+      aria-hidden="true"
+      class="flex-none flex items-center justify-center w-xl h-xl rounded-full border border-button-background-primary bg-transparent text-sm font-bold text-text-body-accent"
+    >
+      <WorkflowStepIcon order={n} />
+    </span>
+    <h2 id={`${step.id}-title`} class="m-0 font-serif text-3xl font-semibold">{step.title}</h2>
+  </div>
+
+  <p class="m-0 max-w-prose text-base leading-relaxed text-text-body-primary">{step.globalText}</p>
+
+  <div>
+    {
+      step.projects.map((project, i) => (
+        <div id={`tp-s${n}-${project.id}`} class:list={["hidden", panelOn[i]]}>
+          {project.disabled ? (
+            <p class="m-0 text-base text-text-body-secondary">{t("workflow.notApplicableStep")}</p>
+          ) : (
+            <div class="flex flex-col gap-lg">
+              {project.blocks.length > 1 && (
+                  <nav aria-label={t("workflow.projectSections", { project: t(`workflow.project.${project.id}`) })}>
+                    <ul class="m-0 flex list-none flex-wrap gap-x-lg gap-y-xs p-0">
+                      {project.blocks.map((block, j) => (
+                        <li>
+                          <a
+                            href={`#s${n}-${project.id}-${j}`}
+                            class="text-sm font-semibold text-text-body-accent underline hover:text-text-body-accent-strong"
+                          >
+                            {block.heading}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                )}
+              {project.blocks.map((block, j) => (
+                <WorkflowBlock
+                  lang={lang}
+                  block={block}
+                  id={`s${n}-${project.id}-${j}`}
+                  showHeading={project.blocks.length > 1}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      ))
+    }
+  </div>
+</section>

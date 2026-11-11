@@ -8,6 +8,46 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ---
 
+## 2026-11-11 (suite) — Workflow: galeries d'écrans, schéma d'outils, bannières
+
+- `WorkflowGallery.astro` (rail à l'échelle réelle pour les wireframes, projecteur pour le hi-fi, paires wireframe/final), `WorkflowFrame.astro`, `WorkflowDiagram.astro` (schéma d'outils de l'étape 1, piloté par le YAML), `workflow.images.ts`. Schéma Zod: `gallery`, `diagram`, champs d'appareil par écran.
+- Tenon: 4 wireframes (PDF) en rail plat sans cadre, 10 écrans en projecteur (UI kit en premier, écran 2 par défaut via `startAt`, cadre sombre); fonds de conception (grille type planche de découpe pour les wireframes, points pour le hi-fi), fondu par masque d'opacité; logo d'onglet et bannière ajoutés (`src/assets/logos/tenon.webp`, `src/assets/workflow/banner-tenon.webp`).
+- Écrans placeholder retirés des étapes 1, 2, 4, 5 (captures réelles conservées).
+- En-tête de page dans la colonne de contenu; onglet sélectionné à barre d'accent plus légère; pastille d'étape en contour. Bloc d'étape en deux colonnes.
+- `DeviceFrame.astro`: correction de `colors.base.black` (inexistant), `src` optionnel.
+
+---
+
+## 2026-11-11 — Workflow: onglets en dossier, liste d'outils informative, cadre d'appareil
+
+Alignement du repo sur le canevas Claude Design (proposition B hi-fi).
+
+- `WorkflowProjectTabs.astro` — onglets en dossier (haut arrondi, pastille radio, coche + barre d'accent quand sélectionné), via `<style is:global>` en `theme()`: valeurs lues dans `tokens.js`, aucune valeur en dur.
+- `WorkflowToolFilter.astro` supprimé, remplacé par `WorkflowToolList.astro` — liste repliable de pastilles d'outils, informative et non interactive. Plus de filtre: règles CSS générées, pastilles dans les titres d'étape, marqueurs dans la nav et points dans les listes d'outils retirés. Dans chaque étape, les outils restent en texte (logo, nom, ligne descriptive), sans pastille.
+- `workflow.loader.ts` — `getFilterTools` renommé `getUsedTools`. `ui.ts` — `workflow.toolListTitle` (EN + FR, à relire), clés de filtre retirées.
+- `WorkflowStep.astro` — padding vertical remis à `py-3xl` (64px), comme le canevas; `WorkflowBlock.astro` — gaps internes harmonisés à `gap-lg`.
+- `WorkflowProjectTabs.astro` — la barre d'onglets collante couvre le contenu qui passait au-dessus (bande sous la navbar) et finit par un dégradé vers la couleur de page au lieu d'un bord net. `WorkflowStepNav.astro` — le chevron du menu des étapes (mobile) se retourne à l'ouverture.
+- `ui.ts` — titre de la liste d'outils aligné sur le canevas: "Tools I experiment with" / "Outils que j'expérimente" (FR à relire).
+- `DeviceFrame.astro` — barres de tablette proportionnelles (Android 24/1232/24 dp, iPad 24/1150/20 pt, paysage inclus) et variante `browser` pour les web apps (Chrome en haut sur Android, Safari en bas sur Apple).
+- `WorkflowTeaser.astro` — teaser de l'accueil: sous `lg`, carrousel horizontal à accroche (cartes de 240px, `snap-x`) comme la version C mobile du canevas, au lieu de cartes empilées; 5 colonnes inchangées dès `lg`. `ui.ts` — `workflow.teaserScrollAria` (EN + FR).
+- `src/components/DeviceFrame.astro` — cadre d'appareil réutilisable (phone, tablette, desktop; Android et Apple; clair et sombre), repris de `PhoneFrame.handoff.md`, tokens uniquement. Pas encore utilisé dans une page.
+
+---
+
+## 2026-11-10 — Page /workflow (EN + FR) et teaser home
+
+Branche `feat/workflow-page`. Implémenté depuis le canevas Claude Design (proposition B hi-fi) et le brief "Workflow page: content and design brief".
+
+- `src/content/config.ts` + `src/content/workflow/step-{1..5}.yaml` — nouvelle collection `workflow` (une entrée par étape, blocs par projet, `en:` et `fr:` obligatoires, parité EN/FR vérifiée par le schéma). FR = traduction fidèle du brief, à relire.
+- `src/pages/workflow.astro`, `src/pages/fr/workflow.astro`, `src/layouts/WorkflowLayout.astro` — page: intro, filtre par outil (cases natives + `:has()`, règles générées depuis `tokens.js`), nav d'étapes collante, onglets projet (radios natifs). Route FR = `/fr/workflow` (pas "atelier").
+- `src/components/workflow/*` — ToolLogo, WorkflowTeaser, WorkflowBuilds, WorkflowToolFilter, WorkflowStepNav, WorkflowStep, WorkflowBlock, WorkflowScreen. `HomeLayout.astro` — teaser après les cartes projet. `Footer.astro` — lien "How I work" / "Comment je travaille".
+- `Footer.astro`, `BaseLayout.astro` — prop `footerHeading` (h1 par défaut, h2 sur /workflow pour garder un seul h1).
+- `src/data/workflow.{en,fr,types,tools,loader}.ts` — copie de page, catalogue d'outils, loader. `src/assets/logos/*.svg` — logos simple-icons (couleur de marque) optimisés SVGO.
+- `tokens.js` / `tailwind.config.mjs` — token `layout.prose.maxWidth` (`max-w-prose`).
+- `src/i18n/ui.ts` — clés `workflow.*`, `meta.workflow*`, `footer.workflow` (EN + FR).
+
+---
+
 ## 2026-11-07 — Atelier en page autonome + Umami `workshop-`
 
 - `src/components/Navbar.astro` — sur `/workshop` et `/fr/atelier`: liens Work (vers l'atelier, actif) + Contact (`#contact`), sans About; le logo pointe vers l'atelier. Mêmes liens en desktop et mobile.

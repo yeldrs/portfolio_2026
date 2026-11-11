@@ -1,0 +1,105 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { toolLogos } from "../../data/workflow.tools";
+import { useTranslations } from "../../i18n/utils";
+
+type Diagram = NonNullable<CollectionEntry<"workflow">["data"]["en"]["blocks"][number]["diagram"]>;
+
+export interface Props {
+  lang: "en" | "fr";
+  diagram: Diagram;
+  /** Unique per diagram: the arrowhead marker id must not collide between panels. */
+  id: string;
+}
+
+const { lang, diagram, id } = Astro.props;
+const t = useTranslations(lang);
+
+// Geometry (logo size, label offsets) is in SVG user units, like the coordinates in the YAML.
+const VIEW_W = 640;
+const LOGO = 32;
+const LABEL_X = 40;
+const LABEL_Y = 21;
+const SUB_Y = 37;
+const marker = `${id}-arrow`;
+---
+
+{/* File: src/components/workflow/WorkflowDiagram.astro */}
+<div>
+  <p class="m-0 mb-sm text-sm font-bold text-text-body-secondary">{t("workflow.diagramTitle")}</p>
+  <figure class="m-0 flex max-w-[calc(theme(spacing.5xl)*7)] flex-col gap-sm">
+    {/* Below ~600px the drawing keeps a readable size and scrolls sideways. */}
+    <div
+      tabindex="0"
+      role="region"
+      aria-label={t("workflow.diagramTitle")}
+      class="overflow-x-auto rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"
+    >
+      <svg
+        viewBox={`0 0 ${VIEW_W} ${diagram.height}`}
+        role="img"
+        aria-label={diagram.alt}
+        class="block h-auto w-full min-w-[calc(theme(spacing.5xl)*6)]"
+      >
+        <defs>
+          <marker id={marker} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M1 1.5 L8.5 5 L1 8.5" fill="none" class="stroke-gray-500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+        </defs>
+        {
+          diagram.edges.map((edge) => (
+            <>
+              <path
+                d={edge.d}
+                fill="none"
+                class="stroke-gray-500"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-dasharray={edge.dotted ? "1 5" : undefined}
+                marker-end={edge.arrow ? `url(#${marker})` : undefined}
+              />
+              {edge.label && edge.lx !== undefined && edge.ly !== undefined && (
+                <text x={edge.lx} y={edge.ly} class="fill-gray-600 text-xs font-medium">
+                  {edge.label}
+                </text>
+              )}
+            </>
+          ))
+        }
+        {
+          diagram.nodes.map((node) => {
+            const logo = node.tool ? toolLogos[node.tool] : undefined;
+            return (
+              <>
+                {logo ? (
+                  <image href={logo.src} x={node.x} y={node.y} width={LOGO} height={LOGO} />
+                ) : (
+                  <rect
+                    x={node.x}
+                    y={node.y}
+                    width={LOGO}
+                    height={LOGO}
+                    rx="6"
+                    fill="none"
+                    class="stroke-gray-400"
+                    stroke-width="1"
+                    stroke-dasharray="3 3"
+                  />
+                )}
+                <text x={node.x + LABEL_X} y={node.y + LABEL_Y} class="fill-text-body-primary text-sm font-bold">
+                  {node.label}
+                </text>
+                {node.sub && (
+                  <text x={node.x + LABEL_X} y={node.y + SUB_Y} class="fill-gray-600 text-xs font-medium">
+                    {node.sub}
+                  </text>
+                )}
+              </>
+            );
+          })
+        }
+      </svg>
+    </div>
+    <figcaption class="text-sm text-text-body-primary">{diagram.caption}</figcaption>
+  </figure>
+</div>

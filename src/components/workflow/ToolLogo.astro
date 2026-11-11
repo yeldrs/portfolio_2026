@@ -1,0 +1,50 @@
+---
+import { Image } from "astro:assets";
+import { toolLogos } from "../../data/workflow.tools";
+import { tokens } from "../../styles/tokens.js";
+
+export interface Props {
+  /** Tool catalogue id. Without a logo file, a dashed placeholder square is drawn. */
+  id?: string;
+  /** "box" = logo in a bordered square (lists); "bare" = logo only (pills). */
+  variant?: "box" | "bare";
+  /** Size of the "bare" logo: md = 16px (pills, filter header), lg = 24px (tool lists). */
+  size?: "md" | "lg";
+  /** "accent" = pale accent tile ("box" only); default is the neutral grey tile. */
+  tone?: "neutral" | "accent";
+}
+
+const { id, variant = "box", size = "md", tone = "neutral" } = Astro.props;
+const logo = id ? toolLogos[id] : undefined;
+// Intrinsic pixel size of the <img>, taken from the spacing token it is drawn at.
+const px = parseInt(tokens.primitives.spacing[size], 10);
+---
+
+{/* File: src/components/workflow/ToolLogo.astro */}
+{
+  variant === "bare" ? (
+    <span
+      aria-hidden="true"
+      class:list={["flex-none flex items-center justify-center", size === "lg" ? "w-lg h-lg" : "w-md h-md"]}
+    >
+      {logo ? (
+        <Image src={logo} alt="" width={px} height={px} loading="lazy" decoding="async" class="w-full h-full" />
+      ) : (
+        <span class="block w-full h-full rounded-md border border-dashed border-gray-400" />
+      )}
+    </span>
+  ) : (
+    <span
+      aria-hidden="true"
+      class:list={[
+        "flex-none flex items-center justify-center w-lg h-lg rounded-md border",
+        tone === "accent" ? "bg-background-accent-subtle border-stroke-primary-hover" : "bg-gray-100 border-gray-400",
+        { "border-dashed": !logo },
+      ]}
+    >
+      {logo && (
+        <Image src={logo} alt="" width={px} height={px} loading="lazy" decoding="async" class="w-md h-md" />
+      )}
+    </span>
+  )
+}

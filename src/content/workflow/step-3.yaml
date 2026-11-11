@@ -1,0 +1,281 @@
+# Step 3: Design, from wireframes to design system
+order: 3
+teaserTools: [figma, claude-design, gemini, tailwind]
+
+en:
+  title: "Design"
+  globalText: "Wireframes fix structure and states, not final style. I use them to agree with the agent on what each screen contains and how it behaves, one screen per session, with texts kept as translation keys. Material quality and the final look are decided later, in the engine or the browser. A design system only helps an agent if its values live in one place the code reads, so I define tokens in layers, from primitive values to semantic roles, map or generate them into code, and forbid hardcoded values in components. Contrast is measured on what is rendered, not on the palette alone."
+  blocks:
+    - project: tenon
+      heading: "Wireframes"
+      approachLabel: "All screens in Claude Design"
+      approach: "Proof-of-concept mockups from Gemini generated ideas first. Then low-fidelity wireframes for every screen, mini-boards for the tutorial, three visual directions and one high-fidelity test. Import into the engine happens in two phases: a read-only reading of the wireframes first, then one screen per session."
+      tools:
+        - { id: claude-design, label: "Claude Design", note: "wireframes, mini-boards, visual directions" }
+        - { id: gemini, label: "Gemini", note: "proof-of-concept mockups" }
+        - { id: claude-code, label: "Claude Code", note: "read-only wireframe skill" }
+      constraints: "Portrait phone screen at 720 by 1280, system bars and gesture areas, touch targets of at least 48 dp."
+      correction: "The mockups left out the Android system bars, so interactive elements ended up underneath them. System margins are now planned from the wireframe stage."
+      gallery: rail
+      screens:
+        - caption: "Game screen"
+          src: "tenon-wire-game.webp"
+          alt: "Low-fidelity wireframe of the game screen: a menu button and a timer at the top, the diamond-shaped board of yellow and red pegs, and a move counter with undo and redo at the bottom."
+        - caption: "Pause and quit"
+          src: "tenon-wire-pause.webp"
+          alt: "Wireframe of the quit dialog over the dimmed game screen, with Cancel and Quit buttons."
+        - caption: "Settings"
+          src: "tenon-wire-settings.webp"
+          alt: "Wireframe of the settings screen with sound, volume, vibration, language, reduced animations, highlighted legal moves, view and a reset-progress button."
+        - caption: "Teaser"
+          src: "tenon-wire-soon.webp"
+          alt: "Wireframe of the coming-soon screen: an image placeholder, a title, an email field with an invalid address message and a notify button."
+    - project: tenon
+      heading: "Hi-fi and design system"
+      approachLabel: "Layered tokens, generated code"
+      approach: "Tokens live in layered JSON files (primitive, semantic, material, platform) and generate the engine constants, with a check mode that fails when they drift. A living design system page instantiates the real components, so a gap between that page and the game counts as a bug. The wood look is encoded as a material layer: wood species per button variant and state, grooves, engraving, elevation. Components were aligned to Material 3 dimensions with a wood skin, after an audit of 96 points."
+      tools:
+        - { id: claude-design, label: "Claude Design" }
+        - { id: claude-code, label: "Claude Code" }
+        - { label: "A Node token generator", note: "engine constants from tokens" }
+        - { id: godot, label: "Godot" }
+        - { label: "A contrast script", note: "contrast audit" }
+      constraints: "Touch targets of at least 48 dp, a text floor of 11 sp, Material 3 shapes and sizes for Google Play, and a wood style that stays readable."
+      correction: "Contrast measured on the palette failed once rendered. The audit now reads the tokens the 2D render actually uses."
+      gallery: spotlight
+      startAt: 2
+      screens:
+        - caption: "UI kit"
+          src: "tenon-uikit.webp"
+          theme: dark
+          device: desktop
+          alt: "Tenon design system page in the game's debug window: wood roles, buttons in their normal, pressed and disabled states, pictograms, and a comment panel on the right."
+        - caption: "Game screen"
+          sub: "Empty board, timer, move counter"
+          src: "tenon-final-game.webp"
+          theme: dark
+          alt: "Final game screen: yellow and red pegs on a wooden board, a menu button and the timer at the top, the move counter with undo and redo at the bottom."
+        - caption: "Pause and quit"
+          sub: "Dialog over the dimmed board"
+          src: "tenon-final-pause.webp"
+          theme: dark
+          alt: "Final pause dialog over the dimmed game screen, titled Paused, with Resume, Rules, settings and Home buttons."
+        - caption: "Settings"
+          sub: "Sound, music, language, hints"
+          src: "tenon-final-settings.webp"
+          theme: dark
+          alt: "Final settings screen on a wood background: sound effects, effects volume, music, music volume, visual hints and a language switch, with links to replay the tutorial and more games."
+        - caption: "Teaser"
+          sub: "Email sign-up"
+          src: "tenon-final-soon.webp"
+          theme: dark
+          alt: "Final coming-soon screen: the tenon logo, the text More puzzles coming soon, an email field, a Notify me button and a No thanks link."
+        - caption: "Home"
+          sub: "Play, rules, credits"
+          src: "tenon-hifi-home.webp"
+          theme: dark
+          alt: "Tenon home screen on a wood background: the tenon logo, a Play button, Rules and settings buttons and a Credits button."
+        - caption: "How to play"
+          sub: "The goal and three moves"
+          src: "tenon-hifi-howto.webp"
+          theme: dark
+          alt: "Tenon how-to-play dialog: the goal, then the Forward, Never backwards and Jump moves with small illustrated boards, and a Replay the tutorial link."
+        - caption: "Rules, Forward"
+          sub: "Step 2 of 4"
+          src: "tenon-hifi-rules-forward.webp"
+          theme: dark
+          alt: "Tenon rules step 2 of 4, Forward: a mini board with a highlighted yellow peg, an empty space and a red peg, with the instruction to touch the peg then the adjacent empty space."
+        - caption: "Rules, Never backwards"
+          sub: "Step 3 of 4"
+          src: "tenon-hifi-rules-backwards.webp"
+          theme: dark
+          alt: "Tenon rules step 3 of 4, Never backwards: a mini board where a peg cannot move backwards even if the adjacent space is empty, and an enabled Next button."
+        - caption: "Mid-game"
+          sub: "Move 6, timer 00:16"
+          src: "tenon-hifi-midgame.webp"
+          theme: dark
+          alt: "Tenon game board mid-game: yellow and red pegs on a wooden board, one red peg selected next to the empty space, timer at the top, move counter with undo and redo at the bottom."
+        - caption: "Buttons before and after the Material 3 alignment."
+          theme: dark
+    - project: food-journal
+      heading: "Wireframes"
+      approachLabel: "Wireframes, then design imports"
+      approach: "Wireframes from the research phase, then screens designed in Claude Design and imported as files. Each imported screen was reconciled with the existing components one at a time. Where an imported design contradicted a product rule, the rule won and the rejection was written down."
+      tools:
+        - { id: claude-design, label: "Claude Design", note: "imported screens" }
+        - { id: claude-code, label: "Claude Code", note: "component reconciliation" }
+      constraints: "A calm interface that does not create anxiety: no value judgement in copy, no default calorie totals."
+      screens:
+        - caption: "One earlier wireframe and the matching final screen."
+    - project: food-journal
+      heading: "Hi-fi and design system"
+      approachLabel: "Figma tokens in Tailwind v4"
+      approach: "A token export from the design file sits in the repository as a reference. The values live in one CSS file: palette primitives, a semantic layer mapped to the component library, a dark theme with the same roles, and typography tokens that bundle size, line height and weight. Components read them through utility classes, and typography is never recomposed by hand."
+      tools:
+        - { id: figma, label: "Figma", note: "token export" }
+        - { id: claude-design, label: "Claude Design" }
+        - { id: tailwind, label: "Tailwind CSS v4", note: "tokens in CSS, utility classes" }
+        - { id: shadcn, label: "shadcn with Base UI", note: "component library" }
+        - { id: cva, label: "class-variance-authority" }
+      constraints: "WCAG 2.2 AA as a minimum, light and dark themes, an interface that stays calm."
+      correction: "Colors passed on paper and failed in the browser. A real contrast measurement led me to darken several neutral steps, and a missing dark override had produced a 1.04:1 pair before it was fixed. Separately, two design imports landed on the main branch instead of the redesign branch and were reverted by new commits. I then added a guardrail skill for design syncs."
+      screens:
+        - caption: "Light and dark themes side by side."
+        - caption: "Excerpt of the token file with measured ratios in comments."
+    - project: portfolio
+      heading: "Wireframes"
+      status: not-applicable
+    - project: portfolio
+      heading: "Hi-fi and design system"
+      approachLabel: "Figma to one tokens file"
+      approach: "The design system was built by hand in Figma, exported, then consolidated into a single tokens file: primitives, semantic roles, then Tailwind. The Figma export files were deleted once the code held the values. The hard decision was which Figma variables become primitives, which become semantic roles, and what components may reference. A script now generates a design-system bundle from the same file for Claude Design."
+      tools:
+        - { id: figma, label: "Figma", note: "hand-built design system, export" }
+        - { label: "Figma MCP" }
+        - { id: claude-code, label: "Claude Code" }
+        - { id: tailwind, label: "Tailwind CSS 3", note: "config from tokens file" }
+        - { id: claude-design, label: "Claude Design", note: "design-system bundle" }
+      constraints: "One chain only: tokens, semantic roles, Tailwind config, components. No second color map."
+      correction: "Some leftovers remain and are tracked, not hidden: classes that render nothing (text-md, mt-7xl, and a border class using the wrong token name) and a few hardcoded values in the image viewer and the footer."
+      screens:
+        - caption: "Curated Figma frames: token sheet, home page, case-study template."
+        - caption: "Tailwind config before and after the tokens file became the single source."
+
+fr:
+  title: "Design"
+  globalText: "Les wireframes fixent la structure et les états, pas le style final. Je m'en sers pour m'accorder avec l'agent sur le contenu de chaque écran et son comportement, un écran par session, avec les textes conservés sous forme de clés de traduction. La qualité des matières et le rendu final se décident plus tard, dans le moteur ou le navigateur. Un design system n'aide un agent que si ses valeurs vivent à un seul endroit que le code lit, donc je définis les tokens en couches, des valeurs primitives aux rôles sémantiques, je les mappe ou les génère dans le code, et j'interdis les valeurs codées en dur dans les composants. Le contraste se mesure sur ce qui est rendu, pas sur la palette seule."
+  blocks:
+    - project: tenon
+      heading: "Wireframes"
+      approachLabel: "Tous les écrans dans Claude Design"
+      approach: "Des maquettes de preuve de concept générées par Gemini ont d'abord fourni des idées. Puis des wireframes basse fidélité pour chaque écran, des mini-boards pour le tutoriel, trois directions visuelles et un test haute fidélité. L'import dans le moteur se fait en deux phases : d'abord une lecture seule des wireframes, puis un écran par session."
+      tools:
+        - { id: claude-design, label: "Claude Design", note: "wireframes, mini-boards, directions visuelles" }
+        - { id: gemini, label: "Gemini", note: "maquettes de preuve de concept" }
+        - { id: claude-code, label: "Claude Code", note: "skill de lecture seule" }
+      constraints: "Écran de téléphone en portrait de 720 par 1280, barres système et zones de gestes, cibles tactiles d'au moins 48 dp."
+      correction: "Les maquettes oubliaient les barres système Android, donc des éléments interactifs se retrouvaient dessous. Les marges système sont maintenant prévues dès l'étape des wireframes."
+      gallery: rail
+      screens:
+        - caption: "Écran de jeu"
+          src: "tenon-wire-game.webp"
+          alt: "Wireframe basse fidélité de l'écran de jeu : un bouton de menu et un chrono en haut, le plateau en losange de pions jaunes et rouges, et un compteur de coups avec annuler et rétablir en bas."
+        - caption: "Pause et abandon"
+          src: "tenon-wire-pause.webp"
+          alt: "Wireframe de la boîte de dialogue pour quitter, sur l'écran de jeu assombri, avec les boutons Annuler et Quitter."
+        - caption: "Réglages"
+          src: "tenon-wire-settings.webp"
+          alt: "Wireframe de l'écran de réglages avec son, volume, vibrations, langue, réduction des animations, coups légaux en surbrillance, vue et un bouton de réinitialisation de la progression."
+        - caption: "Teaser"
+          src: "tenon-wire-soon.webp"
+          alt: "Wireframe de l'écran « bientôt » : un emplacement d'image, un titre, un champ e-mail avec un message d'adresse invalide et un bouton pour être prévenu."
+    - project: tenon
+      heading: "Hi-fi et design system"
+      approachLabel: "Tokens en couches, code généré"
+      approach: "Les tokens vivent dans des fichiers JSON en couches (primitive, sémantique, matière, plateforme) et génèrent les constantes du moteur, avec un mode de vérification qui échoue en cas de dérive. Une page de design system vivante instancie les vrais composants, donc un écart entre cette page et le jeu compte comme un bug. Le rendu bois est encodé comme une couche matière : essence de bois par variante et état de bouton, rainures, gravure, élévation. Les composants ont été alignés sur les dimensions de Material 3 avec une peau bois, après un audit de 96 points."
+      tools:
+        - { id: claude-design, label: "Claude Design" }
+        - { id: claude-code, label: "Claude Code" }
+        - { label: "Un générateur de tokens Node", note: "constantes du moteur depuis les tokens" }
+        - { id: godot, label: "Godot" }
+        - { label: "Un script de contraste", note: "audit de contraste" }
+      constraints: "Cibles tactiles d'au moins 48 dp, un plancher de texte de 11 sp, formes et tailles Material 3 pour Google Play, et un style bois qui reste lisible."
+      correction: "Le contraste mesuré sur la palette échouait une fois rendu. L'audit lit maintenant les tokens que le rendu 2D utilise réellement."
+      gallery: spotlight
+      startAt: 2
+      screens:
+        - caption: "UI kit"
+          src: "tenon-uikit.webp"
+          theme: dark
+          device: desktop
+          alt: "Page du design system de Tenon dans la fenêtre de debug du jeu : rôles de bois, boutons dans leurs états normal, pressé et désactivé, pictos, et un panneau de commentaires à droite."
+        - caption: "Écran de jeu"
+          sub: "Plateau vide, chrono, compteur de coups"
+          src: "tenon-final-game.webp"
+          theme: dark
+          alt: "Écran de jeu final : des pions jaunes et rouges sur un plateau en bois, un bouton de menu et le chrono en haut, le compteur de coups avec annuler et rétablir en bas."
+        - caption: "Pause et abandon"
+          sub: "Boîte de dialogue sur le plateau assombri"
+          src: "tenon-final-pause.webp"
+          theme: dark
+          alt: "Boîte de dialogue de pause finale sur l'écran de jeu assombri, intitulée Paused, avec les boutons Resume, Rules, réglages et Home."
+        - caption: "Réglages"
+          sub: "Son, musique, langue, aides"
+          src: "tenon-final-settings.webp"
+          theme: dark
+          alt: "Écran de réglages final sur fond bois : effets sonores, volume des effets, musique, volume de la musique, aides visuelles et sélecteur de langue, avec des liens pour rejouer le tutoriel et voir plus de jeux."
+        - caption: "Teaser"
+          sub: "Inscription par e-mail"
+          src: "tenon-final-soon.webp"
+          theme: dark
+          alt: "Écran final « bientôt » : le logo tenon, le texte More puzzles coming soon, un champ e-mail, un bouton Notify me et un lien No thanks."
+        - caption: "Accueil"
+          sub: "Jouer, règles, crédits"
+          src: "tenon-hifi-home.webp"
+          theme: dark
+          alt: "Écran d'accueil de Tenon sur fond bois : le logo tenon, un bouton Play, des boutons Rules et réglages et un bouton Credits."
+        - caption: "Comment jouer"
+          sub: "L'objectif et trois mouvements"
+          src: "tenon-hifi-howto.webp"
+          theme: dark
+          alt: "Boîte de dialogue « How to play » de Tenon : l'objectif, puis les mouvements Forward, Never backwards et Jump avec de petits plateaux illustrés, et un lien Replay the tutorial."
+        - caption: "Règles, Forward"
+          sub: "Étape 2 sur 4"
+          src: "tenon-hifi-rules-forward.webp"
+          theme: dark
+          alt: "Étape 2 sur 4 des règles de Tenon, Forward : un mini plateau avec un pion jaune en surbrillance, une case vide et un pion rouge, avec la consigne de toucher le pion puis la case vide adjacente."
+        - caption: "Règles, Never backwards"
+          sub: "Étape 3 sur 4"
+          src: "tenon-hifi-rules-backwards.webp"
+          theme: dark
+          alt: "Étape 3 sur 4 des règles de Tenon, Never backwards : un mini plateau où un pion ne peut pas reculer même si la case adjacente est vide, et un bouton Next actif."
+        - caption: "En cours de partie"
+          sub: "Coup 6, chrono 00:16"
+          src: "tenon-hifi-midgame.webp"
+          theme: dark
+          alt: "Plateau de jeu Tenon en cours de partie : des pions jaunes et rouges sur un plateau en bois, un pion rouge sélectionné près de la case vide, le chrono en haut, le compteur de coups avec annuler et rétablir en bas."
+        - caption: "Les boutons avant et après l'alignement sur Material 3."
+          theme: dark
+    - project: food-journal
+      heading: "Wireframes"
+      approachLabel: "Wireframes, puis imports de design"
+      approach: "Des wireframes issus de la phase de recherche, puis des écrans conçus dans Claude Design et importés sous forme de fichiers. Chaque écran importé a été réconcilié avec les composants existants, un à un. Quand un design importé contredisait une règle produit, la règle l'emportait et le rejet était consigné par écrit."
+      tools:
+        - { id: claude-design, label: "Claude Design", note: "écrans importés" }
+        - { id: claude-code, label: "Claude Code", note: "réconciliation des composants" }
+      constraints: "Une interface calme qui ne crée pas d'anxiété : pas de jugement de valeur dans les textes, pas de total de calories par défaut."
+      screens:
+        - caption: "Un wireframe antérieur et l'écran final correspondant."
+    - project: food-journal
+      heading: "Hi-fi et design system"
+      approachLabel: "Tokens Figma dans Tailwind v4"
+      approach: "Un export de tokens du fichier de design se trouve dans le dépôt comme référence. Les valeurs vivent dans un seul fichier CSS : primitives de palette, une couche sémantique mappée sur la bibliothèque de composants, un thème sombre avec les mêmes rôles, et des tokens de typographie qui regroupent taille, interligne et graisse. Les composants les lisent via des classes utilitaires, et la typographie n'est jamais recomposée à la main."
+      tools:
+        - { id: figma, label: "Figma", note: "export de tokens" }
+        - { id: claude-design, label: "Claude Design" }
+        - { id: tailwind, label: "Tailwind CSS v4", note: "tokens en CSS, classes utilitaires" }
+        - { id: shadcn, label: "shadcn avec Base UI", note: "bibliothèque de composants" }
+        - { id: cva, label: "class-variance-authority" }
+      constraints: "WCAG 2.2 AA au minimum, thèmes clair et sombre, une interface qui reste calme."
+      correction: "Les couleurs passaient sur le papier et échouaient dans le navigateur. Une vraie mesure de contraste m'a conduit à assombrir plusieurs niveaux de neutres, et un override sombre manquant avait produit une paire à 1,04:1 avant d'être corrigé. Par ailleurs, deux imports de design ont atterri sur la branche principale au lieu de la branche de refonte et ont été annulés par de nouveaux commits. J'ai ensuite ajouté un skill de garde-fou pour les synchronisations de design."
+      screens:
+        - caption: "Thèmes clair et sombre côte à côte."
+        - caption: "Extrait du fichier de tokens avec les ratios mesurés en commentaires."
+    - project: portfolio
+      heading: "Wireframes"
+      status: not-applicable
+    - project: portfolio
+      heading: "Hi-fi et design system"
+      approachLabel: "De Figma à un seul fichier de tokens"
+      approach: "Le design system a été construit à la main dans Figma, exporté, puis consolidé dans un seul fichier de tokens : primitives, rôles sémantiques, puis Tailwind. Les fichiers d'export Figma ont été supprimés une fois que le code contenait les valeurs. La décision difficile a été de choisir quelles variables Figma deviennent des primitives, lesquelles deviennent des rôles sémantiques, et ce que les composants ont le droit de référencer. Un script génère maintenant un bundle de design system à partir du même fichier pour Claude Design."
+      tools:
+        - { id: figma, label: "Figma", note: "design system fait main, export" }
+        - { label: "Figma MCP" }
+        - { id: claude-code, label: "Claude Code" }
+        - { id: tailwind, label: "Tailwind CSS 3", note: "config depuis le fichier de tokens" }
+        - { id: claude-design, label: "Claude Design", note: "bundle de design system" }
+      constraints: "Une seule chaîne : tokens, rôles sémantiques, config Tailwind, composants. Pas de seconde table de couleurs."
+      correction: "Quelques restes subsistent, suivis et non cachés : des classes qui ne rendent rien (text-md, mt-7xl, et une classe de bordure qui utilise un mauvais nom de token) et quelques valeurs codées en dur dans la visionneuse d'images et le pied de page."
+      screens:
+        - caption: "Cadres Figma sélectionnés : planche de tokens, page d'accueil, modèle d'étude de cas."
+        - caption: "Config Tailwind avant et après que le fichier de tokens est devenu la source unique."

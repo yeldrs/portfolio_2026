@@ -1,0 +1,55 @@
+---
+export interface Props {
+  /** Step number, 1 to 5. */
+  order: number;
+}
+
+const { order } = Astro.props;
+---
+
+{/* File: src/components/workflow/WorkflowStepIcon.astro */}
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class="w-md h-md"
+>
+  {
+    order === 1 && (
+      <>
+        <rect x="8" y="3" width="8" height="4" rx="1" />
+        <path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2" />
+        <path d="M9 12h6M9 16h6" />
+      </>
+    )
+  }
+  {
+    order === 2 && (
+      <>
+        <circle cx="11" cy="11" r="7" />
+        <path d="M20 20l-4-4" />
+      </>
+    )
+  }
+  {
+    order === 3 && (
+      <>
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M3 9h18M9 21V9" />
+      </>
+    )
+  }
+  {order === 4 && <path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14" />}
+  {
+    order === 5 && (
+      <>
+        <path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z" />
+        <path d="M9 12l2 2 4-4" />
+      </>
+    )
+  }
+</svg>

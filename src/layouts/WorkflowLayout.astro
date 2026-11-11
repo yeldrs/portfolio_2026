@@ -1,0 +1,78 @@
+---
+import Container from "../components/Container.astro";
+import ImageModal from "../components/ImageModal.astro";
+import WorkflowProjectTabs from "../components/workflow/WorkflowProjectTabs.astro";
+import WorkflowStep from "../components/workflow/WorkflowStep.astro";
+import WorkflowStepNav from "../components/workflow/WorkflowStepNav.astro";
+import WorkflowToolList from "../components/workflow/WorkflowToolList.astro";
+import { getWorkflowSteps, getUsedTools } from "../data/workflow.loader";
+import { workflow as workflowEn } from "../data/workflow.en";
+import { workflow as workflowFr } from "../data/workflow.fr";
+import { useTranslations } from "../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const page = lang === "fr" ? workflowFr : workflowEn;
+const steps = await getWorkflowSteps(lang);
+const usedTools = getUsedTools(steps);
+---
+
+{/* File: src/layouts/WorkflowLayout.astro */}
+<div id="workflow-page">
+  {/* BaseLayout gives body overflow-y:auto, which makes it a scroll container and breaks
+      position:sticky. On this page the viewport scrolls instead (html keeps overflow-x hidden). */}
+  <style is:global>
+    html body {
+      overflow: visible;
+    }
+  </style>
+
+  <Container class="pb-5xl">
+    {/* Title, intro and tool list sit in the content column (same grid as the steps below),
+        at the very top of the page. The step nav starts underneath, in the left column. */}
+    <header class="grid grid-cols-1 gap-y-md pb-2xl pt-3xl md:grid-cols-[minmax(0,2fr)_minmax(0,7fr)] md:gap-x-3xl md:[&>*]:col-start-2">
+      <p class="m-0 text-sm font-semibold text-text-body-secondary">{page.eyebrow}</p>
+      <h1 class="m-0 font-serif text-4xl font-semibold italic text-balance text-text-heading-accent md:text-5xl">
+        {page.title}
+      </h1>
+      <p class="m-0 max-w-prose text-lg leading-normal text-text-body-secondary">{page.intro}</p>
+      <div class="mt-md">
+        <WorkflowToolList lang={lang} tools={usedTools} />
+      </div>
+    </header>
+
+    <WorkflowStepNav lang={lang} steps={steps} variant="mobile" />
+
+    <div class="mt-lg grid grid-cols-1 gap-x-3xl md:grid-cols-[minmax(0,2fr)_minmax(0,7fr)]">
+      <WorkflowStepNav lang={lang} steps={steps} variant="desktop" />
+      <div class="group/tabs" role="radiogroup" aria-label={t("workflow.projectAria")}>
+        <WorkflowProjectTabs lang={lang} intros={page.projectIntros} />
+        <div>
+          {steps.map((step) => <WorkflowStep lang={lang} step={step} />)}
+        </div>
+      </div>
+    </div>
+  </Container>
+  <ImageModal />
+</div>
+
+<script>
+  // Screenshots open in the site's preview modal; the arrows page through the screens
+  // of the same block.
+  document.addEventListener("click", (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>("[data-zoom]");
+    if (!button) return;
+    const group = button.dataset.zoomGroup;
+    const list = Array.from(
+      document.querySelectorAll<HTMLElement>(`[data-zoom][data-zoom-group="${group}"]`),
+    ).map((el) => el.dataset.zoom as string);
+    (window as unknown as { showImageModal: (url: string, list: string[]) => void }).showImageModal(
+      button.dataset.zoom as string,
+      list,
+    );
+  });
+</script>

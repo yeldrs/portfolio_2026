@@ -1,0 +1,94 @@
+---
+import { Image, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+  index: number; // 1-based
+  caption: string;
+  src?: string; // file name inside src/assets/workflow/
+  alt?: string;
+  callouts?: string[];
+  /** Screens sharing a group id page through each other in the preview modal. */
+  group?: string;
+}
+
+const { lang, index, caption, src, alt, callouts = [], group = "workflow" } = Astro.props;
+const t = useTranslations(lang);
+
+// Screenshots are optimised by astro:assets: fixed 4:3 box, WebP, lazy-loaded.
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "../../assets/workflow/*.{webp,avif,png,jpg,jpeg}",
+  { eager: true },
+);
+const image = src ? images[`../../assets/workflow/${src}`]?.default : undefined;
+const WIDTH = 800;
+const HEIGHT = 600;
+// Larger render for the preview modal.
+const zoom = image ? (await getImage({ src: image, width: 1600, format: "webp" })).src : undefined;
+---
+
+{/* File: src/components/workflow/WorkflowScreen.astro */}
+<figure class="m-0 flex flex-col gap-sm">
+  {
+    image && alt && zoom ? (
+      <button
+        type="button"
+        data-zoom={zoom}
+        data-zoom-group={group}
+        aria-label={t("workflow.zoomAria", { caption })}
+        class="group/zoom relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-stroke-neutral-primary bg-gray-100 p-0 shadow-sm transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"
+      >
+        <Image
+          src={image}
+          alt={alt}
+          width={WIDTH}
+          height={HEIGHT}
+          widths={[WIDTH, WIDTH * 2]}
+          sizes="(min-width: 768px) 440px, 100vw"
+          format="webp"
+          loading="lazy"
+          decoding="async"
+          class="block aspect-card h-auto w-full object-cover motion-safe:transition-transform motion-safe:duration-300 group-hover/zoom:scale-[1.02]"
+        />
+        <span
+          aria-hidden="true"
+          class="absolute right-sm top-sm flex h-xl w-xl items-center justify-center rounded-full border border-stroke-neutral-primary bg-background-primary text-text-body-primary opacity-0 shadow-sm transition-opacity group-hover/zoom:opacity-100 group-focus-visible/zoom:opacity-100"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-md w-md">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-4-4M11 8v6M8 11h6" />
+          </svg>
+        </span>
+      </button>
+    ) : (
+      <div class="relative aspect-card overflow-hidden rounded-xl border border-stroke-neutral-primary bg-gray-100">
+        <div role="img" aria-label={t("workflow.placeholderAria", { caption })} class="absolute inset-0">
+          <span aria-hidden="true" class="absolute inset-md flex flex-col gap-sm">
+            <span class="block h-lg w-full rounded-md bg-gray-200" />
+            <span class="block h-md w-3/5 rounded-md bg-gray-200" />
+            <span class="block flex-1 w-full rounded-md bg-gray-200" />
+          </span>
+        </div>
+      </div>
+    )
+  }
+  <figcaption class="text-sm text-text-body-secondary">
+    <span class="font-semibold text-text-body-primary">{t("workflow.screenN", { n: String(index) })}.</span> {caption}
+  </figcaption>
+  {
+    callouts.length > 0 && (
+      <ol aria-label={t("workflow.calloutLegend")} class="m-0 p-0 list-none flex flex-col gap-xs text-sm text-text-body-primary">
+        {callouts.map((text, i) => (
+          <li class="flex items-start gap-sm">
+            <span aria-hidden="true" class="flex-none flex items-center justify-center w-md h-md rounded-full bg-button-background-primary text-button-text-primary text-xs font-bold">
+              {i + 1}
+            </span>
+            {text}
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</figure>

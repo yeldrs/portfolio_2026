@@ -1,0 +1,57 @@
+# Step 2: Research
+order: 2
+teaserTools: [notion, typeform, optimal-workshop]
+
+en:
+  title: "Research"
+  globalText: "Research here means gathering enough ground truth to write constraints an agent can follow. Depending on the product, that is user research or a visual brief. Either way the output is a written constraints document, not a pile of references."
+  blocks:
+    - project: tenon
+      approachLabel: "Moodboard to constraints file"
+      approach: "Each moodboard image was analysed on its own, with no color stated as certain and contradictions between references named. The result is a constraints file readable by any AI without seeing the moodboard, with estimated values marked and open decisions flagged as pending. Generated ambiance images set the mood only, never a specification."
+      tools:
+        - { id: gemini, label: "Gemini", note: "ambiance images" }
+        - { id: notion, label: "Notion", note: "prompt playbook" }
+      constraints: "A semi-realistic, simplified wood look that the agents could not infer from references alone."
+      correction: "The image generator does not count and adds plausible elements nobody asked for. I now describe exactly the number, relations and allowed elements, check each image against a checklist, and treat the result as an ambiance target, never a specification."
+    - project: food-journal
+      approachLabel: "User research, then rules"
+      approach: "A first MVP, built in a no-code site builder, was used for two months. I then ran qualitative and quantitative research in public communities, online discussions and with practitioners, and turned it into written product constraints, enriched with retrieved literature on care design. I also ran an unmoderated tree test of the information architecture."
+      tools:
+        - { id: wixstudio, label: "WixStudio", note: "first MVP" }
+        - { id: typeform, label: "Typeform", note: "questionnaires" }
+        - { label: "Otter.ai", note: "interview transcripts" }
+        - { id: uxtweak, label: "UXtweak", note: "tree testing" }
+        - { id: notion, label: "Notion", note: "notes" }
+        - { label: "Retrieval over literature" }
+      constraints: "The research data exists but stays unpublished. No figure appears on the page until it is traced to its original source."
+      correction: "I set the two-month MVP aside instead of extending it, and restarted from research."
+    - project: portfolio
+      status: not-applicable
+
+fr:
+  title: "Recherche"
+  globalText: "La recherche consiste ici à réunir assez de vérités de terrain pour écrire des contraintes qu'un agent peut suivre. Selon le produit, il s'agit de recherche utilisateur ou d'un brief visuel. Dans les deux cas, le résultat est un document de contraintes écrit, pas un tas de références."
+  blocks:
+    - project: tenon
+      approachLabel: "Du moodboard au fichier de contraintes"
+      approach: "Chaque image du moodboard a été analysée seule, sans couleur présentée comme certaine et avec les contradictions entre références nommées. Le résultat est un fichier de contraintes lisible par n'importe quelle IA sans voir le moodboard, avec les valeurs estimées marquées et les décisions ouvertes signalées comme en attente. Les images d'ambiance générées fixent l'atmosphère seulement, jamais une spécification."
+      tools:
+        - { id: gemini, label: "Gemini", note: "images d'ambiance" }
+        - { id: notion, label: "Notion", note: "playbook de prompts" }
+      constraints: "Un rendu bois semi-réaliste et simplifié que les agents ne pouvaient pas déduire des seules références."
+      correction: "Le générateur d'images ne compte pas et ajoute des éléments plausibles que personne n'a demandés. Je décris maintenant exactement le nombre, les relations et les éléments autorisés, je vérifie chaque image avec une checklist, et je traite le résultat comme une cible d'ambiance, jamais comme une spécification."
+    - project: food-journal
+      approachLabel: "Recherche utilisateur, puis règles"
+      approach: "Un premier MVP, construit dans un créateur de site no-code, a été utilisé pendant deux mois. J'ai ensuite mené une recherche qualitative et quantitative dans des communautés publiques, des discussions en ligne et auprès de praticiens, et je l'ai transformée en contraintes produit écrites, enrichies de littérature récupérée sur la conception du soin. J'ai aussi mené un test d'arborescence non modéré de l'architecture de l'information."
+      tools:
+        - { id: wixstudio, label: "WixStudio", note: "premier MVP" }
+        - { id: typeform, label: "Typeform", note: "questionnaires" }
+        - { label: "Otter.ai", note: "transcription d'entretiens" }
+        - { id: uxtweak, label: "UXtweak", note: "test d'arborescence" }
+        - { id: notion, label: "Notion", note: "notes" }
+        - { label: "Recherche documentaire dans la littérature" }
+      constraints: "Les données de recherche existent mais restent non publiées. Aucun chiffre n'apparaît sur la page tant qu'il n'est pas relié à sa source d'origine."
+      correction: "J'ai mis de côté le MVP de deux mois au lieu de l'étendre, et je suis reparti de la recherche."
+    - project: portfolio
+      status: not-applicable

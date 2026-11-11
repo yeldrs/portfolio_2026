@@ -23,6 +23,7 @@ export interface Props {
   imageAlt?: string; // alt text for the social preview image
   structuredData?: Record<string, unknown>; // extra JSON-LD injected in <head>
   noindex?: boolean; // keep a built-but-unlisted page out of search results
+  footerHeading?: "h1" | "h2"; // h2 on pages that already have their own h1 and want a single one
 }
 
 const lang: "en" | "fr" = Astro.currentLocale === "fr" ? "fr" : defaultLang;
@@ -35,6 +36,7 @@ const {
   imageAlt = "Yassine El Idrissi, UX Product Designer",
   structuredData,
   noindex = false,
+  footerHeading = "h1",
 } = Astro.props;
 
 // Absolute URLs for SEO / social / structured data (Astro.site = https://yassineelidrissi.com)
@@ -239,6 +241,6 @@ const personLd = {
       <slot />
     </main>
 
-    <Footer />
+    <Footer headingLevel={footerHeading} />
   </body>
 </html>

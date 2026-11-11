@@ -1,9 +1,16 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Container from "./Container.astro";
 import CopyIcon from "./CopyIcon.astro";
 import { defaultLang } from "../i18n/ui";
 import { useTranslations } from "../i18n/utils";
 
+export interface Props {
+  /** Heading level of "Let's connect !". h1 by default (some pages have no other h1). */
+  headingLevel?: "h1" | "h2";
+}
+
+const { headingLevel: Heading = "h1" } = Astro.props;
 const lang: "en" | "fr" = Astro.currentLocale === "fr" ? "fr" : defaultLang;
 const t = useTranslations(lang);
 
@@ -93,12 +100,12 @@ navigator.clipboard.writeText(email).then(() => {
     <div
       class="flex flex-col items-center justify-center text-center space-y-lg"
     >
-      <h1
+      <Heading
         id="footer-heading"
         class="h-display italic text-text-body-primary text-3xl font-semibold"
       >
         {t("footer.connect")}
-  </h1>
+      </Heading>
       <p class="text-text-body-primary text-base font-normal">
         {t("footer.tagline")}
       </p>
@@ -128,7 +135,14 @@ navigator.clipboard.writeText(email).then(() => {
         &copy; {currentYear} Yassine EL IDRISSI. {t("footer.rights")}
       </small>
 
-      <div class="flex space-x-lg">
+      <div class="flex items-center space-x-lg">
+        <a
+          href={getRelativeLocaleUrl(lang, "/workflow")}
+          data-umami-event={`${ev}footer-workflow-click`}
+          class="link text-sm font-normal"
+        >
+          {t("footer.workflow")}
+        </a>
         {
           socialLinks.map((link) => (
             <a
