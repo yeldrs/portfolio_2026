@@ -12,9 +12,11 @@ export interface Props {
   size?: "md" | "lg";
   /** "accent" = pale accent tile ("box" only); default is the neutral grey tile. */
   tone?: "neutral" | "accent";
+  /** Project tabs: the logo fills the whole tile, with no padding inside the border. */
+  fill?: boolean;
 }
 
-const { id, variant = "box", size = "md", tone = "neutral" } = Astro.props;
+const { id, variant = "box", size = "md", tone = "neutral", fill = false } = Astro.props;
 const logo = id ? toolLogos[id] : undefined;
 // Intrinsic pixel size of the <img>, taken from the spacing token it is drawn at.
 const px = parseInt(tokens.primitives.spacing[size], 10);
@@ -39,11 +41,11 @@ const px = parseInt(tokens.primitives.spacing[size], 10);
       class:list={[
         "flex-none flex items-center justify-center w-lg h-lg rounded-md border",
         tone === "accent" ? "bg-background-accent-subtle border-stroke-primary-hover" : "bg-gray-100 border-gray-400",
-        { "border-dashed": !logo },
+        { "border-dashed": !logo, "overflow-hidden": fill },
       ]}
     >
       {logo && (
-        <Image src={logo} alt="" width={px} height={px} loading="lazy" decoding="async" class="w-md h-md" />
+        <Image src={logo} alt="" width={px} height={px} loading="lazy" decoding="async" class={fill ? "h-full w-full object-cover" : "w-md h-md"} />
       )}
     </span>
   )

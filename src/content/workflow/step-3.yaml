@@ -137,9 +137,23 @@ en:
         - { id: claude-design, label: "Claude Design", note: "design-system bundle" }
       constraints: "One chain only: tokens, semantic roles, Tailwind config, components. No second color map."
       correction: "Some leftovers remain and are tracked, not hidden: classes that render nothing (text-md, mt-7xl, and a border class using the wrong token name) and a few hardcoded values in the image viewer and the footer."
+      gallery: spotlight
       screens:
-        - caption: "Curated Figma frames: token sheet, home page, case-study template."
-        - caption: "Tailwind config before and after the tokens file became the single source."
+        - caption: "Home"
+          sub: "Desktop, the case-study entry point"
+          src: "portfolio-hifi-home-desktop.webp"
+          device: desktop
+          alt: "Portfolio home page in a desktop window: the Yassine El Idrissi header, then the title Hello, I'm Yassine, the introduction and the Case studies button over a pale background."
+        - caption: "Case study, 900.care"
+          sub: "Tablet, the long read"
+          src: "portfolio-hifi-case-tablet.webp"
+          device: tablet
+          alt: "900.care case study on a tablet: the title UX and growth for a sustainable e-commerce, then the Context, Problem, Role and Key insights sections with their illustrations."
+        - caption: "About"
+          sub: "Phone, resume and contact"
+          src: "portfolio-hifi-about-phone.webp"
+          device: phone
+          alt: "Portfolio About page on a phone: the Product designer title, the introduction, the Let's connect button, then the Experience heading with the first role and the dates."
 
 fr:
   title: "Design"
@@ -276,6 +290,20 @@ fr:
         - { id: claude-design, label: "Claude Design", note: "bundle de design system" }
       constraints: "Une seule chaîne : tokens, rôles sémantiques, config Tailwind, composants. Pas de seconde table de couleurs."
       correction: "Quelques restes subsistent, suivis et non cachés : des classes qui ne rendent rien (text-md, mt-7xl, et une classe de bordure qui utilise un mauvais nom de token) et quelques valeurs codées en dur dans la visionneuse d'images et le pied de page."
+      gallery: spotlight
       screens:
-        - caption: "Cadres Figma sélectionnés : planche de tokens, page d'accueil, modèle d'étude de cas."
-        - caption: "Config Tailwind avant et après que le fichier de tokens est devenu la source unique."
+        - caption: "Accueil"
+          sub: "Desktop, l'entrée vers les études de cas"
+          src: "portfolio-hifi-home-desktop.webp"
+          device: desktop
+          alt: "Page d'accueil du portfolio dans une fenêtre desktop : l'en-tête Yassine El Idrissi, puis le titre Hello, I'm Yassine, l'introduction et le bouton Case studies sur un fond clair."
+        - caption: "Étude de cas, 900.care"
+          sub: "Tablette, la lecture longue"
+          src: "portfolio-hifi-case-tablet.webp"
+          device: tablet
+          alt: "Étude de cas 900.care sur tablette : le titre UX and growth for a sustainable e-commerce, puis les sections Context, Problem, Role et Key insights avec leurs illustrations."
+        - caption: "À propos"
+          sub: "Téléphone, parcours et contact"
+          src: "portfolio-hifi-about-phone.webp"
+          device: phone
+          alt: "Page à propos du portfolio sur téléphone : le titre Product designer, l'introduction, le bouton Let's connect, puis le titre Experience avec le premier poste et les dates."

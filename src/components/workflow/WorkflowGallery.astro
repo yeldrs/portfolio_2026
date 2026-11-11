@@ -280,19 +280,19 @@ const arrowBtn =
     --u: calc((var(--stage-h) - theme("spacing.3xl") * 2) / var(--ref));
     height: var(--stage-h);
   }
-  /* Hi-fi stage: a discreet dot grid, like a measuring canvas. It uses the wireframe
-     mat constraints: 16px of dots above and below the screens, not the whole stage.
+  /* Hi-fi stage: a discreet dot grid, like a measuring canvas. It follows the wireframe
+     mat logic, with 40px of dots above and below the screens rather than the whole stage.
      The dots fade on the same rhythm as the screens, with an elliptical vignette. */
   .wg-spot-mat {
     position: absolute;
-    inset: calc(theme("spacing.2xl") - theme("spacing.sm")) 0 calc(theme("spacing.2xl") + theme("spacing.sm"));
+    inset: theme("spacing.md") 0 theme("spacing.xl");
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, theme("colors.gray.400") 35%, transparent) calc(theme("spacing.xxs") / 2),
+      color-mix(in srgb, theme("colors.gray.400") 42%, transparent) calc(theme("spacing.xxs") / 2),
       transparent theme("spacing.xxs")
     );
-    background-size: calc(theme("spacing.md") * 0.75) calc(theme("spacing.md") * 0.75);
+    background-size: calc(theme("spacing.md") * 0.875) calc(theme("spacing.md") * 0.875);
     /* Vignette that reaches zero exactly at the mat edges (closest-side ellipse), with
        eased stops: no visible boundary, dots fade with the screens. */
     -webkit-mask-image: radial-gradient(
@@ -313,9 +313,6 @@ const arrowBtn =
     );
   }
   .wg-track {
-    /* Opacity mask, like a gradient dragged across the screens: they simply disappear toward the stage edges. */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
     position: absolute;
     inset: 0;
     display: flex;
@@ -327,11 +324,34 @@ const arrowBtn =
     padding-bottom: calc(theme("spacing.2xl") + theme("spacing.lg"));
     padding-inline-start: calc(50cqw - var(--first) * var(--u) / 2);
     padding-inline-end: calc(50cqw - var(--last) * var(--u) / 2);
+    /* Fixed mask at the stage edges: the screens scroll through it, so they disappear toward
+       the container edge instead of being cut. Curved (wide ellipse) rather than a straight
+       band: 0 at the edge, 70% inward, full strength past the band. The vertical radius is
+       stretched so the fade stays horizontal and only rounds the corners. */
+    -webkit-mask-image: radial-gradient(
+      ellipse 50% 175% at 50% 50%,
+      #000 0%,
+      #000 74%,
+      rgba(0, 0, 0, 0.86) 82%,
+      rgba(0, 0, 0, 0.62) 89%,
+      rgba(0, 0, 0, 0.3) 95%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 50% 175% at 50% 50%,
+      #000 0%,
+      #000 74%,
+      rgba(0, 0, 0, 0.86) 82%,
+      rgba(0, 0, 0, 0.62) 89%,
+      rgba(0, 0, 0, 0.3) 95%,
+      transparent 100%
+    );
   }
   .wg-track::-webkit-scrollbar {
     display: none;
   }
   .wg-item {
+    position: relative;
     width: calc(var(--w) * var(--u));
     scroll-snap-align: center;
   }
@@ -349,7 +369,7 @@ const arrowBtn =
       --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.3xl"));
     }
     .wg-spot-mat {
-      inset: calc(theme("spacing.2xl") - theme("spacing.sm")) calc(-1 * theme("spacing.3xl")) calc(theme("spacing.2xl") + theme("spacing.sm"));
+      inset: theme("spacing.md") calc(-1 * theme("spacing.3xl")) theme("spacing.xl");
     }
     .wg-track {
       gap: theme("spacing.lg");
