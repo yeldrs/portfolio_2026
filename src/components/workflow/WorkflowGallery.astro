@@ -139,7 +139,6 @@ const arrowBtn =
           );
         })}
       </div>
-      <span aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-3xl bg-gradient-to-r from-transparent to-background-page" />
     </div>
   )
 }
@@ -153,8 +152,10 @@ const arrowBtn =
       role="group"
       aria-label={t("workflow.galleryAria")}
       style={`--ref:${ref};--first:${items[0].dp.w};--last:${items[items.length - 1].dp.w}`}
-      class="wg-spot relative overflow-hidden rounded-card bg-gray-200"
+      class="wg-spot relative"
     >
+      {/* Measuring canvas: a large dot field that starts before the screens and fades out. */}
+      <span aria-hidden="true" class="wg-spot-mat" />
       <div class="absolute inset-x-0 top-md z-[3] flex flex-wrap items-center justify-center gap-sm px-2xl text-sm text-text-body-primary">
         <b data-spot-title class="text-xs font-medium text-text-body-secondary">{items[start].caption}</b>
         <WorkflowDeviceChip switchable device={items[start].device} label={t(`workflow.device.${items[start].device}`)} />
@@ -208,13 +209,13 @@ const arrowBtn =
     container-type: inline-size;
     --wg-k: 0.001;
     --wf-u: calc(100cqw * var(--wg-k));
-  }
-  .wg-rail {
-    padding-block: theme("spacing.md");
+    /* The mat keeps a visible margin above and below the screens: the fade completes
+       before the first frame, so the backdrop starts before the mockups. */
+    padding-block: theme("spacing.2xl") theme("spacing.xl");
   }
   .wg-mat {
     position: absolute;
-    inset: 0 0 0 calc(-1 * theme("spacing.lg"));
+    inset: 0;
     pointer-events: none;
     --mat-minor: color-mix(in srgb, theme("colors.stroke-primary-hover") 45%, transparent);
     --mat-major: color-mix(in srgb, theme("colors.stroke-primary-hover") 90%, transparent);
@@ -228,10 +229,10 @@ const arrowBtn =
       calc(theme("spacing.lg") * 5) calc(theme("spacing.lg") * 5),
       theme("spacing.lg") theme("spacing.lg"),
       theme("spacing.lg") theme("spacing.lg");
-    /* Fades out on every side but stays at full strength behind the first screens. */
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 55%, transparent 100%), linear-gradient(transparent, #000 22%, #000 78%, transparent);
+    /* Fades out on every side but is already at full strength behind the first screens. */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 14%, #000 90%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 55%, transparent 100%), linear-gradient(transparent, #000 22%, #000 78%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 14%, #000 90%, transparent);
     mask-composite: intersect;
   }
   .wg-rail-track {
@@ -241,8 +242,12 @@ const arrowBtn =
     gap: theme("spacing.md");
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: theme("spacing.md");
     scrollbar-width: none;
-    padding: theme("spacing.xs") theme("spacing.3xl") theme("spacing.sm") theme("spacing.xxs");
+    /* The right edge fades the incoming screens without painting over the mat. */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
+    padding: theme("spacing.xs") theme("spacing.3xl") theme("spacing.sm") theme("spacing.md");
   }
   .wg-rail-track::-webkit-scrollbar {
     display: none;
@@ -254,9 +259,16 @@ const arrowBtn =
   @media (min-width: theme("screens.md")) {
     .wg-rail {
       --wg-k: 0.000358;
+      padding-block: theme("spacing.3xl") theme("spacing.2xl");
     }
     .wg-rail-track {
       gap: theme("spacing.lg");
+      padding-inline-start: theme("spacing.xxs");
+      scroll-padding-inline-start: theme("spacing.xxs");
+    }
+    /* Outside the content column: the mat runs into the gutter and past the container. */
+    .wg-mat {
+      inset: 0 calc(-1 * theme("spacing.3xl"));
     }
   }
 
@@ -267,11 +279,11 @@ const arrowBtn =
     --u: calc((var(--stage-h) - theme("spacing.3xl") * 2) / var(--ref));
     height: var(--stage-h);
   }
-  /* Hi-fi stage: very discreet dot grid, like a measuring canvas. */
-  .wg-spot::before {
-    content: "";
+  /* Hi-fi stage: a discreet dot grid, like a measuring canvas, that runs past the stage
+     and fades out on every side so it starts before the screens. */
+  .wg-spot-mat {
     position: absolute;
-    inset: 0;
+    inset: calc(-1 * theme("spacing.3xl")) 0 calc(-1 * theme("spacing.2xl"));
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
@@ -279,8 +291,10 @@ const arrowBtn =
       transparent theme("spacing.xxs")
     );
     background-size: theme("spacing.lg") theme("spacing.lg");
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%), linear-gradient(transparent 0%, #000 14%, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%), linear-gradient(transparent 0%, #000 14%, #000 88%, transparent 100%);
+    mask-composite: intersect;
   }
   .wg-track {
     /* Opacity mask, like a gradient dragged across the screens: they simply disappear toward the stage edges. */
@@ -314,6 +328,9 @@ const arrowBtn =
   @media (min-width: theme("screens.md")) {
     .wg-spot {
       --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.3xl"));
+    }
+    .wg-spot-mat {
+      inset: calc(-1 * theme("spacing.3xl")) calc(-1 * theme("spacing.2xl")) calc(-1 * theme("spacing.2xl"));
     }
     .wg-track {
       gap: theme("spacing.lg");

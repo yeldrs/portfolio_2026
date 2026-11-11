@@ -97,23 +97,27 @@ const body = "m-0 text-base leading-relaxed text-justify text-text-body-primary 
         {block.screens.length > 0 && (
           <div>
             <p class={dt}>{t("workflow.screens")}</p>
-            {block.gallery === "grid" ? (
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-lg items-start">
-                {block.screens.map((screen, i) => (
-                  <WorkflowScreen
-                    lang={lang}
-                    index={i + 1}
-                    caption={screen.caption}
-                    src={screen.src}
-                    alt={screen.alt}
-                    callouts={screen.callouts}
-                    group={id}
-                  />
-                ))}
-              </div>
-            ) : (
-              <WorkflowGallery lang={lang} gallery={block.gallery} screens={block.screens} group={id} startAt={block.startAt} />
-            )}
+            {/* Screens use the full viewport width on mobile: the container gutter goes,
+                the labels stay aligned with the rest of the copy. */}
+            <div class="-mx-md md:mx-0">
+              {block.gallery === "grid" ? (
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-lg items-start">
+                  {block.screens.map((screen, i) => (
+                    <WorkflowScreen
+                      lang={lang}
+                      index={i + 1}
+                      caption={screen.caption}
+                      src={screen.src}
+                      alt={screen.alt}
+                      callouts={screen.callouts}
+                      group={id}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <WorkflowGallery lang={lang} gallery={block.gallery} screens={block.screens} group={id} startAt={block.startAt} />
+              )}
+            </div>
           </div>
         )}
       </>

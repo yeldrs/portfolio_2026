@@ -29,6 +29,11 @@ const usedTools = getUsedTools(steps);
     html body {
       overflow: visible;
     }
+    /* Gallery mats bleed past the content column on desktop. overflow-x: clip trims that
+       at the viewport edge without creating a scroll container (sticky still works). */
+    #workflow-page {
+      overflow-x: clip;
+    }
   </style>
 
   <Container class="pb-5xl">

@@ -74,12 +74,12 @@ const zoom = image ? (await getImage({ src: image, width: 1600, format: "webp" }
       </div>
     )
   }
-  <figcaption class="text-sm text-text-body-secondary">
+  <figcaption class="px-md md:px-0 text-sm text-text-body-secondary">
     <span class="font-semibold text-text-body-primary">{t("workflow.screenN", { n: String(index) })}.</span> {caption}
   </figcaption>
   {
     callouts.length > 0 && (
-      <ol aria-label={t("workflow.calloutLegend")} class="m-0 p-0 list-none flex flex-col gap-xs text-sm text-text-body-primary">
+      <ol aria-label={t("workflow.calloutLegend")} class="m-0 p-0 px-md md:px-0 list-none flex flex-col gap-xs text-sm text-text-body-primary">
         {callouts.map((text, i) => (
           <li class="flex items-start gap-sm">
             <span aria-hidden="true" class="flex-none flex items-center justify-center w-md h-md rounded-full bg-button-background-primary text-button-text-primary text-xs font-bold">
