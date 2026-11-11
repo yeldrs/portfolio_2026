@@ -26,5 +26,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# agent worktrees (local)
+.worktrees/
+
 # design-sync output (generated)
 .design-sync/ds-bundle/

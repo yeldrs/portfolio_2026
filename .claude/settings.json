@@ -2,5 +2,14 @@
   "attribution": {
     "commit": "",
     "pr": ""
+  },
+  "permissions": {
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(git merge:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(gh:*)"
+    ]
   }
 }
