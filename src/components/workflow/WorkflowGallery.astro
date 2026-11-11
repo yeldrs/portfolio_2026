@@ -217,22 +217,22 @@ const arrowBtn =
     position: absolute;
     inset: 0;
     pointer-events: none;
-    --mat-minor: color-mix(in srgb, theme("colors.stroke-primary-hover") 45%, transparent);
-    --mat-major: color-mix(in srgb, theme("colors.stroke-primary-hover") 90%, transparent);
+    --mat-minor: color-mix(in srgb, theme("colors.stroke-neutral-primary") 30%, transparent);
+    --mat-major: color-mix(in srgb, theme("colors.stroke-neutral-primary") 60%, transparent);
     background-image:
       linear-gradient(var(--mat-major) calc(theme("spacing.xxs") / 2), transparent 0),
       linear-gradient(90deg, var(--mat-major) calc(theme("spacing.xxs") / 2), transparent 0),
       linear-gradient(var(--mat-minor) calc(theme("spacing.xxs") / 2), transparent 0),
       linear-gradient(90deg, var(--mat-minor) calc(theme("spacing.xxs") / 2), transparent 0);
     background-size:
-      calc(theme("spacing.lg") * 5) calc(theme("spacing.lg") * 5),
-      calc(theme("spacing.lg") * 5) calc(theme("spacing.lg") * 5),
-      theme("spacing.lg") theme("spacing.lg"),
-      theme("spacing.lg") theme("spacing.lg");
+      calc(theme("spacing.md") * 4) calc(theme("spacing.md") * 4),
+      calc(theme("spacing.md") * 4) calc(theme("spacing.md") * 4),
+      theme("spacing.md") theme("spacing.md"),
+      theme("spacing.md") theme("spacing.md");
     /* Fades out on every side but is already at full strength behind the first screens. */
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 14%, #000 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 10%, #000 90%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 14%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 10%, #000 90%, transparent);
     mask-composite: intersect;
   }
   .wg-rail-track {
@@ -247,7 +247,7 @@ const arrowBtn =
     /* The right edge fades the incoming screens without painting over the mat. */
     -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
     mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
-    padding: theme("spacing.xs") theme("spacing.3xl") theme("spacing.sm") theme("spacing.md");
+    padding: 0 theme("spacing.3xl") theme("spacing.sm") theme("spacing.md");
   }
   .wg-rail-track::-webkit-scrollbar {
     display: none;
@@ -263,8 +263,8 @@ const arrowBtn =
     }
     .wg-rail-track {
       gap: theme("spacing.lg");
-      padding-inline-start: theme("spacing.xxs");
-      scroll-padding-inline-start: theme("spacing.xxs");
+      padding-inline-start: 0;
+      scroll-padding-inline-start: 0;
     }
     /* Outside the content column: the mat runs into the gutter and past the container. */
     .wg-mat {
@@ -287,13 +287,13 @@ const arrowBtn =
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, theme("colors.gray.400") 55%, transparent) calc(theme("spacing.xxs") / 2),
+      color-mix(in srgb, theme("colors.gray.400") 45%, transparent) calc(theme("spacing.xxs") / 2),
       transparent theme("spacing.xxs")
     );
-    background-size: theme("spacing.lg") theme("spacing.lg");
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%), linear-gradient(transparent 0%, #000 14%, #000 88%, transparent 100%);
+    background-size: theme("spacing.md") theme("spacing.md");
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%), linear-gradient(transparent 0%, #000 8%, #000 92%, transparent 100%);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%), linear-gradient(transparent 0%, #000 14%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%), linear-gradient(transparent 0%, #000 8%, #000 92%, transparent 100%);
     mask-composite: intersect;
   }
   .wg-track {
@@ -320,6 +320,9 @@ const arrowBtn =
     scroll-snap-align: center;
   }
   .wg-item :global(.pf) {
+    box-shadow: theme("boxShadow.sm");
+  }
+  .wg-flat {
     box-shadow: theme("boxShadow.sm");
   }
   .wg-ritem:hover .wg-flat {

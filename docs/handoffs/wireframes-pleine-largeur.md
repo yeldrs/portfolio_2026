@@ -2,7 +2,7 @@
 
 - Agent / modèle : OpenCode / DeepSeek V4.1 Flash Free
 - Branche : agent/opencode-wireframes-pleine-largeur
-- Date : 2026-11-11
+- Date : 2026-11-11, affiné le 2026-11-12
 
 ## Objectif
 
@@ -24,8 +24,16 @@ compris quand le fond dépasse le conteneur sur desktop.
     pour ne plus recouvrir le fond.
   - Rail : `scroll-padding-inline-start` aligné sur le padding gauche, pour que le
     scroll-snap ne coupe plus le premier écran.
+  - Rail, grille : couleur neutre (`stroke-neutral-primary`, 30 % / 60 %), mailles de
+    16 px et repères majeurs tous les 64 px. Le padding haut de la piste est retiré et le
+    padding gauche desktop passe à 0 : le coin haut-gauche du premier écran tombe sur une
+    intersection majeure de la grille.
+  - Rail, grille : ombre légère (`boxShadow.sm`) sur `.wg-flat`, sous chaque écran.
   - Spotlight : le cadre gris `rounded-card` devient un canevas de points qui déborde de
     la scène et se fond sur les quatre côtés. Les écrans et les contrôles restent inchangés.
+  - Spotlight, points : échelle réduite (16 px) et opacité adoucie (gray-400 à 45 %) ;
+    masques de fondu resserrés (6 % / 94 % horizontal, 8 % / 92 % vertical) pour que le
+    dégradé ne mange plus le champ de points.
 - `src/components/workflow/WorkflowScreen.astro`
   - Légende et liste de repères : `px-md` sur mobile pour rester alignées avec le texte
     quand l'image de la galerie grid est en pleine largeur.
@@ -36,7 +44,7 @@ compris quand le fond dépasse le conteneur sur desktop.
 
 ## Vérifications faites
 
-- [x] `npm run build` — 15 pages, aucune erreur
+- [x] `npm run build` — 15 pages, aucune erreur (relancé après les derniers réglages)
 - [x] `npm run check` — 0 erreur, 0 avertissement (9 hints préexistants)
 - [x] `git diff --stat` limité aux 3 composants ci-dessus
 - [x] Rendu headless (Edge, 390 px et 1440 px) : rail et spotlight en EN, onglet Tenon
@@ -44,6 +52,8 @@ compris quand le fond dépasse le conteneur sur desktop.
 - [x] Mobile : largeur de la galerie = 390 px (x = 0), pas de débordement horizontal du
       document, premier écran du rail à x = 16 (padding conservé)
 - [x] Desktop : pas de débordement horizontal du document, le fond dépasse bien la colonne
+- [x] Grille rail alignée : écart du premier écran à la grille mesuré à 64 px sur x et y,
+      soit un multiple exact de la maille majeure (64 px)
 
 ## Points non finis
 
@@ -54,13 +64,15 @@ compris quand le fond dépasse le conteneur sur desktop.
   n'ont pas changé, seul le fond a bougé.
 - La page FR n'a pas été ouverte : elle utilise les mêmes composants et les mêmes classes.
 
-## Décisions à prendre (propriétaire)
+## Décisions prises (propriétaire)
 
-- Le projecteur n'a plus de carte grise : c'est un champ de points sur le fond de page.
-  Garder ce rendu, ou remettre une surface (plus discrète) derrière les écrans ?
-- La galerie grid (étapes 4 et 5, écrans de portfolio) passe aussi en pleine largeur sur
-  mobile, avec les légendes rentrées de 16 px. La laisser ainsi ou réserver le plein
-  écran au rail et au projecteur ?
-- Proposition de backlog : la ligne « Vérifier le mobile des galeries (rail, projecteur) »
-  peut passer en revue après cette branche. Aucun autre point de `BACKLOG.md` n'est
-  modifié par ce travail.
+- Le projecteur garde le champ de points sans carte grise : rendu validé, seules l'échelle
+  des points et l'étendue du fondu ont été revues.
+- La galerie grid garde le plein écran mobile, légendes rentrées de 16 px.
+- La grille du rail garde une couleur neutre et discrète, alignée sur les écrans, avec une
+  ombre légère sous les maquettes.
+
+## Point de backlog proposé
+
+- La ligne « Vérifier le mobile des galeries (rail, projecteur) » peut passer en revue après
+  cette branche. Aucun autre point de `BACKLOG.md` n'est modifié par ce travail.
