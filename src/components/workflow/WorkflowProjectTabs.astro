@@ -17,8 +17,8 @@ const t = useTranslations(lang);
 // can follow the whole list of steps (a sticky element only sticks inside its parent).
 // One native radio group for the whole page: arrow keys work, no JS. The ancestor with
 // `group/tabs` (WorkflowLayout) lets every step react to the selected radio through :has().
-// The folder-tab look (rounded top, accent bar when selected) lives in the
-// <style> below, built from theme() so every value still comes from tokens.js.
+// Browser-tab look (grey strip, flat tabs, white pill when selected) and the All projects
+// menu live in the <style> below, built from theme() so every value comes from tokens.js.
 const introOn = [
   "group-has-[.r0:checked]/tabs:block",
   "group-has-[.r1:checked]/tabs:block",
@@ -38,21 +38,36 @@ const bannerOn = [
       <input type="radio" class={`sr-only r${i}`} name="workflow-project" id={`t-${id}`} checked={i === 0} />
     ))
   }
-  <div class="sticky top-[calc(var(--site-nav-h,theme(spacing.3xl))+var(--step-menu-h,0px))] z-[1] grid grid-cols-3 gap-xs bg-background-page pt-sm before:absolute before:bottom-full before:left-1/2 before:h-md before:w-screen before:-translate-x-1/2 md:before:left-0 md:before:w-full md:before:translate-x-0 before:bg-background-page before:content-[''] after:pointer-events-none after:absolute after:left-1/2 after:top-[calc(100%+theme(spacing.xxs))] after:h-md after:w-screen after:-translate-x-1/2 md:after:left-0 md:after:w-full md:after:translate-x-0 after:bg-gradient-to-b after:from-background-page after:to-transparent after:content-['']">
-    {/* Divider under the tabs: viewport-wide on mobile (the column is centred there), column-wide from md. */}
-    <span aria-hidden="true" class="pointer-events-none absolute left-1/2 top-full h-0 w-screen -translate-x-1/2 border-b-2 md:left-0 md:w-full md:translate-x-0 border-stroke-neutral-primary" />
-    {
-      PROJECT_ORDER.map((id, i) => (
-        <label
-          for={`t-${id}`}
-          data-tab={i}
-          class="wf-tab box-border flex min-h-3xl cursor-pointer flex-col items-center justify-center gap-xs p-sm text-center text-sm font-bold md:flex-row md:gap-sm"
-        >
-          <ToolLogo id={id} variant="box" fill />
-          <span>{t(`workflow.project.${id}`)}</span>
-        </label>
-      ))
-    }
+  <div class="sticky top-[calc(var(--site-nav-h,theme(spacing.3xl))+var(--step-menu-h,0px))] z-[2] bg-background-page pt-sm before:absolute before:bottom-full before:left-1/2 before:h-md before:w-screen before:-translate-x-1/2 md:before:left-0 md:before:w-full md:before:translate-x-0 before:bg-background-page before:content-[''] after:pointer-events-none after:absolute after:left-1/2 after:top-[calc(100%+theme(spacing.xxs))] after:h-md after:w-screen after:-translate-x-1/2 md:after:left-0 md:after:w-full md:after:translate-x-0 after:bg-gradient-to-b after:from-background-page after:to-transparent after:content-['']">
+    <div class="wf-strip">
+      <div class="wf-tabs">
+        {
+          PROJECT_ORDER.map((id, i) => (
+            <label for={`t-${id}`} data-tab={i} class="wf-tab">
+              <ToolLogo id={id} variant="bare" />
+              <span>{t(`workflow.project.${id}`)}</span>
+            </label>
+          ))
+        }
+      </div>
+      <details class="wf-all">
+        <summary aria-label={t("workflow.allProjects")}>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-md w-md"><path d="M3 5h18v2H3V5zm0 6h18v2H3v-2zm0 6h18v2H3v-2z" /></svg>
+          <span class="hidden md:inline">{t("workflow.allProjects")}</span>
+          <span class="wf-count">{PROJECT_ORDER.length}</span>
+        </summary>
+        <div class="wf-menu">
+          {
+            PROJECT_ORDER.map((id, i) => (
+              <label for={`t-${id}`} data-tab={i} class="wf-row">
+                <span>{t(`workflow.project.${id}`)}</span>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" /></svg>
+              </label>
+            ))
+          }
+        </div>
+      </details>
+    </div>
   </div>
   {/* One banner per project, under the tabs, so a tab change is visible at a glance. Drop
       src/assets/workflow/banner-<project-id>.webp (1800 x 600, subject inside the middle
@@ -93,33 +108,198 @@ const bannerOn = [
 </>
 
 <style is:global>
-  .wf-tab {
-    position: relative;
-    border: 1px solid theme("colors.gray.300");
-    border-bottom-color: transparent;
-    border-radius: theme("borderRadius.xl") theme("borderRadius.xl") 0 0;
-    background: theme("colors.gray.100");
-    color: theme("colors.text-body-secondary");
-  }
-  .wf-tab:hover {
-    border-color: theme("colors.stroke-primary");
-    border-bottom-color: transparent;
-    background: theme("colors.background-primary");
-    color: theme("colors.text-body-accent");
-    box-shadow: inset 0 theme("spacing.xxs") 0 theme("colors.stroke-primary");
+  :root {
+    --wf-tab-h: calc(theme("spacing.xl") + theme("spacing.xs"));
   }
 
-  /* Selected tab: page background and accent bar on top; the divider under the bar stays unbroken */
+  /* Grey strip holding flat tabs; the selected tab becomes a white pill */
+  .wf-strip {
+    display: flex;
+    align-items: center;
+    gap: theme("spacing.xs");
+    padding: theme("spacing.xs");
+    background: color-mix(in srgb, theme("colors.background-accent-subtle") 40%, theme("colors.gray.100"));
+    border: 1px solid theme("colors.stroke-secondary");
+    border-radius: theme("borderRadius.2xl");
+    box-shadow: inset 0 theme("spacing.xxs") theme("spacing.xs") calc(-1 * theme("spacing.xxs")) color-mix(in srgb, theme("colors.black") 18%, transparent);
+  }
+  .wf-tabs {
+    display: flex;
+    flex: 1;
+    gap: theme("spacing.xs");
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: theme("spacing.sm") theme("spacing.xs");
+    margin: calc(-1 * theme("spacing.sm")) calc(-1 * theme("spacing.xs"));
+  }
+  .wf-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .wf-tab {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    gap: theme("spacing.sm-d");
+    height: var(--wf-tab-h);
+    padding: 0 theme("spacing.md");
+    border: 1px solid transparent;
+    border-radius: theme("borderRadius.xl");
+    font-size: theme("fontSize.sm");
+    font-weight: 500;
+    color: theme("colors.text-body-secondary");
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .wf-tab::after {
+    content: "";
+    position: absolute;
+    right: calc(-1 * theme("spacing.xs") / 2);
+    top: 50%;
+    height: theme("spacing.md");
+    margin-top: calc(-1 * theme("spacing.sm"));
+    border-right: 1px solid theme("colors.stroke-neutral-primary");
+  }
+  .wf-tab:last-child::after {
+    display: none;
+  }
+  .wf-tab:hover {
+    background: color-mix(in srgb, theme("colors.background-primary") 60%, transparent);
+    color: theme("colors.text-body-primary");
+  }
+
+  /* All projects: native details, opens the full list when the tabs no longer fit */
+  .wf-all {
+    position: relative;
+    flex: none;
+  }
+  .wf-all > summary {
+    display: flex;
+    align-items: center;
+    gap: theme("spacing.sm");
+    height: var(--wf-tab-h);
+    padding: 0 theme("spacing.md");
+    border-radius: theme("borderRadius.xl");
+    font-size: theme("fontSize.sm");
+    font-weight: 500;
+    color: theme("colors.text-body-secondary");
+    white-space: nowrap;
+    list-style: none;
+    cursor: pointer;
+  }
+  .wf-all > summary::-webkit-details-marker {
+    display: none;
+  }
+  .wf-all > summary:hover,
+  .wf-all[open] > summary {
+    background: theme("colors.background-primary");
+    color: theme("colors.text-body-primary");
+  }
+  .wf-all > summary:focus-visible {
+    outline: theme("spacing.xxs") solid theme("colors.text-body-accent");
+    outline-offset: calc(-1 * theme("spacing.xxs"));
+  }
+  .wf-count {
+    min-width: theme("spacing.lg");
+    padding: 0 theme("spacing.xs");
+    text-align: center;
+    border-radius: 9999px;
+    background: theme("colors.gray.200");
+    font-size: theme("fontSize.xs");
+    font-weight: 600;
+    color: theme("colors.text-body-primary");
+  }
+  .wf-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + theme("spacing.xs"));
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    min-width: calc(theme("spacing.6xl") * 2);
+    padding: theme("spacing.xs");
+    background: theme("colors.background-primary");
+    border: 1px solid theme("colors.stroke-secondary");
+    border-radius: theme("borderRadius.xl");
+    box-shadow: theme("boxShadow.md");
+  }
+  /* Mobile: the menu spans the full width of the strip */
+  @media (max-width: 767px) {
+    .wf-all {
+      position: static;
+    }
+    .wf-menu {
+      left: theme("spacing.xs");
+      right: theme("spacing.xs");
+      min-width: 0;
+    }
+  }
+  .wf-row {
+    display: flex;
+    align-items: center;
+    gap: theme("spacing.sm-d");
+    min-height: var(--wf-tab-h);
+    padding: 0 theme("spacing.md");
+    border-radius: theme("borderRadius.xl");
+    font-size: theme("fontSize.sm");
+    font-weight: 500;
+    color: theme("colors.text-body-primary");
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .wf-row:hover {
+    background: theme("colors.gray.100");
+  }
+  .wf-row svg {
+    margin-left: auto;
+    width: theme("spacing.md");
+    height: theme("spacing.md");
+    visibility: hidden;
+    color: theme("colors.text-body-accent");
+  }
+
+  /* Selected tab: white pill, thin shadow and accent outline, separators hidden */
   :is(
       [role="radiogroup"]:has(.r0:checked) .wf-tab[data-tab="0"],
       [role="radiogroup"]:has(.r1:checked) .wf-tab[data-tab="1"],
       [role="radiogroup"]:has(.r2:checked) .wf-tab[data-tab="2"]
     ) {
-    border-color: theme("colors.gray.300");
-    border-bottom-color: theme("colors.background-page");
-    background: theme("colors.background-page");
+    background: theme("colors.background-primary");
     color: theme("colors.text-body-accent");
-    box-shadow: inset 0 theme("spacing.xs") 0 theme("colors.stroke-primary");
+    font-weight: 600;
+    box-shadow: theme("boxShadow.sm"), 0 0 0 1px theme("colors.stroke-primary");
+  }
+  :is(
+      [role="radiogroup"]:has(.r0:checked) .wf-tab[data-tab="0"],
+      [role="radiogroup"]:has(.r1:checked) .wf-tab[data-tab="1"],
+      [role="radiogroup"]:has(.r2:checked) .wf-tab[data-tab="2"]
+    )::after {
+    opacity: 0;
+  }
+  /* Separator of the tab before the selected one */
+  [role="radiogroup"]:has(.r1:checked) .wf-tab[data-tab="0"]::after,
+  [role="radiogroup"]:has(.r2:checked) .wf-tab[data-tab="1"]::after {
+    opacity: 0;
+  }
+
+  /* Current project in the All projects list */
+  :is(
+      [role="radiogroup"]:has(.r0:checked) .wf-row[data-tab="0"],
+      [role="radiogroup"]:has(.r1:checked) .wf-row[data-tab="1"],
+      [role="radiogroup"]:has(.r2:checked) .wf-row[data-tab="2"]
+    ) {
+    background: theme("colors.background-accent-subtle");
+    color: theme("colors.text-body-accent");
+    font-weight: 600;
+  }
+  :is(
+      [role="radiogroup"]:has(.r0:checked) .wf-row[data-tab="0"],
+      [role="radiogroup"]:has(.r1:checked) .wf-row[data-tab="1"],
+      [role="radiogroup"]:has(.r2:checked) .wf-row[data-tab="2"]
+    ) svg {
+    visibility: visible;
   }
 
   /* Keyboard focus follows the radio */
@@ -132,3 +312,20 @@ const bannerOn = [
     outline-offset: calc(-1 * theme("spacing.xxs"));
   }
 </style>
+
+<script>
+  // Close the All projects menu once a project is picked, on a click outside, or on Escape.
+  const menus = document.querySelectorAll<HTMLDetailsElement>("details.wf-all");
+  const closeAll = () => menus.forEach((d) => (d.open = false));
+  document.querySelectorAll<HTMLInputElement>('input[name="workflow-project"]').forEach((input) => {
+    input.addEventListener("change", closeAll);
+  });
+  document.addEventListener("click", (e) => {
+    menus.forEach((d) => {
+      if (d.open && !d.contains(e.target as Node)) d.open = false;
+    });
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
+  });
+</script>
