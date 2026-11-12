@@ -150,10 +150,11 @@ en:
           device: desktop
           alt: "Projects list in French on desktop: the Caisse des Dépôts card with its workshop photo, the title Concevoir un outil agile pour designer avec éthique, the client, the description and the role, the Voir le projet button, then the next card starting below."
         - caption: "Case study, 900.care"
-          sub: "Tablet, the long read"
+          sub: "Tablet, the case study layout"
           src: "portfolio-hifi-case-tablet.webp"
           device: tablet
-          alt: "900.care case study on a tablet: the title UX and growth for a sustainable e-commerce, then the Context, Problem, Role and Key insights sections with their illustrations."
+          landscape: true
+          alt: "900.care case study on a tablet: the title UX and growth for a sustainable e-commerce, the Diagnosis heading, the Context and Problem sections next to the laptop photo, then the start of the Role section."
         - caption: "About"
           sub: "Phone, resume and contact"
           src: "portfolio-hifi-about-phone.webp"
@@ -313,10 +314,11 @@ fr:
           device: desktop
           alt: "Liste des projets en français sur desktop : la carte Caisse des Dépôts avec sa photo d'atelier, le titre Concevoir un outil agile pour designer avec éthique, le client, la description et le rôle, le bouton Voir le projet, puis la carte suivante qui commence en bas."
         - caption: "Étude de cas, 900.care"
-          sub: "Tablette, la lecture longue"
+          sub: "Tablette, la mise en page de l'étude de cas"
           src: "portfolio-hifi-case-tablet.webp"
           device: tablet
-          alt: "Étude de cas 900.care sur tablette : le titre UX and growth for a sustainable e-commerce, puis les sections Context, Problem, Role et Key insights avec leurs illustrations."
+          landscape: true
+          alt: "Étude de cas 900.care sur tablette : le titre UX and growth for a sustainable e-commerce, le titre Diagnosis, les sections Context et Problem à côté de la photo d'ordinateur, puis le début de la section Role."
         - caption: "À propos"
           sub: "Téléphone, parcours et contact"
           src: "portfolio-hifi-about-phone.webp"

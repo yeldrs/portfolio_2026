@@ -170,7 +170,7 @@ const arrowBtn =
               data-has-zoom={String(Boolean(s.zoom))}
               {...(s.zoom ? { type: "button", "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
             >
-              <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
+              <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" || s.landscape ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
             </Tag>
           );
         })}
@@ -367,6 +367,10 @@ const arrowBtn =
   .wg-item {
     position: relative;
     width: calc(var(--w) * var(--u));
+    /* Every frame shares one scale, but the widest (a 1280dp desktop window) is wider than
+       the column on a tablet or a phone. Cap it there so the screen is never clipped by the
+       track edge; the frame keeps its ratio and sits on the caption band like the others. */
+    max-width: calc(100cqw - theme("spacing.2xl"));
     scroll-snap-align: center;
   }
   .wg-item :global(.pf) {

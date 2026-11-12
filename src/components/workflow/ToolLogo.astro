@@ -19,10 +19,14 @@ export interface Props {
 const { id, variant = "box", size = "md", tone = "neutral", fill = false } = Astro.props;
 const logo = id ? toolLogos[id] : undefined;
 // Project tab tile: one step rounder than the tool tiles (8px instead of 6px), so the
-// corner reads on the 24px square without turning it into a squircle.
+// corner reads on the square without turning it into a squircle.
 const radius = fill ? "rounded-lg" : "rounded-md";
 // Intrinsic pixel size of the <img>, taken from the spacing token it is drawn at.
 const px = parseInt(tokens.primitives.spacing[size], 10);
+// The tab logo fills its tile, so the tile is one step bigger (32px) and the file is served
+// at 3x that size: a 16px thumbnail upscaled to the tile read soft on retina screens.
+const tileClass = fill ? "w-xl h-xl" : "w-lg h-lg";
+const fillPx = parseInt(tokens.primitives.spacing.xl, 10) * 3;
 ---
 
 {/* File: src/components/workflow/ToolLogo.astro */}
@@ -42,14 +46,23 @@ const px = parseInt(tokens.primitives.spacing[size], 10);
     <span
       aria-hidden="true"
       class:list={[
-        "flex-none flex items-center justify-center w-lg h-lg border",
+        "flex-none flex items-center justify-center border",
+        tileClass,
         radius,
         tone === "accent" ? "bg-background-accent-subtle border-stroke-primary-hover" : "bg-gray-100 border-gray-400",
         { "border-dashed": !logo, "overflow-hidden": fill },
       ]}
     >
       {logo && (
-        <Image src={logo} alt="" width={px} height={px} loading="lazy" decoding="async" class={fill ? "h-full w-full object-cover" : "w-md h-md"} />
+        <Image
+          src={logo}
+          alt=""
+          width={fill ? fillPx : px}
+          height={fill ? fillPx : px}
+          loading="lazy"
+          decoding="async"
+          class={fill ? "h-full w-full object-cover" : "w-md h-md"}
+        />
       )}
     </span>
   )

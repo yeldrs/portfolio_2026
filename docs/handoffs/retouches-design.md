@@ -154,7 +154,9 @@ clé devenue inutilisée est retirée.
 - `src/components/workflow/ToolLogo.astro` : la tuile d'onglet projet (`fill`, utilisée
   seulement par `WorkflowProjectTabs`) passe de 6 px à 8 px (`rounded-md` → `rounded-lg`).
   Les tuiles d'outils (listes, teaser) restent à 6 px : seule la tuile projet change.
-  Tuile mesurée à 24 × 24 px, rayon calculé 8 px sur les trois onglets, EN et FR.
+  Tuile mesurée à 32 × 32 px, rayon calculé 8 px sur les trois onglets, EN et FR.
+  Même tuile : passage de 24 à 32 px et fichier servi à 96 px (3×) au lieu de 16 px
+  agrandi, qui rendait flou sur écran retina.
 
 ### Respiration autour des galeries d'écrans
 
@@ -188,7 +190,7 @@ par `object-cover`.
 |---|---|---|---|---|
 | Accueil (bannière) | desktop 1280 × 800 | EN | `portfolio-hifi-home-desktop.webp` | 2560 × 1600 |
 | Cartes d'études de cas (CDC) | desktop 1280 × 800 | FR | `portfolio-hifi-cards-desktop.webp` (nouveau) | 2560 × 1600 |
-| Étude de cas 900.care | tablette 800 × 1280 | EN | `portfolio-hifi-case-tablet.webp` | 1600 × 2560 |
+| Étude de cas 900.care | tablette paysage 1280 × 800 | EN | `portfolio-hifi-case-tablet.webp` | 2560 × 1600 |
 | À propos | téléphone 360 × 800 | EN | `portfolio-hifi-about-phone.webp` | 720 × 1600 |
 | Contact (pied de page) | téléphone 360 × 800 | FR | `portfolio-hifi-footer-phone.webp` (nouveau) | 720 × 1600 |
 
@@ -204,6 +206,36 @@ par `object-cover`.
   (1280 dp), donc le desktop s'affiche à 384 × 240 px et les téléphones à 108 × 240 px, comme
   avant. Passer le desktop en 1280 × 800 paysage ne change rien à cette règle.
 
+### Échelle unique des écrans (tablette en paysage)
+
+Retour du propriétaire : « pourquoi la tablette est plus grande que desktop ? » Le projecteur
+dessine tous les cadres au même facteur px / dp et prend pour référence l'écran le plus haut.
+La tablette portrait faisait 1280 dp de haut contre 800 dp pour la fenêtre desktop : elle
+dominait donc la rangée, à l'échelle exacte.
+
+- `step-3.yaml` : la tablette passe en **paysage** (`landscape: true`), capturée en
+  1280 × 800 dp comme les fenêtres desktop. Les trois écrans larges font donc exactement la
+  même boîte, et tout le jeu partage un seul facteur.
+- Effet de bord utile : la référence des galeries n'est plus 1280 mais 800 sur les cinq
+  écrans du portfolio, comme sur la galerie hi-fi de Tenon (desktop + téléphones, 800 dp).
+  Le facteur de la rangée est donc le même dans les deux galeries.
+- `WorkflowGallery.astro` : garde-fou de largeur sur `.wg-item`
+  (`max-width: calc(100cqw - spacing.2xl)`). À 1280 dp le desktop dépasse la colonne sous
+  1024 px de viewport : il est plafonné à la largeur de la scène au lieu d'être coupé par le
+  bord du rail. Le cadre garde son ratio et reste posé sur la bande de légende.
+- Tailles mesurées, galerie portfolio, EN et FR :
+
+| Viewport | Scène | Desktop / tablette | Téléphone |
+|---|---|---|---|
+| 1440 px | 896 × 480 | 614 × 384 | 173 × 384 |
+| 1024 px | 697 × 480 | 614 × 384 | 173 × 384 |
+| 768 px | 498 × 480 | 450 × 281 (plafonné) | 173 × 384 |
+| 390 px | 390 × 416 | 342 × 214 (plafonné) | 144 × 320 |
+
+- Texte à relire par le propriétaire : le `sub` et le `alt` de l'écran tablette ont été
+  réécrits pour la version paysage (« Tablet, the case study layout » /
+  « Tablette, la mise en page de l'étude de cas »).
+
 ### Vérifications
 
 - [x] `npm run build` : 15 pages, aucune erreur (images optimisées par Astro)
@@ -212,6 +244,9 @@ par `object-cover`.
       900.care / About / Contact` et `Accueil / Cartes / 900.care / À propos / Contact`
 - [x] Captures vérifiées avant conversion : aucun débordement horizontal (scrollWidth =
       clientWidth en 1280, 800 et 360), polices chargées, bannière de consentement absente
-- [x] Rail et projecteur remesurés en 1440 px et 390 px (valeurs ci-dessus)
-- [x] Tuiles d'onglets : rayon 8 px, taille 24 px, dans les deux langues
+- [x] Rail et projecteur remesurés en 1440 px et 1024, 768 et 390 px (valeurs ci-dessus)
+- [x] Tuiles d'onglets : rayon 8 px, tuile 32 px, image servie en 96 px, dans les deux langues
+- [x] Tablette : cadre 16/10 en paysage, `landscape: true` dans les deux langues, écran
+      596 × 359 px dans un cadre de 614 × 384, image 2560 × 1600 recadrée de 3,6 % en bas
+      (`object-cover`), donc aucune bande noire
 
