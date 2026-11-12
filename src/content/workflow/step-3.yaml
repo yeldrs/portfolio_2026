@@ -119,8 +119,28 @@ en:
         - { id: cva, label: "class-variance-authority" }
       constraints: "WCAG 2.2 AA as a minimum, light and dark themes, an interface that stays calm."
       correction: "Colors passed on paper and failed in the browser. A real contrast measurement led me to darken several neutral steps, and a missing dark override had produced a 1.04:1 pair before it was fixed. Separately, two design imports landed on the main branch instead of the redesign branch and were reverted by new commits. I then added a guardrail skill for design syncs."
+      gallery: spotlight
       screens:
-        - caption: "Light and dark themes side by side."
+        - caption: "New entry"
+          sub: "Phone, light theme"
+          src: "fj-hifi-entry-light.webp"
+          theme: light
+          alt: "Food Journal new entry screen in the light theme: date and time, three feeling chips (Good, Neutral, Hard), a free-text field, the Bristol scale, then the first meal with its name, recipes, foods and description fields."
+        - caption: "New entry"
+          sub: "Phone, dark theme"
+          src: "fj-hifi-entry-dark.webp"
+          theme: dark
+          alt: "The same new entry screen in the dark theme, with the same roles and layout on a dark surface."
+        - caption: "Profile"
+          sub: "Phone, light theme"
+          src: "fj-hifi-profile-light.webp"
+          theme: light
+          alt: "Food Journal profile screen in the light theme: the Your space title, the account card with the display name, then the choice between daily health and general well-being and the optional focus checkboxes."
+        - caption: "Profile"
+          sub: "Phone, dark theme"
+          src: "fj-hifi-profile-dark.webp"
+          theme: dark
+          alt: "The same profile screen in the dark theme, with the selected options in dark blue."
         - caption: "Excerpt of the token file with measured ratios in comments."
     - project: portfolio
       heading: "Wireframes"
@@ -287,8 +307,28 @@ fr:
         - { id: cva, label: "class-variance-authority" }
       constraints: "WCAG 2.2 AA au minimum, thèmes clair et sombre, une interface qui reste calme."
       correction: "Les couleurs passaient sur le papier et échouaient dans le navigateur. Une vraie mesure de contraste m'a conduit à assombrir plusieurs niveaux de neutres, et un override sombre manquant avait produit une paire à 1,04:1 avant d'être corrigé. Par ailleurs, deux imports de design ont atterri sur la branche principale au lieu de la branche de refonte et ont été annulés par de nouveaux commits. J'ai ensuite ajouté un skill de garde-fou pour les synchronisations de design."
+      gallery: spotlight
       screens:
-        - caption: "Thèmes clair et sombre côte à côte."
+        - caption: "Nouvelle entrée"
+          sub: "Téléphone, thème clair"
+          src: "fj-hifi-entry-light.webp"
+          theme: light
+          alt: "Écran de nouvelle entrée de Food Journal en thème clair : date et heure, trois pastilles de ressenti (Bien, Neutre, Difficile), un champ libre, l'échelle de Bristol, puis le premier repas avec ses champs nom, recettes, aliments et description."
+        - caption: "Nouvelle entrée"
+          sub: "Téléphone, thème sombre"
+          src: "fj-hifi-entry-dark.webp"
+          theme: dark
+          alt: "Le même écran de nouvelle entrée en thème sombre, avec les mêmes rôles et la même mise en page sur une surface sombre."
+        - caption: "Profil"
+          sub: "Téléphone, thème clair"
+          src: "fj-hifi-profile-light.webp"
+          theme: light
+          alt: "Écran de profil de Food Journal en thème clair : le titre Ton espace, la carte du compte avec le nom affiché, puis le choix entre santé au quotidien et bien-être général et les cases de précision facultatives."
+        - caption: "Profil"
+          sub: "Téléphone, thème sombre"
+          src: "fj-hifi-profile-dark.webp"
+          theme: dark
+          alt: "Le même écran de profil en thème sombre, avec les options sélectionnées en bleu foncé."
         - caption: "Extrait du fichier de tokens avec les ratios mesurés en commentaires."
     - project: portfolio
       heading: "Wireframes"
