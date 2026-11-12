@@ -207,31 +207,54 @@ par `object-cover`.
 - L'étude de cas est capturée deux fois (tablette et téléphone) pour montrer la même page
   en deux colonnes puis en une colonne : c'est la démonstration du responsive.
 
-### Hauteur commune des écrans du projecteur
+### Hiérarchie de taille des écrans du projecteur
 
-Retour du propriétaire : « pourquoi la tablette est plus grande que desktop ? », puis « la
-tablette ressemble trop à un pc », avec l'objectif explicite de montrer le responsive.
+Retours du propriétaire : « pourquoi la tablette est plus grande que desktop ? », « la tablette
+ressemble trop à un pc », puis « tous les écrans ont la même hauteur, il faut que les mobiles
+soient un peu plus petits que tablette et pc, et tablette un peu plus petite que pc ».
+Objectif : montrer le responsive.
 
-- Règle : chaque cadre du projecteur reçoit la **même hauteur** (la bande de scène : 384 px en
-  desktop, 320 px en mobile). Sa largeur vient de son ratio, donc la rangée se lit comme un
-  même site à plusieurs largeurs : desktop 614 px, tablette 240 px, téléphone 173 px.
+- Règle : le desktop donne la hauteur de référence (la bande de scène : 384 px en desktop,
+  320 px en mobile). La tablette vaut **90 %** de cette hauteur, le téléphone **80 %**.
+  La largeur de chaque cadre vient ensuite de son ratio, donc la rangée descend du desktop vers
+  le mobile : 614 × 384, 216 × 346, 138 × 307. Les cadres sont posés sur la même ligne de base.
 - `WorkflowGallery.astro` : plus de facteur px / dp commun. `size()` ne sert plus qu'au rail,
-  l'item de projecteur reçoit `--ar` (ratio dp de l'appareil) et vaut `largeur = bande × --ar`.
-  Le centrage (`padding-inline` de la piste) utilise `--first-ar` / `--last-ar`.
-- La tablette reste en **portrait** (800 × 1280 dp) : cadre de tablette reconnaissable,
-  hauteur identique au desktop, largeur deux fois et demie plus petite. Plus de confusion avec
-  une fenêtre desktop.
+  l'item de projecteur reçoit `--ar` (ratio dp de l'appareil) et `--k` (facteur d'appareil,
+  défini en CSS : `1` par défaut, `0.9` tablette, `0.8` téléphone), puis
+  `largeur = bande × --ar × --k`. Le centrage (`padding-inline` de la piste) utilise
+  `--first-ar` / `--last-ar`.
+- La tablette reste en **portrait** (800 × 1280 dp) : cadre de tablette reconnaissable, plus
+  haute que le téléphone mais plus basse que le desktop, et deux fois et demie plus étroite.
 - Garde-fou de largeur sur `.wg-item` (`max-width: calc(100cqw - spacing.2xl)`) : sous
   1024 px de viewport, le desktop de 1280 dp est plus large que la colonne ; il est plafonné
-  au lieu d'être coupé par le bord du rail. Le cadre garde son ratio.
+  au lieu d'être coupé par le bord du rail. Le cadre garde son ratio, donc sous 768 px le
+  desktop devient plus court que la tablette : c'est le prix du non-recadrage sur un écran de
+  téléphone, où la scène ne fait que 390 px de large.
 - Tailles mesurées, galerie portfolio, EN et FR (6 écrans) :
 
 | Viewport | Scène | Desktop | Tablette | Téléphone |
 |---|---|---|---|---|
-| 1440 px | 896 × 480 | 614 × 384 | 240 × 384 | 173 × 384 |
-| 1024 px | 697 × 480 | 614 × 384 | 240 × 384 | 173 × 384 |
-| 768 px | 498 × 480 | 450 × 281 (plafonné) | 240 × 384 | 173 × 384 |
-| 390 px | 390 × 416 | 342 × 214 (plafonné) | 200 × 320 | 144 × 320 |
+| 1440 px | 896 × 480 | 614 × 384 | 216 × 346 | 138 × 307 |
+| 1024 px | 697 × 480 | 614 × 384 | 216 × 346 | 138 × 307 |
+| 768 px | 498 × 480 | 450 × 281 (plafonné) | 216 × 346 | 138 × 307 |
+| 390 px | 390 × 416 | 342 × 214 (plafonné) | 180 × 288 | 115 × 256 |
+
+### Cadres de prévisualisation non défilants
+
+Demande du propriétaire : les captures ne doivent plus défiler dans les cadres des galeries
+hi-fi et maquette.
+
+- `DeviceFrame.astro` : la fenêtre desktop gardait un écran défilant (`overflow-y: auto`, image
+  en `height: auto`) pour les captures pleine page ; c'était le seul cadre encore défilant.
+  Elle passe en `overflow: hidden`, l'image reprend la règle commune
+  (`height: 100%`, `object-fit: cover`, `object-position: top center`), donc elle est cadrée
+  sur le haut de la capture, comme sur téléphone et tablette.
+- Effet : environ 10 % du bas d'une capture desktop n'est plus visible dans le cadre (le cadre
+  réserve 9 % de sa hauteur à la barre de fenêtre). L'image entière reste à un clic, dans la
+  visionneuse. Aucun autre cadre ne défilait déjà : la piste wireframe (`wg-flat`) est en
+  `overflow-hidden` avec `object-cover`.
+- `DeviceFrame` n'est utilisé que par `WorkflowFrame`, donc les pages projet et les galeries
+  `grid` ne sont pas concernées.
 
 ### Vérifications
 
@@ -244,7 +267,10 @@ tablette ressemble trop à un pc », avec l'objectif explicite de montrer le res
       clientWidth en 1280, 800 et 360), polices chargées, bannière de consentement absente
 - [x] Rail et projecteur remesurés en 1440 px et 1024, 768 et 390 px (valeurs ci-dessus)
 - [x] Tuiles d'onglets : rayon 8 px, tuile 32 px, image servie en 96 px, dans les deux langues
-- [x] Projecteur : les six cadres mesurent exactement la hauteur de la bande (384 px en
-      desktop, 320 px en mobile), aucun débordement vertical de la piste
-      (scrollHeight = clientHeight), tablette en portrait dans les deux langues
+- [x] Projecteur : hauteurs 384 / 346 / 307 px (desktop / tablette / téléphone), tablette en
+      portrait dans les deux langues, aucun débordement vertical de la piste
+      (scrollHeight = clientHeight)
+- [x] Cadres non défilants : `overflow-y: hidden` sur les 6 écrans du projecteur portfolio et
+      sur la fenêtre desktop du UI kit Tenon, image à la hauteur de l'écran
+      (scrollHeight = clientHeight = hauteur du cadre)
 

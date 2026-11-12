@@ -369,13 +369,20 @@ const arrowBtn =
   }
   .wg-item {
     position: relative;
-    /* Every frame is the band tall (its ratio then sets the width); the widest one, a 1280dp
-       desktop window, is wider than the column on a tablet or a phone. Cap it there so the
-       screen is never clipped by the track edge; the frame keeps its ratio and sits on the
-       caption band like the others. */
-    width: calc(var(--band) * var(--ar));
+    /* Desktop is the reference height; tablet and phone step down a little, so the row reads
+       as a hierarchy of devices rather than one wall of equal screens. The frame ratio then
+       sets each width. The widest one, a 1280dp desktop window, is wider than the column on a
+       tablet or a phone: cap it there so the screen is never clipped by the track edge. */
+    --k: 1;
+    width: calc(var(--band) * var(--ar) * var(--k));
     max-width: calc(100cqw - theme("spacing.2xl"));
     scroll-snap-align: center;
+  }
+  .wg-item[data-device="tablet"] {
+    --k: 0.9;
+  }
+  .wg-item[data-device="phone"] {
+    --k: 0.8;
   }
   .wg-item :global(.pf) {
     box-shadow: theme("boxShadow.sm");
