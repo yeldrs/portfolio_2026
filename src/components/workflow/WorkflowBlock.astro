@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import ToolLogo from "./ToolLogo.astro";
 import WorkflowDiagram from "./WorkflowDiagram.astro";
 import WorkflowGallery from "./WorkflowGallery.astro";
+import WorkflowFigure from "./WorkflowFigure.astro";
 import WorkflowScreen from "./WorkflowScreen.astro";
 import { useTranslations } from "../../i18n/utils";
 
@@ -63,6 +64,9 @@ const body = "m-0 text-base leading-relaxed text-justify text-text-body-primary 
             )}
           </div>
         )}
+        {/* A design artifact (Figma panel, token export) sits under the screens, flat and at
+            its own ratio: no device frame, the content is not a screen of the product. */}
+        {block.figure && <WorkflowFigure lang={lang} figure={block.figure} group={id} />}
         {!block.diagram && block.tools.length > 0 && (
           <div>
             <p class={dt}>{t("workflow.tools")}</p>

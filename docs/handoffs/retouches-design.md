@@ -339,3 +339,68 @@ hi-fi et maquette.
   (`wg-ritem`) sous `md`, comme le fait déjà `.wg-item` du projecteur, pour qu'un écran
   desktop ne soit jamais coupé par le bord sur téléphone.
 
+## Session 4 (2026-11-12) : capture des variables Figma dans le bloc Hi-fi du portfolio
+
+### Capture
+
+- `src/assets/workflow/portfolio-hifi-tokens.png` (737 x 648, 105 Ko) : capture du panneau
+  Variables de Figma fournie par le propriétaire (fichier d'origine `tokens website.png`,
+  renommé à la convention du dossier). Le fichier se trouvait dans le worktree
+  `opencode-workflow-mobile`, pas dans celui-ci.
+- Le wireframe mobile long (`portfolio-wire-case-phone.png`) était déjà en place depuis la
+  session 3 : rien à refaire de ce côté.
+
+### Plaque à plat (nouveau)
+
+- `src/content/config.ts` : champ optionnel `figure` sur un bloc (`src`, `alt`, `caption`,
+  `sub?`), ajouté aussi à la signature de structure EN/FR. **Zone normalement interdite aux
+  secondaires** : modification faite sur accord explicite du propriétaire, à relire par le
+  principal.
+- `src/components/workflow/WorkflowFigure.astro` (nouveau) : figure pleine colonne, ratio
+  naturel (aucun recadrage, aucun cadre d'appareil), largeur plafonnée à la largeur native
+  de l'image (737 px) et centrée, légende + sous-ligne, clic = visionneuse (même groupe que
+  les écrans du bloc).
+- `src/components/workflow/WorkflowBlock.astro` : la figure est rendue juste après la
+  galerie, avant les outils. Ordre de lecture : écrans, plaque, outils, textes.
+- `src/content/workflow/step-3.yaml` : `figure` ajoutée au bloc `portfolio` /
+  « Hi-fi and design system » dans les deux langues.
+
+### Texte à relire par le propriétaire
+
+`caption`, `sub` et `alt` de la figure, dans les deux langues, sont de ma main :
+
+- EN : « Figma variables » / « Primitive and semantic collections behind the tokens file ».
+- FR : « Variables Figma » / « Collections primitive et sémantique derrière le fichier de
+  tokens ».
+
+### Vérifications
+
+- [x] `npm run build` : 15 pages, aucune erreur ; l'image passe par astro:assets
+      (PNG 105 Ko → WebP 23 Ko)
+- [x] `npm run check` : 0 erreur, 0 avertissement (9 hints préexistants)
+- [x] Rendu headless (Edge, CDP) en 1440 px et 390 px, onglet « This portfolio » : plaque
+      735 x 646 px à 1440 (colonne de 896 px, plafond natif) et 358 x 359 px à 390 px ;
+      ratio 737/648 conservé, aucun recadrage
+- [x] Aucun débordement horizontal (`scrollWidth` = 390 en 390 px, 1425 en 1440 px)
+- [x] Légende et sous-ligne centrées sous la plaque, 24 px avant le bloc Outils (même
+      rythme que les autres blocs)
+- [x] Clic : la plaque ouvre la visionneuse avec `data-zoom-group="s3-portfolio-1"`, donc les
+      flèches parcourent les écrans du même bloc
+- [x] FR : capture présente et légende traduite dans `dist/fr/workflow.html`
+
+### Points non finis / à signaler
+
+- Deux fichiers sont supprimés dans le worktree avant cette session
+  (`src/assets/workflow/portfolio-build-01.webp`, `portfolio-verification-01.webp`) : les
+  blocs portfolio des étapes 4 et 5 affichent donc un emplacement vide. Ce n'est pas de mon
+  fait et je ne les ai pas restaurés. À trancher par le propriétaire.
+- La plaque est plafonnée à 737 px : au-delà (colonne de 896 px à 1440), elle reste centrée
+  et laisse environ 80 px de chaque côté. L'étirer à la colonne flouterait la capture, dont
+  la source fait 737 px de large.
+
+### Décision à prendre (propriétaire)
+
+- Place de la plaque : après le projecteur (choix actuel) ou avant, pour ouvrir le bloc sur
+  le design system.
+
+

@@ -201,6 +201,11 @@ en:
           src: "portfolio-hifi-footer-phone.webp"
           device: phone
           alt: "Page footer on a phone in French: the Discutons heading, the collaboration line, the button with the contact email, then the copyright and the LinkedIn link."
+      figure:
+        src: "portfolio-hifi-tokens.png"
+        caption: "Figma variables"
+        sub: "Primitive and semantic collections behind the tokens file"
+        alt: "Figma Variables panel on the Semantic collection: the Collections column lists Primitive with 123 variables and Semantic with 71, grouped by colors (stroke, background, text), border, radius, width, spacing and layout. The stroke group maps stroke-primary to colors/blue-chill/400, stroke-tertiary to colors/neutral/50 and stroke-neutral-primary to colors/neutral/300."
 
 fr:
   title: "Design"
@@ -401,3 +406,8 @@ fr:
           src: "portfolio-hifi-footer-phone.webp"
           device: phone
           alt: "Pied de page sur téléphone en français : le titre Discutons, la ligne de collaboration, le bouton avec l'adresse e-mail, puis le copyright et le lien LinkedIn."
+      figure:
+        src: "portfolio-hifi-tokens.png"
+        caption: "Variables Figma"
+        sub: "Collections primitive et sémantique derrière le fichier de tokens"
+        alt: "Panneau Variables de Figma sur la collection Semantic : la colonne Collections liste Primitive avec 123 variables et Semantic avec 71, groupées par couleurs (stroke, background, text), bordure, rayon, épaisseur, espacement et mise en page. Le groupe stroke mappe stroke-primary sur colors/blue-chill/400, stroke-tertiary sur colors/neutral/50 et stroke-neutral-primary sur colors/neutral/300."
