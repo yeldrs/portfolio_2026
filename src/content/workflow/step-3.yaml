@@ -144,7 +144,19 @@ en:
         - caption: "Excerpt of the token file with measured ratios in comments."
     - project: portfolio
       heading: "Wireframes"
-      status: not-applicable
+      approachLabel: "One page, two widths"
+      approach: "Low-fidelity wireframes of the case-study page: the order of the sections, a two-column layout at desktop width and a single column on a phone, with placeholder blocks wherever the final image goes. The spacing annotations along the grid are the values the page will use."
+      constraints: "The same sections in the same order at both widths, so the page stays readable on a phone without losing anything."
+      gallery: rail
+      screens:
+        - caption: "Case-study page"
+          src: "portfolio-wire-case-desktop.png"
+          device: desktop
+          alt: "Desktop wireframe of the portfolio case-study page on a grid: the Yassine El Idrissi navigation, the title, the Diagnosis heading, the Context, Problem, Role and Key insights blocks next to image placeholders, then a carousel and the Conception and Results sections."
+        - caption: "Same page, on a phone"
+          src: "portfolio-wire-case-phone.png"
+          device: phone
+          alt: "Phone wireframe of the same case-study page: the Yassine El Idrissi bar with its menu button, the title, Diagnosis, then the Context, Problem, Role and Key insights blocks stacked above image placeholders and the contact block."
     - project: portfolio
       heading: "Hi-fi and design system"
       approachLabel: "Figma to one tokens file"
@@ -332,7 +344,19 @@ fr:
         - caption: "Extrait du fichier de tokens avec les ratios mesurés en commentaires."
     - project: portfolio
       heading: "Wireframes"
-      status: not-applicable
+      approachLabel: "Une page, deux largeurs"
+      approach: "Des wireframes basse fidélité de la page d'étude de cas : l'ordre des sections, une mise en page en deux colonnes en largeur desktop et une colonne unique sur téléphone, avec des blocs de remplacement partout où viendra l'image finale. Les annotations d'espacement le long de la grille sont les valeurs que la page utilisera."
+      constraints: "Les mêmes sections dans le même ordre aux deux largeurs, pour que la page reste lisible sur téléphone sans rien perdre."
+      gallery: rail
+      screens:
+        - caption: "Page d'étude de cas"
+          src: "portfolio-wire-case-desktop.png"
+          device: desktop
+          alt: "Wireframe desktop de la page d'étude de cas du portfolio sur une grille : la navigation Yassine El Idrissi, le titre, le titre Diagnosis, les blocs Context, Problem, Role et Key insights à côté des emplacements d'image, puis un carrousel et les sections Conception et Results."
+        - caption: "La même page, sur téléphone"
+          src: "portfolio-wire-case-phone.png"
+          device: phone
+          alt: "Wireframe téléphone de la même page d'étude de cas : la barre Yassine El Idrissi avec son bouton de menu, le titre, Diagnosis, puis les blocs Context, Problem, Role et Key insights empilés au-dessus des emplacements d'image et du bloc de contact."
     - project: portfolio
       heading: "Hi-fi et design system"
       approachLabel: "De Figma à un seul fichier de tokens"
