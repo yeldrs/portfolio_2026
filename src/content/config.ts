@@ -112,6 +112,15 @@ const screen = z.object({
   before: z.object({ src: z.string(), alt: z.string() }).optional(),
 });
 
+// Flat plate under a block gallery: a design artifact (Figma panel, token export) shown at
+// its own ratio, without a device frame. Optional, additive to the block.
+const workflowFigure = z.object({
+  src: z.string(),
+  alt: z.string(),
+  caption: z.string(),
+  sub: z.string().optional(),
+});
+
 // Tool diagram of step 1 ("Tools and how they connect"). Geometry is in SVG user units
 // inside a 640-wide viewBox; it is per locale because French labels are longer.
 const diagramNode = z.object({
@@ -163,6 +172,8 @@ const workflowBlock = z.object({
   // Spotlight only: 1-based screen shown on arrival (neighbours on the left stay reachable).
   startAt: z.number().int().min(1).optional(),
   screens: z.array(screen).default([]),
+  // Flat plate shown under the gallery, at the image's natural ratio.
+  figure: workflowFigure.optional(),
   // When set, replaces the tool list (step 1: which tools frame the work and how they connect).
   diagram: diagram.optional(),
 });
@@ -186,7 +197,7 @@ const workflow = defineCollection({
     .superRefine((step, ctx) => {
       // EN and FR must describe the same structure: same blocks, statuses and tool ids.
       const sig = (l: typeof step.en) =>
-        l.blocks.map((b) => `${b.project}:${b.status}:${b.tools.map((t) => t.id ?? "-").join(",")}:${b.screens.length}:${b.gallery}:${b.diagram ? 1 : 0}`);
+        l.blocks.map((b) => `${b.project}:${b.status}:${b.tools.map((t) => t.id ?? "-").join(",")}:${b.screens.length}:${b.gallery}:${b.diagram ? 1 : 0}:${b.figure ? 1 : 0}`);
       if (JSON.stringify(sig(step.en)) !== JSON.stringify(sig(step.fr))) {
         ctx.addIssue({ code: "custom", message: "en and fr blocks must have the same structure (projects, statuses, tool ids, screens)." });
       }

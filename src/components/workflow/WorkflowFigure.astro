@@ -1,0 +1,50 @@
+---
+// src/components/workflow/WorkflowFigure.astro
+import { Image } from "astro:assets";
+import { workflowImage, zoomUrl } from "../../data/workflow.images";
+import { useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+  figure: { src: string; alt: string; caption: string; sub?: string };
+  /** Screens sharing a group id page through each other in the preview modal. */
+  group: string;
+}
+
+const { lang, figure, group } = Astro.props;
+const t = useTranslations(lang);
+const image = workflowImage(figure.src);
+const zoom = image ? await zoomUrl(image) : undefined;
+---
+
+{/* File: src/components/workflow/WorkflowFigure.astro */}
+{
+  image && zoom && (
+    <figure class="m-0 flex flex-col items-center gap-sm">
+      <button
+        type="button"
+        data-zoom={zoom}
+        data-zoom-group={group}
+        aria-label={t("workflow.zoomAria", { caption: figure.caption })}
+        style={`max-width:${image.width}px`}
+        class="block w-full cursor-zoom-in overflow-hidden rounded-xl border border-stroke-neutral-primary bg-gray-100 p-0 shadow-sm transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"
+      >
+        <Image
+          src={image}
+          alt={figure.alt}
+          width={image.width}
+          height={image.height}
+          sizes="(min-width: 768px) 760px, 100vw"
+          format="webp"
+          loading="lazy"
+          decoding="async"
+          class="block h-auto w-full"
+        />
+      </button>
+      <figcaption class="flex flex-col items-center gap-xs text-center">
+        <b class="text-xs font-medium text-text-body-secondary">{figure.caption}</b>
+        {figure.sub && <span class="text-xs text-text-body-tertiary">{figure.sub}</span>}
+      </figcaption>
+    </figure>
+  )
+}
