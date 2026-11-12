@@ -13,35 +13,34 @@ export interface Props {
 const { lang, steps, variant } = Astro.props;
 const t = useTranslations(lang);
 
+// Idle steps stay quiet: tertiary icon on a neutral ring, secondary label. The accent is
+// kept for the step currently on screen, so it reads as the only active signal.
 const linkBase =
-  "relative flex gap-sm-d text-sm text-text-body-primary no-underline aria-[current=step]:font-bold aria-[current=step]:text-text-body-accent font-medium";
+  "relative flex gap-sm-d text-sm text-text-body-secondary no-underline aria-[current=step]:font-bold aria-[current=step]:text-text-body-accent font-medium";
 const badge =
-  "relative z-[1] flex-none flex items-center justify-center w-xl h-xl rounded-full border border-gray-500 bg-background-primary text-sm font-bold group-aria-[current=step]/link:border-button-background-primary group-aria-[current=step]/link:bg-button-background-primary group-aria-[current=step]/link:text-button-text-primary";
+  "relative z-[1] flex-none flex items-center justify-center w-xl h-xl rounded-full border border-stroke-neutral-primary bg-background-primary text-text-body-tertiary group-aria-[current=step]/link:border-button-background-primary group-aria-[current=step]/link:bg-button-background-primary group-aria-[current=step]/link:text-button-text-primary";
+// A 32px line box: the label centres on the badge instead of sitting above it.
+const labelClass = "flex min-h-xl items-center";
 ---
 
 {/* File: src/components/workflow/WorkflowStepNav.astro */}
 
 {variant === "desktop" && (
-<nav aria-label={t("workflow.stepsNavAria")} class="hidden md:block sticky top-[var(--site-nav-h,theme(spacing.3xl))] self-start">
+<nav aria-label={t("workflow.stepsNavAria")} class="wf-step-nav hidden md:block sticky self-start">
   <p class="m-0 mb-lg text-sm font-bold text-text-body-secondary">{t("workflow.stepsLabel")}</p>
   <ol class="m-0 list-none p-0">
     {
       steps.map((step, i) => (
         <li class="relative pb-md">
-          {i < steps.length - 1 && (
-            <span
-              aria-hidden="true"
-              class="absolute left-[calc(theme(spacing.md)-theme(spacing.xxs)/2)] top-xl bottom-0 border-l-2 border-stroke-primary-hover"
-            />
-          )}
+          {i < steps.length - 1 && <span aria-hidden="true" class="wf-step-rail" />}
           <a
             href={`#${step.id}`}
             data-step-link={step.order}
             aria-current={i === 0 ? "step" : undefined}
-            class={`group/link steplink min-h-2xl py-xs ${linkBase}`}
+            class={`group/link steplink min-h-2xl items-start py-xs ${linkBase}`}
           >
             <span aria-hidden="true" class={badge}><WorkflowStepIcon order={step.order} /></span>
-            <span class="pt-xs">{step.title}</span>
+            <span class={labelClass}>{step.title}</span>
           </a>
         </li>
       ))
@@ -82,7 +81,7 @@ const badge =
               class={`group/link steplink min-h-2xl items-center ${linkBase}`}
             >
               <span aria-hidden="true" class={badge}><WorkflowStepIcon order={step.order} /></span>
-              <span>{step.title}</span>
+              <span class={labelClass}>{step.title}</span>
             </a>
           </li>
         ))
@@ -91,6 +90,25 @@ const badge =
   </details>
 </nav>
 )}
+
+<style>
+  /* Clear of the site navbar instead of glued under it: the header publishes its height. */
+  .wf-step-nav {
+    top: calc(var(--site-nav-h, theme("spacing.3xl")) + theme("spacing.md"));
+  }
+  /* Rail joining one badge to the next. Anchored on the badge geometry (py-xs + a 32px
+     badge) rather than on the row height, so a wrapped label cannot leave a gap, and it
+     runs 8px under the next badge, which paints over it. */
+  .wf-step-rail {
+    position: absolute;
+    left: theme("spacing.md");
+    width: theme("spacing.xxs");
+    transform: translateX(-50%);
+    top: calc(theme("spacing.xs") + theme("spacing.xl"));
+    bottom: calc(-1 * theme("spacing.sm"));
+    background-color: theme("colors.stroke-neutral-primary");
+  }
+</style>
 
 <script>
   // Keep sticky elements flush under the site navbar: publish its real height (and the
