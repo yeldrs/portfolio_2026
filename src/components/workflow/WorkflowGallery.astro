@@ -384,9 +384,8 @@ const arrowBtn =
   .wg-item[data-device="phone"] {
     --k: 0.8;
   }
-  .wg-item :global(.pf) {
-    box-shadow: theme("boxShadow.sm");
-  }
+  /* No box-shadow override here: the device frame brings its own drop shadow
+     (DeviceFrame.astro). Overriding it flattened the hi-fi screens. */
   .wg-flat {
     box-shadow: theme("boxShadow.md");
   }

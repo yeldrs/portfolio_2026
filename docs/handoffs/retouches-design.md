@@ -274,3 +274,68 @@ hi-fi et maquette.
       sur la fenêtre desktop du UI kit Tenon, image à la hauteur de l'écran
       (scrollHeight = clientHeight = hauteur du cadre)
 
+## Session 3 (2026-11-12) : ombre des appareils hi-fi et wireframes du portfolio
+
+### Ombre portée derrière les appareils (galerie hi-fi)
+
+- Cause : `WorkflowGallery.astro` écrasait l'ombre du cadre d'appareil. La règle
+  `.wg-item :global(.pf) { box-shadow: theme("boxShadow.sm") }` (spécificité 0,2,0) passait
+  devant le `.pf` de `DeviceFrame.astro` (0,1,0), donc l'ombre réelle
+  (`0 16px 32px -4px`, 22 % de gray-950) n'était jamais rendue.
+- Correction : règle supprimée. Le cadre reprend son ombre. Mesuré dans le navigateur :
+  `color(srgb 0.0117647 0.027451 0.0705882 / 0.22) 0px 16px 32px -4px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px`.
+- Aucun espacement changé : la piste réserve 56 px sous les écrans, l'ombre en occupe 44,
+  elle n'est pas rognée. Vaut pour toutes les galeries `spotlight` (Tenon en thème sombre
+  comme le portfolio).
+
+### Wireframes du portfolio (étape 3)
+
+- Les deux captures ajoutées par le propriétaire sont renommées à la convention du dossier
+  (minuscules, tirets) :
+  - `src/assets/workflow/portfolio-wire-case-desktop.png` (1512 x 3035), avant
+    `ProjectPage desktop.png` ;
+  - `src/assets/workflow/portfolio-wire-case-phone.png` (375 x 1818), avant
+    `HomePage mobile.png`.
+- `src/content/workflow/step-3.yaml`, bloc `portfolio` / « Wireframes » : le bloc passe de
+  `status: not-applicable` à un vrai bloc dans les deux langues, `gallery: rail`, deux écrans
+  (desktop puis téléphone) avec `caption` et `alt`.
+- **Texte à relire par le propriétaire** : `approachLabel`, `approach`, `constraints`,
+  `caption` et `alt` des deux langues sont de ma main. Aucun autre texte du fichier n'est
+  touché. Pas de liste `tools` : je n'ai pas voulu inventer d'outil pour cette étape.
+
+### Vérifications
+
+- [x] `npm run build` : 15 pages, aucune erreur (les deux PNG passent par astro:assets)
+- [x] `npm run check` : 0 erreur, 0 avertissement (9 hints préexistants)
+- [x] `git diff --stat` limité à `WorkflowGallery.astro` et `step-3.yaml` (28 insertions,
+      5 suppressions), plus les deux PNG ajoutés
+- [x] Rendu headless (Edge, CDP) en 1440 px et 390 px, EN et FR : bloc wireframes visible
+      dans les deux langues, ombre présente sous les appareils du projecteur
+- [x] Aucun débordement horizontal de page en 390 px (`scrollWidth` = 390)
+- [x] Rail mesuré : 512 x 320 (desktop) et 144 x 320 (téléphone) à l'échelle 0,4 px/dp
+
+### Points non finis
+
+- Les deux wireframes sont des captures pleine page : le cadre les recadre par le haut
+  (`object-cover`) et coupe le texte au bas du cadre. L'image entière reste accessible au
+  clic, dans la visionneuse.
+- En 390 px, le premier écran du rail (desktop, 512 px de large à l'échelle fixe) dépasse la
+  largeur visible : il faut faire défiler la piste. Le rail n'a pas de plafond de largeur,
+  contrairement au projecteur.
+- Le bloc « Wireframes » du portfolio n'est plus « non applicable » : le sommaire interne du
+  panneau portfolio affiche maintenant deux entrées réelles.
+
+### Décisions à prendre (propriétaire)
+
+- Recadrer les deux sources au ratio du cadre (comme les captures hi-fi) ou garder la page
+  entière avec le recadrage actuel.
+- Ordre du rail : desktop d'abord (cohérent avec la galerie hi-fi) ou téléphone d'abord, plus
+  confortable sur mobile.
+- Ajouter ou non des outils à ce bloc si les wireframes viennent d'un outil précis.
+
+### Point de backlog proposé
+
+- `BACKLOG.md`, section « Workflow page » : plafonner la largeur des items du rail
+  (`wg-ritem`) sous `md`, comme le fait déjà `.wg-item` du projecteur, pour qu'un écran
+  desktop ne soit jamais coupé par le bord sur téléphone.
+
