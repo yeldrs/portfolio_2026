@@ -156,13 +156,6 @@ const arrowBtn =
     >
       {/* Measuring canvas: a large dot field that starts before the screens and fades out. */}
       <span aria-hidden="true" class="wg-spot-mat" />
-      <div class="absolute inset-x-0 top-md z-[3] flex flex-wrap items-center justify-center gap-sm px-2xl text-sm text-text-body-primary">
-        <b data-spot-title class="text-xs font-medium text-text-body-secondary">{items[start].caption}</b>
-        <WorkflowDeviceChip switchable device={items[start].device} label={t(`workflow.device.${items[start].device}`)} />
-        <button type="button" data-spot-zoom aria-label={t("workflow.expandCurrent")} class="flex h-lg w-lg cursor-zoom-in items-center justify-center rounded-full border border-stroke-secondary bg-background-primary p-0 text-text-body-accent hover:border-button-background-primary disabled:cursor-default disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent" disabled={!items[start].zoom}>
-          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-sm-d w-sm-d"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z" /></svg>
-        </button>
-      </div>
       <div data-spot-track class="wg-track">
         {items.map((s, i) => {
           const Tag = s.zoom ? "button" : "div";
@@ -188,15 +181,25 @@ const arrowBtn =
       <button type="button" data-spot-next aria-label={t("workflow.galleryNext")} class:list={[arrowBtn, "right-sm md:right-md"]} disabled={start === items.length - 1}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" /></svg>
       </button>
-      <div class="absolute inset-x-0 bottom-md z-[3] flex items-center justify-center gap-md">
-        <span aria-hidden="true" class="flex gap-sm">
-          {items.map((_, i) => (
-            <i data-spot-dot data-on={String(i === start)} class="block h-sm w-sm rounded-full bg-gray-400 data-[on=true]:w-lg data-[on=true]:bg-button-background-primary motion-safe:transition-all" />
-          ))}
-        </span>
-        <span data-spot-count aria-live="polite" class="text-xs font-bold text-text-body-secondary">
-          {t("workflow.galleryCount", { n: String(start + 1), total: String(items.length) })}
-        </span>
+      {/* Caption, device and zoom sit under the screens, like the wireframe gallery. */}
+      <div class="wg-spot-foot">
+        <div class="flex flex-wrap items-center justify-center gap-sm px-md text-sm text-text-body-primary">
+          <b data-spot-title class="text-xs font-medium text-text-body-secondary">{items[start].caption}</b>
+          <WorkflowDeviceChip switchable device={items[start].device} label={t(`workflow.device.${items[start].device}`)} />
+          <button type="button" data-spot-zoom aria-label={t("workflow.expandCurrent")} class="flex h-lg w-lg cursor-zoom-in items-center justify-center rounded-full border border-stroke-secondary bg-background-primary p-0 text-text-body-accent hover:border-button-background-primary disabled:cursor-default disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent" disabled={!items[start].zoom}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-sm-d w-sm-d"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z" /></svg>
+          </button>
+        </div>
+        <div class="flex items-center justify-center gap-md">
+          <span aria-hidden="true" class="flex gap-sm">
+            {items.map((_, i) => (
+              <i data-spot-dot data-on={String(i === start)} class="block h-sm w-sm rounded-full bg-gray-400 data-[on=true]:w-lg data-[on=true]:bg-button-background-primary motion-safe:transition-all" />
+            ))}
+          </span>
+          <span data-spot-count aria-live="polite" class="text-xs font-bold text-text-body-secondary">
+            {t("workflow.galleryCount", { n: String(start + 1), total: String(items.length) })}
+          </span>
+        </div>
       </div>
     </div>
   )
@@ -280,16 +283,28 @@ const arrowBtn =
     --u: calc((var(--stage-h) - theme("spacing.3xl") * 2) / var(--ref));
     height: var(--stage-h);
   }
+  /* Caption, device chip, zoom and pagination: one column under the screens, inside the
+     stage band the track already reserves (its bottom padding). */
+  .wg-spot-foot {
+    position: absolute;
+    inset-inline: 0;
+    bottom: theme("spacing.md");
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: theme("spacing.sm");
+  }
   /* Hi-fi stage: a discreet dot grid, like a measuring canvas. It follows the wireframe
      mat logic, with 40px of dots above and below the screens rather than the whole stage.
      The dots fade on the same rhythm as the screens, with an elliptical vignette. */
   .wg-spot-mat {
     position: absolute;
-    inset: theme("spacing.md") 0 theme("spacing.xl");
+    inset: theme("spacing.sm") 0 theme("spacing.lg");
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, theme("colors.gray.400") 42%, transparent) calc(theme("spacing.xxs") / 2),
+      color-mix(in srgb, theme("colors.gray.400") 58%, transparent) calc(theme("spacing.xxs") / 2),
       transparent theme("spacing.xxs")
     );
     background-size: calc(theme("spacing.md") * 0.875) calc(theme("spacing.md") * 0.875);
@@ -298,17 +313,17 @@ const arrowBtn =
     -webkit-mask-image: radial-gradient(
       closest-side at 50% 50%,
       #000 0%,
-      #000 26%,
-      rgba(0, 0, 0, 0.72) 52%,
-      rgba(0, 0, 0, 0.32) 76%,
+      #000 34%,
+      rgba(0, 0, 0, 0.8) 56%,
+      rgba(0, 0, 0, 0.45) 78%,
       transparent 100%
     );
     mask-image: radial-gradient(
       closest-side at 50% 50%,
       #000 0%,
-      #000 26%,
-      rgba(0, 0, 0, 0.72) 52%,
-      rgba(0, 0, 0, 0.32) 76%,
+      #000 34%,
+      rgba(0, 0, 0, 0.8) 56%,
+      rgba(0, 0, 0, 0.45) 78%,
       transparent 100%
     );
   }
@@ -326,24 +341,25 @@ const arrowBtn =
     padding-inline-end: calc(50cqw - var(--last) * var(--u) / 2);
     /* Fixed mask at the stage edges: the screens scroll through it, so they disappear toward
        the container edge instead of being cut. Curved (wide ellipse) rather than a straight
-       band: 0 at the edge, 70% inward, full strength past the band. The vertical radius is
-       stretched so the fade stays horizontal and only rounds the corners. */
+       band: 0 at the edge, full strength from 80% inward, so the screens stay readable longer
+       before they go. The vertical radius is stretched so the fade stays horizontal and only
+       rounds the corners. */
     -webkit-mask-image: radial-gradient(
       ellipse 50% 175% at 50% 50%,
       #000 0%,
-      #000 74%,
-      rgba(0, 0, 0, 0.86) 82%,
-      rgba(0, 0, 0, 0.62) 89%,
-      rgba(0, 0, 0, 0.3) 95%,
+      #000 80%,
+      rgba(0, 0, 0, 0.86) 86%,
+      rgba(0, 0, 0, 0.62) 91%,
+      rgba(0, 0, 0, 0.3) 96%,
       transparent 100%
     );
     mask-image: radial-gradient(
       ellipse 50% 175% at 50% 50%,
       #000 0%,
-      #000 74%,
-      rgba(0, 0, 0, 0.86) 82%,
-      rgba(0, 0, 0, 0.62) 89%,
-      rgba(0, 0, 0, 0.3) 95%,
+      #000 80%,
+      rgba(0, 0, 0, 0.86) 86%,
+      rgba(0, 0, 0, 0.62) 91%,
+      rgba(0, 0, 0, 0.3) 96%,
       transparent 100%
     );
   }
@@ -369,7 +385,7 @@ const arrowBtn =
       --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.3xl"));
     }
     .wg-spot-mat {
-      inset: theme("spacing.md") calc(-1 * theme("spacing.3xl")) theme("spacing.xl");
+      inset: theme("spacing.sm") calc(-1 * theme("spacing.4xl")) theme("spacing.lg");
     }
     .wg-track {
       gap: theme("spacing.lg");
@@ -389,7 +405,8 @@ const arrowBtn =
     const next = root.querySelector<HTMLButtonElement>("[data-spot-next]");
     const title = root.querySelector<HTMLElement>("[data-spot-title]");
     const chip = root.querySelector<HTMLElement>("[data-device-chip]");
-    const chipLabel = root.querySelector<HTMLElement>("[data-device-label]");
+    // Scoped to the chip: the screens also carry a data-device-label attribute.
+    const chipLabel = chip?.querySelector<HTMLElement>("[data-device-label]");
     const zoom = root.querySelector<HTMLButtonElement>("[data-spot-zoom]");
     const count = root.querySelector<HTMLElement>("[data-spot-count]");
     const template = root.dataset.countTemplate ?? "{n} / {total}";
