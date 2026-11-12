@@ -25,7 +25,7 @@ const body = "m-0 text-base leading-relaxed text-justify text-text-body-primary 
 ---
 
 {/* File: src/components/workflow/WorkflowBlock.astro */}
-<div id={id} class="flex flex-col gap-lg scroll-mt-[calc(theme(spacing.4xl)+theme(spacing.3xl))]">
+<div id={id} class="flex flex-col gap-lg scroll-mt-[calc(var(--wf-sticky)+theme(spacing.sm))]">
   {
     showHeading && block.heading && (
       <div class="flex flex-wrap items-center gap-x-sm-d gap-y-xs">

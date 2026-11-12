@@ -29,6 +29,15 @@ const usedTools = getUsedTools(steps);
     html body {
       overflow: visible;
     }
+    /* Total height of the sticky stack: site navbar, mobile step menu, project tabs bar.
+       --tabs-h is published by the ResizeObserver in WorkflowStepNav.astro; the fallbacks
+       are the real heights so anchors stay right before that script runs. */
+    #workflow-page {
+      --wf-sticky: calc(
+        var(--site-nav-h, theme("spacing.3xl")) + var(--step-menu-h, 0px) +
+          var(--tabs-h, theme("spacing.3xl"))
+      );
+    }
   </style>
 
   <Container class="pb-5xl">
