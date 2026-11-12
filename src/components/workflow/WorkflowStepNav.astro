@@ -115,16 +115,19 @@ const labelClass = "flex min-h-xl items-center";
   // mobile step menu's) as CSS variables, and follow resizes (menu opened, rotation).
   const header = document.querySelector<HTMLElement>("body > header");
   const menu = document.querySelector<HTMLElement>("[data-step-menu]");
+  const tabs = document.querySelector<HTMLElement>("[data-tabs-bar]");
   const publish = () => {
     const root = document.documentElement.style;
     root.setProperty("--site-nav-h", `${header?.offsetHeight ?? 0}px`);
     root.setProperty("--step-menu-h", `${menu?.offsetHeight ?? 0}px`);
+    root.setProperty("--tabs-h", `${tabs?.offsetHeight ?? 0}px`);
   };
   publish();
   if ("ResizeObserver" in window) {
     const ro = new ResizeObserver(publish);
     if (header) ro.observe(header);
     if (menu) ro.observe(menu);
+    if (tabs) ro.observe(tabs);
   }
   window.addEventListener("resize", publish);
 
