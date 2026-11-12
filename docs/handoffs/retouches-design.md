@@ -181,7 +181,7 @@ vide, surtout au-dessus et en dessous des écrans.
 
 ### Captures du site pour la section « Hi-fi » du projet portfolio
 
-Cinq captures du site en ligne (`yassineelidrissi.com`), faites le 2026-11-12 avec Edge
+Six captures du site en ligne (`yassineelidrissi.com`), faites le 2026-11-12 avec Edge
 headless (CDP), `deviceScaleFactor: 2`, barres de défilement masquées, polices et images
 chargées avant capture. Cadrage = la fenêtre exacte du cadre d'appareil, donc aucun recadrage
 par `object-cover`.
@@ -190,63 +190,61 @@ par `object-cover`.
 |---|---|---|---|---|
 | Accueil (bannière) | desktop 1280 × 800 | EN | `portfolio-hifi-home-desktop.webp` | 2560 × 1600 |
 | Cartes d'études de cas (CDC) | desktop 1280 × 800 | FR | `portfolio-hifi-cards-desktop.webp` (nouveau) | 2560 × 1600 |
-| Étude de cas 900.care | tablette paysage 1280 × 800 | EN | `portfolio-hifi-case-tablet.webp` | 2560 × 1600 |
+| Étude de cas 900.care | tablette 800 × 1280 | EN | `portfolio-hifi-case-tablet.webp` | 1600 × 2560 |
+| La même page, sur téléphone | téléphone 360 × 800 | EN | `portfolio-hifi-case-phone.webp` (nouveau) | 720 × 1600 |
 | À propos | téléphone 360 × 800 | EN | `portfolio-hifi-about-phone.webp` | 720 × 1600 |
 | Contact (pied de page) | téléphone 360 × 800 | FR | `portfolio-hifi-footer-phone.webp` (nouveau) | 720 × 1600 |
 
 - Les trois anciens fichiers sont remplacés, mêmes noms, mêmes dimensions, même appareil :
   leurs légendes et leurs `alt` existants restent justes (le cadrage a été refait à
   l'identique, sans barre de défilement visible).
-- `src/content/workflow/step-3.yaml`, bloc `portfolio` / « Hi-fi and design system » : deux
-  écrans ajoutés dans les deux langues (desktop cartes CDC en FR, téléphone contact en FR).
-  **Texte à relire par le propriétaire** : `caption`, `sub` et `alt` des deux nouveaux écrans
-  sont de ma main (« Case-study cards » / « Cartes d'études de cas », « Contact »).
+- `src/content/workflow/step-3.yaml`, bloc `portfolio` / « Hi-fi and design system » : trois
+  écrans ajoutés dans les deux langues (desktop cartes CDC en FR, téléphone contact en FR,
+  étude de cas sur téléphone en EN). **Texte à relire par le propriétaire** : `caption`,
+  `sub` et `alt` de ces trois écrans sont de ma main (« Case-study cards » / « Cartes d'études
+  de cas », « Same page, on a phone » / « La même page, sur téléphone », « Contact »).
   Aucun autre texte du fichier n'est touché.
-- Le projecteur garde son échelle : l'écran le plus haut du jeu est la tablette portrait
-  (1280 dp), donc le desktop s'affiche à 384 × 240 px et les téléphones à 108 × 240 px, comme
-  avant. Passer le desktop en 1280 × 800 paysage ne change rien à cette règle.
+- L'étude de cas est capturée deux fois (tablette et téléphone) pour montrer la même page
+  en deux colonnes puis en une colonne : c'est la démonstration du responsive.
 
-### Échelle unique des écrans (tablette en paysage)
+### Hauteur commune des écrans du projecteur
 
-Retour du propriétaire : « pourquoi la tablette est plus grande que desktop ? » Le projecteur
-dessine tous les cadres au même facteur px / dp et prend pour référence l'écran le plus haut.
-La tablette portrait faisait 1280 dp de haut contre 800 dp pour la fenêtre desktop : elle
-dominait donc la rangée, à l'échelle exacte.
+Retour du propriétaire : « pourquoi la tablette est plus grande que desktop ? », puis « la
+tablette ressemble trop à un pc », avec l'objectif explicite de montrer le responsive.
 
-- `step-3.yaml` : la tablette passe en **paysage** (`landscape: true`), capturée en
-  1280 × 800 dp comme les fenêtres desktop. Les trois écrans larges font donc exactement la
-  même boîte, et tout le jeu partage un seul facteur.
-- Effet de bord utile : la référence des galeries n'est plus 1280 mais 800 sur les cinq
-  écrans du portfolio, comme sur la galerie hi-fi de Tenon (desktop + téléphones, 800 dp).
-  Le facteur de la rangée est donc le même dans les deux galeries.
-- `WorkflowGallery.astro` : garde-fou de largeur sur `.wg-item`
-  (`max-width: calc(100cqw - spacing.2xl)`). À 1280 dp le desktop dépasse la colonne sous
-  1024 px de viewport : il est plafonné à la largeur de la scène au lieu d'être coupé par le
-  bord du rail. Le cadre garde son ratio et reste posé sur la bande de légende.
-- Tailles mesurées, galerie portfolio, EN et FR :
+- Règle : chaque cadre du projecteur reçoit la **même hauteur** (la bande de scène : 384 px en
+  desktop, 320 px en mobile). Sa largeur vient de son ratio, donc la rangée se lit comme un
+  même site à plusieurs largeurs : desktop 614 px, tablette 240 px, téléphone 173 px.
+- `WorkflowGallery.astro` : plus de facteur px / dp commun. `size()` ne sert plus qu'au rail,
+  l'item de projecteur reçoit `--ar` (ratio dp de l'appareil) et vaut `largeur = bande × --ar`.
+  Le centrage (`padding-inline` de la piste) utilise `--first-ar` / `--last-ar`.
+- La tablette reste en **portrait** (800 × 1280 dp) : cadre de tablette reconnaissable,
+  hauteur identique au desktop, largeur deux fois et demie plus petite. Plus de confusion avec
+  une fenêtre desktop.
+- Garde-fou de largeur sur `.wg-item` (`max-width: calc(100cqw - spacing.2xl)`) : sous
+  1024 px de viewport, le desktop de 1280 dp est plus large que la colonne ; il est plafonné
+  au lieu d'être coupé par le bord du rail. Le cadre garde son ratio.
+- Tailles mesurées, galerie portfolio, EN et FR (6 écrans) :
 
-| Viewport | Scène | Desktop / tablette | Téléphone |
-|---|---|---|---|
-| 1440 px | 896 × 480 | 614 × 384 | 173 × 384 |
-| 1024 px | 697 × 480 | 614 × 384 | 173 × 384 |
-| 768 px | 498 × 480 | 450 × 281 (plafonné) | 173 × 384 |
-| 390 px | 390 × 416 | 342 × 214 (plafonné) | 144 × 320 |
-
-- Texte à relire par le propriétaire : le `sub` et le `alt` de l'écran tablette ont été
-  réécrits pour la version paysage (« Tablet, the case study layout » /
-  « Tablette, la mise en page de l'étude de cas »).
+| Viewport | Scène | Desktop | Tablette | Téléphone |
+|---|---|---|---|---|
+| 1440 px | 896 × 480 | 614 × 384 | 240 × 384 | 173 × 384 |
+| 1024 px | 697 × 480 | 614 × 384 | 240 × 384 | 173 × 384 |
+| 768 px | 498 × 480 | 450 × 281 (plafonné) | 240 × 384 | 173 × 384 |
+| 390 px | 390 × 416 | 342 × 214 (plafonné) | 200 × 320 | 144 × 320 |
 
 ### Vérifications
 
 - [x] `npm run build` : 15 pages, aucune erreur (images optimisées par Astro)
 - [x] `npm run check` : 0 erreur, 0 avertissement (9 hints préexistants)
-- [x] Galerie hi-fi : 5 écrans et 5 points en EN et FR, légendes `Home / Case-study cards /
-      900.care / About / Contact` et `Accueil / Cartes / 900.care / À propos / Contact`
+- [x] Galerie hi-fi : 6 écrans et 6 points en EN et FR, légendes `Home / Case-study cards /
+      900.care / Same page, on a phone / About / Contact` et `Accueil / Cartes / 900.care /
+      La même page, sur téléphone / À propos / Contact`
 - [x] Captures vérifiées avant conversion : aucun débordement horizontal (scrollWidth =
       clientWidth en 1280, 800 et 360), polices chargées, bannière de consentement absente
 - [x] Rail et projecteur remesurés en 1440 px et 1024, 768 et 390 px (valeurs ci-dessus)
 - [x] Tuiles d'onglets : rayon 8 px, tuile 32 px, image servie en 96 px, dans les deux langues
-- [x] Tablette : cadre 16/10 en paysage, `landscape: true` dans les deux langues, écran
-      596 × 359 px dans un cadre de 614 × 384, image 2560 × 1600 recadrée de 3,6 % en bas
-      (`object-cover`), donc aucune bande noire
+- [x] Projecteur : les six cadres mesurent exactement la hauteur de la bande (384 px en
+      desktop, 320 px en mobile), aucun débordement vertical de la piste
+      (scrollHeight = clientHeight), tablette en portrait dans les deux langues
 
