@@ -18,6 +18,9 @@ export interface Props {
 
 const { id, variant = "box", size = "md", tone = "neutral", fill = false } = Astro.props;
 const logo = id ? toolLogos[id] : undefined;
+// Project tab tile: one step rounder than the tool tiles (8px instead of 6px), so the
+// corner reads on the 24px square without turning it into a squircle.
+const radius = fill ? "rounded-lg" : "rounded-md";
 // Intrinsic pixel size of the <img>, taken from the spacing token it is drawn at.
 const px = parseInt(tokens.primitives.spacing[size], 10);
 ---
@@ -39,7 +42,8 @@ const px = parseInt(tokens.primitives.spacing[size], 10);
     <span
       aria-hidden="true"
       class:list={[
-        "flex-none flex items-center justify-center w-lg h-lg rounded-md border",
+        "flex-none flex items-center justify-center w-lg h-lg border",
+        radius,
         tone === "accent" ? "bg-background-accent-subtle border-stroke-primary-hover" : "bg-gray-100 border-gray-400",
         { "border-dashed": !logo, "overflow-hidden": fill },
       ]}

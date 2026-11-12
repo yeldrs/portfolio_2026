@@ -100,6 +100,7 @@ export default {
       // Border radius (Unchanged)
       borderRadius: {
         md: tokens.primitives.borderRadius.md,
+        lg: tokens.primitives.borderRadius.lg,
         xl: tokens.primitives.borderRadius.xl,
         '2xl': tokens.primitives.borderRadius['2xl'],
         card: tokens.semantic.border.radius.card,

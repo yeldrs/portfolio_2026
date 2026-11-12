@@ -211,16 +211,16 @@ const arrowBtn =
      ratio would drift, so the scale is fixed in px. */
   .wg-rail {
     --wg-u: 0.4px;
-    /* A 32px step under the "Screens" label (8px label margin + 24px), like the rest
-       of the page rhythm. */
-    padding-block: theme("spacing.lg") theme("spacing.xl");
+    /* The block gap above already sets the rhythm under the heading; the mat only needs
+       its 8px grid line. Below, one 24px step under the caption row. */
+    padding-block: theme("spacing.sm") theme("spacing.lg");
   }
   .wg-mat {
     position: absolute;
     /* One cell below the mat origin, so the frames' top edge lands on a grid line while
        the mat still starts right under the label. The bottom stops before the caption row
        (caption + device chip sit below the frames). */
-    inset: theme("spacing.sm") 0 theme("spacing.4xl");
+    inset: theme("spacing.sm") 0 theme("spacing.2xl");
     pointer-events: none;
     --mat-minor: color-mix(in srgb, theme("colors.stroke-neutral-primary") 30%, transparent);
     --mat-major: color-mix(in srgb, theme("colors.stroke-neutral-primary") 60%, transparent);
@@ -263,24 +263,22 @@ const arrowBtn =
     scroll-snap-align: start;
   }
   @media (min-width: theme("screens.md")) {
-    .wg-rail {
-      padding-block: theme("spacing.lg") theme("spacing.2xl");
-    }
     .wg-rail-track {
       padding-inline-start: 0;
       scroll-padding-inline-start: 0;
     }
     /* Outside the content column: the mat runs into the gutter and past the container. */
     .wg-mat {
-      inset: theme("spacing.sm") calc(-1 * theme("spacing.3xl")) calc(theme("spacing.4xl") + theme("spacing.md"));
+      inset: theme("spacing.sm") calc(-1 * theme("spacing.3xl")) theme("spacing.3xl");
     }
   }
 
-  /* Spotlight: stage with a fixed height; every frame is sized against the tallest device. */
+  /* Spotlight: stage with a fixed height; every frame is sized against the tallest device.
+     24px of dotted canvas above the screens, 72px below for the caption + pagination band. */
   .wg-spot {
     container-type: inline-size;
-    --stage-h: calc(theme("spacing.6xl") * 4);
-    --u: calc((var(--stage-h) - theme("spacing.3xl") * 2) / var(--ref));
+    --stage-h: calc(theme("spacing.6xl") * 4 - theme("spacing.xl"));
+    --u: calc((var(--stage-h) - theme("spacing.2xl") * 2) / var(--ref));
     height: var(--stage-h);
   }
   /* Caption, device chip, zoom and pagination: one column under the screens, inside the
@@ -382,7 +380,7 @@ const arrowBtn =
   }
   @media (min-width: theme("screens.md")) {
     .wg-spot {
-      --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.3xl"));
+      --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.xl"));
     }
     .wg-spot-mat {
       inset: theme("spacing.sm") calc(-1 * theme("spacing.4xl")) theme("spacing.lg");
