@@ -23,8 +23,9 @@ const { lang, gallery, screens, group, startAt = 1 } = Astro.props;
 const start = Math.min(Math.max(startAt, 1), screens.length) - 1;
 const t = useTranslations(lang);
 
-// Real device sizes (dp / pt). The rail draws every frame at the same scale; the spotlight
-// sizes every frame against the tallest one.
+// Real device sizes (dp / pt). The rail draws every frame at the same px/dp scale. The
+// spotlight gives every frame the same height instead, so the row reads as one layout at
+// different widths: the frame ratio matches the dp ratio for each device type below.
 function size(s: Screen) {
   if (s.device === "tablet") return s.landscape ? { w: 1280, h: 800 } : { w: 800, h: 1280 };
   if (s.device === "desktop") return { w: 1280, h: 800 };
@@ -35,6 +36,7 @@ const items = await Promise.all(
   screens.map(async (s, i) => {
     const image = workflowImage(s.src);
     const before = workflowImage(s.before?.src);
+    const dp = size(s);
     return {
       ...s,
       n: i + 1,
@@ -43,13 +45,13 @@ const items = await Promise.all(
       zoom: image && s.alt ? await zoomUrl(image) : undefined,
       beforeAlt: s.before?.alt,
       beforeZoom: before ? await zoomUrl(before) : undefined,
-      dp: size(s),
+      dp,
+      ar: dp.w / dp.h,
     };
   }),
 );
 type Item = (typeof items)[number];
 
-const ref = Math.max(...items.map((s) => s.dp.h));
 const frame = (s: Item) => ({
   device: s.device,
   platform: s.platform,
@@ -151,7 +153,7 @@ const arrowBtn =
       data-count-template={t("workflow.galleryCount", { n: "{n}", total: String(items.length) })}
       role="group"
       aria-label={t("workflow.galleryAria")}
-      style={`--ref:${ref};--first:${items[0].dp.w};--last:${items[items.length - 1].dp.w}`}
+      style={`--first-ar:${items[0].ar};--last-ar:${items[items.length - 1].ar}`}
       class="wg-spot relative"
     >
       {/* Measuring canvas: a large dot field that starts before the screens and fades out. */}
@@ -162,7 +164,7 @@ const arrowBtn =
           return (
             <Tag
               class:list={["wg-item flex-none border-0 bg-transparent p-0 text-left", s.zoom && "cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"]}
-              style={`--w:${s.dp.w}`}
+              style={`--ar:${s.ar}`}
               data-on={String(i === start)}
               data-caption={s.caption}
               data-device={s.device}
@@ -170,7 +172,7 @@ const arrowBtn =
               data-has-zoom={String(Boolean(s.zoom))}
               {...(s.zoom ? { type: "button", "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
             >
-              <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
+              <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" || s.landscape ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
             </Tag>
           );
         })}
@@ -211,16 +213,16 @@ const arrowBtn =
      ratio would drift, so the scale is fixed in px. */
   .wg-rail {
     --wg-u: 0.4px;
-    /* A 32px step under the "Screens" label (8px label margin + 24px), like the rest
-       of the page rhythm. */
-    padding-block: theme("spacing.lg") theme("spacing.xl");
+    /* The block gap above already sets the rhythm under the heading; the mat only needs
+       its 8px grid line. Below, one 24px step under the caption row. */
+    padding-block: theme("spacing.sm") theme("spacing.lg");
   }
   .wg-mat {
     position: absolute;
     /* One cell below the mat origin, so the frames' top edge lands on a grid line while
        the mat still starts right under the label. The bottom stops before the caption row
        (caption + device chip sit below the frames). */
-    inset: theme("spacing.sm") 0 theme("spacing.4xl");
+    inset: theme("spacing.sm") 0 theme("spacing.2xl");
     pointer-events: none;
     --mat-minor: color-mix(in srgb, theme("colors.stroke-neutral-primary") 30%, transparent);
     --mat-major: color-mix(in srgb, theme("colors.stroke-neutral-primary") 60%, transparent);
@@ -263,24 +265,23 @@ const arrowBtn =
     scroll-snap-align: start;
   }
   @media (min-width: theme("screens.md")) {
-    .wg-rail {
-      padding-block: theme("spacing.lg") theme("spacing.2xl");
-    }
     .wg-rail-track {
       padding-inline-start: 0;
       scroll-padding-inline-start: 0;
     }
     /* Outside the content column: the mat runs into the gutter and past the container. */
     .wg-mat {
-      inset: theme("spacing.sm") calc(-1 * theme("spacing.3xl")) calc(theme("spacing.4xl") + theme("spacing.md"));
+      inset: theme("spacing.sm") calc(-1 * theme("spacing.3xl")) theme("spacing.3xl");
     }
   }
 
-  /* Spotlight: stage with a fixed height; every frame is sized against the tallest device. */
+  /* Spotlight: stage with a fixed height. Every frame gets the same height (the band), so the
+     widths alone show the layout at each breakpoint. 24px of dotted canvas above the screens,
+     72px below for the caption + pagination band. */
   .wg-spot {
     container-type: inline-size;
-    --stage-h: calc(theme("spacing.6xl") * 4);
-    --u: calc((var(--stage-h) - theme("spacing.3xl") * 2) / var(--ref));
+    --stage-h: calc(theme("spacing.6xl") * 4 - theme("spacing.xl"));
+    --band: calc(var(--stage-h) - theme("spacing.2xl") * 2);
     height: var(--stage-h);
   }
   /* Caption, device chip, zoom and pagination: one column under the screens, inside the
@@ -337,8 +338,8 @@ const arrowBtn =
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     padding-bottom: calc(theme("spacing.2xl") + theme("spacing.lg"));
-    padding-inline-start: calc(50cqw - var(--first) * var(--u) / 2);
-    padding-inline-end: calc(50cqw - var(--last) * var(--u) / 2);
+    padding-inline-start: calc(50cqw - var(--band) * var(--first-ar) / 2);
+    padding-inline-end: calc(50cqw - var(--band) * var(--last-ar) / 2);
     /* Fixed mask at the stage edges: the screens scroll through it, so they disappear toward
        the container edge instead of being cut. Curved (wide ellipse) rather than a straight
        band: 0 at the edge, full strength from 80% inward, so the screens stay readable longer
@@ -368,8 +369,20 @@ const arrowBtn =
   }
   .wg-item {
     position: relative;
-    width: calc(var(--w) * var(--u));
+    /* Desktop is the reference height; tablet and phone step down a little, so the row reads
+       as a hierarchy of devices rather than one wall of equal screens. The frame ratio then
+       sets each width. The widest one, a 1280dp desktop window, is wider than the column on a
+       tablet or a phone: cap it there so the screen is never clipped by the track edge. */
+    --k: 1;
+    width: calc(var(--band) * var(--ar) * var(--k));
+    max-width: calc(100cqw - theme("spacing.2xl"));
     scroll-snap-align: center;
+  }
+  .wg-item[data-device="tablet"] {
+    --k: 0.9;
+  }
+  .wg-item[data-device="phone"] {
+    --k: 0.8;
   }
   .wg-item :global(.pf) {
     box-shadow: theme("boxShadow.sm");
@@ -382,7 +395,7 @@ const arrowBtn =
   }
   @media (min-width: theme("screens.md")) {
     .wg-spot {
-      --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.3xl"));
+      --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.xl"));
     }
     .wg-spot-mat {
       inset: theme("spacing.sm") calc(-1 * theme("spacing.4xl")) theme("spacing.lg");

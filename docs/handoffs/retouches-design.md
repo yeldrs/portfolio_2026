@@ -142,3 +142,135 @@ clé devenue inutilisée est retirée.
   (rail, projecteur) et le flou du UI kit au centre du projecteur » peut passer en revue :
   le pied du projecteur a été mesuré en 390 px, le bug qui effaçait le UI kit est corrigé,
   le reste de la galerie est inchangé.
+
+## Session 2 (2026-11-12) : icônes d'onglets, respiration des galeries, captures du site
+
+### Icônes des onglets projet (arrondi)
+
+- `src/styles/tokens.js` : nouveau pas de rayon `lg: "8px"` entre `md` (6 px) et `xl` (12 px).
+- `tailwind.config.mjs` : ce pas est mappé (`lg: tokens.primitives.borderRadius.lg`), donc
+  `rounded-lg` devient un token. Valeur identique au défaut Tailwind déjà utilisé ailleurs
+  (`Navbar.astro`, `AboutLayout.astro`) : aucun changement visuel sur ces usages.
+- `src/components/workflow/ToolLogo.astro` : la tuile d'onglet projet (`fill`, utilisée
+  seulement par `WorkflowProjectTabs`) passe de 6 px à 8 px (`rounded-md` → `rounded-lg`).
+  Les tuiles d'outils (listes, teaser) restent à 6 px : seule la tuile projet change.
+  Tuile mesurée à 32 × 32 px, rayon calculé 8 px sur les trois onglets, EN et FR.
+  Même tuile : passage de 24 à 32 px et fichier servi à 96 px (3×) au lieu de 16 px
+  agrandi, qui rendait flou sur écran retina.
+
+### Respiration autour des galeries d'écrans
+
+Le bloc garde son `gap-lg` (24 px). C'est le rembourrage interne des galeries qui créait le
+vide, surtout au-dessus et en dessous des écrans.
+
+- `WorkflowGallery.astro`, galerie `rail` (wireframes)
+  - `padding-block` : 24 / 32 px (mobile) et 24 / 48 px (desktop) → **8 / 24 px** partout.
+    Le pas de 24 px au-dessus venait de l'ancien sous-titre « Screens », supprimé à la
+    session précédente ; l'écart sous le titre de bloc est maintenant le `gap-lg` seul.
+  - Canevas (`wg-mat`) : bas ramené de 80 px (96 px desktop) à 48 px (64 px desktop), pour
+    qu'il s'arrête toujours au niveau de la légende avec la hauteur réduite.
+  - Mesures desktop : titre → cadre 32 px (48 avant), légende + puce → outils 56 px (80 avant).
+    Mobile : mêmes valeurs.
+- `WorkflowGallery.astro`, galerie `spotlight` (hi-fi)
+  - Hauteur de scène : 448 → 416 px (mobile), 512 → 480 px (desktop). Le facteur d'échelle
+    passe de `3xl × 2` (128 px) à `2xl × 2` (96 px), donc les écrans **gardent leur taille**
+    (320 px de haut mobile, 384 px desktop) et l'espace de canevas au-dessus tombe de 56 à
+    24 px. Bande sous les écrans inchangée (72 px, occupée par la légende et la pagination).
+  - Mesures : titre → écran 48 px (80 avant), écran → légende 8 px, légende → outils 40 px.
+- Aucun contenu de `src/content/projects/**` ni de `src/data/**` modifié.
+
+### Captures du site pour la section « Hi-fi » du projet portfolio
+
+Six captures du site en ligne (`yassineelidrissi.com`), faites le 2026-11-12 avec Edge
+headless (CDP), `deviceScaleFactor: 2`, barres de défilement masquées, polices et images
+chargées avant capture. Cadrage = la fenêtre exacte du cadre d'appareil, donc aucun recadrage
+par `object-cover`.
+
+| Écran | Appareil | Langue | Fichier | Taille |
+|---|---|---|---|---|
+| Accueil (bannière) | desktop 1280 × 800 | EN | `portfolio-hifi-home-desktop.webp` | 2560 × 1600 |
+| Cartes d'études de cas (CDC) | desktop 1280 × 800 | FR | `portfolio-hifi-cards-desktop.webp` (nouveau) | 2560 × 1600 |
+| Étude de cas 900.care | tablette 800 × 1280 | EN | `portfolio-hifi-case-tablet.webp` | 1600 × 2560 |
+| La même page, sur téléphone | téléphone 360 × 800 | EN | `portfolio-hifi-case-phone.webp` (nouveau) | 720 × 1600 |
+| À propos | téléphone 360 × 800 | EN | `portfolio-hifi-about-phone.webp` | 720 × 1600 |
+| Contact (pied de page) | téléphone 360 × 800 | FR | `portfolio-hifi-footer-phone.webp` (nouveau) | 720 × 1600 |
+
+- Les trois anciens fichiers sont remplacés, mêmes noms, mêmes dimensions, même appareil :
+  leurs légendes et leurs `alt` existants restent justes (le cadrage a été refait à
+  l'identique, sans barre de défilement visible).
+- `src/content/workflow/step-3.yaml`, bloc `portfolio` / « Hi-fi and design system » : trois
+  écrans ajoutés dans les deux langues (desktop cartes CDC en FR, téléphone contact en FR,
+  étude de cas sur téléphone en EN). **Texte à relire par le propriétaire** : `caption`,
+  `sub` et `alt` de ces trois écrans sont de ma main (« Case-study cards » / « Cartes d'études
+  de cas », « Same page, on a phone » / « La même page, sur téléphone », « Contact »).
+  Aucun autre texte du fichier n'est touché.
+- L'étude de cas est capturée deux fois (tablette et téléphone) pour montrer la même page
+  en deux colonnes puis en une colonne : c'est la démonstration du responsive.
+
+### Hiérarchie de taille des écrans du projecteur
+
+Retours du propriétaire : « pourquoi la tablette est plus grande que desktop ? », « la tablette
+ressemble trop à un pc », puis « tous les écrans ont la même hauteur, il faut que les mobiles
+soient un peu plus petits que tablette et pc, et tablette un peu plus petite que pc ».
+Objectif : montrer le responsive.
+
+- Règle : le desktop donne la hauteur de référence (la bande de scène : 384 px en desktop,
+  320 px en mobile). La tablette vaut **90 %** de cette hauteur, le téléphone **80 %**.
+  La largeur de chaque cadre vient ensuite de son ratio, donc la rangée descend du desktop vers
+  le mobile : 614 × 384, 216 × 346, 138 × 307. Les cadres sont posés sur la même ligne de base.
+- `WorkflowGallery.astro` : plus de facteur px / dp commun. `size()` ne sert plus qu'au rail,
+  l'item de projecteur reçoit `--ar` (ratio dp de l'appareil) et `--k` (facteur d'appareil,
+  défini en CSS : `1` par défaut, `0.9` tablette, `0.8` téléphone), puis
+  `largeur = bande × --ar × --k`. Le centrage (`padding-inline` de la piste) utilise
+  `--first-ar` / `--last-ar`.
+- La tablette reste en **portrait** (800 × 1280 dp) : cadre de tablette reconnaissable, plus
+  haute que le téléphone mais plus basse que le desktop, et deux fois et demie plus étroite.
+- Garde-fou de largeur sur `.wg-item` (`max-width: calc(100cqw - spacing.2xl)`) : sous
+  1024 px de viewport, le desktop de 1280 dp est plus large que la colonne ; il est plafonné
+  au lieu d'être coupé par le bord du rail. Le cadre garde son ratio, donc sous 768 px le
+  desktop devient plus court que la tablette : c'est le prix du non-recadrage sur un écran de
+  téléphone, où la scène ne fait que 390 px de large.
+- Tailles mesurées, galerie portfolio, EN et FR (6 écrans) :
+
+| Viewport | Scène | Desktop | Tablette | Téléphone |
+|---|---|---|---|---|
+| 1440 px | 896 × 480 | 614 × 384 | 216 × 346 | 138 × 307 |
+| 1024 px | 697 × 480 | 614 × 384 | 216 × 346 | 138 × 307 |
+| 768 px | 498 × 480 | 450 × 281 (plafonné) | 216 × 346 | 138 × 307 |
+| 390 px | 390 × 416 | 342 × 214 (plafonné) | 180 × 288 | 115 × 256 |
+
+### Cadres de prévisualisation non défilants
+
+Demande du propriétaire : les captures ne doivent plus défiler dans les cadres des galeries
+hi-fi et maquette.
+
+- `DeviceFrame.astro` : la fenêtre desktop gardait un écran défilant (`overflow-y: auto`, image
+  en `height: auto`) pour les captures pleine page ; c'était le seul cadre encore défilant.
+  Elle passe en `overflow: hidden`, l'image reprend la règle commune
+  (`height: 100%`, `object-fit: cover`, `object-position: top center`), donc elle est cadrée
+  sur le haut de la capture, comme sur téléphone et tablette.
+- Effet : environ 10 % du bas d'une capture desktop n'est plus visible dans le cadre (le cadre
+  réserve 9 % de sa hauteur à la barre de fenêtre). L'image entière reste à un clic, dans la
+  visionneuse. Aucun autre cadre ne défilait déjà : la piste wireframe (`wg-flat`) est en
+  `overflow-hidden` avec `object-cover`.
+- `DeviceFrame` n'est utilisé que par `WorkflowFrame`, donc les pages projet et les galeries
+  `grid` ne sont pas concernées.
+
+### Vérifications
+
+- [x] `npm run build` : 15 pages, aucune erreur (images optimisées par Astro)
+- [x] `npm run check` : 0 erreur, 0 avertissement (9 hints préexistants)
+- [x] Galerie hi-fi : 6 écrans et 6 points en EN et FR, légendes `Home / Case-study cards /
+      900.care / Same page, on a phone / About / Contact` et `Accueil / Cartes / 900.care /
+      La même page, sur téléphone / À propos / Contact`
+- [x] Captures vérifiées avant conversion : aucun débordement horizontal (scrollWidth =
+      clientWidth en 1280, 800 et 360), polices chargées, bannière de consentement absente
+- [x] Rail et projecteur remesurés en 1440 px et 1024, 768 et 390 px (valeurs ci-dessus)
+- [x] Tuiles d'onglets : rayon 8 px, tuile 32 px, image servie en 96 px, dans les deux langues
+- [x] Projecteur : hauteurs 384 / 346 / 307 px (desktop / tablette / téléphone), tablette en
+      portrait dans les deux langues, aucun débordement vertical de la piste
+      (scrollHeight = clientHeight)
+- [x] Cadres non défilants : `overflow-y: hidden` sur les 6 écrans du projecteur portfolio et
+      sur la fenêtre desktop du UI kit Tenon, image à la hauteur de l'écran
+      (scrollHeight = clientHeight = hauteur du cadre)
+

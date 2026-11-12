@@ -225,7 +225,8 @@ const classes = [
     flex-grow: 1232;
   }
 
-  /* Desktop window 16:10, scrollable screen for full-page captures (scrollbar hidden) */
+  /* Desktop window 16:10. The preview never scrolls: like the other devices, the capture is
+     cropped to the screen box (top edge kept) and the full image opens in the zoom modal. */
   .pf--desktop {
     aspect-ratio: 16 / 10;
     padding: 0;
@@ -236,15 +237,7 @@ const classes = [
   }
   .pf--desktop .pf__screen {
     flex-grow: 91;
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-width: none;
-  }
-  .pf--desktop .pf__screen::-webkit-scrollbar {
-    display: none;
-  }
-  .pf--desktop .pf__screen img {
-    height: auto;
+    overflow: hidden;
   }
   .pf__chrome {
     flex: 9 0 0;
