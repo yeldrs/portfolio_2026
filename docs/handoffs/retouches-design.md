@@ -142,3 +142,76 @@ clé devenue inutilisée est retirée.
   (rail, projecteur) et le flou du UI kit au centre du projecteur » peut passer en revue :
   le pied du projecteur a été mesuré en 390 px, le bug qui effaçait le UI kit est corrigé,
   le reste de la galerie est inchangé.
+
+## Session 2 (2026-11-12) : icônes d'onglets, respiration des galeries, captures du site
+
+### Icônes des onglets projet (arrondi)
+
+- `src/styles/tokens.js` : nouveau pas de rayon `lg: "8px"` entre `md` (6 px) et `xl` (12 px).
+- `tailwind.config.mjs` : ce pas est mappé (`lg: tokens.primitives.borderRadius.lg`), donc
+  `rounded-lg` devient un token. Valeur identique au défaut Tailwind déjà utilisé ailleurs
+  (`Navbar.astro`, `AboutLayout.astro`) : aucun changement visuel sur ces usages.
+- `src/components/workflow/ToolLogo.astro` : la tuile d'onglet projet (`fill`, utilisée
+  seulement par `WorkflowProjectTabs`) passe de 6 px à 8 px (`rounded-md` → `rounded-lg`).
+  Les tuiles d'outils (listes, teaser) restent à 6 px : seule la tuile projet change.
+  Tuile mesurée à 24 × 24 px, rayon calculé 8 px sur les trois onglets, EN et FR.
+
+### Respiration autour des galeries d'écrans
+
+Le bloc garde son `gap-lg` (24 px). C'est le rembourrage interne des galeries qui créait le
+vide, surtout au-dessus et en dessous des écrans.
+
+- `WorkflowGallery.astro`, galerie `rail` (wireframes)
+  - `padding-block` : 24 / 32 px (mobile) et 24 / 48 px (desktop) → **8 / 24 px** partout.
+    Le pas de 24 px au-dessus venait de l'ancien sous-titre « Screens », supprimé à la
+    session précédente ; l'écart sous le titre de bloc est maintenant le `gap-lg` seul.
+  - Canevas (`wg-mat`) : bas ramené de 80 px (96 px desktop) à 48 px (64 px desktop), pour
+    qu'il s'arrête toujours au niveau de la légende avec la hauteur réduite.
+  - Mesures desktop : titre → cadre 32 px (48 avant), légende + puce → outils 56 px (80 avant).
+    Mobile : mêmes valeurs.
+- `WorkflowGallery.astro`, galerie `spotlight` (hi-fi)
+  - Hauteur de scène : 448 → 416 px (mobile), 512 → 480 px (desktop). Le facteur d'échelle
+    passe de `3xl × 2` (128 px) à `2xl × 2` (96 px), donc les écrans **gardent leur taille**
+    (320 px de haut mobile, 384 px desktop) et l'espace de canevas au-dessus tombe de 56 à
+    24 px. Bande sous les écrans inchangée (72 px, occupée par la légende et la pagination).
+  - Mesures : titre → écran 48 px (80 avant), écran → légende 8 px, légende → outils 40 px.
+- Aucun contenu de `src/content/projects/**` ni de `src/data/**` modifié.
+
+### Captures du site pour la section « Hi-fi » du projet portfolio
+
+Cinq captures du site en ligne (`yassineelidrissi.com`), faites le 2026-11-12 avec Edge
+headless (CDP), `deviceScaleFactor: 2`, barres de défilement masquées, polices et images
+chargées avant capture. Cadrage = la fenêtre exacte du cadre d'appareil, donc aucun recadrage
+par `object-cover`.
+
+| Écran | Appareil | Langue | Fichier | Taille |
+|---|---|---|---|---|
+| Accueil (bannière) | desktop 1280 × 800 | EN | `portfolio-hifi-home-desktop.webp` | 2560 × 1600 |
+| Cartes d'études de cas (CDC) | desktop 1280 × 800 | FR | `portfolio-hifi-cards-desktop.webp` (nouveau) | 2560 × 1600 |
+| Étude de cas 900.care | tablette 800 × 1280 | EN | `portfolio-hifi-case-tablet.webp` | 1600 × 2560 |
+| À propos | téléphone 360 × 800 | EN | `portfolio-hifi-about-phone.webp` | 720 × 1600 |
+| Contact (pied de page) | téléphone 360 × 800 | FR | `portfolio-hifi-footer-phone.webp` (nouveau) | 720 × 1600 |
+
+- Les trois anciens fichiers sont remplacés, mêmes noms, mêmes dimensions, même appareil :
+  leurs légendes et leurs `alt` existants restent justes (le cadrage a été refait à
+  l'identique, sans barre de défilement visible).
+- `src/content/workflow/step-3.yaml`, bloc `portfolio` / « Hi-fi and design system » : deux
+  écrans ajoutés dans les deux langues (desktop cartes CDC en FR, téléphone contact en FR).
+  **Texte à relire par le propriétaire** : `caption`, `sub` et `alt` des deux nouveaux écrans
+  sont de ma main (« Case-study cards » / « Cartes d'études de cas », « Contact »).
+  Aucun autre texte du fichier n'est touché.
+- Le projecteur garde son échelle : l'écran le plus haut du jeu est la tablette portrait
+  (1280 dp), donc le desktop s'affiche à 384 × 240 px et les téléphones à 108 × 240 px, comme
+  avant. Passer le desktop en 1280 × 800 paysage ne change rien à cette règle.
+
+### Vérifications
+
+- [x] `npm run build` : 15 pages, aucune erreur (images optimisées par Astro)
+- [x] `npm run check` : 0 erreur, 0 avertissement (9 hints préexistants)
+- [x] Galerie hi-fi : 5 écrans et 5 points en EN et FR, légendes `Home / Case-study cards /
+      900.care / About / Contact` et `Accueil / Cartes / 900.care / À propos / Contact`
+- [x] Captures vérifiées avant conversion : aucun débordement horizontal (scrollWidth =
+      clientWidth en 1280, 800 et 360), polices chargées, bannière de consentement absente
+- [x] Rail et projecteur remesurés en 1440 px et 390 px (valeurs ci-dessus)
+- [x] Tuiles d'onglets : rayon 8 px, taille 24 px, dans les deux langues
+

@@ -144,6 +144,11 @@ en:
           src: "portfolio-hifi-home-desktop.webp"
           device: desktop
           alt: "Portfolio home page in a desktop window: the Yassine El Idrissi header, then the title Hello, I'm Yassine, the introduction and the Case studies button over a pale background."
+        - caption: "Case-study cards"
+          sub: "Desktop, the projects list, in French"
+          src: "portfolio-hifi-cards-desktop.webp"
+          device: desktop
+          alt: "Projects list in French on desktop: the Caisse des Dépôts card with its workshop photo, the title Concevoir un outil agile pour designer avec éthique, the client, the description and the role, the Voir le projet button, then the next card starting below."
         - caption: "Case study, 900.care"
           sub: "Tablet, the long read"
           src: "portfolio-hifi-case-tablet.webp"
@@ -154,6 +159,11 @@ en:
           src: "portfolio-hifi-about-phone.webp"
           device: phone
           alt: "Portfolio About page on a phone: the Product designer title, the introduction, the Let's connect button, then the Experience heading with the first role and the dates."
+        - caption: "Contact"
+          sub: "Phone, the footer call to action"
+          src: "portfolio-hifi-footer-phone.webp"
+          device: phone
+          alt: "Page footer on a phone in French: the Discutons heading, the collaboration line, the button with the contact email, then the copyright and the LinkedIn link."
 
 fr:
   title: "Design"
@@ -297,6 +307,11 @@ fr:
           src: "portfolio-hifi-home-desktop.webp"
           device: desktop
           alt: "Page d'accueil du portfolio dans une fenêtre desktop : l'en-tête Yassine El Idrissi, puis le titre Hello, I'm Yassine, l'introduction et le bouton Case studies sur un fond clair."
+        - caption: "Cartes d'études de cas"
+          sub: "Desktop, la liste des projets, en français"
+          src: "portfolio-hifi-cards-desktop.webp"
+          device: desktop
+          alt: "Liste des projets en français sur desktop : la carte Caisse des Dépôts avec sa photo d'atelier, le titre Concevoir un outil agile pour designer avec éthique, le client, la description et le rôle, le bouton Voir le projet, puis la carte suivante qui commence en bas."
         - caption: "Étude de cas, 900.care"
           sub: "Tablette, la lecture longue"
           src: "portfolio-hifi-case-tablet.webp"
@@ -307,3 +322,8 @@ fr:
           src: "portfolio-hifi-about-phone.webp"
           device: phone
           alt: "Page à propos du portfolio sur téléphone : le titre Product designer, l'introduction, le bouton Let's connect, puis le titre Experience avec le premier poste et les dates."
+        - caption: "Contact"
+          sub: "Téléphone, l'appel du pied de page"
+          src: "portfolio-hifi-footer-phone.webp"
+          device: phone
+          alt: "Pied de page sur téléphone en français : le titre Discutons, la ligne de collaboration, le bouton avec l'adresse e-mail, puis le copyright et le lien LinkedIn."
