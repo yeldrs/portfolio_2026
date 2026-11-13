@@ -44,7 +44,7 @@ const bannerOn = [
         {
           PROJECT_ORDER.map((id, i) => (
             <label for={`t-${id}`} data-tab={i} class="wf-tab">
-              <ToolLogo id={id} variant="box" fill />
+              <ToolLogo id={id} variant="box" fill bordered={id !== "portfolio"} />
               <span>{t(`workflow.project.${id}`)}</span>
             </label>
           ))

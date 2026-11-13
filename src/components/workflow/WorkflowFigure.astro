@@ -15,6 +15,8 @@ const { lang, figure, group } = Astro.props;
 const t = useTranslations(lang);
 const image = workflowImage(figure.src);
 const zoom = image ? await zoomUrl(image) : undefined;
+// Wide screenshots (the Figma variables panel) are capped so they don't fill the column.
+const maxWidth = 640;
 ---
 
 {/* File: src/components/workflow/WorkflowFigure.astro */}
@@ -26,7 +28,7 @@ const zoom = image ? await zoomUrl(image) : undefined;
         data-zoom={zoom}
         data-zoom-group={group}
         aria-label={t("workflow.zoomAria", { caption: figure.caption })}
-        style={`max-width:${image.width}px`}
+        style={`max-width:min(${image.width}px, ${maxWidth}px)`}
         class="block w-full cursor-zoom-in overflow-hidden rounded-xl border border-stroke-neutral-primary bg-gray-100 p-0 shadow-sm transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"
       >
         <Image
@@ -34,7 +36,7 @@ const zoom = image ? await zoomUrl(image) : undefined;
           alt={figure.alt}
           width={image.width}
           height={image.height}
-          sizes="(min-width: 768px) 760px, 100vw"
+          sizes={`(min-width: 768px) ${maxWidth}px, 100vw`}
           format="webp"
           loading="lazy"
           decoding="async"

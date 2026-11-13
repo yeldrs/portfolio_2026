@@ -2,7 +2,6 @@
 import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import WorkflowFrame from "./WorkflowFrame.astro";
-import WorkflowDeviceChip from "./WorkflowDeviceChip.astro";
 import { workflowImage, zoomUrl } from "../../data/workflow.images";
 import { useTranslations } from "../../i18n/utils";
 
@@ -133,9 +132,8 @@ const arrowBtn =
                   </span>
                 )}
               </span>
-              <span class="flex flex-col items-center gap-sm text-center text-xs text-text-body-secondary">
+              <span class="block text-center text-xs text-text-body-secondary">
                 <span class="whitespace-nowrap">{s.caption}</span>
-                <WorkflowDeviceChip device={s.device} label={t(`workflow.device.${s.device}`)} />
               </span>
             </Tag>
           );
@@ -153,7 +151,7 @@ const arrowBtn =
       data-count-template={t("workflow.galleryCount", { n: "{n}", total: String(items.length) })}
       role="group"
       aria-label={t("workflow.galleryAria")}
-      style={`--first-ar:${items[0].ar};--last-ar:${items[items.length - 1].ar}`}
+      style={`--last-ar:${items[items.length - 1].ar}`}
       class="wg-spot relative"
     >
       {/* Measuring canvas: a large dot field that starts before the screens and fades out. */}
@@ -168,7 +166,6 @@ const arrowBtn =
               data-on={String(i === start)}
               data-caption={s.caption}
               data-device={s.device}
-              data-device-label={t(`workflow.device.${s.device}`)}
               data-has-zoom={String(Boolean(s.zoom))}
               {...(s.zoom ? { type: "button", "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
             >
@@ -187,8 +184,7 @@ const arrowBtn =
       <div class="wg-spot-foot">
         <div class="flex flex-wrap items-center justify-center gap-sm px-md text-sm text-text-body-primary">
           <b data-spot-title class="text-xs font-medium text-text-body-secondary">{items[start].caption}</b>
-          <WorkflowDeviceChip switchable device={items[start].device} label={t(`workflow.device.${items[start].device}`)} />
-          <button type="button" data-spot-zoom aria-label={t("workflow.expandCurrent")} class="flex h-lg w-lg cursor-zoom-in items-center justify-center rounded-full border border-stroke-secondary bg-background-primary p-0 text-text-body-accent hover:border-button-background-primary disabled:cursor-default disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent" disabled={!items[start].zoom}>
+          <button type="button" data-spot-zoom aria-label={t("workflow.expandCurrent")} class="flex h-lg w-lg -my-xs cursor-zoom-in items-center justify-center rounded-full border border-stroke-secondary bg-background-primary p-0 text-text-body-accent hover:border-button-background-primary disabled:cursor-default disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent" disabled={!items[start].zoom}>
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-sm-d w-sm-d"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z" /></svg>
           </button>
         </div>
@@ -221,7 +217,7 @@ const arrowBtn =
     position: absolute;
     /* One cell below the mat origin, so the frames' top edge lands on a grid line while
        the mat still starts right under the label. The bottom stops before the caption row
-       (caption + device chip sit below the frames). */
+       (the caption sits below the frames). */
     inset: theme("spacing.sm") 0 theme("spacing.2xl");
     pointer-events: none;
     --mat-minor: color-mix(in srgb, theme("colors.stroke-neutral-primary") 30%, transparent);
@@ -294,8 +290,8 @@ const arrowBtn =
     --stage-h: calc(var(--band) + var(--wg-top) + var(--wg-foot-pad));
     height: var(--stage-h);
   }
-  /* Caption, device chip, zoom and pagination: one column under the screens, inside the
-     stage band the track already reserves (its bottom padding). */
+  /* Caption, zoom and pagination: one column under the screens, inside the stage band the
+     track already reserves (its bottom padding). */
   /* The arrows centre on the screens, not on the whole stage (caption rows included). */
   .wg-spot > [data-spot-prev],
   .wg-spot > [data-spot-next] {
@@ -311,9 +307,8 @@ const arrowBtn =
     align-items: center;
     gap: var(--wg-foot-gap);
   }
-  /* Hi-fi stage: a discreet dot grid, like a measuring canvas. It follows the wireframe
-     mat logic, with 40px of dots above and below the screens rather than the whole stage.
-     The dots fade on the same rhythm as the screens, with an elliptical vignette. */
+  /* Hi-fi stage: the same surface as the wireframe mat (same insets, same fade), with a
+     Canva-style dot field instead of the cutting grid. */
   .wg-spot-mat {
     position: absolute;
     /* 16 above and below the screens, so the dots frame them evenly and stay clear of the
@@ -326,24 +321,10 @@ const arrowBtn =
       transparent theme("spacing.xxs")
     );
     background-size: calc(theme("spacing.md") * 0.875) calc(theme("spacing.md") * 0.875);
-    /* Vignette that reaches zero exactly at the mat edges (closest-side ellipse), with
-       eased stops: no visible boundary, dots fade with the screens. */
-    -webkit-mask-image: radial-gradient(
-      closest-side at 50% 50%,
-      #000 0%,
-      #000 34%,
-      rgba(0, 0, 0, 0.8) 56%,
-      rgba(0, 0, 0, 0.45) 78%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      closest-side at 50% 50%,
-      #000 0%,
-      #000 34%,
-      rgba(0, 0, 0, 0.8) 56%,
-      rgba(0, 0, 0, 0.45) 78%,
-      transparent 100%
-    );
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
+    mask-composite: intersect;
   }
   .wg-track {
     position: absolute;
@@ -355,8 +336,12 @@ const arrowBtn =
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     padding-bottom: var(--wg-foot-pad);
-    padding-inline-start: calc(50cqw - var(--band) * var(--first-ar) / 2);
+    padding-inline-start: theme("spacing.md");
     padding-inline-end: calc(50cqw - var(--band) * var(--last-ar) / 2);
+    /* Right edge only, like the wireframe rail: the first screen is fully visible at the
+       left edge, the incoming screens fade out on the right. */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
   }
   .wg-track::-webkit-scrollbar {
     display: none;
@@ -410,6 +395,7 @@ const arrowBtn =
     }
     .wg-track {
       gap: theme("spacing.lg");
+      padding-inline-start: 0;
     }
   }
 </style>
@@ -425,9 +411,6 @@ const arrowBtn =
     const prev = root.querySelector<HTMLButtonElement>("[data-spot-prev]");
     const next = root.querySelector<HTMLButtonElement>("[data-spot-next]");
     const title = root.querySelector<HTMLElement>("[data-spot-title]");
-    const chip = root.querySelector<HTMLElement>("[data-device-chip]");
-    // Scoped to the chip: the screens also carry a data-device-label attribute.
-    const chipLabel = chip?.querySelector<HTMLElement>("[data-device-label]");
     const zoom = root.querySelector<HTMLButtonElement>("[data-spot-zoom]");
     const count = root.querySelector<HTMLElement>("[data-spot-count]");
     const template = root.dataset.countTemplate ?? "{n} / {total}";
@@ -442,8 +425,6 @@ const arrowBtn =
       if (prev) prev.disabled = i === 0;
       if (next) next.disabled = i === items.length - 1;
       if (title) title.textContent = items[i].dataset.caption ?? "";
-      if (chip) chip.dataset.device = items[i].dataset.device ?? "phone";
-      if (chipLabel) chipLabel.textContent = items[i].dataset.deviceLabel ?? "";
       if (zoom) zoom.disabled = items[i].dataset.hasZoom !== "true";
       if (count) count.textContent = template.replace("{n}", String(i + 1)).replace("{total}", String(items.length));
     };
@@ -466,16 +447,23 @@ const arrowBtn =
       () => {
         cancelAnimationFrame(frame);
         frame = requestAnimationFrame(() => {
-          const mid = track.scrollLeft + track.clientWidth / 2;
+          const max = track.scrollWidth - track.clientWidth;
           let best = 0;
-          let bestDist = Infinity;
-          items.forEach((el, k) => {
-            const dist = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
-            if (dist < bestDist) {
-              bestDist = dist;
-              best = k;
+          if (track.scrollLeft > 1 && max > 1) {
+            if (track.scrollLeft >= max - 1) {
+              best = items.length - 1;
+            } else {
+              const mid = track.scrollLeft + track.clientWidth / 2;
+              let bestDist = Infinity;
+              items.forEach((el, k) => {
+                const dist = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
+                if (dist < bestDist) {
+                  bestDist = dist;
+                  best = k;
+                }
+              });
             }
-          });
+          }
           set(best);
         });
       },

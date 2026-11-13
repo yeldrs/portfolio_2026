@@ -33,15 +33,6 @@ en:
         - label: "Claude"
         - label: "Astro"
         - label: "Tailwind CSS"
-      media:
-        - gallery: "grid"
-          screens:
-            - caption: "Image viewer, desktop."
-              src: "portfolio-build-01.webp"
-              alt: "Case-study page on desktop with a figure open in the fullscreen image viewer, with previous and next arrows and a close button."
-            - caption: "The /fr route, mobile."
-              src: "portfolio-build-02.webp"
-              alt: "French case-study page on a phone: the title, the Diagnostic heading and the Contexte section, all in French."
 fr:
   title: "Développement"
   globalText: "J'écris le brief et les critères d'acceptation, puis je relis. Je vérifie chaque résultat dans le produit lui-même, pas seulement dans le code. Quand un agent se trompe, la leçon devient une règle."
@@ -70,12 +61,3 @@ fr:
         - label: "Claude"
         - label: "Astro"
         - label: "Tailwind CSS"
-      media:
-        - gallery: "grid"
-          screens:
-            - caption: "La visionneuse d'images, desktop."
-              src: "portfolio-build-01.webp"
-              alt: "Page d'étude de cas sur desktop avec une figure ouverte dans la visionneuse d'images plein écran, avec flèches précédent et suivant et bouton de fermeture."
-            - caption: "La route /fr, mobile."
-              src: "portfolio-build-02.webp"
-              alt: "Page d'étude de cas en français sur un téléphone : le titre, le titre Diagnostic et la section Contexte, en français."
