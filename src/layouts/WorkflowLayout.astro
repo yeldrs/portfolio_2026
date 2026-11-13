@@ -5,7 +5,8 @@ import WorkflowProjectTabs from "../components/workflow/WorkflowProjectTabs.astr
 import WorkflowStep from "../components/workflow/WorkflowStep.astro";
 import WorkflowStepNav from "../components/workflow/WorkflowStepNav.astro";
 import WorkflowToolList from "../components/workflow/WorkflowToolList.astro";
-import { getWorkflowSteps, getUsedTools } from "../data/workflow.loader";
+import { getWorkflowSteps } from "../data/workflow.loader";
+import { favoriteTools, toolNames } from "../data/workflow.tools";
 import { workflow as workflowEn } from "../data/workflow.en";
 import { workflow as workflowFr } from "../data/workflow.fr";
 import { useTranslations } from "../i18n/utils";
@@ -18,7 +19,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const page = lang === "fr" ? workflowFr : workflowEn;
 const steps = await getWorkflowSteps(lang);
-const usedTools = getUsedTools(steps);
+const favorites = favoriteTools.map((id) => ({ id, name: toolNames[id] ?? id }));
 ---
 
 {/* File: src/layouts/WorkflowLayout.astro */}
@@ -53,7 +54,7 @@ const usedTools = getUsedTools(steps);
       </h1>
       <p class="m-0 max-w-prose text-lg leading-normal text-text-body-secondary">{page.intro}</p>
       <div class="mt-md">
-        <WorkflowToolList lang={lang} tools={usedTools} />
+        <WorkflowToolList lang={lang} tools={favorites} />
       </div>
     </header>
 
@@ -62,7 +63,7 @@ const usedTools = getUsedTools(steps);
     <div class="mt-lg grid grid-cols-1 gap-x-3xl md:grid-cols-[minmax(0,2fr)_minmax(0,7fr)]">
       <WorkflowStepNav lang={lang} steps={steps} variant="desktop" />
       <div class="group/tabs" role="radiogroup" aria-label={t("workflow.projectAria")}>
-        <WorkflowProjectTabs lang={lang} intros={page.projectIntros} />
+        <WorkflowProjectTabs lang={lang} intros={page.projects} />
         <div>
           {steps.map((step) => <WorkflowStep lang={lang} step={step} />)}
         </div>
@@ -71,6 +72,95 @@ const usedTools = getUsedTools(steps);
   </Container>
   <ImageModal />
 </div>
+
+<script>
+  // Position memory. Refresh: same project, same scroll position. Switching project: the step
+  // that was under the sticky stack stays there (the projects share the same steps, but their
+  // heights differ, so the browser would otherwise land somewhere else).
+  const KEY = `workflow-state:${location.pathname}`;
+  const radios = Array.from(document.querySelectorAll<HTMLInputElement>('input[name="workflow-project"]'));
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("section[data-step]"));
+  type State = { project: number; y: number; step: string | null; offset: number };
+  const read = (): State | null => {
+    try {
+      return JSON.parse(sessionStorage.getItem(KEY) ?? "null");
+    } catch {
+      return null;
+    }
+  };
+  const write = (s: State) => {
+    try {
+      sessionStorage.setItem(KEY, JSON.stringify(s));
+    } catch {
+      /* storage unavailable: the page still works, it just forgets */
+    }
+  };
+  const stickyLine = () => {
+    const root = document.documentElement.style;
+    const px = (name: string) => parseFloat(root.getPropertyValue(name)) || 0;
+    return px("--site-nav-h") + px("--step-menu-h") + px("--tabs-h");
+  };
+  const current = (): State => {
+    const line = stickyLine() + 8;
+    const hit = sections.find((s) => {
+      const r = s.getBoundingClientRect();
+      return r.top <= line && r.bottom > line;
+    });
+    return {
+      project: Math.max(0, radios.findIndex((r) => r.checked)),
+      y: window.scrollY,
+      step: hit?.id ?? null,
+      offset: hit ? hit.getBoundingClientRect().top - line : 0,
+    };
+  };
+
+  let last = read() ?? current();
+  let touched = false;
+  const markTouched = () => (touched = true);
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach((e) => window.addEventListener(e, markTouched, { passive: true }));
+
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  const saved = read();
+  if (saved && radios[saved.project]) radios[saved.project].checked = true;
+  if (saved) {
+    const restore = () => {
+      if (!touched) window.scrollTo(0, saved.y);
+    };
+    restore();
+    window.addEventListener("load", restore, { once: true });
+    if (document.fonts?.ready) document.fonts.ready.then(restore);
+  }
+
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        last = current();
+        write(last);
+      });
+    },
+    { passive: true },
+  );
+
+  radios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      const anchor = last;
+      const section = anchor.step ? document.getElementById(anchor.step) : null;
+      if (section) {
+        const line = stickyLine() + 8;
+        const target = section.getBoundingClientRect().top + window.scrollY - line - anchor.offset;
+        window.scrollTo(0, Math.max(0, target));
+      }
+      last = current();
+      write(last);
+    });
+  });
+  window.addEventListener("pagehide", () => write(current()));
+</script>
 
 <script>
   // Screenshots open in the site's preview modal; the arrows page through the screens

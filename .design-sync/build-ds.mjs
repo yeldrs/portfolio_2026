@@ -26,8 +26,8 @@ fs.mkdirSync(out, { recursive: true });
 // ---- assets
 for (const f of ["lora-italic-latin-var.woff2", "lora-latin-var.woff2", "manrope-latin-var.woff2"])
   cp(`public/fonts/${f}`, `fonts/${f}`);
-for (const f of ["coverProject-900care.webp", "coverProject-batchcooking.webp", "coverProject-cdc.webp"])
-  cp(`public/images/${f}`, `assets/images/${f}`);
+for (const [dir, name] of [["900care", "900care"], ["batchcooking", "batchcooking"], ["caissedesdepots", "cdc"]])
+  cp(`public/images/${dir}/cover.webp`, `assets/images/coverProject-${name}.webp`);
 cp("public/favicon.svg", "assets/favicon.svg");
 
 // ---- colors_and_type.css

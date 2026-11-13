@@ -1,30 +1,30 @@
 semanticSlug: "depotsetconsignations"
 publishDate: "2022-05-15"
 isDraft: false
-cover: /images/coverProject-cdc.webp
+cover: /images/caissedesdepots/cover.webp
 images:
   context:
-    main: /images/project-2/conceptBrief.webp
+    main: /images/caissedesdepots/conceptBrief.webp
     secondary: ""
   role:
-    main: /images/project-2/crazy8.webp
+    main: /images/caissedesdepots/crazy8.webp
     secondary: ""
   conception:
-    main: /images/project-2/packaging.webp
+    main: /images/caissedesdepots/packaging.webp
     secondary: ""
   results:
-    main: /images/project-2/magazineCdc.webp
+    main: /images/caissedesdepots/magazineCdc.webp
     secondary: ""
   carousel:
-    - /images/project-2/storyBoardCdc.webp
-    - /images/project-2/kickoffCdc.webp
-    - /images/project-2/distributeCdc.webp
-    - /images/project-2/fillTilesCdc.webp
-    - /images/project-2/mapCdc.webp
-    - /images/project-2/reviewsCdc.webp
-    - /images/project-2/checkCdc.webp
-    - /images/project-2/editCdc.webp
-    - /images/project-2/degitalCdc.webp
+    - /images/caissedesdepots/storyBoardCdc.webp
+    - /images/caissedesdepots/kickoffCdc.webp
+    - /images/caissedesdepots/distributeCdc.webp
+    - /images/caissedesdepots/fillTilesCdc.webp
+    - /images/caissedesdepots/mapCdc.webp
+    - /images/caissedesdepots/reviewsCdc.webp
+    - /images/caissedesdepots/checkCdc.webp
+    - /images/caissedesdepots/editCdc.webp
+    - /images/caissedesdepots/degitalCdc.webp
 credits:
   client:
     link: https://www.caissedesdepots.fr/

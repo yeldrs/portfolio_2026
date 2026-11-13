@@ -1,57 +1,54 @@
-# Step 2: Research
+# Step 2: Research. Text: workflow/content.yml. Media (media:) lives here.
 order: 2
-teaserTools: [notion, typeform, optimal-workshop]
-
+teaserTools:
+  - "notion"
+  - "typeform"
+  - "optimal-workshop"
 en:
   title: "Research"
-  globalText: "Research here means gathering enough ground truth to write constraints an agent can follow. Depending on the product, that is user research or a visual brief. Either way the output is a written constraints document, not a pile of references."
+  globalText: "I research until I can write constraints that the design and the agents must respect. The result is a written constraints document, not a pile of references."
   blocks:
-    - project: tenon
-      approachLabel: "Moodboard to constraints file"
-      approach: "Each moodboard image was analysed on its own, with no color stated as certain and contradictions between references named. The result is a constraints file readable by any AI without seeing the moodboard, with estimated values marked and open decisions flagged as pending. Generated ambiance images set the mood only, never a specification."
-      tools:
-        - { id: gemini, label: "Gemini", note: "ambiance images" }
-        - { id: notion, label: "Notion", note: "prompt playbook" }
-      constraints: "A semi-realistic, simplified wood look that the agents could not infer from references alone."
-      correction: "The image generator does not count and adds plausible elements nobody asked for. I now describe exactly the number, relations and allowed elements, check each image against a checklist, and treat the result as an ambiance target, never a specification."
-    - project: food-journal
-      approachLabel: "User research, then rules"
-      approach: "A first MVP, built in a no-code site builder, was used for two months. I then ran qualitative and quantitative research in public communities, online discussions and with practitioners, and turned it into written product constraints, enriched with retrieved literature on care design. I also ran an unmoderated tree test of the information architecture."
-      tools:
-        - { id: wixstudio, label: "WixStudio", note: "first MVP" }
-        - { id: typeform, label: "Typeform", note: "questionnaires" }
-        - { label: "Otter.ai", note: "interview transcripts" }
-        - { id: uxtweak, label: "UXtweak", note: "tree testing" }
-        - { id: notion, label: "Notion", note: "notes" }
-        - { label: "Retrieval over literature" }
-      constraints: "The research data exists but stays unpublished. No figure appears on the page until it is traced to its original source."
-      correction: "I set the two-month MVP aside instead of extending it, and restarted from research."
-    - project: portfolio
-      status: not-applicable
-
+    - project: "tenon"
+      points:
+        - "Competitive review of the Play Store and the App Store. I compared the available environments and the AI-compatible tools for building a mobile game."
+        - "Playing the physical puzzle showed me that the rules are simple but hard to guess. Like chess: you see the squares, not the legal moves. The game has to teach them."
+        - "A physical puzzle is handled in three dimensions, while a fixed screen flattens the experience and shortens how long people stay with it. The game needs elements that keep players engaged longer."
+      tools: []
+    - project: "food-journal"
+      points:
+        - "I defined four areas of study: the qualitative and quantitative views of health professionals, then those of individuals."
+        - "I drew on a substantial body of documentation: a review of the scientific literature on chronic eating and digestive disorders, a guide to good vocabulary practice for vulnerable audiences, and a study of existing apps."
+        - "I contacted health professionals (dietetics, gastroenterology, psychology) and people affected, to test my vision against the reality on the ground. Their answers, and those from the questionnaire, help me confirm or correct my UX vision."
+      tools: []
+      gate: true
+    - project: "portfolio"
+      points:
+        - "I ran a benchmark of senior portfolios and kept watch on what French and American tech companies expect."
+        - "I tested my Figma mockups with 7 different people, on mobile, desktop and tablet."
+        - "Professionals from different sectors (design, ergonomics, etc.) reviewed the wording and copy to check that the text was understandable."
+        - "The conclusion: lean more on my methodology and technique than on the final visual result."
+      tools: []
 fr:
   title: "Recherche"
-  globalText: "La recherche consiste ici à réunir assez de vérités de terrain pour écrire des contraintes qu'un agent peut suivre. Selon le produit, il s'agit de recherche utilisateur ou d'un brief visuel. Dans les deux cas, le résultat est un document de contraintes écrit, pas un tas de références."
+  globalText: "Je fais de la recherche jusqu'à pouvoir écrire des contraintes que le design et les agents doivent respecter. Le résultat est un document de contraintes écrit, pas un tas de références."
   blocks:
-    - project: tenon
-      approachLabel: "Du moodboard au fichier de contraintes"
-      approach: "Chaque image du moodboard a été analysée seule, sans couleur présentée comme certaine et avec les contradictions entre références nommées. Le résultat est un fichier de contraintes lisible par n'importe quelle IA sans voir le moodboard, avec les valeurs estimées marquées et les décisions ouvertes signalées comme en attente. Les images d'ambiance générées fixent l'atmosphère seulement, jamais une spécification."
-      tools:
-        - { id: gemini, label: "Gemini", note: "images d'ambiance" }
-        - { id: notion, label: "Notion", note: "playbook de prompts" }
-      constraints: "Un rendu bois semi-réaliste et simplifié que les agents ne pouvaient pas déduire des seules références."
-      correction: "Le générateur d'images ne compte pas et ajoute des éléments plausibles que personne n'a demandés. Je décris maintenant exactement le nombre, les relations et les éléments autorisés, je vérifie chaque image avec une checklist, et je traite le résultat comme une cible d'ambiance, jamais comme une spécification."
-    - project: food-journal
-      approachLabel: "Recherche utilisateur, puis règles"
-      approach: "Un premier MVP, construit dans un créateur de site no-code, a été utilisé pendant deux mois. J'ai ensuite mené une recherche qualitative et quantitative dans des communautés publiques, des discussions en ligne et auprès de praticiens, et je l'ai transformée en contraintes produit écrites, enrichies de littérature récupérée sur la conception du soin. J'ai aussi mené un test d'arborescence non modéré de l'architecture de l'information."
-      tools:
-        - { id: wixstudio, label: "WixStudio", note: "premier MVP" }
-        - { id: typeform, label: "Typeform", note: "questionnaires" }
-        - { label: "Otter.ai", note: "transcription d'entretiens" }
-        - { id: uxtweak, label: "UXtweak", note: "test d'arborescence" }
-        - { id: notion, label: "Notion", note: "notes" }
-        - { label: "Recherche documentaire dans la littérature" }
-      constraints: "Les données de recherche existent mais restent non publiées. Aucun chiffre n'apparaît sur la page tant qu'il n'est pas relié à sa source d'origine."
-      correction: "J'ai mis de côté le MVP de deux mois au lieu de l'étendre, et je suis reparti de la recherche."
-    - project: portfolio
-      status: not-applicable
+    - project: "tenon"
+      points:
+        - "Veille concurrentielle sur le Play Store et l'App Store. J'ai comparé les différents environnements et les outils de conception de jeu mobile compatibles avec l'IA."
+        - "En testant la version physique du jeu, j'ai constaté que les règles sont simples mais ne se devinent pas. Comme aux échecs : on voit les cases, pas les coups permis. Le jeu doit donc les enseigner."
+        - "Un casse-tête physique se manipule en 3 dimensions, alors qu'un écran fixe appauvrit l'expérience et la durée d'utilisation. Il faut donc des éléments qui encouragent la durée d'utilisation."
+      tools: []
+    - project: "food-journal"
+      points:
+        - "J'ai défini quatre axes d'étude : le regard qualitatif et quantitatif des professionnels de santé, puis celui des particuliers."
+        - "Je me suis appuyé sur un socle documentaire important : une revue de la littérature scientifique sur les troubles alimentaires et digestifs chroniques, un guide de bonnes pratiques de vocabulaire pour les publics vulnérables et une étude des applications existantes."
+        - "J'ai contacté des professionnels de santé (diététique, gastro-entérologie, psychologie) et des personnes concernées, pour confronter ma vision à la réalité du terrain. Leurs réponses et celles du questionnaire servent à confirmer ou à corriger ma vision de l'UX."
+      tools: []
+      gate: true
+    - project: "portfolio"
+      points:
+        - "J'ai fait un benchmark de portfolios seniors et une veille sur les attentes des entreprises tech françaises et américaines."
+        - "J'ai testé mes maquettes Figma auprès de 7 personnes différentes, sur mobile, desktop et tablette."
+        - "Le wording et la copie ont été relus par des professionnels de secteurs différents (design, ergonomie, etc.) pour vérifier que le texte se comprend."
+        - "La conclusion : m'appuyer davantage sur ma méthodologie et ma technique que sur le rendu visuel final."
+      tools: []

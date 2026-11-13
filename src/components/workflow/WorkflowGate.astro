@@ -1,0 +1,37 @@
+---
+import Button from "../Button.astro";
+import { useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  lang: "en" | "fr";
+  /** "full" = the barrier under the last visible text; "locked" = one line in the steps that follow. */
+  variant: "full" | "locked";
+}
+
+const { lang, variant } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{/* File: src/components/workflow/WorkflowGate.astro */}
+{
+  variant === "full" ? (
+    <div class="relative z-[1] flex flex-col items-center gap-sm rounded-card border border-stroke-secondary bg-background-primary p-lg text-center shadow-md">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-lg w-lg text-text-body-accent">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z" />
+      </svg>
+      <p class="m-0 font-serif text-2xl font-semibold">{t("workflow.gateTitle")}</p>
+      <p class="m-0 max-w-prose text-base leading-normal text-text-body-secondary">{t("workflow.gateBody")}</p>
+      <Button href="#contact" variant="secondary" data-umami-event="workflow-gate-cta">
+        {t("workflow.gateCta")}
+      </Button>
+    </div>
+  ) : (
+    <p class="m-0 flex flex-wrap items-center gap-x-sm gap-y-xs text-base text-text-body-secondary">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-md w-md flex-none">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z" />
+      </svg>
+      <span>{t("workflow.gateLocked")}</span>
+      <a href="#contact" class="link font-semibold">{t("workflow.gateCta")}</a>
+    </p>
+  )
+}

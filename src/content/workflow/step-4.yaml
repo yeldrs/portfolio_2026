@@ -1,95 +1,81 @@
-# Step 4: Build with the agent
+# Step 4: Build. Text: workflow/content.yml. Media (media:) lives here.
 order: 4
-teaserTools: [claude-code, opencode, gemini, godot]
-
+teaserTools:
+  - "claude-code"
+  - "opencode"
+  - "gemini"
+  - "godot"
 en:
   title: "Build"
-  globalText: "My part is the brief, the acceptance criteria and the review. The agent writes code in small steps, and I check each result in the product itself, not in the diff alone. When the agent gets something wrong, the lesson goes into the rulebook so it does not repeat."
+  globalText: "I write the brief and the acceptance criteria, then review. I check every result in the product itself, not only in the code. When an agent gets something wrong, the lesson becomes a rule."
   blocks:
-    - project: tenon
-      approachLabel: "One screen at a time"
-      approach: "A visual layer is iterated on a single screen with mandatory stops and before and after captures, and the other screens stay untouched until it is validated. I validate on a real device. Product decisions stayed with me: removing the 3D version, a first release without ads, the name, the thread-drag rules for a thrown peg. I wrote no application code by hand; my technical work was review and audits."
+    - project: "tenon"
+      points:
+        - "Godot, driven mostly with Claude Code at first, then with DeepSeek and Gemini."
+        - "One screen at a time, with stops and before and after captures. I validate on a real phone before moving to the next screen."
+        - "I wrote no application code by hand. My technical work was auditing and checking."
       tools:
-        - { id: claude-code, label: "Claude Code", note: "one screen at a time, stops" }
-        - { id: gemini, label: "Gemini" }
-        - { id: godot, label: "Godot" }
-        - { label: "A second agent tool" }
-      constraints: "A phone screen, physics for a peg held by a thread (drag, throw, gravity, bounce), Material 3 sizes."
-      correction: "I built two renders, 3D and 2D, before testing on a device, and the 3D version was removed. The rule since: test on a device before duplicating a pipeline. A shader edit applied by text replacement also failed silently; I now re-read every replacement before tuning values."
-    - project: food-journal
-      approachLabel: "Server components, PRs, real browser"
-      approach: "Each agent builds in an isolated worktree on its own branch, and changes reach main through pull requests (six in the redesign phase). Pages are server components that read data and pass plain props to a few client components; writes go through server actions. Every feature is also checked in a real browser through a browser tool, not only by the type checker."
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Godot"
+        - label: "DeepSeek"
+        - label: "Gemini"
+      correction: "I had built two renders, 2D and 3D. The 3D one weighed down the rendering and testers saw no point in it, so I removed it and replaced it with free peg movement."
+    - project: "food-journal"
+      status: "teaser"
+    - project: "portfolio"
+      points:
+        - "My Claude Code agent reads the repository in real time and follows my constraint files, my context and my skills."
+        - "A skill formats my project writing as YAML. The agent only structures the text, which stays editable by hand at any time."
       tools:
-        - { id: nextjs, label: "Next.js 16", note: "server components, actions" }
-        - { label: "React 19", note: "client components" }
-        - { label: "Supabase", note: "row-level security" }
-        - { id: claude-code, label: "Claude Code", note: "worktrees, pull requests" }
-        - { id: opencode, label: "OpenCode", note: "worktrees, pull requests" }
-        - { label: "A browser tool", note: "real-browser checks" }
-        - { id: vercel, label: "Vercel" }
-      constraints: "Row-level security from the first migration, privileged reads separated from privileged writes, and public report pages that can never write."
-      correction: "A class-merging helper silently dropped one of two custom text classes. I extended it so it knows the custom tokens."
-    - project: portfolio
-      approachLabel: "Phased restructure"
-      approach: "The September 2026 restructure was split into six phase commits, each with verification notes: build passing, type check clean, rendered text identical to the baseline. Content moved from per-locale Markdown files to one YAML file per case study, validated by a schema that fails the build on a malformed entry. Repeated blocks became components, and clickable figures gained keyboard access."
-      tools:
-        - { id: claude-code, label: "Claude Code", note: "phased restructure" }
-        - { id: opencode, label: "OpenCode", note: "phased restructure" }
-        - { id: astro, label: "Astro 5", note: "static output, EN/FR routes" }
-        - { id: zod, label: "Zod", note: "schema validation" }
-        - { id: tailwind, label: "Tailwind CSS 3" }
-      constraints: "Fully static output, English at the root and French under /fr, and case studies that can be added without touching the template."
-      correction: "The fullscreen image viewer paged through empty image slots because it received the whole positional array. It now receives only the carousel images. French routing also returned 404 errors under the file build format until I added a redirect and fixed the links."
-      screens:
-        - caption: "Image viewer, desktop."
-          src: "portfolio-build-01.webp"
-          alt: "Case-study page on desktop with a figure open in the fullscreen image viewer, with previous and next arrows and a close button."
-        - caption: "The /fr route, mobile."
-          src: "portfolio-build-02.webp"
-          alt: "French case-study page on a phone: the title, the Diagnostic heading and the Contexte section, all in French."
-
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Claude"
+        - label: "Astro"
+        - label: "Tailwind CSS"
+      media:
+        - gallery: "grid"
+          screens:
+            - caption: "Image viewer, desktop."
+              src: "portfolio-build-01.webp"
+              alt: "Case-study page on desktop with a figure open in the fullscreen image viewer, with previous and next arrows and a close button."
+            - caption: "The /fr route, mobile."
+              src: "portfolio-build-02.webp"
+              alt: "French case-study page on a phone: the title, the Diagnostic heading and the Contexte section, all in French."
 fr:
-  title: "Construction"
-  globalText: "Ma part est le brief, les critères d'acceptation et la relecture. L'agent écrit le code par petites étapes, et je vérifie chaque résultat dans le produit lui-même, pas seulement dans le diff. Quand l'agent se trompe, la leçon entre dans le recueil de règles pour qu'elle ne se répète pas."
+  title: "Développement"
+  globalText: "J'écris le brief et les critères d'acceptation, puis je relis. Je vérifie chaque résultat dans le produit lui-même, pas seulement dans le code. Quand un agent se trompe, la leçon devient une règle."
   blocks:
-    - project: tenon
-      approachLabel: "Un écran à la fois"
-      approach: "Une couche visuelle est itérée sur un seul écran avec des arrêts obligatoires et des captures avant et après, et les autres écrans restent intacts jusqu'à validation. Je valide sur un vrai appareil. Les décisions produit sont restées à moi : retirer la version 3D, une première version sans publicité, le nom, les règles de glissement au fil pour un pion lancé. Je n'ai écrit aucun code applicatif à la main ; mon travail technique a été la relecture et les audits."
+    - project: "tenon"
+      points:
+        - "Godot, piloté surtout avec Claude Code au départ, puis avec DeepSeek et Gemini."
+        - "Un écran à la fois, avec des arrêts et des captures avant et après. Je valide sur un vrai téléphone avant de passer au suivant."
+        - "Je n'ai écrit aucun code applicatif à la main. Mon travail technique fut l'audit et la vérification."
       tools:
-        - { id: claude-code, label: "Claude Code", note: "un écran à la fois, arrêts" }
-        - { id: gemini, label: "Gemini" }
-        - { id: godot, label: "Godot" }
-        - { label: "Un second outil d'agent" }
-      constraints: "Un écran de téléphone, une physique pour un pion tenu par un fil (glisser, lancer, gravité, rebond), des tailles Material 3."
-      correction: "J'ai construit deux rendus, 3D et 2D, avant de tester sur un appareil, et la version 3D a été retirée. La règle depuis : tester sur un appareil avant de dupliquer un pipeline. Une modification de shader appliquée par remplacement de texte a aussi échoué silencieusement ; je relis maintenant chaque remplacement avant d'ajuster les valeurs."
-    - project: food-journal
-      approachLabel: "Composants serveur, PR, vrai navigateur"
-      approach: "Chaque agent construit dans un worktree isolé sur sa propre branche, et les changements arrivent sur main par des pull requests (six pendant la phase de refonte). Les pages sont des composants serveur qui lisent les données et passent des props simples à quelques composants client ; les écritures passent par des actions serveur. Chaque fonctionnalité est aussi vérifiée dans un vrai navigateur via un outil de navigation, pas seulement par le vérificateur de types."
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Godot"
+        - label: "DeepSeek"
+        - label: "Gemini"
+      correction: "J'avais construit deux rendus, 2D et 3D. La 3D alourdissait le rendu, et les testeurs n'en voyaient pas l'intérêt. Je l'ai donc retirée et remplacée par le déplacement libre des pions."
+    - project: "food-journal"
+      status: "teaser"
+    - project: "portfolio"
+      points:
+        - "Mon agent Claude Code lit le dépôt en temps réel et suit mes fichiers de contraintes, mon contexte et mes skills."
+        - "Un skill me permet de formater en YAML la rédaction de mes projets. L'agent ne fait que structurer le texte, qui reste modifiable à la main à tout moment."
       tools:
-        - { id: nextjs, label: "Next.js 16", note: "composants serveur, actions" }
-        - { label: "React 19", note: "composants client" }
-        - { label: "Supabase", note: "sécurité par ligne" }
-        - { id: claude-code, label: "Claude Code", note: "worktrees, pull requests" }
-        - { id: opencode, label: "OpenCode", note: "worktrees, pull requests" }
-        - { label: "Un outil de navigation", note: "tests en vrai navigateur" }
-        - { id: vercel, label: "Vercel" }
-      constraints: "Sécurité au niveau des lignes dès la première migration, lectures privilégiées séparées des écritures privilégiées, et pages de rapport publiques qui ne peuvent jamais écrire."
-      correction: "Un utilitaire de fusion de classes supprimait silencieusement l'une de deux classes de texte personnalisées. Je l'ai étendu pour qu'il connaisse les tokens personnalisés."
-    - project: portfolio
-      approachLabel: "Restructuration par phases"
-      approach: "La restructuration de septembre 2026 a été découpée en six commits de phase, chacun avec des notes de vérification : build qui passe, vérification de types propre, texte rendu identique à la référence. Le contenu est passé de fichiers Markdown par langue à un fichier YAML par étude de cas, validé par un schéma qui fait échouer le build sur une entrée mal formée. Les blocs répétés sont devenus des composants, et les figures cliquables ont gagné un accès au clavier."
-      tools:
-        - { id: claude-code, label: "Claude Code", note: "restructuration par phases" }
-        - { id: opencode, label: "OpenCode", note: "restructuration par phases" }
-        - { id: astro, label: "Astro 5", note: "sortie statique, routes EN/FR" }
-        - { id: zod, label: "Zod", note: "validation par schéma" }
-        - { id: tailwind, label: "Tailwind CSS 3" }
-      constraints: "Sortie entièrement statique, anglais à la racine et français sous /fr, et des études de cas qu'on peut ajouter sans toucher au modèle de page."
-      correction: "La visionneuse d'images plein écran parcourait des emplacements d'image vides parce qu'elle recevait tout le tableau positionnel. Elle ne reçoit maintenant que les images du carrousel. Le routage français renvoyait aussi des erreurs 404 avec le format de build en fichiers, jusqu'à ce que j'ajoute une redirection et corrige les liens."
-      screens:
-        - caption: "La visionneuse d'images, desktop."
-          src: "portfolio-build-01.webp"
-          alt: "Page d'étude de cas sur desktop avec une figure ouverte dans la visionneuse d'images plein écran, avec flèches précédent et suivant et bouton de fermeture."
-        - caption: "La route /fr, mobile."
-          src: "portfolio-build-02.webp"
-          alt: "Page d'étude de cas en français sur un téléphone : le titre, le titre Diagnostic et la section Contexte, en français."
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Claude"
+        - label: "Astro"
+        - label: "Tailwind CSS"
+      media:
+        - gallery: "grid"
+          screens:
+            - caption: "La visionneuse d'images, desktop."
+              src: "portfolio-build-01.webp"
+              alt: "Page d'étude de cas sur desktop avec une figure ouverte dans la visionneuse d'images plein écran, avec flèches précédent et suivant et bouton de fermeture."
+            - caption: "La route /fr, mobile."
+              src: "portfolio-build-02.webp"
+              alt: "Page d'étude de cas en français sur un téléphone : le titre, le titre Diagnostic et la section Contexte, en français."

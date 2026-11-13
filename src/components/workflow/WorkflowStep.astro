@@ -1,6 +1,7 @@
 ---
 import WorkflowStepIcon from "./WorkflowStepIcon.astro";
 import WorkflowBlock from "./WorkflowBlock.astro";
+import WorkflowGate from "./WorkflowGate.astro";
 import type { WorkflowStep } from "../../data/workflow.loader";
 import { useTranslations } from "../../i18n/utils";
 
@@ -49,6 +50,8 @@ const n = step.order;
         <div id={`tp-s${n}-${project.id}`} class:list={["hidden", panelOn[i]]}>
           {project.disabled ? (
             <p class="m-0 text-base text-text-body-secondary">{t("workflow.notApplicableStep")}</p>
+          ) : project.teaser ? (
+            <WorkflowGate lang={lang} variant="locked" />
           ) : (
             <div class="flex flex-col gap-lg">
               {project.blocks.length > 1 && (
@@ -68,12 +71,16 @@ const n = step.order;
                   </nav>
                 )}
               {project.blocks.map((block, j) => (
-                <WorkflowBlock
-                  lang={lang}
-                  block={block}
-                  id={`s${n}-${project.id}-${j}`}
-                  showHeading={project.blocks.length > 1}
-                />
+                block.gate ? (
+                  /* Press-style barrier: the text fades out, the card follows right under it. */
+                  <div class="relative">
+                    <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={project.blocks.length > 1} />
+                    <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-2xl bg-gradient-to-t from-background-page to-transparent" />
+                    <div class="mt-md"><WorkflowGate lang={lang} variant="full" /></div>
+                  </div>
+                ) : (
+                  <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={project.blocks.length > 1} />
+                )
               ))}
             </div>
           )}

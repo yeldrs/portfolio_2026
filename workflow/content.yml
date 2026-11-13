@@ -1,0 +1,399 @@
+# Textes de la page /workflow, EN + FR. Version recentrée sur mes décisions.
+# Schéma : points (puces courtes), correction (optionnel), globalText, heading (optionnel), tools, link, linkLabel, callToAction.
+# tools : les scripts, hooks et techniques ne sont plus listés (ce ne sont pas des outils).
+#   Les listes ont donc changé : faire le lien avec les logos par label, plus par position.
+# projects.portfolio.intro, projects.tenon.intro et projects.food-journal.intro : introduction du projet (3 phrases), nouveau champ.
+# tools du portfolio : étape 1 = tous les outils, étapes suivantes = outils propres à l'étape, aucun en recherche.
+# Portfolio : un seul bloc par étape.
+# Food Journal : projet en teaser, texte uniquement en étapes 1 et 2 (barrière et design gérés côté composant).
+
+page:
+  en:
+    eyebrow: "How I work"
+    title: "Design, code and AI, in one workflow"
+    intro: "I run my projects end to end with AI agents. I frame and design; they write the code, then I review and polish. Here are the five steps of my workflow, shown on three projects, with the tools I used and the mistakes I corrected along the way."
+    teaserIntro: "My agentic design practice: three projects, five steps, and the tools I use."
+  fr:
+    eyebrow: "Comment je travaille"
+    title: "Design, code et IA, dans un seul workflow"
+    intro: "Je mène mes projets de A à Z avec des agents IA. Je cadre et je conçois ; eux écrivent le code, puis je relis et je peaufine. Voici les cinq étapes de mon workflow, illustrées par trois projets : les outils utilisés et les erreurs corrigées en route."
+    teaserIntro: "Ma pratique du design agentique : trois projets, cinq étapes, et les outils que j'utilise."
+
+projects:
+  tenon:
+    en: "A mobile game on the Play Store, adapted from a wooden puzzle."
+    fr: "Un jeu mobile sur le Play Store, tiré d'un casse-tête en bois."
+    intro:
+      en: "Tenon is a mobile game adapted from a wooden puzzle: you swap the positions of pegs of different colors. It has been on the Play Store in early access since November 10, 2026. My goal: learn to design and publish a simple mobile game, working with AI agents."
+      fr: "Tenon est un jeu mobile, adapté d'un casse-tête en bois : il faut inverser l'emplacement des pions de couleurs différentes. Disponible sur le Play Store depuis le 10 novembre 2026, en accès anticipé. Mon objectif : apprendre à concevoir et à publier un jeu mobile simple, en travaillant avec des agents IA."
+  food-journal:
+    en: "A calm-UX web app to track meals and body signals, with no judgement and no anxiety-inducing diagnosis."
+    fr: "Une application web pour suivre ses repas et ses signaux corporels, en calm UX : sans jugement, sans diagnostic anxiogène."
+    intro:
+      en: "Solene is a platform for tracking food and emotional state. It is aimed especially at people living with an eating disorder or chronic digestive conditions, and at anyone who wants to understand their body's signals better. It started as a personal tool that notably helped my doctor diagnose my IBS."
+      fr: "Solene est une plateforme de suivi alimentaire et du ressenti émotionnel. Elle s'adresse notamment aux personnes qui vivent avec un trouble du comportement alimentaire ou des maladies digestives chroniques, ainsi qu'à toute personne qui souhaite mieux comprendre les signaux du corps. Au départ, c'était un outil personnel qui a notamment aidé mon médecin à diagnostiquer chez moi un SII."
+  portfolio:
+    en: "My portfolio. Third version, the first built with AI agents. Bilingual, EN and FR."
+    fr: "Mon portfolio. Troisième version, la première faite avec des agents IA. Bilingue FR et EN."
+    intro:
+      en: "My portfolio is on its third version: the first coded by hand (HTML, CSS, a little JavaScript), the second designed in Figma and coded with Gemini 2.5 Pro, and this one built with Claude Code. It exists in French and English. Its goal: to showcase my UX design projects and my ways of working."
+      fr: "Mon portfolio en est à sa troisième version : la première codée à la main (HTML, CSS, un peu de JavaScript), la deuxième conçue dans Figma et codée avec Gemini 2.5 Pro, celle-ci construite avec Claude Code. Il existe en français et en anglais. Son objectif : mettre en avant mes projets de design UX et mes méthodes de travail."
+
+steps:
+  - step: 1
+    en:
+      title: "Framing"
+      globalText: "Before any code or design, I decide what the project is, who it is for and where it stops. Then I turn that into a rulebook and skills that every agent session starts from."
+      blocks:
+        - project: tenon
+          points:
+            - "Visual direction is one of the game's main criteria. I aimed for a calm, wooden mood with light sound effects and soft music, plus a discreet layer of technology so the screen doesn't feel static."
+            - "After researching the technical tooling, I chose Godot, driven with Claude Code."
+            - "The design system will be useful when I develop the next levels."
+            - "My backlog is synchronized between Claude, GitHub and Notion. Agents maintain it automatically and I can still edit it by hand, as in an agile setup where each agent has its own tasks and tickets."
+            - "No marketing planned: it's a learning project with no financial cost. A light monetization is planned for the next release."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Claude" }
+            - { label: "Godot" }
+            - { label: "Notion" }
+            - { label: "GitHub" }
+            - { label: "Claude Design" }
+            - { label: "Gemini" }
+            - { label: "Google Play Console" }
+            - { label: "Play Store" }
+          correction: "Agents in different environments need the same source of truth. One synced backlog keeps them aligned when my decisions change."
+        - project: food-journal
+          points:
+            - "Most tracking apps chase performance or looks, which can be a problem for individuals."
+            - "Everyone should keep control of their goals and personal data."
+            - "Data entered by hand is hard to use effectively. Between two consultations, supporting patients can also be difficult."
+          tools: []
+        - project: portfolio
+          points:
+            - "I wanted a static site that I can edit without effort. No CMS, no online portfolio builder: I keep control of everything."
+            - "Text, images and projects live in YAML files that Astro templates read. To add or hide a project, I simply edit a text file."
+            - "Stack: Astro 5 with static output, Tailwind CSS 3, and GitHub Pages for deployment."
+            - "I set the agent's rules and constraints in a rulebook of about 120 lines, trimmed from 4.3k to 1.6k tokens in the latest refactoring."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Claude" }
+            - { label: "GitHub" }
+            - { label: "Astro" }
+            - { label: "Tailwind CSS" }
+            - { label: "Figma" }
+            - { label: "Figma MCP" }
+            - { label: "Claude Design" }
+            - { label: "Gemini" }
+            - { label: "GitHub Pages" }
+            - { label: "Umami" }
+            - { label: "Google Search Console" }
+    fr:
+      title: "Cadrage"
+      globalText: "Avant tout code ou design, je décide de ce qu'est le projet, pour qui, et où il s'arrête. J'en fais ensuite un recueil de règles et des skills que chaque session d'agent relit au départ."
+      blocks:
+        - project: tenon
+          points:
+            - "La direction visuelle du jeu est l'un des critères principaux du jeu. J'ai défini une ambiance bois, calme, avec des bruitages légers et de la musique douce. Une couche de technologie discrète pour que l'écran ne reste pas figé."
+            - "Après une veille sur l'outillage technique, j'ai choisi Godot, piloté avec Claude Code."
+            - "Le design system est utile pour le développement des prochains niveaux."
+            - "Mon backlog est synchronisé entre Claude, GitHub et Notion. Il est automatiquement maintenu par les agents et reste modifiable à la main. Comme dans un fonctionnement agile, où chaque agent dispose de tâches et de tickets attribués."
+            - "Aucun marketing prévu : c'est un projet d'apprentissage sans coût financier. Une monétisation légère est prévue dans la prochaine release."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Claude" }
+            - { label: "Godot" }
+            - { label: "Notion" }
+            - { label: "GitHub" }
+            - { label: "Claude Design" }
+            - { label: "Gemini" }
+            - { label: "Google Play Console" }
+            - { label: "Play Store" }
+          correction: "Des agents dans des environnements différents ont besoin de la même source de vérité. Un seul backlog synchronisé les garde alignés quand mes décisions changent."
+        - project: food-journal
+          points:
+            - "Les applications de suivi courantes misent sur la performance ou l'esthétique, et peuvent poser problème à l'échelle individuelle."
+            - "Il appartient à chacun de garder la maîtrise de ses objectifs et de ses données personnelles."
+            - "Les données saisies à la main sont difficiles à exploiter efficacement. De plus, entre deux consultations, l'accompagnement des patients peut être compliqué."
+          tools: []
+        - project: portfolio
+          points:
+            - "Je voulais un site statique, modifiable sans effort. Ni CMS ni créateur de portfolio en ligne : je garde la main sur tout."
+            - "Textes, images et projets vivent dans des fichiers YAML que des templates Astro lisent. Pour ajouter ou cacher un projet, j'édite simplement un fichier texte."
+            - "Stack : Astro 5 en sortie statique, Tailwind CSS 3 et GitHub Pages pour le déploiement."
+            - "J'ai fixé les règles et les contraintes de l'agent dans un recueil d'environ 120 lignes, allégé de 4,3k à 1,6k tokens lors de la dernière refactorisation."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Claude" }
+            - { label: "GitHub" }
+            - { label: "Astro" }
+            - { label: "Tailwind CSS" }
+            - { label: "Figma" }
+            - { label: "Figma MCP" }
+            - { label: "Claude Design" }
+            - { label: "Gemini" }
+            - { label: "GitHub Pages" }
+            - { label: "Umami" }
+            - { label: "Google Search Console" }
+
+  - step: 2
+    en:
+      title: "Research"
+      globalText: "I research until I can write constraints that the design and the agents must respect. The result is a written constraints document, not a pile of references."
+      blocks:
+        - project: tenon
+          points:
+            - "Competitive review of the Play Store and the App Store. I compared the available environments and the AI-compatible tools for building a mobile game."
+            - "Playing the physical puzzle showed me that the rules are simple but hard to guess. Like chess: you see the squares, not the legal moves. The game has to teach them."
+            - "A physical puzzle is handled in three dimensions, while a fixed screen flattens the experience and shortens how long people stay with it. The game needs elements that keep players engaged longer."
+          tools: []
+        - project: food-journal
+          points:
+            - "I defined four areas of study: the qualitative and quantitative views of health professionals, then those of individuals."
+            - "I drew on a substantial body of documentation: a review of the scientific literature on chronic eating and digestive disorders, a guide to good vocabulary practice for vulnerable audiences, and a study of existing apps."
+            - "I contacted health professionals (dietetics, gastroenterology, psychology) and people affected, to test my vision against the reality on the ground. Their answers, and those from the questionnaire, help me confirm or correct my UX vision."
+          tools: []
+        - project: portfolio
+          points:
+            - "I ran a benchmark of senior portfolios and kept watch on what French and American tech companies expect."
+            - "I tested my Figma mockups with 7 different people, on mobile, desktop and tablet."
+            - "Professionals from different sectors (design, ergonomics, etc.) reviewed the wording and copy to check that the text was understandable."
+            - "The conclusion: lean more on my methodology and technique than on the final visual result."
+          tools: []
+    fr:
+      title: "Recherche"
+      globalText: "Je fais de la recherche jusqu'à pouvoir écrire des contraintes que le design et les agents doivent respecter. Le résultat est un document de contraintes écrit, pas un tas de références."
+      blocks:
+        - project: tenon
+          points:
+            - "Veille concurrentielle sur le Play Store et l'App Store. J'ai comparé les différents environnements et les outils de conception de jeu mobile compatibles avec l'IA."
+            - "En testant la version physique du jeu, j'ai constaté que les règles sont simples mais ne se devinent pas. Comme aux échecs : on voit les cases, pas les coups permis. Le jeu doit donc les enseigner."
+            - "Un casse-tête physique se manipule en 3 dimensions, alors qu'un écran fixe appauvrit l'expérience et la durée d'utilisation. Il faut donc des éléments qui encouragent la durée d'utilisation."
+          tools: []
+        - project: food-journal
+          points:
+            - "J'ai défini quatre axes d'étude : le regard qualitatif et quantitatif des professionnels de santé, puis celui des particuliers."
+            - "Je me suis appuyé sur un socle documentaire important : une revue de la littérature scientifique sur les troubles alimentaires et digestifs chroniques, un guide de bonnes pratiques de vocabulaire pour les publics vulnérables et une étude des applications existantes."
+            - "J'ai contacté des professionnels de santé (diététique, gastro-entérologie, psychologie) et des personnes concernées, pour confronter ma vision à la réalité du terrain. Leurs réponses et celles du questionnaire servent à confirmer ou à corriger ma vision de l'UX."
+          tools: []
+        - project: portfolio
+          points:
+            - "J'ai fait un benchmark de portfolios seniors et une veille sur les attentes des entreprises tech françaises et américaines."
+            - "J'ai testé mes maquettes Figma auprès de 7 personnes différentes, sur mobile, desktop et tablette."
+            - "Le wording et la copie ont été relus par des professionnels de secteurs différents (design, ergonomie, etc.) pour vérifier que le texte se comprend."
+            - "La conclusion : m'appuyer davantage sur ma méthodologie et ma technique que sur le rendu visuel final."
+          tools: []
+
+  - step: 3
+    en:
+      title: "Design"
+      globalText: "Wireframes come first and fix the structure and states of each screen. The design system lives in one place that the code reads, the design tokens, and is never hardcoded in components."
+      blocks:
+        - project: tenon
+          heading: "Wireframes"
+          points:
+            - "I listed the pages, their content and the features, then generated wireframes from that."
+            - "From the wireframes I drew up the list of components for the UI kit."
+          tools:
+            - { label: "Claude Design" }
+        - project: tenon
+          heading: "Design system and wood material"
+          points:
+            - "I gathered the Material Design 3 library, Android's design system, on GitHub so my agents can read it."
+            - "For the visual direction, I started from royalty-free textures and reworked them with tokens that translate wood species into an interface language."
+            - "I laid these textures over Material 3's native components: raw wood with a thin high-tech layer."
+            - "The UI kit is tailored to Android, highly customized and consistent across the whole interface."
+          tools:
+            - { label: "Claude Design" }
+            - { label: "Claude Code" }
+            - { label: "Godot" }
+            - { label: "GitHub" }
+          correction: "Keeping the visual direction consistent across every interface component was hard. I built an interactive space to browse the UI kit, with a comment area handled by a dedicated AI agent. Thanks to the tokens and the validated constraints, the design system now grows without friction."
+        - project: tenon
+          heading: "Rules, onboarding and reflective pause"
+          points:
+            - "A rules sheet in the settings, and a visual aid showing legal moves that can be switched off."
+            - "A three-step onboarding explains the goal and the three rules. It can be replayed from the settings, and it runs on a simulation board so it doesn't spoil the start of the solution."
+            - "Reflective pause: you can move the pegs freely along two axes and throw them, with sound effects. It doesn't count as a move, and the peg returns on its own."
+          tools: []
+        - project: portfolio
+          points:
+            - "I produced the wireframes and high-fidelity mockups in Figma, along with the design system, the UI kit and the tokens."
+            - "The site is mobile first, but designed to be responsive for presentations on a laptop. Components are therefore built for every device (mobile, tablet, desktop)."
+          tools:
+            - { label: "Figma" }
+            - { label: "Figma MCP" }
+            - { label: "Claude Code" }
+            - { label: "Claude Design" }
+            - { label: "Gemini" }
+          correction: "At first, the screenshots of my mockups that I gave Gemini lost part of the visual information, because it had no API or MCP access to Figma. An export of my tokens as JSON made up for some of it, but gaps remained because of the lost context. I fixed them by moving to Claude Code, with the Figma MCP integration."
+    fr:
+      title: "Design"
+      globalText: "Les wireframes passent en premier et fixent la structure et les états de chaque écran. Le design system vit à un seul endroit que le code lit, les design tokens, et n'est jamais écrit en dur dans les composants."
+      blocks:
+        - project: tenon
+          heading: "Wireframes"
+          points:
+            - "J'ai listé les pages, leur contenu ainsi que les fonctionnalités, afin de générer des wireframes."
+            - "J'en ai tiré une liste des composants pour l'UI kit."
+          tools:
+            - { label: "Claude Design" }
+        - project: tenon
+          heading: "Design system et matière bois"
+          points:
+            - "J'ai rassemblé la bibliothèque Material Design 3, le design system d'Android, sur GitHub pour que mes agents la lisent."
+            - "Pour la direction visuelle, je suis parti de textures libres de droit que j'ai modifiées à partir de tokens mis en place pour traduire les essences de bois en langage d'interface."
+            - "J'ai posé ces textures sur les composants natifs de Material 3. Du bois brut, avec une fine couche high-tech."
+            - "L'UI kit est adapté à Android, hautement personnalisé et cohérent sur l'ensemble de l'interface."
+          tools:
+            - { label: "Claude Design" }
+            - { label: "Claude Code" }
+            - { label: "Godot" }
+            - { label: "GitHub" }
+          correction: "Il était difficile de concevoir et de maintenir une direction visuelle cohérente sur tous les composants de l'interface. J'ai donc construit un espace interactif pour visualiser l'UI kit, avec un espace de commentaires traités par un agent IA dédié. Le design system s'étend désormais naturellement grâce aux tokens et aux contraintes validées."
+        - project: tenon
+          heading: "Règles, onboarding et pause réflexive"
+          points:
+            - "Une feuille de règles dans les paramètres, et une aide visuelle des coups légaux qu'on peut désactiver."
+            - "Un onboarding en trois étapes explique le but et les trois règles. On peut le relancer depuis les paramètres. Il se joue sur une planche de simulation, pour ne pas spoiler le début de la solution."
+            - "Pause réflexive : on déplace les pions librement sur deux axes et on peut les lancer, avec des sons. Ça ne compte pas comme un coup, le pion revient tout seul."
+          tools: []
+        - project: portfolio
+          points:
+            - "J'ai produit les wireframes et les maquettes haute fidélité sur Figma, ainsi que le design system, l'UI kit et les tokens."
+            - "Le site est mobile first, mais pensé responsive pour des présentations sur ordinateur portable. Les composants sont donc déclinés pour tous les appareils (mobile, tablette, desktop)."
+          tools:
+            - { label: "Figma" }
+            - { label: "Figma MCP" }
+            - { label: "Claude Code" }
+            - { label: "Claude Design" }
+            - { label: "Gemini" }
+          correction: "Au départ, les captures de mes maquettes données à Gemini perdaient une partie de l'information visuelle, faute d'accès API ou MCP à Figma. Un export JSON de mes tokens a compensé en partie, mais il restait des décalages dus à la perte de contexte. Je les ai corrigés en passant à Claude Code, avec l'intégration du MCP Figma."
+
+  - step: 4
+    en:
+      title: "Build"
+      globalText: "I write the brief and the acceptance criteria, then review. I check every result in the product itself, not only in the code. When an agent gets something wrong, the lesson becomes a rule."
+      blocks:
+        - project: tenon
+          points:
+            - "Godot, driven mostly with Claude Code at first, then with DeepSeek and Gemini."
+            - "One screen at a time, with stops and before and after captures. I validate on a real phone before moving to the next screen."
+            - "I wrote no application code by hand. My technical work was auditing and checking."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Godot" }
+            - { label: "DeepSeek" }
+            - { label: "Gemini" }
+          correction: "I had built two renders, 2D and 3D. The 3D one weighed down the rendering and testers saw no point in it, so I removed it and replaced it with free peg movement."
+        - project: portfolio
+          points:
+            - "My Claude Code agent reads the repository in real time and follows my constraint files, my context and my skills."
+            - "A skill formats my project writing as YAML. The agent only structures the text, which stays editable by hand at any time."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Claude" }
+            - { label: "Astro" }
+            - { label: "Tailwind CSS" }
+    fr:
+      title: "Développement"
+      globalText: "J'écris le brief et les critères d'acceptation, puis je relis. Je vérifie chaque résultat dans le produit lui-même, pas seulement dans le code. Quand un agent se trompe, la leçon devient une règle."
+      blocks:
+        - project: tenon
+          points:
+            - "Godot, piloté surtout avec Claude Code au départ, puis avec DeepSeek et Gemini."
+            - "Un écran à la fois, avec des arrêts et des captures avant et après. Je valide sur un vrai téléphone avant de passer au suivant."
+            - "Je n'ai écrit aucun code applicatif à la main. Mon travail technique fut l'audit et la vérification."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Godot" }
+            - { label: "DeepSeek" }
+            - { label: "Gemini" }
+          correction: "J'avais construit deux rendus, 2D et 3D. La 3D alourdissait le rendu, et les testeurs n'en voyaient pas l'intérêt. Je l'ai donc retirée et remplacée par le déplacement libre des pions."
+        - project: portfolio
+          points:
+            - "Mon agent Claude Code lit le dépôt en temps réel et suit mes fichiers de contraintes, mon contexte et mes skills."
+            - "Un skill me permet de formater en YAML la rédaction de mes projets. L'agent ne fait que structurer le texte, qui reste modifiable à la main à tout moment."
+          tools:
+            - { label: "Claude Code" }
+            - { label: "OpenCode" }
+            - { label: "Claude" }
+            - { label: "Astro" }
+            - { label: "Tailwind CSS" }
+
+  - step: 5
+    en:
+      title: "Test and release"
+      globalText: "I do not trust a change until something other than the agent that wrote it has checked it. I say what I have not tested, and I decide what ships and what stays off."
+      blocks:
+        - project: tenon
+          heading: "Tests and accessibility"
+          points:
+            - "Automated tests cover the game rules, layout, font sizes and touch targets."
+            - "People close to me tested the game before release, to check that the rules were understood, the interface was easy to use and the visual style worked."
+            - "Contrast is computed from the tokens: the exceptions I accepted are decided and documented."
+            - "I ran captures through a color-blindness simulation. Pegs also differ by shape, shadow and an engraved symbol."
+          tools: []
+        - project: tenon
+          heading: "Release"
+          points:
+            - "On the Play Store since November 10, 2026, in early access and open to everyone."
+            - "The next release will include monetization through AdMob. It builds on the puzzle's retry loop, without pushing players or getting in the way of the game."
+          tools:
+            - { label: "Google Play Console" }
+          correction: "The first two exports had minor bugs that did not show in the Godot simulator. I now always test with exported APK files."
+          link: "https://play.google.com/store/apps/details?id=com.slowgrain.tenon"
+          linkLabel: "Google Play listing"
+        - project: portfolio
+          points:
+            - "GitHub lets me push the site to production on my own domain. Separate branches let me test before releasing to the main branch, which is tied to my domain."
+            - "On the SEO side: canonical URLs, language alternates, Open Graph and structured data."
+            - "After testing several analytics tools, I kept Umami: it is lighter and does not collect private data, so it suits a low-traffic portfolio better."
+            - "Over six months (May to November 2026), 75% of visits arrive directly, probably through the UTM links in my résumés, and 17% through organic search."
+            - "Since the site was translated into French in July 2026, France went from 6% to 20% of traffic. The United States stay around 50%."
+          tools:
+            - { label: "GitHub Pages" }
+            - { label: "Umami" }
+            - { label: "Google Search Console" }
+          correction: "The accessibility audit I ran with Claude Code let me improve contrast, skip links, keyboard navigation and reduced motion."
+    fr:
+      title: "Tests et mise en ligne"
+      globalText: "Je ne fais pas confiance à un changement tant qu'autre chose que l'agent qui l'a écrit ne l'a pas vérifié. Je dis ce que je n'ai pas testé, et je décide de ce qui part en ligne et de ce qui reste désactivé."
+      blocks:
+        - project: tenon
+          heading: "Tests et accessibilité"
+          points:
+            - "Des tests automatiques couvrent les règles du jeu, la mise en page, les tailles de police et les cibles tactiles."
+            - "Des proches ont testé le jeu avant la publication pour valider la compréhension des règles, l'ergonomie de l'interface ainsi que le style visuel du jeu."
+            - "Le contraste est calculé depuis les tokens : les exceptions assumées sont tranchées et documentées."
+            - "J'ai passé des captures dans une simulation de daltonisme. Les pions se distinguent aussi par leur forme, leur ombre et un symbole gravé."
+          tools: []
+        - project: tenon
+          heading: "Publication"
+          points:
+            - "Disponible sur le Play Store depuis le 10 novembre 2026, en accès anticipé, ouvert à tous."
+            - "La prochaine release contiendra la monétisation via AdMob. Elle s'appuie sur le principe d'itération de résolution de casse-tête, sans insister ni gêner le jeu."
+          tools:
+            - { label: "Google Play Console" }
+          correction: "Les deux premiers exports contenaient des bugs mineurs non visibles sur le simulateur Godot. Il faut systématiquement tester avec des paquets APK exportés."
+          link: "https://play.google.com/store/apps/details?id=com.slowgrain.tenon"
+          linkLabel: "Fiche Google Play"
+        - project: portfolio
+          points:
+            - "GitHub me permet de pousser le site en production sur mon propre domaine. Les différentes branches me laissent tester avant de passer en production sur la branche principale, liée à mon domaine."
+            - "Côté SEO : URL canoniques, alternatives de langue, Open Graph et données structurées."
+            - "Après avoir testé plusieurs outils de suivi analytique, j'ai gardé Umami : plus léger, il ne collecte pas de données privées, donc plus adapté à un portfolio à faible trafic."
+            - "Sur six mois (mai à novembre 2026), 75 % des visites arrivent en direct, probablement via les liens UTM de mes CV, et 17 % par recherche organique."
+            - "Depuis la traduction du site en français en juillet 2026, la France est passée de 6 % à 20 % du trafic. Les États-Unis restent autour de 50 %."
+          tools:
+            - { label: "GitHub Pages" }
+            - { label: "Umami" }
+            - { label: "Google Search Console" }
+          correction: "L'audit d'accessibilité que j'ai piloté avec Claude Code m'a permis d'améliorer les contrastes, les liens d'évitement, la navigation au clavier et la réduction des animations."

@@ -94,7 +94,7 @@ const labelClass = "flex min-h-xl items-center";
 <style>
   /* Clear of the site navbar instead of glued under it: the header publishes its height. */
   .wf-step-nav {
-    top: calc(var(--site-nav-h, theme("spacing.3xl")) + theme("spacing.md"));
+    top: calc(var(--site-nav-h, theme("spacing.3xl")) + theme("spacing.md") + theme("spacing.xl"));
   }
   /* Rail joining one badge to the next. Anchored on the badge geometry (py-xs + a 32px
      badge) rather than on the row height, so a wrapped label cannot leave a gap, and it

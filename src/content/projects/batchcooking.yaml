@@ -1,19 +1,19 @@
 semanticSlug: "batchcooking"
 publishDate: "2020-05-20"
 isDraft: false
-cover: /images/coverProject-batchcooking.webp
+cover: /images/batchcooking/cover.webp
 images:
   context:
-    main: /images/project-3/brainstorm.webp
+    main: /images/batchcooking/brainstorm.webp
     secondary: ""
   role:
-    main: /images/project-3/diagram.webp
-    secondary: /images/project-3/wireframeBatchcooking.webp
+    main: /images/batchcooking/diagram.webp
+    secondary: /images/batchcooking/wireframeBatchcooking.webp
   conception:
     main: ""
-    secondary: /images/project-3/mockupBatchcooking.webp
+    secondary: /images/batchcooking/mockupBatchcooking.webp
   results:
-    main: /images/project-3/coverProject-batchcooking.webp
+    main: /images/batchcooking/results-cover.webp
     secondary: ""
   carousel: []
 credits:

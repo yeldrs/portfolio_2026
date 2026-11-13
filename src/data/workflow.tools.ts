@@ -18,6 +18,7 @@ for (const [path, mod] of Object.entries(files)) {
 }
 
 export const toolNames: Record<string, string> = {
+  claude: "Claude",
   "claude-code": "Claude Code",
   opencode: "OpenCode",
   "claude-design": "Claude Design",
@@ -48,3 +49,33 @@ export const toolNames: Record<string, string> = {
   "google-play": "Google Play Console",
   "app-store": "App Store",
 };
+
+// YAML lists tools by label only; the logo is found from the label. Aliases cover labels that
+// name the same product under another name.
+const toolAliases: Record<string, string> = {
+  "play store": "google-play",
+  "figma mcp": "figma",
+};
+const idByLabel = new Map(Object.entries(toolNames).map(([id, name]) => [name.toLowerCase(), id]));
+
+export function toolIdFromLabel(label: string): string | undefined {
+  const key = label.trim().toLowerCase();
+  return toolAliases[key] ?? idByLabel.get(key);
+}
+
+// Header list of the workflow page ("My favorite environments"), in display order.
+export const favoriteTools = [
+  "figma",
+  "claude-code",
+  "claude",
+  "claude-design",
+  "notion",
+  "github",
+  "vercel",
+  "nextjs",
+  "astro",
+  "tailwind",
+  "gemini",
+  "datadog",
+  "umami",
+];

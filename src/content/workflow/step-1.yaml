@@ -1,161 +1,104 @@
-# Step 1: Framing and agent setup
+# Step 1: Framing. Text: workflow/content.yml. Media (media:) lives here.
 order: 1
-teaserTools: [claude-code, notion, github]
-
+teaserTools:
+  - "claude-code"
+  - "notion"
+  - "github"
 en:
-  title: "Framing and setup"
-  globalText: "Before any code, I write down what the product must do and what the agent must never do. That lives in the repository as a rulebook the agent reads at the start of every session, backed by permissions and checks that enforce it. I keep the rulebook short because it costs context every time it loads."
+  title: "Framing"
+  globalText: "Before any code or design, I decide what the project is, who it is for and where it stops. Then I turn that into a rulebook and skills that every agent session starts from."
   blocks:
-    - project: tenon
-      approachLabel: "Rulebook, hooks, two agents"
-      approach: "A project index loaded each session, kept under 900 tokens. Its main architecture rule: pure game rules are separate from display, and display never judges a move. Four skills cover end-of-task checks, token audit, design pulls and textures. A second agent tool with write scopes handles QA, docs and research. Agents never commit. Independent tasks run in parallel agent worktrees."
+    - project: "tenon"
+      points:
+        - "Visual direction is one of the game's main criteria. I aimed for a calm, wooden mood with light sound effects and soft music, plus a discreet layer of technology so the screen doesn't feel static."
+        - "After researching the technical tooling, I chose Godot, driven with Claude Code."
+        - "The design system will be useful when I develop the next levels."
+        - "My backlog is synchronized between Claude, GitHub and Notion. Agents maintain it automatically and I can still edit it by hand, as in an agile setup where each agent has its own tasks and tickets."
+        - "No marketing planned: it's a learning project with no financial cost. A light monetization is planned for the next release."
       tools:
-        - { id: claude-code, label: "Claude Code", note: "rulebook, skills, worktrees" }
-        - { label: "A second agent tool", note: "QA, docs, research" }
-        - { id: git, label: "Git hooks", note: "blocking secrets, export presets, change logs" }
-        - { id: notion, label: "Notion", note: "backlog, prompt playbook" }
-      constraints: "Solo project with no CI, so rules had to be enforced by git itself: hooks check export presets for secrets and require a change-log entry in every commit. Permissions deny force push, bypassing hooks and reading signing keys."
-      correction: "Too many round trips with an agent slowed design work. I moved to an autonomous mode with three mandatory stops and one final report."
-      diagram:
-        height: 196
-        alt: "Diagram: Notion feeds the backlog and prompts to Claude Code, which runs in parallel with a second agent tool. Their changes go through the Git hooks, and agents never commit."
-        caption: "Figure. The tools used for framing and agent setup, and how they connect. Independent tasks run in parallel agent worktrees."
-        nodes:
-          - { tool: notion, label: "Notion", x: 0, y: 0 }
-          - { tool: claude-code, label: "Claude Code", x: 150, y: 72 }
-          - { label: "A second agent tool", x: 420, y: 36 }
-          - { tool: git, label: "Git hooks", sub: "Agents never commit.", x: 60, y: 150 }
-        edges:
-          - { d: "M16 38 V88 H144", arrow: true, label: "backlog and prompts", lx: 28, ly: 66 }
-          - { d: "M292 88 H356 V52 H414", dotted: true, label: "in parallel", lx: 296, ly: 104 }
-          - { d: "M166 106 V124 H76 V144", arrow: true }
-          - { d: "M436 72 V124 H166", label: "changes", lx: 210, ly: 116 }
-    - project: food-journal
-      approachLabel: "Guardrails before code"
-      approach: "Product rules written before features: no diagnosis, no displayed causality, no value judgement in copy, explicit consent for sensitive data, user ownership of their data. Agents work under a rulebook, a multi-agent contract, one isolated worktree per agent and ten task-scoped skills. Git hooks refuse direct commits and pushes to main."
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Claude"
+        - label: "Godot"
+        - label: "Notion"
+        - label: "GitHub"
+        - label: "Claude Design"
+        - label: "Gemini"
+        - label: "Google Play Console"
+        - label: "Play Store"
+      correction: "Agents in different environments need the same source of truth. One synced backlog keeps them aligned when my decisions change."
+    - project: "food-journal"
+      points:
+        - "Most tracking apps chase performance or looks, which can be a problem for individuals."
+        - "Everyone should keep control of their goals and personal data."
+        - "Data entered by hand is hard to use effectively. Between two consultations, supporting patients can also be difficult."
+      tools: []
+    - project: "portfolio"
+      points:
+        - "I wanted a static site that I can edit without effort. No CMS, no online portfolio builder: I keep control of everything."
+        - "Text, images and projects live in YAML files that Astro templates read. To add or hide a project, I simply edit a text file."
+        - "Stack: Astro 5 with static output, Tailwind CSS 3, and GitHub Pages for deployment."
+        - "I set the agent's rules and constraints in a rulebook of about 120 lines, trimmed from 4.3k to 1.6k tokens in the latest refactoring."
       tools:
-        - { id: claude-code, label: "Claude Code", note: "rulebook, skills" }
-        - { id: opencode, label: "OpenCode", note: "rulebook, skills" }
-        - { id: git, label: "Git hooks", note: "no direct commits to main" }
-        - { label: "A worktree script", note: "one worktree per agent" }
-        - { id: notion, label: "Notion" }
-      constraints: "Sensitive-data product. Agents cannot push, merge, run database commands, or edit the generated database types and the work log. Reading environment files is denied."
-      correction: "Rules existed as conventions first. I moved agent containment into git hooks and permission denies, including a ban on bypassing hooks, because conventions alone did not hold."
-      diagram:
-        height: 168
-        alt: "Diagram of the tools used for framing: Notion, Claude Code and OpenCode with their rulebook and skills, a worktree script with one worktree per agent, and Git hooks that refuse direct commits to main."
-        caption: "Figure. The tools used for framing and agent setup, and how they connect."
-        nodes:
-          - { tool: notion, label: "Notion", x: 0, y: 0 }
-          - { tool: claude-code, label: "Claude Code", sub: "rulebook, skills", x: 170, y: 40 }
-          - { tool: opencode, label: "OpenCode", sub: "rulebook, skills", x: 170, y: 100 }
-          - { label: "A worktree script", sub: "one worktree per agent", x: 430, y: 40 }
-          - { tool: git, label: "Git hooks", sub: "no direct commits to main", x: 430, y: 112 }
-        edges:
-          - { d: "M16 36 V56 H164", arrow: true }
-          - { d: "M16 56 V116 H164", arrow: true }
-          - { d: "M316 56 H424", arrow: true }
-          - { d: "M316 116 H372 V56" }
-          - { d: "M446 74 V106", arrow: true }
-    - project: portfolio
-      approachLabel: "Rulebook and three skills"
-      approach: "A 121-line rulebook: reading order at session start, which layer to touch first (content, tokens, layout, config), and hard rules such as never hardcode a color, never propose a backend, never edit my wording without a request. Three skills cover adding a case study, translating faithfully, and pre-deploy checks. The documentation split cut the rulebook from about 4.3k to 1.6k tokens."
-      tools:
-        - { id: claude-code, label: "Claude Code", note: "rulebook, three skills" }
-        - { id: opencode, label: "OpenCode", note: "rulebook, three skills" }
-        - { label: "Claude Projects", note: "maintenance" }
-        - { label: "Repomix", note: "codebase snapshots" }
-        - { label: "A script that generates a design-system bundle from the tokens file" }
-      constraints: "Contractually 100% static: no server, no database. The agent asks one question before touching redirects, deployment or the content schema."
-      correction: "The first version was assembled by copy-pasting generated code and editing HTML and CSS by hand. It left dead classes (for example text-md and mt-7xl) that render nothing today."
-      diagram:
-        height: 152
-        alt: "Diagram of the tools used for framing: Claude Code and OpenCode with a rulebook and three skills, Repomix codebase snapshots for Claude Projects maintenance, and a script that generates a design-system bundle from the tokens file."
-        caption: "Figure. The tools used for framing and agent setup."
-        nodes:
-          - { tool: claude-code, label: "Claude Code", sub: "rulebook, three skills", x: 0, y: 0 }
-          - { tool: opencode, label: "OpenCode", sub: "rulebook, three skills", x: 0, y: 56 }
-          - { label: "Repomix", sub: "codebase snapshots", x: 320, y: 0 }
-          - { label: "Claude Projects", sub: "maintenance", x: 320, y: 64 }
-          - { label: "Bundle script", sub: "design-system bundle from the tokens file", x: 0, y: 112 }
-        edges:
-          - { d: "M336 38 V58", arrow: true }
-
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Claude"
+        - label: "GitHub"
+        - label: "Astro"
+        - label: "Tailwind CSS"
+        - label: "Figma"
+        - label: "Figma MCP"
+        - label: "Claude Design"
+        - label: "Gemini"
+        - label: "GitHub Pages"
+        - label: "Umami"
+        - label: "Google Search Console"
 fr:
-  title: "Cadrage et réglage"
-  globalText: "Avant tout code, je note ce que le produit doit faire et ce que l'agent ne doit jamais faire. Cela vit dans le dépôt sous la forme d'un recueil de règles que l'agent lit au début de chaque session, appuyé par des permissions et des vérifications qui le font respecter. Je garde ce recueil court parce qu'il consomme du contexte à chaque chargement."
+  title: "Cadrage"
+  globalText: "Avant tout code ou design, je décide de ce qu'est le projet, pour qui, et où il s'arrête. J'en fais ensuite un recueil de règles et des skills que chaque session d'agent relit au départ."
   blocks:
-    - project: tenon
-      approachLabel: "Recueil de règles, hooks, deux agents"
-      approach: "Un index de projet chargé à chaque session, maintenu sous 900 tokens. Sa règle d'architecture principale : les règles pures du jeu sont séparées de l'affichage, et l'affichage ne juge jamais un coup. Quatre skills couvrent les vérifications de fin de tâche, l'audit de tokens, les imports de design et les textures. Un second outil d'agent, avec des périmètres d'écriture, gère la QA, la documentation et la recherche. Les agents ne committent jamais. Les tâches indépendantes tournent en parallèle dans des worktrees d'agent."
+    - project: "tenon"
+      points:
+        - "La direction visuelle du jeu est l'un des critères principaux du jeu. J'ai défini une ambiance bois, calme, avec des bruitages légers et de la musique douce. Une couche de technologie discrète pour que l'écran ne reste pas figé."
+        - "Après une veille sur l'outillage technique, j'ai choisi Godot, piloté avec Claude Code."
+        - "Le design system est utile pour le développement des prochains niveaux."
+        - "Mon backlog est synchronisé entre Claude, GitHub et Notion. Il est automatiquement maintenu par les agents et reste modifiable à la main. Comme dans un fonctionnement agile, où chaque agent dispose de tâches et de tickets attribués."
+        - "Aucun marketing prévu : c'est un projet d'apprentissage sans coût financier. Une monétisation légère est prévue dans la prochaine release."
       tools:
-        - { id: claude-code, label: "Claude Code", note: "recueil de règles, skills, worktrees" }
-        - { label: "Un second outil d'agent", note: "QA, docs, recherche" }
-        - { id: git, label: "Hooks git", note: "secrets bloqués, presets d'export, journal" }
-        - { id: notion, label: "Notion", note: "backlog, playbook de prompts" }
-      constraints: "Projet solo sans CI, donc les règles devaient être appliquées par git lui-même : des hooks vérifient l'absence de secrets dans les presets d'export et exigent une entrée de journal des modifications dans chaque commit. Les permissions interdisent le force push, le contournement des hooks et la lecture des clés de signature."
-      correction: "Trop d'allers-retours avec un agent ralentissaient le travail de design. Je suis passé à un mode autonome avec trois arrêts obligatoires et un rapport final."
-      diagram:
-        height: 196
-        alt: "Schéma : Notion fournit le backlog et les prompts à Claude Code, qui tourne en parallèle d'un second outil d'agent. Leurs changements passent par les hooks git, et les agents ne committent jamais."
-        caption: "Figure. Les outils utilisés pour le cadrage et le réglage des agents, et leur enchaînement. Les tâches indépendantes tournent en parallèle dans des worktrees d'agent."
-        nodes:
-          - { tool: notion, label: "Notion", x: 0, y: 0 }
-          - { tool: claude-code, label: "Claude Code", x: 150, y: 72 }
-          - { label: "Un second outil d'agent", x: 420, y: 36 }
-          - { tool: git, label: "Hooks git", sub: "Les agents ne committent jamais.", x: 60, y: 150 }
-        edges:
-          - { d: "M16 38 V88 H144", arrow: true, label: "backlog et prompts", lx: 28, ly: 66 }
-          - { d: "M292 88 H356 V52 H414", dotted: true, label: "en parallèle", lx: 296, ly: 104 }
-          - { d: "M166 106 V124 H76 V144", arrow: true }
-          - { d: "M436 72 V124 H166", label: "changements", lx: 210, ly: 116 }
-    - project: food-journal
-      approachLabel: "Garde-fous avant le code"
-      approach: "Des règles produit écrites avant les fonctionnalités : pas de diagnostic, pas de causalité affichée, pas de jugement de valeur dans les textes, consentement explicite pour les données sensibles, propriété des données par l'utilisateur. Les agents travaillent sous un recueil de règles, un contrat multi-agents, un worktree isolé par agent et dix skills limités à une tâche. Des hooks git refusent les commits et les push directs sur main."
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Claude"
+        - label: "Godot"
+        - label: "Notion"
+        - label: "GitHub"
+        - label: "Claude Design"
+        - label: "Gemini"
+        - label: "Google Play Console"
+        - label: "Play Store"
+      correction: "Des agents dans des environnements différents ont besoin de la même source de vérité. Un seul backlog synchronisé les garde alignés quand mes décisions changent."
+    - project: "food-journal"
+      points:
+        - "Les applications de suivi courantes misent sur la performance ou l'esthétique, et peuvent poser problème à l'échelle individuelle."
+        - "Il appartient à chacun de garder la maîtrise de ses objectifs et de ses données personnelles."
+        - "Les données saisies à la main sont difficiles à exploiter efficacement. De plus, entre deux consultations, l'accompagnement des patients peut être compliqué."
+      tools: []
+    - project: "portfolio"
+      points:
+        - "Je voulais un site statique, modifiable sans effort. Ni CMS ni créateur de portfolio en ligne : je garde la main sur tout."
+        - "Textes, images et projets vivent dans des fichiers YAML que des templates Astro lisent. Pour ajouter ou cacher un projet, j'édite simplement un fichier texte."
+        - "Stack : Astro 5 en sortie statique, Tailwind CSS 3 et GitHub Pages pour le déploiement."
+        - "J'ai fixé les règles et les contraintes de l'agent dans un recueil d'environ 120 lignes, allégé de 4,3k à 1,6k tokens lors de la dernière refactorisation."
       tools:
-        - { id: claude-code, label: "Claude Code", note: "recueil de règles, skills" }
-        - { id: opencode, label: "OpenCode", note: "recueil de règles, skills" }
-        - { id: git, label: "Hooks git", note: "pas de commit direct sur main" }
-        - { label: "Un script de worktree", note: "un worktree par agent" }
-        - { id: notion, label: "Notion" }
-      constraints: "Produit à données sensibles. Les agents ne peuvent pas push, fusionner, lancer des commandes de base de données, ni modifier les types de base de données générés et le journal de travail. La lecture des fichiers d'environnement est refusée."
-      correction: "Les règles existaient d'abord comme conventions. J'ai déplacé le confinement des agents dans des hooks git et des refus de permissions, y compris l'interdiction de contourner les hooks, parce que les conventions seules ne tenaient pas."
-      diagram:
-        height: 168
-        alt: "Schéma des outils de cadrage : Notion, Claude Code et OpenCode avec leur recueil de règles et leurs skills, un script de worktree avec un worktree par agent, et des hooks git qui refusent les commits directs sur main."
-        caption: "Figure. Les outils utilisés pour le cadrage et le réglage des agents, et leur enchaînement."
-        nodes:
-          - { tool: notion, label: "Notion", x: 0, y: 0 }
-          - { tool: claude-code, label: "Claude Code", sub: "recueil de règles, skills", x: 170, y: 40 }
-          - { tool: opencode, label: "OpenCode", sub: "recueil de règles, skills", x: 170, y: 100 }
-          - { label: "Un script de worktree", sub: "un worktree par agent", x: 430, y: 40 }
-          - { tool: git, label: "Hooks git", sub: "pas de commit direct sur main", x: 430, y: 112 }
-        edges:
-          - { d: "M16 36 V56 H164", arrow: true }
-          - { d: "M16 56 V116 H164", arrow: true }
-          - { d: "M316 56 H424", arrow: true }
-          - { d: "M316 116 H372 V56" }
-          - { d: "M446 74 V106", arrow: true }
-    - project: portfolio
-      approachLabel: "Recueil de règles et trois skills"
-      approach: "Un recueil de règles de 121 lignes : ordre de lecture au début de la session, quelle couche toucher en premier (contenu, tokens, mise en page, config), et des règles strictes comme ne jamais coder une couleur en dur, ne jamais proposer de backend, ne jamais modifier mes textes sans demande. Trois skills couvrent l'ajout d'une étude de cas, la traduction fidèle et les vérifications avant déploiement. Le découpage de la documentation a fait passer le recueil d'environ 4,3k à 1,6k tokens."
-      tools:
-        - { id: claude-code, label: "Claude Code", note: "recueil de règles, trois skills" }
-        - { id: opencode, label: "OpenCode", note: "recueil de règles, trois skills" }
-        - { label: "Claude Projects", note: "maintenance" }
-        - { label: "Repomix", note: "instantanés du code" }
-        - { label: "Un script qui génère un bundle de design system à partir du fichier de tokens" }
-      constraints: "Contractuellement 100 % statique : pas de serveur, pas de base de données. L'agent pose une question avant de toucher aux redirections, au déploiement ou au schéma de contenu."
-      correction: "La première version a été assemblée en copiant-collant du code généré et en modifiant le HTML et le CSS à la main. Elle a laissé des classes mortes (par exemple text-md et mt-7xl) qui ne rendent rien aujourd'hui."
-      diagram:
-        height: 152
-        alt: "Schéma des outils de cadrage : Claude Code et OpenCode avec un recueil de règles et trois skills, des instantanés du code par Repomix pour la maintenance dans Claude Projects, et un script qui génère un bundle de design system à partir du fichier de tokens."
-        caption: "Figure. Les outils utilisés pour le cadrage et le réglage des agents."
-        nodes:
-          - { tool: claude-code, label: "Claude Code", sub: "recueil de règles, trois skills", x: 0, y: 0 }
-          - { tool: opencode, label: "OpenCode", sub: "recueil de règles, trois skills", x: 0, y: 56 }
-          - { label: "Repomix", sub: "instantanés du code", x: 320, y: 0 }
-          - { label: "Claude Projects", sub: "maintenance", x: 320, y: 64 }
-          - { label: "Script de bundle", sub: "bundle du design system, depuis les tokens", x: 0, y: 112 }
-        edges:
-          - { d: "M336 38 V58", arrow: true }
+        - label: "Claude Code"
+        - label: "OpenCode"
+        - label: "Claude"
+        - label: "GitHub"
+        - label: "Astro"
+        - label: "Tailwind CSS"
+        - label: "Figma"
+        - label: "Figma MCP"
+        - label: "Claude Design"
+        - label: "Gemini"
+        - label: "GitHub Pages"
+        - label: "Umami"
+        - label: "Google Search Console"

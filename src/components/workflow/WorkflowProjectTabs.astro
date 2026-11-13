@@ -7,7 +7,7 @@ import { useTranslations } from "../../i18n/utils";
 
 export interface Props {
   lang: "en" | "fr";
-  intros: Record<string, string>;
+  intros: Record<string, { tagline: string; intro: string }>;
 }
 
 const { lang, intros } = Astro.props;
@@ -44,7 +44,7 @@ const bannerOn = [
         {
           PROJECT_ORDER.map((id, i) => (
             <label for={`t-${id}`} data-tab={i} class="wf-tab">
-              <ToolLogo id={id} variant="bare" />
+              <ToolLogo id={id} variant="box" fill />
               <span>{t(`workflow.project.${id}`)}</span>
             </label>
           ))
@@ -101,7 +101,10 @@ const bannerOn = [
   <div>
     {
       PROJECT_ORDER.map((id, i) => (
-        <p class={`m-0 hidden max-w-prose text-sm leading-relaxed text-text-body-secondary ${introOn[i]}`}>{intros[id]}</p>
+        <div class={`hidden max-w-prose ${introOn[i]}`}>
+          <p class="m-0 text-base font-semibold leading-normal text-text-body-primary">{intros[id].tagline}</p>
+          <p class="m-0 mt-sm text-sm leading-relaxed text-text-body-secondary">{intros[id].intro}</p>
+        </div>
       ))
     }
   </div>

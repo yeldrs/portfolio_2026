@@ -1,7 +1,7 @@
 semanticSlug: "biomimicry-museum"
 publishDate: "2022-02-15"
 isDraft: true
-cover: /images/coverProject-biomimicry.webp
+cover: /images/biomimicry/cover.webp
 images:
   context:
     main: /images/biomimicry/museum-context.webp

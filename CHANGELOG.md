@@ -8,6 +8,16 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ---
 
+## 2026-11-13 — Workflow: nouveau contenu rédactionnel intégré (schéma `points` / `media`)
+
+- `workflow/content.yml` — nouvelle source rédactionnelle (EN + FR) ; `did` renommé `points`. Textes repris tels quels dans `src/content/workflow/step-*.yaml` et `src/data/workflow.{en,fr}.ts`. Deux retouches validées : intro de page (« produisent les écrans » retiré) et texte commun de l'étape 3 (phrase sur le contraste retirée, formulation simplifiée).
+- `src/content/config.ts` — blocs: `points`, `correction`, `tools` (label seul), `media[]` (galeries + figure, plusieurs par bloc), `gate`, statut `teaser`. `approach`, `approachLabel`, `constraints`, `gallery`/`screens`/`figure` au niveau du bloc supprimés.
+- `workflow.tools.ts` / `workflow.loader.ts` — logo retrouvé par label (alias « Play Store », « Figma MCP »).
+- `WorkflowBlock`, `WorkflowStep`, `WorkflowProjectTabs`, `WorkflowGate` (nouveau) — liste à puces, barrière teaser de Food Journal (fondu + appel à contact après l'étape 2, ligne verrouillée aux étapes 3 à 5), slogan + intro par projet.
+- Schémas d'outils de l'étape 1 et captures Food Journal retirés des YAML (récupérables dans l'historique git ; fichiers d'images conservés).
+
+---
+
 ## 2026-11-11 (suite) — Workflow: galeries d'écrans, schéma d'outils, bannières
 
 - `WorkflowGallery.astro` (rail à l'échelle réelle pour les wireframes, projecteur pour le hi-fi, paires wireframe/final), `WorkflowFrame.astro`, `WorkflowDiagram.astro` (schéma d'outils de l'étape 1, piloté par le YAML), `workflow.images.ts`. Schéma Zod: `gallery`, `diagram`, champs d'appareil par écran.

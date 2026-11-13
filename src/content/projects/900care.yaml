@@ -1,19 +1,19 @@
 semanticSlug: "900care"
 publishDate: "2024-10-25"
 isDraft: false
-cover: /images/coverProject-900care.webp
+cover: /images/900care/cover.webp
 images:
   context:
-    main: /images/project-1/mockupDesktop.webp
+    main: /images/900care/mockupDesktop.webp
     secondary: ""
   role:
-    main: /images/project-1/research.webp
+    main: /images/900care/research.webp
     secondary: ""
   conception:
-    main: /images/project-1/conception.webp
+    main: /images/900care/conception.webp
     secondary: ""
   results:
-    main: /images/project-1/metricsHomepage.webp
+    main: /images/900care/metricsHomepage.webp
     secondary: ""
   carousel: []
 credits:

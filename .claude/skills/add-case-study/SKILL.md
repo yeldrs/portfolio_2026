@@ -22,7 +22,7 @@ A case study is **one file**: `src/content/projects/<name>.yaml`. No route files
    - `publishDate` — `"YYYY-MM-DD"`, quoted. Drives the home ordering (newest first).
    - `isDraft` — `true` while preparing (no page generated, not listed). Flip to `false` to
      publish.
-   - `cover` — the card image, e.g. `/images/coverProject-<name>.webp`.
+   - `cover` — the card image, e.g. `/images/<name>/cover.webp`.
    - `images` — named, see below.
    - `credits` — `client: { link }` (the displayed name is taken from `<locale>.client`),
      `team: [...]`, `references: [...]`. Each entry: `{ name?, link?, role? }`. `role` may be

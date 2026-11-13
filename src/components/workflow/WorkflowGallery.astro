@@ -7,7 +7,7 @@ import { workflowImage, zoomUrl } from "../../data/workflow.images";
 import { useTranslations } from "../../i18n/utils";
 
 type Block = CollectionEntry<"workflow">["data"]["en"]["blocks"][number];
-type Screen = Block["screens"][number];
+type Screen = Block["media"][number]["screens"][number];
 
 export interface Props {
   lang: "en" | "fr";
@@ -195,7 +195,7 @@ const arrowBtn =
         <div class="flex items-center justify-center gap-md">
           <span aria-hidden="true" class="flex gap-sm">
             {items.map((_, i) => (
-              <i data-spot-dot data-on={String(i === start)} class="block h-sm w-sm rounded-full bg-gray-400 data-[on=true]:w-lg data-[on=true]:bg-button-background-primary motion-safe:transition-all" />
+              <i data-spot-dot data-on={String(i === start)} class="block h-[calc(theme(spacing.sm)-theme(spacing.xxs))] w-[calc(theme(spacing.sm)-theme(spacing.xxs))] rounded-full bg-background-disabled data-[on=true]:w-lg data-[on=true]:bg-button-background-primary motion-safe:transition-all" />
             ))}
           </span>
           <span data-spot-count aria-live="polite" class="text-xs font-bold text-text-body-secondary">
@@ -280,28 +280,45 @@ const arrowBtn =
      72px below for the caption + pagination band. */
   .wg-spot {
     container-type: inline-size;
-    --stage-h: calc(theme("spacing.6xl") * 4 - theme("spacing.xl"));
-    --band: calc(var(--stage-h) - theme("spacing.2xl") * 2);
+    /* Vertical rhythm, top to bottom: 24 above the screens, the screens (the band), 24 down to
+       the caption row, 12 to the pagination row, 16 under it. The stage height is the sum, so
+       the screens keep the same size whatever the rhythm. */
+    --wg-top: theme("spacing.lg");
+    --wg-foot-gap: theme("spacing.sm-d");
+    --wg-foot-end: theme("spacing.md");
+    /* Below the screens: 24 gap + caption row 24 + gap + pagination row 16 + end. */
+    --wg-foot-pad: calc(
+      theme("spacing.lg") + theme("spacing.lg") + var(--wg-foot-gap) + theme("spacing.md") + var(--wg-foot-end)
+    );
+    --band: calc(theme("spacing.6xl") * 4 - theme("spacing.xl") - theme("spacing.2xl") * 2);
+    --stage-h: calc(var(--band) + var(--wg-top) + var(--wg-foot-pad));
     height: var(--stage-h);
   }
   /* Caption, device chip, zoom and pagination: one column under the screens, inside the
      stage band the track already reserves (its bottom padding). */
+  /* The arrows centre on the screens, not on the whole stage (caption rows included). */
+  .wg-spot > [data-spot-prev],
+  .wg-spot > [data-spot-next] {
+    top: calc((var(--wg-top) + var(--stage-h) - var(--wg-foot-pad)) / 2);
+  }
   .wg-spot-foot {
     position: absolute;
     inset-inline: 0;
-    bottom: theme("spacing.md");
+    bottom: var(--wg-foot-end);
     z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: theme("spacing.sm");
+    gap: var(--wg-foot-gap);
   }
   /* Hi-fi stage: a discreet dot grid, like a measuring canvas. It follows the wireframe
      mat logic, with 40px of dots above and below the screens rather than the whole stage.
      The dots fade on the same rhythm as the screens, with an elliptical vignette. */
   .wg-spot-mat {
     position: absolute;
-    inset: theme("spacing.sm") 0 theme("spacing.lg");
+    /* 16 above and below the screens, so the dots frame them evenly and stay clear of the
+       caption row. */
+    inset: calc(var(--wg-top) - theme("spacing.md")) 0 calc(var(--wg-foot-pad) - theme("spacing.md"));
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
@@ -337,32 +354,9 @@ const arrowBtn =
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    padding-bottom: calc(theme("spacing.2xl") + theme("spacing.lg"));
+    padding-bottom: var(--wg-foot-pad);
     padding-inline-start: calc(50cqw - var(--band) * var(--first-ar) / 2);
     padding-inline-end: calc(50cqw - var(--band) * var(--last-ar) / 2);
-    /* Fixed mask at the stage edges: the screens scroll through it, so they disappear toward
-       the container edge instead of being cut. Curved (wide ellipse) rather than a straight
-       band: 0 at the edge, full strength from 80% inward, so the screens stay readable longer
-       before they go. The vertical radius is stretched so the fade stays horizontal and only
-       rounds the corners. */
-    -webkit-mask-image: radial-gradient(
-      ellipse 50% 175% at 50% 50%,
-      #000 0%,
-      #000 80%,
-      rgba(0, 0, 0, 0.86) 86%,
-      rgba(0, 0, 0, 0.62) 91%,
-      rgba(0, 0, 0, 0.3) 96%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      ellipse 50% 175% at 50% 50%,
-      #000 0%,
-      #000 80%,
-      rgba(0, 0, 0, 0.86) 86%,
-      rgba(0, 0, 0, 0.62) 91%,
-      rgba(0, 0, 0, 0.3) 96%,
-      transparent 100%
-    );
   }
   .wg-track::-webkit-scrollbar {
     display: none;
@@ -384,8 +378,23 @@ const arrowBtn =
   .wg-item[data-device="phone"] {
     --k: 0.8;
   }
-  /* No box-shadow override here: the device frame brings its own drop shadow
-     (DeviceFrame.astro). Overriding it flattened the hi-fi screens. */
+  /* Hi-fi shadow: one diffuse layer, no spread and no hairline, so it falls evenly along the
+     edges instead of pooling at the rounded corners. Mostly neutral gray with a touch of the
+     accent; the dark frames take a little more. Extent below the frame is 8 + 32 = 40px, inside
+     the track's bottom padding, which clips anything beyond it. */
+  .wg-item :global(.pf) {
+    --wg-tint: color-mix(in srgb, theme("colors.gray.950") 82%, theme("colors.button-background-primary"));
+    --wg-soft: color-mix(in srgb, var(--wg-tint) 13%, transparent);
+    box-shadow: 0 theme("spacing.sm") theme("spacing.xl") 0 var(--wg-soft);
+  }
+  .wg-item :global(.pf--dark) {
+    --wg-soft: color-mix(in srgb, var(--wg-tint) 24%, transparent);
+  }
+  .wg-item :global(.pf--apple) {
+    box-shadow:
+      0 0 0 1px var(--pf-edge),
+      0 theme("spacing.sm") theme("spacing.xl") 0 var(--wg-soft);
+  }
   .wg-flat {
     box-shadow: theme("boxShadow.md");
   }
@@ -394,10 +403,10 @@ const arrowBtn =
   }
   @media (min-width: theme("screens.md")) {
     .wg-spot {
-      --stage-h: calc(theme("spacing.6xl") * 4 + theme("spacing.xl"));
+      --band: calc(theme("spacing.6xl") * 4 + theme("spacing.xl") - theme("spacing.2xl") * 2);
     }
     .wg-spot-mat {
-      inset: theme("spacing.sm") calc(-1 * theme("spacing.4xl")) theme("spacing.lg");
+      inset: calc(var(--wg-top) - theme("spacing.md")) calc(-1 * theme("spacing.4xl")) calc(var(--wg-foot-pad) - theme("spacing.md"));
     }
     .wg-track {
       gap: theme("spacing.lg");

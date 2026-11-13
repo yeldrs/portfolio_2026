@@ -6,7 +6,7 @@
 
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import { toolNames } from "./workflow.tools";
+import { toolIdFromLabel, toolNames } from "./workflow.tools";
 
 export const PROJECT_ORDER = ["tenon", "food-journal", "portfolio"] as const;
 export type ProjectId = (typeof PROJECT_ORDER)[number];
@@ -19,6 +19,8 @@ export interface WorkflowProject {
   blocks: Block[];
   // true when every block of this project is "not-applicable" for the step
   disabled: boolean;
+  // true when the project is a teaser at this step: the page draws the barrier, no content
+  teaser: boolean;
 }
 
 export interface WorkflowStep {
@@ -37,17 +39,20 @@ export async function getWorkflowSteps(lang: Locale): Promise<WorkflowStep[]> {
   return entries.map((entry) => {
     const copy = entry.data[lang];
     const projects: WorkflowProject[] = PROJECT_ORDER.map((id) => {
-      const blocks = copy.blocks.filter((b) => b.project === id);
+      const blocks = copy.blocks
+        .filter((b) => b.project === id)
+        .map((b) => ({ ...b, tools: b.tools.map((tool) => ({ ...tool, id: tool.id ?? toolIdFromLabel(tool.label) })) }));
       return {
         id,
         blocks,
         disabled: blocks.length === 0 || blocks.every((b) => b.status === "not-applicable"),
+        teaser: blocks.length > 0 && blocks.every((b) => b.status === "teaser"),
       };
     });
 
     const toolIds = new Set<string>();
     for (const b of copy.blocks) {
-      if (b.status === "not-applicable") continue;
+      if (b.status !== "active") continue;
       for (const tool of b.tools) if (tool.id) toolIds.add(tool.id);
     }
 

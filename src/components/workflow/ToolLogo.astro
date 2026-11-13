@@ -23,10 +23,10 @@ const logo = id ? toolLogos[id] : undefined;
 const radius = fill ? "rounded-lg" : "rounded-md";
 // Intrinsic pixel size of the <img>, taken from the spacing token it is drawn at.
 const px = parseInt(tokens.primitives.spacing[size], 10);
-// The tab logo fills its tile, so the tile is one step bigger (32px) and the file is served
+// The tab logo fills its tile, so the tile is 24px and the file is served
 // at 3x that size: a 16px thumbnail upscaled to the tile read soft on retina screens.
-const tileClass = fill ? "w-xl h-xl" : "w-lg h-lg";
-const fillPx = parseInt(tokens.primitives.spacing.xl, 10) * 3;
+const tileClass = "w-lg h-lg";
+const fillPx = parseInt(tokens.primitives.spacing.lg, 10) * 3;
 ---
 
 {/* File: src/components/workflow/ToolLogo.astro */}

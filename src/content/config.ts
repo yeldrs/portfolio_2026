@@ -153,19 +153,9 @@ const toolEntry = z.object({
   note: z.string().optional(),
 });
 
-const workflowBlock = z.object({
-  project: projectId,
-  status: z.enum(["active", "not-applicable"]).default("active"),
-  // Heading of a sub-block, only when a step splits a project in two (steps 3 and 5).
-  heading: z.string().optional(),
-  approachLabel: z.string().optional(),
-  approach: z.string().optional(),
-  tools: z.array(toolEntry).default([]),
-  constraints: z.string().optional(),
-  correction: z.string().optional(),
-  callToAction: z.string().optional(),
-  link: z.string().url().optional(),
-  linkLabel: z.string().optional(),
+// One gallery of screens (plus an optional flat figure) inside a block. A block may carry
+// several, e.g. wireframes then hi-fi.
+const mediaGroup = z.object({
   // grid = 4:3 captures (default); pairs = wireframe next to final screen; rail = real-scale
   // rail of devices; spotlight = one screen at a time, neighbours dimmed.
   gallery: z.enum(["grid", "pairs", "rail", "spotlight"]).default("grid"),
@@ -174,6 +164,25 @@ const workflowBlock = z.object({
   screens: z.array(screen).default([]),
   // Flat plate shown under the gallery, at the image's natural ratio.
   figure: workflowFigure.optional(),
+});
+
+const workflowBlock = z.object({
+  project: projectId,
+  // teaser = project shown as a teaser: no content, the page draws the barrier instead.
+  status: z.enum(["active", "not-applicable", "teaser"]).default("active"),
+  // Heading of a sub-block, only when a step splits a project in several (steps 3 and 5).
+  heading: z.string().optional(),
+  // The block's text: one short bullet per decision or action.
+  points: z.array(z.string()).default([]),
+  // `id` is optional: without it the logo is found from the label (workflow.tools.ts).
+  tools: z.array(toolEntry).default([]),
+  correction: z.string().optional(),
+  callToAction: z.string().optional(),
+  link: z.string().url().optional(),
+  linkLabel: z.string().optional(),
+  // Draws the teaser barrier (fade + call to contact) right under this block.
+  gate: z.boolean().default(false),
+  media: z.array(mediaGroup).default([]),
   // When set, replaces the tool list (step 1: which tools frame the work and how they connect).
   diagram: diagram.optional(),
 });
@@ -195,21 +204,27 @@ const workflow = defineCollection({
       fr: workflowLocale,
     })
     .superRefine((step, ctx) => {
-      // EN and FR must describe the same structure: same blocks, statuses and tool ids.
+      // EN and FR must describe the same structure: same blocks, statuses, tools and media.
       const sig = (l: typeof step.en) =>
-        l.blocks.map((b) => `${b.project}:${b.status}:${b.tools.map((t) => t.id ?? "-").join(",")}:${b.screens.length}:${b.gallery}:${b.diagram ? 1 : 0}:${b.figure ? 1 : 0}`);
+        l.blocks.map(
+          (b) =>
+            `${b.project}:${b.status}:${b.points.length}:${b.tools.map((t) => t.id ?? t.label).join(",")}:${b.gate ? 1 : 0}:` +
+            b.media.map((m) => `${m.gallery}/${m.screens.length}/${m.figure ? 1 : 0}`).join(","),
+        );
       if (JSON.stringify(sig(step.en)) !== JSON.stringify(sig(step.fr))) {
-        ctx.addIssue({ code: "custom", message: "en and fr blocks must have the same structure (projects, statuses, tool ids, screens)." });
+        ctx.addIssue({ code: "custom", message: "en and fr blocks must have the same structure (projects, statuses, points, tools, media)." });
       }
       for (const lang of ["en", "fr"] as const) {
         for (const b of step[lang].blocks) {
-          if (b.status === "not-applicable") continue;
-          if (!b.approachLabel || !b.approach) {
-            ctx.addIssue({ code: "custom", message: `${lang}: an active block needs approachLabel and approach.` });
+          if (b.status !== "active") continue;
+          if (b.points.length === 0) {
+            ctx.addIssue({ code: "custom", message: `${lang}: an active block needs at least one point.` });
           }
-          for (const sc of b.screens) {
-            if (sc.src && !sc.alt) ctx.addIssue({ code: "custom", message: `${lang}: a screen with src needs alt text.` });
-            if (b.gallery === "pairs" && !sc.before) ctx.addIssue({ code: "custom", message: `${lang}: a "pairs" screen needs a before image.` });
+          for (const m of b.media) {
+            for (const sc of m.screens) {
+              if (sc.src && !sc.alt) ctx.addIssue({ code: "custom", message: `${lang}: a screen with src needs alt text.` });
+              if (m.gallery === "pairs" && !sc.before) ctx.addIssue({ code: "custom", message: `${lang}: a "pairs" screen needs a before image.` });
+            }
           }
         }
       }
