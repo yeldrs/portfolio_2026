@@ -14,9 +14,11 @@ export interface Props {
   tone?: "neutral" | "accent";
   /** Project tabs: the logo fills the whole tile, with no padding inside the border. */
   fill?: boolean;
+  /** Project tabs: the tile border can be dropped when the logo already draws its own shape. */
+  bordered?: boolean;
 }
 
-const { id, variant = "box", size = "md", tone = "neutral", fill = false } = Astro.props;
+const { id, variant = "box", size = "md", tone = "neutral", fill = false, bordered = true } = Astro.props;
 const logo = id ? toolLogos[id] : undefined;
 // Project tab tile: one step rounder than the tool tiles (8px instead of 6px), so the
 // corner reads on the square without turning it into a squircle.
@@ -46,11 +48,11 @@ const fillPx = parseInt(tokens.primitives.spacing.xl, 10) * 3;
     <span
       aria-hidden="true"
       class:list={[
-        "flex-none flex items-center justify-center border",
+        "flex-none flex items-center justify-center",
         tileClass,
         radius,
         tone === "accent" ? "bg-background-accent-subtle border-stroke-primary-hover" : "bg-gray-100 border-gray-400",
-        { "border-dashed": !logo, "overflow-hidden": fill },
+        { "border": bordered || !logo, "border-dashed": !logo, "overflow-hidden": fill },
       ]}
     >
       {logo && (

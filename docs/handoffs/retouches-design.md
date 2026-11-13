@@ -403,4 +403,108 @@ hi-fi et maquette.
 - Place de la plaque : après le projecteur (choix actuel) ou avant, pour ouvrir le bloc sur
   le design system.
 
+## Session 5 (2026-11-13) : retouches des galeries du projet portfolio
+
+Demandes du propriétaire sur `/workflow` et `/fr/workflow`, onglet « This portfolio ».
+Aucun texte rédigé par le propriétaire n'est modifié : seuls des écrans et des styles
+changent.
+
+### Puces d'appareil retirées
+
+- `WorkflowGallery.astro` : la puce « Desktop / Tablette / Téléphone » disparaît sous les
+  wireframes (galerie `rail`) et sous les écrans hi-fi (projecteur, `switchable`). Le bouton
+  d'agrandissement reste. Le rang du pied ne contient plus que le nom et l'icône zoom.
+- Le libellé de wireframe redevient une simple ligne centrée (`span.block text-center`) au
+  lieu d'une colonne, pour garder les 8 px entre le cadre et la légende.
+- Nettoyage associé : import de `WorkflowDeviceChip` retiré, `data-device-label` retiré des
+  items, et le script ne met plus à jour la puce (`chip`, `chipLabel`). L'attribut
+  `data-device` reste : il porte encore `--k` (hauteur par appareil) en CSS.
+- Le pied du projecteur garde sa hauteur : le bouton zoom reçoit `-my-xs` (il est plus haut
+  que la ligne de texte), donc légende → points reste à 8 px.
+
+### Écrans de développement du bloc portfolio (étape 4)
+
+- `src/content/workflow/step-4.yaml` : la liste `screens` du bloc portfolio est retirée dans
+  les deux langues (deux écrans : visionneuse desktop, route `/fr` mobile). Le bloc garde son
+  titre, ses outils et ses textes.
+- `src/assets/workflow/portfolio-build-02.webp` supprimé (il n'était plus référencé).
+  `portfolio-build-01.webp` n'était déjà plus sur le disque depuis la session 4 : la
+  référence cassée disparaît avec la même suppression.
+
+### Onglet « Ce portfolio »
+
+- `ToolLogo.astro` : nouvelle prop `bordered` (défaut `true`). La classe `border` n'est posée
+  que si `bordered` ou si le logo manque (le carré pointillé garde sa bordure).
+- `WorkflowProjectTabs.astro` : `bordered={id !== "portfolio"}`. Seul l'onglet portfolio perd
+  son contour, les deux autres onglets sont inchangés.
+- `src/assets/logos/portfolio.svg` : couleurs inversées, fond `#182d34` et Y `#f3f4f6`
+  (gray-100). Le SVG dessine lui-même son carré arrondi, d'où la bordure devenue inutile.
+
+### Alignement et surface de la galerie hi-fi
+
+- Premier écran collé à gauche : `padding-inline-start: spacing.md` (mobile, comme le rail)
+  et `0` à partir de `md` (le conteneur donne déjà la marge). `--first-ar` n'est plus
+  calculé, seul `--last-ar` sert encore au centrage de fin de piste.
+- Masque de piste : fondu au bord droit seulement (`#000 calc(100% - 3xl) → transparent`),
+  comme le rail des wireframes. L'ancien masque elliptique centré effaçait le premier écran
+  maintenant qu'il est à gauche.
+- Surface : `.wg-spot-mat` reprend exactement les insets et le masque de `.wg-mat`
+  (`sm 0 2xl` mobile, `sm -3xl 3xl` desktop, dégradés 4 % / 60 % / 6 % / 94 %) ; seule la
+  texture change (points Canva au lieu de la grille de découpe). Mesuré à 1440 px : canevas
+  368–1392 dans les deux galeries, soit la même étendue horizontale.
+- Écarts mesurés à 1440 px : cadre wireframe → légende 8 px, cadre hi-fi → légende 8 px,
+  légende → points 8 px. À 390 px : mêmes 8 / 8, premier écran hi-fi à `left: 16` comme le
+  wireframe.
+
+### Plaque des variables Figma
+
+- `WorkflowFigure.astro` : largeur plafonnée à `min(largeur native, 640px)` via une constante
+  `maxWidth` (737 px avant), et `sizes` aligné. La plaque mesure 640 × 606 à 1440 px au lieu
+  de 735 × 646 : environ 13 % plus petite, toujours centrée, ratio conservé. C'est la seule
+  figure du site qui passe par ce composant.
+
+### Vérifications
+
+- [x] `npm run build` : 15 pages, aucune erreur
+- [x] `npm run check` : 0 erreur, 0 avertissement (9 hints préexistants)
+- [x] `git diff --stat` : 7 fichiers hors fiche, 51 insertions, 92 suppressions (périmètre de
+      la tâche)
+- [x] Rendu headless (Edge, CDP) en 1440 px et 390 px, onglet portfolio : plus aucune puce
+      d'appareil, icône zoom présente, onglet sans contour avec Y clair sur fond sombre
+- [x] Mesures DOM (voir ci-dessus) pour les écarts, l'alignement à gauche et l'étendue des
+      deux canevas
+- [x] Aucun débordement horizontal de page en 390 px (le rail wireframe défile dans sa piste,
+      comme avant)
+- [x] FR : mêmes retouches (styles partagés) et bloc étape 4 sans écrans dans les deux langues
+
+### Points non finis / à signaler
+
+- `WorkflowDeviceChip.astro` et les clés `workflow.device.phone|tablet|desktop` (EN et FR)
+  ne sont plus utilisés. Je ne les ai pas supprimés : le composant peut resservir, et les
+  clés sont du texte de l'auteur. À trancher.
+- En 390 px, la scène hi-fi garde sa hauteur fixe alors que l'écran desktop est plafonné en
+  largeur : il reste environ 130 px de canevas pointillé au-dessus de l'écran. C'était déjà
+  le cas avant (même hauteur de scène), la texture le rend seulement plus visible. Le
+  wireframe, lui, n'a pas ce vide.
+- La flèche « précédent » du projecteur chevauche le premier écran maintenant qu'il est à
+  gauche ; elle est désactivée (opacité 30 %) tant qu'on est sur le premier écran. Inchangé.
+- Pas de test Safari ni d'appareil physique (mêmes `mask-image` et `color-mix` qu'avant).
+- Rien n'est commité sur `main` : travail sur `agent/opencode-retouches-design`, à relire par
+  le principal.
+
+### Décisions à prendre (propriétaire)
+
+- Supprimer `WorkflowDeviceChip.astro` et ses trois clés i18n, ou les garder pour un autre
+  usage.
+- Plafond de la plaque Figma : 640 px (choix actuel), 600 px si vous la voulez plus discrète,
+  ou retour à la largeur native.
+- Vide de canevas au-dessus des écrans en mobile : le résorber en réduisant la hauteur de
+  scène sous `md` (l'écran desktop plafonné perdrait alors le rythme commun des scènes), ou
+  le laisser tel quel.
+
+### Point de backlog proposé
+
+- `BACKLOG.md`, section « Workflow page » : retirer le composant `WorkflowDeviceChip` et les
+  clés `workflow.device.*` devenues inutilisées, ou documenter qu'elles servent de réserve.
+
 

@@ -40,13 +40,6 @@ en:
         - { id: tailwind, label: "Tailwind CSS 3" }
       constraints: "Fully static output, English at the root and French under /fr, and case studies that can be added without touching the template."
       correction: "The fullscreen image viewer paged through empty image slots because it received the whole positional array. It now receives only the carousel images. French routing also returned 404 errors under the file build format until I added a redirect and fixed the links."
-      screens:
-        - caption: "Image viewer, desktop."
-          src: "portfolio-build-01.webp"
-          alt: "Case-study page on desktop with a figure open in the fullscreen image viewer, with previous and next arrows and a close button."
-        - caption: "The /fr route, mobile."
-          src: "portfolio-build-02.webp"
-          alt: "French case-study page on a phone: the title, the Diagnostic heading and the Contexte section, all in French."
 
 fr:
   title: "Construction"
@@ -86,10 +79,3 @@ fr:
         - { id: tailwind, label: "Tailwind CSS 3" }
       constraints: "Sortie entièrement statique, anglais à la racine et français sous /fr, et des études de cas qu'on peut ajouter sans toucher au modèle de page."
       correction: "La visionneuse d'images plein écran parcourait des emplacements d'image vides parce qu'elle recevait tout le tableau positionnel. Elle ne reçoit maintenant que les images du carrousel. Le routage français renvoyait aussi des erreurs 404 avec le format de build en fichiers, jusqu'à ce que j'ajoute une redirection et corrige les liens."
-      screens:
-        - caption: "La visionneuse d'images, desktop."
-          src: "portfolio-build-01.webp"
-          alt: "Page d'étude de cas sur desktop avec une figure ouverte dans la visionneuse d'images plein écran, avec flèches précédent et suivant et bouton de fermeture."
-        - caption: "La route /fr, mobile."
-          src: "portfolio-build-02.webp"
-          alt: "Page d'étude de cas en français sur un téléphone : le titre, le titre Diagnostic et la section Contexte, en français."
