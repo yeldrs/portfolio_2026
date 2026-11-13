@@ -11,22 +11,18 @@ en:
     - project: "tenon"
       points:
         - "Competitive review of the Play Store and the App Store. I compared the available environments and the AI-compatible tools for building a mobile game."
-        - "Playing the physical puzzle showed me that the rules are simple but hard to guess. Like chess: you see the squares, not the legal moves. The game has to teach them."
-        - "A physical puzzle is handled in three dimensions, while a fixed screen flattens the experience and shortens how long people stay with it. The game needs elements that keep players engaged longer."
+        - "Playing the physical puzzle showed me that the rules are simple but hard to guess. Like chess: you see the squares, not the legal moves. The game has to teach them. A physical puzzle is handled in three dimensions, while a fixed screen flattens the experience and shortens how long people stay with it. The game needs elements that keep players engaged longer."
       tools: []
     - project: "food-journal"
       points:
-        - "I defined four areas of study: the qualitative and quantitative views of health professionals, then those of individuals."
-        - "I drew on a substantial body of documentation: a review of the scientific literature on chronic eating and digestive disorders, a guide to good vocabulary practice for vulnerable audiences, and a study of existing apps."
-        - "I contacted health professionals (dietetics, gastroenterology, psychology) and people affected, to test my vision against the reality on the ground. Their answers, and those from the questionnaire, help me confirm or correct my UX vision."
+        - "We defined four areas of study: the qualitative and quantitative views of health professionals, then those of individuals. We drew on a substantial body of documentation: a review of the scientific literature on chronic eating and digestive disorders, a guide to good vocabulary practice for vulnerable audiences, and a study of existing apps."
+        - "We contacted health professionals (dietetics, gastroenterology, psychology) and people affected, to test our vision against the reality on the ground."
       tools: []
       gate: true
     - project: "portfolio"
       points:
         - "I ran a benchmark of senior portfolios and kept watch on what French and American tech companies expect."
-        - "I tested my Figma mockups with 7 different people, on mobile, desktop and tablet."
-        - "Professionals from different sectors (design, ergonomics, etc.) reviewed the wording and copy to check that the text was understandable."
-        - "The conclusion: lean more on my methodology and technique than on the final visual result."
+        - "I tested my Figma mockups with 7 different people, on mobile, desktop and tablet. Professionals from different sectors (design, ergonomics, etc.) reviewed the wording and copy to check that the text was understandable. The conclusion: lean more on my methodology and technique than on the final visual result."
       tools: []
 fr:
   title: "Recherche"
@@ -35,20 +31,16 @@ fr:
     - project: "tenon"
       points:
         - "Veille concurrentielle sur le Play Store et l'App Store. J'ai comparé les différents environnements et les outils de conception de jeu mobile compatibles avec l'IA."
-        - "En testant la version physique du jeu, j'ai constaté que les règles sont simples mais ne se devinent pas. Comme aux échecs : on voit les cases, pas les coups permis. Le jeu doit donc les enseigner."
-        - "Un casse-tête physique se manipule en 3 dimensions, alors qu'un écran fixe appauvrit l'expérience et la durée d'utilisation. Il faut donc des éléments qui encouragent la durée d'utilisation."
+        - "En testant la version physique du jeu, j'ai constaté que les règles sont simples mais ne se devinent pas. Comme aux échecs : on voit les cases, pas les coups permis. Le jeu doit donc les enseigner. Un casse-tête physique se manipule en 3 dimensions, alors qu'un écran fixe appauvrit l'expérience et la durée d'utilisation. Il faut donc des éléments qui encouragent la durée d'utilisation."
       tools: []
     - project: "food-journal"
       points:
-        - "J'ai défini quatre axes d'étude : le regard qualitatif et quantitatif des professionnels de santé, puis celui des particuliers."
-        - "Je me suis appuyé sur un socle documentaire important : une revue de la littérature scientifique sur les troubles alimentaires et digestifs chroniques, un guide de bonnes pratiques de vocabulaire pour les publics vulnérables et une étude des applications existantes."
-        - "J'ai contacté des professionnels de santé (diététique, gastro-entérologie, psychologie) et des personnes concernées, pour confronter ma vision à la réalité du terrain. Leurs réponses et celles du questionnaire servent à confirmer ou à corriger ma vision de l'UX."
+        - "J'ai défini quatre axes d'étude : le regard qualitatif et quantitatif des professionnels de santé, puis celui des particuliers. Je me suis appuyé sur un socle documentaire important : une revue de la littérature scientifique sur les troubles alimentaires et digestifs chroniques, un guide de bonnes pratiques de vocabulaire pour les publics vulnérables et une étude des applications existantes."
+        - "J'ai contacté des professionnels de santé (diététique, gastro-entérologie, psychologie) et des personnes concernées, pour confronter ma vision à la réalité du terrain."
       tools: []
       gate: true
     - project: "portfolio"
       points:
         - "J'ai fait un benchmark de portfolios seniors et une veille sur les attentes des entreprises tech françaises et américaines."
-        - "J'ai testé mes maquettes Figma auprès de 7 personnes différentes, sur mobile, desktop et tablette."
-        - "Le wording et la copie ont été relus par des professionnels de secteurs différents (design, ergonomie, etc.) pour vérifier que le texte se comprend."
-        - "La conclusion : m'appuyer davantage sur ma méthodologie et ma technique que sur le rendu visuel final."
+        - "J'ai testé mes maquettes Figma auprès de 7 personnes différentes, sur mobile, desktop et tablette. Le wording et la copie ont été relus par des professionnels de secteurs différents (design, ergonomie, etc.) pour vérifier que le texte se comprend. La conclusion : m'appuyer davantage sur ma méthodologie et ma technique que sur le rendu visuel final."
       tools: []

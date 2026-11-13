@@ -172,6 +172,8 @@ const workflowBlock = z.object({
   status: z.enum(["active", "not-applicable", "teaser"]).default("active"),
   // Heading of a sub-block, only when a step splits a project in several (steps 3 and 5).
   heading: z.string().optional(),
+  // Lighter heading (small sans title) for a block that is a sub-section of the one above.
+  subsection: z.boolean().default(false),
   // The block's text: one short bullet per decision or action.
   points: z.array(z.string()).default([]),
   // `id` is optional: without it the logo is found from the label (workflow.tools.ts).
@@ -217,8 +219,8 @@ const workflow = defineCollection({
       for (const lang of ["en", "fr"] as const) {
         for (const b of step[lang].blocks) {
           if (b.status !== "active") continue;
-          if (b.points.length === 0) {
-            ctx.addIssue({ code: "custom", message: `${lang}: an active block needs at least one point.` });
+          if (b.points.length === 0 && b.media.length === 0) {
+            ctx.addIssue({ code: "custom", message: `${lang}: an active block needs at least one point or one media group.` });
           }
           for (const m of b.media) {
             for (const sc of m.screens) {

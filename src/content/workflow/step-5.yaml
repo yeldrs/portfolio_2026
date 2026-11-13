@@ -12,10 +12,8 @@ en:
     - project: "tenon"
       heading: "Tests and accessibility"
       points:
-        - "Automated tests cover the game rules, layout, font sizes and touch targets."
-        - "People close to me tested the game before release, to check that the rules were understood, the interface was easy to use and the visual style worked."
-        - "Contrast is computed from the tokens: the exceptions I accepted are decided and documented."
-        - "I ran captures through a color-blindness simulation. Pegs also differ by shape, shadow and an engraved symbol."
+        - "Automated tests cover the game rules, layout, font sizes and touch targets. People close to me tested the game before release, to check that the rules were understood, the interface was easy to use and the visual style worked."
+        - "Contrast is computed from the tokens: the exceptions I accepted are decided and documented. I ran captures through a color-blindness simulation. Pegs also differ by shape, shadow and an engraved symbol."
       tools: []
     - project: "tenon"
       heading: "Release"
@@ -31,11 +29,9 @@ en:
       status: "teaser"
     - project: "portfolio"
       points:
-        - "GitHub lets me push the site to production on my own domain. Separate branches let me test before releasing to the main branch, which is tied to my domain."
-        - "On the SEO side: canonical URLs, language alternates, Open Graph and structured data."
+        - "GitHub lets me push the site to production on my own domain. Separate branches let me test before releasing to the main branch, which is tied to my domain. On the SEO side: canonical URLs, language alternates, Open Graph and structured data."
         - "After testing several analytics tools, I kept Umami: it is lighter and does not collect private data, so it suits a low-traffic portfolio better."
-        - "Over six months (May to November 2026), 75% of visits arrive directly, probably through the UTM links in my résumés, and 17% through organic search."
-        - "Since the site was translated into French in July 2026, France went from 6% to 20% of traffic. The United States stay around 50%."
+        - "Over six months (May to November 2026), 75% of visits arrive directly, probably through the UTM links in my résumés, and 17% through organic search. Since the site was translated into French in July 2026, France went from 6% to 20% of traffic. The United States stay around 50%."
       tools:
         - label: "GitHub Pages"
         - label: "Umami"
@@ -54,10 +50,8 @@ fr:
     - project: "tenon"
       heading: "Tests et accessibilité"
       points:
-        - "Des tests automatiques couvrent les règles du jeu, la mise en page, les tailles de police et les cibles tactiles."
-        - "Des proches ont testé le jeu avant la publication pour valider la compréhension des règles, l'ergonomie de l'interface ainsi que le style visuel du jeu."
-        - "Le contraste est calculé depuis les tokens : les exceptions assumées sont tranchées et documentées."
-        - "J'ai passé des captures dans une simulation de daltonisme. Les pions se distinguent aussi par leur forme, leur ombre et un symbole gravé."
+        - "Des tests automatiques couvrent les règles du jeu, la mise en page, les tailles de police et les cibles tactiles. Des proches ont testé le jeu avant la publication pour valider la compréhension des règles, l'ergonomie de l'interface ainsi que le style visuel du jeu."
+        - "Le contraste est calculé depuis les tokens : les exceptions assumées sont tranchées et documentées. J'ai passé des captures dans une simulation de daltonisme. Les pions se distinguent aussi par leur forme, leur ombre et un symbole gravé."
       tools: []
     - project: "tenon"
       heading: "Publication"
@@ -73,11 +67,9 @@ fr:
       status: "teaser"
     - project: "portfolio"
       points:
-        - "GitHub me permet de pousser le site en production sur mon propre domaine. Les différentes branches me laissent tester avant de passer en production sur la branche principale, liée à mon domaine."
-        - "Côté SEO : URL canoniques, alternatives de langue, Open Graph et données structurées."
+        - "GitHub me permet de pousser le site en production sur mon propre domaine. Les différentes branches me laissent tester avant de passer en production sur la branche principale, liée à mon domaine. Côté SEO : URL canoniques, alternatives de langue, Open Graph et données structurées."
         - "Après avoir testé plusieurs outils de suivi analytique, j'ai gardé Umami : plus léger, il ne collecte pas de données privées, donc plus adapté à un portfolio à faible trafic."
-        - "Sur six mois (mai à novembre 2026), 75 % des visites arrivent en direct, probablement via les liens UTM de mes CV, et 17 % par recherche organique."
-        - "Depuis la traduction du site en français en juillet 2026, la France est passée de 6 % à 20 % du trafic. Les États-Unis restent autour de 50 %."
+        - "Sur six mois (mai à novembre 2026), 75 % des visites arrivent en direct, probablement via les liens UTM de mes CV, et 17 % par recherche organique. Depuis la traduction du site en français en juillet 2026, la France est passée de 6 % à 20 % du trafic. Les États-Unis restent autour de 50 %."
       tools:
         - label: "GitHub Pages"
         - label: "Umami"

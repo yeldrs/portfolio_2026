@@ -7,10 +7,9 @@ import { useTranslations } from "../../i18n/utils";
 
 export interface Props {
   lang: "en" | "fr";
-  intros: Record<string, { tagline: string; intro: string }>;
 }
 
-const { lang, intros } = Astro.props;
+const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 // Rendered inside the tall `role="radiogroup"` column of WorkflowLayout, so the sticky bar
@@ -19,11 +18,6 @@ const t = useTranslations(lang);
 // `group/tabs` (WorkflowLayout) lets every step react to the selected radio through :has().
 // Browser-tab look (grey strip, flat tabs, white pill when selected) and the All projects
 // menu live in the <style> below, built from theme() so every value comes from tokens.js.
-const introOn = [
-  "group-has-[.r0:checked]/tabs:block",
-  "group-has-[.r1:checked]/tabs:block",
-  "group-has-[.r2:checked]/tabs:block",
-];
 const bannerOn = [
   "group-has-[.r0:checked]/tabs:flex",
   "group-has-[.r1:checked]/tabs:flex",
@@ -38,7 +32,7 @@ const bannerOn = [
       <input type="radio" class={`sr-only r${i}`} name="workflow-project" id={`t-${id}`} checked={i === 0} />
     ))
   }
-  <div data-tabs-bar class="sticky top-[calc(var(--site-nav-h,theme(spacing.3xl))+var(--step-menu-h,0px))] z-[2] bg-background-page pt-sm before:absolute before:bottom-full before:left-1/2 before:h-md before:w-screen before:-translate-x-1/2 md:before:left-0 md:before:w-full md:before:translate-x-0 before:bg-background-page before:content-[''] after:pointer-events-none after:absolute after:left-1/2 after:top-[calc(100%+theme(spacing.xxs))] after:h-md after:w-screen after:-translate-x-1/2 md:after:left-0 md:after:w-full md:after:translate-x-0 after:bg-gradient-to-b after:from-background-page after:to-transparent after:content-['']">
+  <div data-tabs-bar class="sticky top-[calc(var(--site-nav-h,theme(spacing.3xl))+var(--step-menu-h,0px))] z-[2] bg-background-page pb-xs pt-sm before:absolute before:bottom-full before:left-1/2 before:h-md before:w-screen before:-translate-x-1/2 md:before:left-0 md:before:w-full md:before:translate-x-0 before:bg-background-page before:content-[''] after:pointer-events-none after:absolute after:left-1/2 after:top-full after:h-md after:w-screen after:-translate-x-1/2 md:after:left-0 md:after:w-full md:after:translate-x-0 after:bg-gradient-to-b after:from-background-page after:to-transparent after:content-['']">
     <div class="wf-strip">
       <div class="wf-tabs">
         {
@@ -50,7 +44,7 @@ const bannerOn = [
           ))
         }
       </div>
-      <details class="wf-all">
+      <details class="wf-all" hidden>
         <summary aria-label={t("workflow.allProjects")}>
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-md w-md"><path d="M3 5h18v2H3V5zm0 6h18v2H3v-2zm0 6h18v2H3v-2z" /></svg>
           <span class="hidden md:inline">{t("workflow.allProjects")}</span>
@@ -96,16 +90,6 @@ const bannerOn = [
           </div>
         );
       })
-    }
-  </div>
-  <div>
-    {
-      PROJECT_ORDER.map((id, i) => (
-        <div class={`hidden max-w-prose ${introOn[i]}`}>
-          <p class="m-0 text-base font-semibold leading-normal text-text-body-primary">{intros[id].tagline}</p>
-          <p class="m-0 mt-sm text-sm leading-relaxed text-text-body-secondary">{intros[id].intro}</p>
-        </div>
-      ))
     }
   </div>
 </>
@@ -177,6 +161,9 @@ const bannerOn = [
   .wf-all {
     position: relative;
     flex: none;
+  }
+  .wf-all[hidden] {
+    display: none;
   }
   .wf-all > summary {
     display: flex;
@@ -319,9 +306,68 @@ const bannerOn = [
 <script>
   // Close the All projects menu once a project is picked, on a click outside, or on Escape.
   const menus = document.querySelectorAll<HTMLDetailsElement>("details.wf-all");
+  // All projects only appears when the tabs no longer fit. Hidden first, measured, then shown.
+  const tabsBox = document.querySelector<HTMLElement>(".wf-tabs");
+  const fit = () => {
+    if (!tabsBox) return;
+    menus.forEach((d) => {
+      d.hidden = true;
+      d.hidden = tabsBox.scrollWidth <= tabsBox.clientWidth + 1;
+      if (d.hidden) d.open = false;
+    });
+  };
+  fit();
+  if (tabsBox && "ResizeObserver" in window) new ResizeObserver(fit).observe(tabsBox);
+  window.addEventListener("resize", fit);
+  document.fonts?.ready.then(fit);
   const closeAll = () => menus.forEach((d) => (d.open = false));
   document.querySelectorAll<HTMLInputElement>('input[name="workflow-project"]').forEach((input) => {
     input.addEventListener("change", closeAll);
+  });
+  // Keep the reader on the same step, at the same height on screen, when the project changes.
+  // The step in view is the anchor: its viewport offset is recorded on every scroll/resize
+  // (layout is still the old one then), and put back right after the switch whatever the new
+  // content height. Native scroll anchoring is off on the page, it would fight this.
+  document.documentElement.style.overflowAnchor = "none";
+  const steps = Array.from(document.querySelectorAll<HTMLElement>("section[data-step]"));
+  const bar = document.querySelector<HTMLElement>("[data-tabs-bar]");
+  let anchor: { el: HTMLElement; top: number } | null = null;
+  const record = () => {
+    if (!steps.length) return;
+    const line = bar ? bar.getBoundingClientRect().bottom : 0;
+    let best = steps[0];
+    for (const s of steps) {
+      if (s.getBoundingClientRect().top <= line + 1) best = s;
+      else break;
+    }
+    anchor = { el: best, top: best.getBoundingClientRect().top };
+  };
+  let queued = false;
+  const queue = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      record();
+    });
+  };
+  record();
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", queue);
+  const restore = () => {
+    if (!anchor) return;
+    const delta = anchor.el.getBoundingClientRect().top - anchor.top;
+    if (delta) window.scrollBy({ top: delta, behavior: "instant" });
+  };
+  document.querySelectorAll<HTMLInputElement>('input[name="workflow-project"]').forEach((input) => {
+    input.addEventListener("change", () => {
+      restore();
+      // Images of the new project settle after the switch: correct once more, then resume tracking.
+      requestAnimationFrame(() => {
+        restore();
+        record();
+      });
+    });
   });
   document.addEventListener("click", (e) => {
     menus.forEach((d) => {

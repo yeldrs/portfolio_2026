@@ -12,8 +12,7 @@ en:
     - project: "tenon"
       points:
         - "Godot, driven mostly with Claude Code at first, then with DeepSeek and Gemini."
-        - "One screen at a time, with stops and before and after captures. I validate on a real phone before moving to the next screen."
-        - "I wrote no application code by hand. My technical work was auditing and checking."
+        - "One screen at a time, with stops and before and after captures. I validate on a real phone before moving to the next screen. I wrote no application code by hand. My technical work was auditing and checking."
       tools:
         - label: "Claude Code"
         - label: "OpenCode"
@@ -25,8 +24,7 @@ en:
       status: "teaser"
     - project: "portfolio"
       points:
-        - "My Claude Code agent reads the repository in real time and follows my constraint files, my context and my skills."
-        - "A skill formats my project writing as YAML. The agent only structures the text, which stays editable by hand at any time."
+        - "My Claude Code agent reads the repository in real time and follows my constraint files, my context and my skills. A skill formats my project writing as YAML. The agent only structures the text, which stays editable by hand at any time."
       tools:
         - label: "Claude Code"
         - label: "OpenCode"
@@ -40,8 +38,7 @@ fr:
     - project: "tenon"
       points:
         - "Godot, piloté surtout avec Claude Code au départ, puis avec DeepSeek et Gemini."
-        - "Un écran à la fois, avec des arrêts et des captures avant et après. Je valide sur un vrai téléphone avant de passer au suivant."
-        - "Je n'ai écrit aucun code applicatif à la main. Mon travail technique fut l'audit et la vérification."
+        - "Un écran à la fois, avec des arrêts et des captures avant et après. Je valide sur un vrai téléphone avant de passer au suivant. Je n'ai écrit aucun code applicatif à la main. Mon travail technique fut l'audit et la vérification."
       tools:
         - label: "Claude Code"
         - label: "OpenCode"
@@ -53,8 +50,7 @@ fr:
       status: "teaser"
     - project: "portfolio"
       points:
-        - "Mon agent Claude Code lit le dépôt en temps réel et suit mes fichiers de contraintes, mon contexte et mes skills."
-        - "Un skill me permet de formater en YAML la rédaction de mes projets. L'agent ne fait que structurer le texte, qui reste modifiable à la main à tout moment."
+        - "Mon agent Claude Code lit le dépôt en temps réel et suit mes fichiers de contraintes, mon contexte et mes skills. Un skill me permet de formater en YAML la rédaction de mes projets. L'agent ne fait que structurer le texte, qui reste modifiable à la main à tout moment."
       tools:
         - label: "Claude Code"
         - label: "OpenCode"

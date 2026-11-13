@@ -8,7 +8,7 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { toolIdFromLabel, toolNames } from "./workflow.tools";
 
-export const PROJECT_ORDER = ["tenon", "food-journal", "portfolio"] as const;
+export const PROJECT_ORDER = ["tenon", "portfolio", "food-journal"] as const;
 export type ProjectId = (typeof PROJECT_ORDER)[number];
 
 type Locale = "en" | "fr";

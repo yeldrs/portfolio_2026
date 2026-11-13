@@ -116,8 +116,9 @@ const arrowBtn =
           const Tag = s.zoom ? "button" : "div";
           return (
             <Tag
-              class:list={["wg-ritem flex flex-none flex-col gap-sm border-0 bg-transparent p-0 text-left", s.zoom && "cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"]}
-              style={`--w:${s.dp.w}`}
+              class:list={["wg-ritem relative flex flex-none flex-col gap-sm border-0 bg-transparent p-0 text-left", s.zoom && "cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"]}
+              style={`--ar:${s.ar}`}
+              data-device={s.device}
               {...(s.zoom ? { type: "button", "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
             >
               {/* Wireframes are flat screens: no device frame, just the screen itself. */}
@@ -132,7 +133,7 @@ const arrowBtn =
                   </span>
                 )}
               </span>
-              <span class="block text-center text-xs text-text-body-secondary">
+              <span class="absolute inset-x-0 top-full mt-sm block text-center text-xs text-text-body-secondary">
                 <span class="whitespace-nowrap">{s.caption}</span>
               </span>
             </Tag>
@@ -174,10 +175,10 @@ const arrowBtn =
           );
         })}
       </div>
-      <button type="button" data-spot-prev aria-label={t("workflow.galleryPrev")} class:list={[arrowBtn, "left-sm md:left-md"]} disabled={start === 0}>
+      <button type="button" data-spot-prev aria-label={t("workflow.galleryPrev")} class:list={[arrowBtn, "left-0 -translate-x-1/2"]} disabled={start === 0}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
       </button>
-      <button type="button" data-spot-next aria-label={t("workflow.galleryNext")} class:list={[arrowBtn, "right-sm md:right-md"]} disabled={start === items.length - 1}>
+      <button type="button" data-spot-next aria-label={t("workflow.galleryNext")} class:list={[arrowBtn, "right-0 translate-x-1/2"]} disabled={start === items.length - 1}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" /></svg>
       </button>
       {/* Caption, device and zoom sit under the screens, like the wireframe gallery. */}
@@ -204,14 +205,13 @@ const arrowBtn =
 }
 
 <style>
-  /* One mat cell = 16px. Device sizes are multiples of 40dp, so a 0.4px/dp scale puts
-     every edge on a grid line: 360 -> 144, 800 -> 320, 1280 -> 512. A container-relative
-     ratio would drift, so the scale is fixed in px. */
+  /* Same screen heights as the hi-fi spotlight below (--band and the per-device --k), so a
+     wireframe and its final screen are drawn at the same size. */
   .wg-rail {
-    --wg-u: 0.4px;
+    --band: calc(theme("spacing.6xl") * 4 - theme("spacing.xl") - theme("spacing.2xl") * 2);
     /* The block gap above already sets the rhythm under the heading; the mat only needs
        its 8px grid line. Below, one 24px step under the caption row. */
-    padding-block: theme("spacing.sm") theme("spacing.lg");
+    padding-block: theme("spacing.lg");
   }
   .wg-mat {
     position: absolute;
@@ -241,9 +241,11 @@ const arrowBtn =
   .wg-rail-track {
     position: relative;
     display: flex;
-    align-items: flex-end;
-    /* Gap = two 16px mat cells: the grid keeps its rhythm between the screens. */
-    gap: theme("spacing.xl");
+    align-items: center;
+    /* Same gap, start offset and vertical band as the hi-fi spotlight, so both galleries lay
+       their screens out identically. The captions hang under the band (absolute). */
+    gap: theme("spacing.md");
+    min-height: var(--band);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-padding-inline-start: theme("spacing.md");
@@ -251,17 +253,29 @@ const arrowBtn =
     /* The right edge fades the incoming screens without painting over the mat. */
     -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
     mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
-    padding: 0 theme("spacing.3xl") theme("spacing.sm") theme("spacing.md");
+    padding: 0 theme("spacing.3xl") theme("spacing.xl") theme("spacing.md");
   }
   .wg-rail-track::-webkit-scrollbar {
     display: none;
   }
   .wg-ritem {
-    width: calc(var(--w) * var(--wg-u));
+    --k: 1;
+    width: calc(var(--band) * var(--ar) * var(--k));
+    max-width: 85vw;
     scroll-snap-align: start;
   }
+  .wg-ritem[data-device="tablet"] {
+    --k: 0.9;
+  }
+  .wg-ritem[data-device="phone"] {
+    --k: 0.8;
+  }
   @media (min-width: theme("screens.md")) {
+    .wg-rail {
+      --band: calc(theme("spacing.6xl") * 4 + theme("spacing.xl") - theme("spacing.2xl") * 2);
+    }
     .wg-rail-track {
+      gap: theme("spacing.lg");
       padding-inline-start: 0;
       scroll-padding-inline-start: 0;
     }
@@ -317,31 +331,43 @@ const arrowBtn =
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, theme("colors.gray.400") 58%, transparent) calc(theme("spacing.xxs") / 2),
-      transparent theme("spacing.xxs")
+      color-mix(in srgb, theme("colors.gray.400") 62%, transparent) calc(theme("spacing.xxs") / 4),
+      transparent calc(theme("spacing.xxs") * 0.75)
     );
     background-size: calc(theme("spacing.md") * 0.875) calc(theme("spacing.md") * 0.875);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
+    /* The dots follow the screens: --sx is the track's scrollLeft (set by the script below). */
+    background-position: calc(-1 * var(--sx, 0px)) 0;
+    /* Rounded, eased falloff: an ellipse that stays solid behind the screens and thins out
+       gradually toward the edges (no straight band edges, no hard corners). A short linear
+       fade on the left keeps the start clean. */
+    --spot-fade: radial-gradient(
+      ellipse 62% 78% at 40% 50%,
+      #000 0%,
+      #000 38%,
+      rgb(0 0 0 / 0.82) 52%,
+      rgb(0 0 0 / 0.55) 66%,
+      rgb(0 0 0 / 0.28) 80%,
+      rgb(0 0 0 / 0.09) 91%,
+      transparent 100%
+    );
+    -webkit-mask-image: var(--spot-fade), linear-gradient(90deg, transparent, #000 6%);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
+    mask-image: var(--spot-fade), linear-gradient(90deg, transparent, #000 6%);
     mask-composite: intersect;
   }
   .wg-track {
     position: absolute;
     inset: 0;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: theme("spacing.md");
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
+    padding-top: var(--wg-top);
     padding-bottom: var(--wg-foot-pad);
     padding-inline-start: theme("spacing.md");
     padding-inline-end: calc(50cqw - var(--band) * var(--last-ar) / 2);
-    /* Right edge only, like the wireframe rail: the first screen is fully visible at the
-       left edge, the incoming screens fade out on the right. */
-    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
-    mask-image: linear-gradient(90deg, #000 calc(100% - theme("spacing.3xl")), transparent 100%);
   }
   .wg-track::-webkit-scrollbar {
     display: none;
@@ -363,22 +389,27 @@ const arrowBtn =
   .wg-item[data-device="phone"] {
     --k: 0.8;
   }
-  /* Hi-fi shadow: one diffuse layer, no spread and no hairline, so it falls evenly along the
-     edges instead of pooling at the rounded corners. Mostly neutral gray with a touch of the
-     accent; the dark frames take a little more. Extent below the frame is 8 + 32 = 40px, inside
-     the track's bottom padding, which clips anything beyond it. */
+  /* Hi-fi shadow: four stacked soft layers, from a tight contact edge to a gentle ambient
+     falloff. Each layer is a little larger and fainter than the last, so the shadow grows
+     progressively instead of sitting as one band. Short reach (24px below the frame at most),
+     neutral gray with a barely visible accent tint; the dark frames take a little more. */
   .wg-item :global(.pf) {
-    --wg-tint: color-mix(in srgb, theme("colors.gray.950") 82%, theme("colors.button-background-primary"));
-    --wg-soft: color-mix(in srgb, var(--wg-tint) 13%, transparent);
-    box-shadow: 0 theme("spacing.sm") theme("spacing.xl") 0 var(--wg-soft);
+    --wg-tint: color-mix(in srgb, theme("colors.gray.950") 94%, theme("colors.button-background-primary"));
+    --wg-a: 1;
+    --wg-shadow:
+      0 theme("spacing.xxs") theme("spacing.xs") 0 color-mix(in srgb, var(--wg-tint) calc(7% * var(--wg-a)), transparent),
+      0 theme("spacing.xs") theme("spacing.sm") 0 color-mix(in srgb, var(--wg-tint) calc(6% * var(--wg-a)), transparent),
+      0 theme("spacing.sm") theme("spacing.md") 0 color-mix(in srgb, var(--wg-tint) calc(5% * var(--wg-a)), transparent),
+      0 theme("spacing.sm-d") theme("spacing.lg") 0 color-mix(in srgb, var(--wg-tint) calc(4% * var(--wg-a)), transparent);
+    box-shadow: var(--wg-shadow);
   }
   .wg-item :global(.pf--dark) {
-    --wg-soft: color-mix(in srgb, var(--wg-tint) 24%, transparent);
+    --wg-a: 1.7;
   }
   .wg-item :global(.pf--apple) {
     box-shadow:
       0 0 0 1px var(--pf-edge),
-      0 theme("spacing.sm") theme("spacing.xl") 0 var(--wg-soft);
+      var(--wg-shadow);
   }
   .wg-flat {
     box-shadow: theme("boxShadow.md");
@@ -395,7 +426,10 @@ const arrowBtn =
     }
     .wg-track {
       gap: theme("spacing.lg");
-      padding-inline-start: 0;
+      /* The track reaches 24px past the column on the left and pads it back, so the first
+         screen stays aligned with the text while its shadow is no longer cut by the scroll box. */
+      inset-inline-start: calc(-1 * theme("spacing.lg"));
+      padding-inline-start: theme("spacing.lg");
     }
   }
 </style>
@@ -440,6 +474,11 @@ const arrowBtn =
     // Arrive on the chosen screen, instantly (no animation).
     const first = items[current];
     track.scrollTo({ left: first.offsetLeft - (track.clientWidth - first.offsetWidth) / 2, behavior: "auto" });
+
+    // The dotted canvas scrolls with the screens.
+    const syncMat = () => root.style.setProperty("--sx", `${track.scrollLeft}px`);
+    track.addEventListener("scroll", syncMat, { passive: true });
+    syncMat();
 
     let frame = 0;
     track.addEventListener(

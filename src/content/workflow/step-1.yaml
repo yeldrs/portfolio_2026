@@ -11,8 +11,7 @@ en:
     - project: "tenon"
       points:
         - "Visual direction is one of the game's main criteria. I aimed for a calm, wooden mood with light sound effects and soft music, plus a discreet layer of technology so the screen doesn't feel static."
-        - "After researching the technical tooling, I chose Godot, driven with Claude Code."
-        - "The design system will be useful when I develop the next levels."
+        - "After researching the technical tooling, I chose Godot, driven with Claude Code. The design system will be useful when I develop the next levels."
         - "My backlog is synchronized between Claude, GitHub and Notion. Agents maintain it automatically and I can still edit it by hand, as in an agile setup where each agent has its own tasks and tickets."
         - "No marketing planned: it's a learning project with no financial cost. A light monetization is planned for the next release."
       tools:
@@ -29,15 +28,11 @@ en:
       correction: "Agents in different environments need the same source of truth. One synced backlog keeps them aligned when my decisions change."
     - project: "food-journal"
       points:
-        - "Most tracking apps chase performance or looks, which can be a problem for individuals."
-        - "Everyone should keep control of their goals and personal data."
-        - "Data entered by hand is hard to use effectively. Between two consultations, supporting patients can also be difficult."
+        - "Most tracking apps chase performance or looks, which can be a problem for individuals. Everyone should keep control of their goals and personal data. Data entered by hand is hard to use effectively. Between two consultations, supporting patients can also be difficult."
       tools: []
     - project: "portfolio"
       points:
-        - "I wanted a static site that I can edit without effort. No CMS, no online portfolio builder: I keep control of everything."
-        - "Text, images and projects live in YAML files that Astro templates read. To add or hide a project, I simply edit a text file."
-        - "Stack: Astro 5 with static output, Tailwind CSS 3, and GitHub Pages for deployment."
+        - "I wanted a static site that I can edit without effort. No CMS, no online portfolio builder: I keep control of everything. Text, images and projects live in YAML files that Astro templates read. To add or hide a project, I simply edit a text file. Stack: Astro 5 with static output, Tailwind CSS 3, and GitHub Pages for deployment."
         - "I set the agent's rules and constraints in a rulebook of about 120 lines, trimmed from 4.3k to 1.6k tokens in the latest refactoring."
       tools:
         - label: "Claude Code"
@@ -60,8 +55,7 @@ fr:
     - project: "tenon"
       points:
         - "La direction visuelle du jeu est l'un des critères principaux du jeu. J'ai défini une ambiance bois, calme, avec des bruitages légers et de la musique douce. Une couche de technologie discrète pour que l'écran ne reste pas figé."
-        - "Après une veille sur l'outillage technique, j'ai choisi Godot, piloté avec Claude Code."
-        - "Le design system est utile pour le développement des prochains niveaux."
+        - "Après une veille sur l'outillage technique, j'ai choisi Godot, piloté avec Claude Code. Le design system est utile pour le développement des prochains niveaux."
         - "Mon backlog est synchronisé entre Claude, GitHub et Notion. Il est automatiquement maintenu par les agents et reste modifiable à la main. Comme dans un fonctionnement agile, où chaque agent dispose de tâches et de tickets attribués."
         - "Aucun marketing prévu : c'est un projet d'apprentissage sans coût financier. Une monétisation légère est prévue dans la prochaine release."
       tools:
@@ -78,15 +72,11 @@ fr:
       correction: "Des agents dans des environnements différents ont besoin de la même source de vérité. Un seul backlog synchronisé les garde alignés quand mes décisions changent."
     - project: "food-journal"
       points:
-        - "Les applications de suivi courantes misent sur la performance ou l'esthétique, et peuvent poser problème à l'échelle individuelle."
-        - "Il appartient à chacun de garder la maîtrise de ses objectifs et de ses données personnelles."
-        - "Les données saisies à la main sont difficiles à exploiter efficacement. De plus, entre deux consultations, l'accompagnement des patients peut être compliqué."
+        - "Les applications de suivi courantes misent sur la performance ou l'esthétique, et peuvent poser problème à l'échelle individuelle. Il appartient à chacun de garder la maîtrise de ses objectifs et de ses données personnelles. Les données saisies à la main sont difficiles à exploiter efficacement. De plus, entre deux consultations, l'accompagnement des patients peut être compliqué."
       tools: []
     - project: "portfolio"
       points:
-        - "Je voulais un site statique, modifiable sans effort. Ni CMS ni créateur de portfolio en ligne : je garde la main sur tout."
-        - "Textes, images et projets vivent dans des fichiers YAML que des templates Astro lisent. Pour ajouter ou cacher un projet, j'édite simplement un fichier texte."
-        - "Stack : Astro 5 en sortie statique, Tailwind CSS 3 et GitHub Pages pour le déploiement."
+        - "Je voulais un site statique, modifiable sans effort. Ni CMS ni créateur de portfolio en ligne : je garde la main sur tout. Textes, images et projets vivent dans des fichiers YAML que des templates Astro lisent. Pour ajouter ou cacher un projet, j'édite simplement un fichier texte. Stack : Astro 5 en sortie statique, Tailwind CSS 3 et GitHub Pages pour le déploiement."
         - "J'ai fixé les règles et les contraintes de l'agent dans un recueil d'environ 120 lignes, allégé de 4,3k à 1,6k tokens lors de la dernière refactorisation."
       tools:
         - label: "Claude Code"

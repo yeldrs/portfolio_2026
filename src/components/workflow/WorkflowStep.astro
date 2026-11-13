@@ -8,9 +8,11 @@ import { useTranslations } from "../../i18n/utils";
 export interface Props {
   lang: "en" | "fr";
   step: WorkflowStep;
+  /** Project descriptions, shown at the top of the Framing step only. */
+  intros?: Record<string, { tagline: string; intro: string }>;
 }
 
-const { lang, step } = Astro.props;
+const { lang, step, intros } = Astro.props;
 const t = useTranslations(lang);
 
 // Only the project picked in the page-level selector (WorkflowProjectTabs) is shown.
@@ -19,6 +21,13 @@ const panelOn = [
   "group-has-[.r0:checked]/tabs:block",
   "group-has-[.r1:checked]/tabs:block",
   "group-has-[.r2:checked]/tabs:block",
+];
+
+// Title suffix: the picked project's name, shown through the same :has() switch as the panels.
+const titleOn = [
+  "group-has-[.r0:checked]/tabs:inline",
+  "group-has-[.r1:checked]/tabs:inline",
+  "group-has-[.r2:checked]/tabs:inline",
 ];
 
 const n = step.order;
@@ -39,8 +48,26 @@ const n = step.order;
     >
       <WorkflowStepIcon order={n} />
     </span>
-    <h2 id={`${step.id}-title`} class="m-0 font-serif text-3xl font-semibold">{step.title}</h2>
+    <h2 id={`${step.id}-title`} class="m-0 font-serif text-3xl font-semibold">
+      {step.title}
+      {step.projects.map((project, i) => (
+        <span class:list={["hidden text-text-body-accent", titleOn[i]]}> {t(`workflow.projectTitle.${project.id}`)}</span>
+      ))}
+    </h2>
   </div>
+
+  {n === 1 && intros && (
+    <div>
+      {step.projects.map((project, i) => (
+        intros[project.id] && (
+          <div class:list={["hidden max-w-prose", panelOn[i]]}>
+            <p class="m-0 text-base font-semibold leading-normal text-text-body-primary">{intros[project.id].tagline}</p>
+            <p class="m-0 mt-sm text-sm leading-relaxed text-text-body-secondary">{intros[project.id].intro}</p>
+          </div>
+        )
+      ))}
+    </div>
+  )}
 
   <p class="m-0 max-w-prose text-base leading-relaxed text-text-body-primary">{step.globalText}</p>
 
@@ -49,37 +76,21 @@ const n = step.order;
       step.projects.map((project, i) => (
         <div id={`tp-s${n}-${project.id}`} class:list={["hidden", panelOn[i]]}>
           {project.disabled ? (
-            <p class="m-0 text-base text-text-body-secondary">{t("workflow.notApplicableStep")}</p>
+            <p class="m-0 max-w-prose text-base text-text-body-secondary">{t("workflow.notApplicableStep")}</p>
           ) : project.teaser ? (
             <WorkflowGate lang={lang} variant="locked" />
           ) : (
-            <div class="flex flex-col gap-lg">
-              {project.blocks.length > 1 && (
-                  <nav aria-label={t("workflow.projectSections", { project: t(`workflow.project.${project.id}`) })}>
-                    <ul class="m-0 flex list-none flex-wrap gap-x-lg gap-y-xs p-0">
-                      {project.blocks.map((block, j) => (
-                        <li>
-                          <a
-                            href={`#s${n}-${project.id}-${j}`}
-                            class="text-sm font-semibold text-text-body-accent underline hover:text-text-body-accent-strong"
-                          >
-                            {block.heading}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
-                )}
+            <div class="flex flex-col gap-2xl">
               {project.blocks.map((block, j) => (
                 block.gate ? (
                   /* Press-style barrier: the text fades out, the card follows right under it. */
                   <div class="relative">
-                    <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={project.blocks.length > 1} />
+                    <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={true} />
                     <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-2xl bg-gradient-to-t from-background-page to-transparent" />
                     <div class="mt-md"><WorkflowGate lang={lang} variant="full" /></div>
                   </div>
                 ) : (
-                  <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={project.blocks.length > 1} />
+                  <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={true} />
                 )
               ))}
             </div>
