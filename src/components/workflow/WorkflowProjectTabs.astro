@@ -65,33 +65,18 @@ const bannerOn = [
   </div>
   {/* One banner per project, under the tabs, so a tab change is visible at a glance. Drop
       src/assets/workflow/banner-<project-id>.webp (1800 x 600, subject inside the middle
-      two thirds: mobile crops to 2:1) to replace the placeholder. */}
-  <div class="mb-xl mt-sm md:max-w-[var(--wf-col)]">
-    {
-      PROJECT_ORDER.map((id, i) => {
-        const banner = workflowImage(`banner-${id}.webp`);
-        const name = t(`workflow.project.${id}`);
-        return banner ? (
-          <div class={`hidden aspect-[2/1] overflow-hidden rounded-card md:aspect-[3/1] ${bannerOn[i]}`}>
-            <Image src={banner} alt={t("workflow.bannerAlt", { project: name })} widths={[640, 1280, 1800]} sizes="(min-width: 1200px) 880px, 100vw" format="webp" class="h-full w-full object-cover" />
-          </div>
-        ) : (
-          <div
-            role="img"
-            aria-label={t("workflow.bannerAria", { project: name })}
-            class={`relative hidden aspect-[2/1] items-center justify-center overflow-hidden rounded-card border border-dashed border-gray-500 bg-gray-100 md:aspect-[3/1] before:pointer-events-none before:absolute before:inset-y-0 before:left-[16.666%] before:right-[16.666%] before:border-x before:border-dashed before:border-gray-400 before:content-[''] ${bannerOn[i]}`}
-          >
-            <span aria-hidden="true" class="relative flex flex-col items-center gap-xs text-text-body-secondary">
-              <svg viewBox="0 0 24 24" fill="currentColor" class="h-lg w-lg text-gray-500">
-                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
-              </svg>
-              <b class="text-sm font-bold text-text-body-primary">{name}</b>
-            </span>
-          </div>
-        );
-      })
-    }
-  </div>
+      two thirds: mobile crops to 2:1). A project without a banner file shows nothing. */}
+  {
+    PROJECT_ORDER.map((id, i) => {
+      const banner = workflowImage(`banner-${id}.webp`);
+      const name = t(`workflow.project.${id}`);
+      return banner ? (
+        <div class={`mb-xl mt-sm hidden aspect-[2/1] overflow-hidden rounded-card md:aspect-[3/1] md:max-w-[var(--wf-col)] ${bannerOn[i]}`}>
+          <Image src={banner} alt={t("workflow.bannerAlt", { project: name })} widths={[640, 1280, 1800]} sizes="(min-width: 1200px) 880px, 100vw" format="webp" class="h-full w-full object-cover" />
+        </div>
+      ) : null;
+    })
+  }
 </>
 
 <style is:global>
