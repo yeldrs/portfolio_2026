@@ -2,10 +2,9 @@
 import type { WorkflowPage } from "./workflow.types";
 
 export const workflow: WorkflowPage = {
-  eyebrow: "Comment je travaille",
   title: "Design, code et IA, dans un seul workflow",
   intro:
-    "Je mène mes projets de A à Z avec des agents IA. Je cadre et je conçois ; eux écrivent le code, puis je relis et je peaufine. Voici les cinq étapes de mon workflow, illustrées par trois projets : les outils utilisés et les erreurs corrigées en route.",
+    "Je mène certains de mes projets les plus récents avec des agents IA. Je cadre, je pilote et j'esquisse le design ; les agents construisent le projet et écrivent le code, que je relis et peaufine. Voici cinq grandes étapes de mon workflow, illustrées par trois projets différents, avec les outils utilisés et les erreurs corrigées en route.",
   teaserIntro:
     "Ma pratique du design agentique : trois projets, cinq étapes, et les outils que j'utilise.",
   projects: {
@@ -17,7 +16,7 @@ export const workflow: WorkflowPage = {
     "food-journal": {
       tagline: "Une application web pour suivre ses repas et ses signaux corporels, en calm UX : sans jugement, sans diagnostic anxiogène.",
       intro:
-        "Solene est une plateforme de suivi alimentaire et du ressenti émotionnel. Elle s'adresse notamment aux personnes qui vivent avec un trouble du comportement alimentaire ou des maladies digestives chroniques, ainsi qu'à toute personne qui souhaite mieux comprendre les signaux du corps. Au départ, c'était un outil personnel qui a notamment aidé mon médecin à diagnostiquer chez moi un SII.",
+        "Health journal est une plateforme de suivi alimentaire et du ressenti émotionnel. Elle s'adresse notamment aux personnes qui vivent avec un trouble du comportement alimentaire ou des maladies digestives chroniques, ainsi qu'à toute personne qui souhaite mieux comprendre les signaux du corps. Au départ, c'était un outil personnel qui a notamment aidé mon médecin à diagnostiquer chez moi un SII.",
     },
     portfolio: {
       tagline: "Mon portfolio. Troisième version, la première faite avec des agents IA. Bilingue FR et EN.",

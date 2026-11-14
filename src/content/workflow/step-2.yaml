@@ -5,7 +5,7 @@ teaserTools:
   - "typeform"
   - "optimal-workshop"
 en:
-  title: "Research"
+  title: "Researching"
   globalText: "I research until I can write constraints that the design and the agents must respect. The result is a written constraints document, not a pile of references."
   blocks:
     - project: "tenon"

@@ -4,6 +4,7 @@ import WorkflowBlock from "./WorkflowBlock.astro";
 import WorkflowGate from "./WorkflowGate.astro";
 import type { WorkflowStep } from "../../data/workflow.loader";
 import { useTranslations } from "../../i18n/utils";
+import type { UiKey } from "../../i18n/ui";
 
 export interface Props {
   lang: "en" | "fr";
@@ -37,9 +38,9 @@ const n = step.order;
 <section
   id={step.id}
   data-step={n}
-  data-step-title={step.title}
+  data-step-title={t(`workflow.stepNav.${step.order}` as UiKey)}
   aria-labelledby={`${step.id}-title`}
-  class="flex flex-col gap-lg py-2xl md:py-3xl border-t border-stroke-neutral-primary scroll-mt-[calc(var(--wf-sticky)+theme(spacing.sm))] first:border-t-0 first:pt-xl last:pb-0"
+  class="flex flex-col gap-lg py-3xl md:py-4xl border-t border-stroke-neutral-primary scroll-mt-[calc(var(--wf-sticky)+theme(spacing.sm))] first:border-t-0 first:pt-xl last:pb-0"
 >
   <div class="flex flex-wrap items-center gap-x-md gap-y-sm">
     <span
@@ -82,7 +83,8 @@ const n = step.order;
           ) : (
             <div class="flex flex-col gap-2xl">
               {project.blocks.map((block, j) => (
-                block.gate ? (
+                <>
+                {block.gate ? (
                   /* Press-style barrier: the text fades out, the card follows right under it. */
                   <div class="relative">
                     <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={true} />
@@ -91,7 +93,8 @@ const n = step.order;
                   </div>
                 ) : (
                   <WorkflowBlock lang={lang} block={block} id={`s${n}-${project.id}-${j}`} showHeading={true} />
-                )
+                )}
+              </>
               ))}
             </div>
           )}

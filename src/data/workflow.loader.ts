@@ -41,7 +41,11 @@ export async function getWorkflowSteps(lang: Locale): Promise<WorkflowStep[]> {
     const projects: WorkflowProject[] = PROJECT_ORDER.map((id) => {
       const blocks = copy.blocks
         .filter((b) => b.project === id)
-        .map((b) => ({ ...b, tools: b.tools.map((tool) => ({ ...tool, id: tool.id ?? toolIdFromLabel(tool.label) })) }));
+        .map((b) => {
+          // Two labels can resolve to the same tool (Figma + Figma MCP): show it once.
+          const tools = b.tools.map((tool) => ({ ...tool, id: tool.id ?? toolIdFromLabel(tool.label) }));
+          return { ...b, tools: tools.filter((tool, i) => !tool.id || tools.findIndex((o) => o.id === tool.id) === i) };
+        });
       return {
         id,
         blocks,

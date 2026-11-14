@@ -144,6 +144,10 @@ const semantic = {
     container: {
       maxWidth: "1200px",
     },
+    // Site-wide page width (navbar, footer and every page container).
+    page: {
+      maxWidth: "1152px",
+    },
     // Readable line length for long-form paragraphs (workflow page).
     prose: {
       maxWidth: "672px",

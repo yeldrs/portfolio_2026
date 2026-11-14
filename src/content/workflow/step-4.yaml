@@ -6,7 +6,7 @@ teaserTools:
   - "gemini"
   - "godot"
 en:
-  title: "Build"
+  title: "Building"
   globalText: "I write the brief and the acceptance criteria, then review. I check every result in the product itself, not only in the code. When an agent gets something wrong, the lesson becomes a rule."
   blocks:
     - project: "tenon"

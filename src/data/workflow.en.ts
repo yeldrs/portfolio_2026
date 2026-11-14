@@ -2,10 +2,9 @@
 import type { WorkflowPage } from "./workflow.types";
 
 export const workflow: WorkflowPage = {
-  eyebrow: "How I work",
   title: "Design, code and AI, in one workflow",
   intro:
-    "I run my projects end to end with AI agents. I frame and design; they write the code, then I review and polish. Here are the five steps of my workflow, shown on three projects, with the tools I used and the mistakes I corrected along the way.",
+    "I run some of my most recent projects with AI agents. I frame, pilot and rough out the design; the agents build the project and write the code, for me to review and polish. Here are five general steps of my workflow, shown on three different projects, with the tools I used and the mistakes I corrected along the way.",
   teaserIntro:
     "My agentic design practice: three projects, five steps, and the tools I use.",
   projects: {
@@ -17,7 +16,7 @@ export const workflow: WorkflowPage = {
     "food-journal": {
       tagline: "A calm-UX web app to track meals and body signals, with no judgement and no anxiety-inducing diagnosis.",
       intro:
-        "Solene is a platform for tracking food and emotional state. It is aimed especially at people living with an eating disorder or chronic digestive conditions, and at anyone who wants to understand their body's signals better. It started as a personal tool that notably helped my doctor diagnose my IBS.",
+        "Health journal is a platform for tracking food and emotional state. It is aimed especially at people living with an eating disorder or chronic digestive conditions, and at anyone who wants to understand their body's signals better. It started as a personal tool that notably helped my doctor diagnose my IBS.",
     },
     portfolio: {
       tagline: "My portfolio. Third version, the first built with AI agents. Bilingual, EN and FR.",

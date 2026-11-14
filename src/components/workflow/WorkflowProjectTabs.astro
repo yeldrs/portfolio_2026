@@ -32,13 +32,13 @@ const bannerOn = [
       <input type="radio" class={`sr-only r${i}`} name="workflow-project" id={`t-${id}`} checked={i === 0} />
     ))
   }
-  <div data-tabs-bar class="sticky top-[calc(var(--site-nav-h,theme(spacing.3xl))+var(--step-menu-h,0px))] z-[2] bg-background-page pb-xs pt-sm before:absolute before:bottom-full before:left-1/2 before:h-md before:w-screen before:-translate-x-1/2 md:before:left-0 md:before:w-full md:before:translate-x-0 before:bg-background-page before:content-[''] after:pointer-events-none after:absolute after:left-1/2 after:top-full after:h-md after:w-screen after:-translate-x-1/2 md:after:left-0 md:after:w-full md:after:translate-x-0 after:bg-gradient-to-b after:from-background-page after:to-transparent after:content-['']">
+  <div data-tabs-bar class="sticky top-[calc(var(--site-nav-h,theme(spacing.3xl))+var(--step-menu-h,0px))] z-[2] bg-background-page pb-xs pt-sm md:max-w-[var(--wf-col)] before:absolute before:bottom-full before:left-1/2 before:h-md before:w-screen before:-translate-x-1/2 md:before:left-0 md:before:w-full md:before:translate-x-0 before:bg-background-page before:content-[''] after:pointer-events-none after:absolute after:left-1/2 after:top-full after:h-md after:w-screen after:-translate-x-1/2 md:after:left-0 md:after:w-full md:after:translate-x-0 after:bg-gradient-to-b after:from-background-page after:to-transparent after:content-['']">
     <div class="wf-strip">
       <div class="wf-tabs">
         {
           PROJECT_ORDER.map((id, i) => (
             <label for={`t-${id}`} data-tab={i} class="wf-tab">
-              <ToolLogo id={id} variant="box" fill bordered={id !== "portfolio"} />
+              <ToolLogo id={id} variant="box" fill bordered={id === "tenon"} />
               <span>{t(`workflow.project.${id}`)}</span>
             </label>
           ))
@@ -66,7 +66,7 @@ const bannerOn = [
   {/* One banner per project, under the tabs, so a tab change is visible at a glance. Drop
       src/assets/workflow/banner-<project-id>.webp (1800 x 600, subject inside the middle
       two thirds: mobile crops to 2:1) to replace the placeholder. */}
-  <div class="mb-xl mt-lg">
+  <div class="mb-xl mt-sm md:max-w-[var(--wf-col)]">
     {
       PROJECT_ORDER.map((id, i) => {
         const banner = workflowImage(`banner-${id}.webp`);

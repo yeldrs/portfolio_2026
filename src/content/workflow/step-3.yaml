@@ -6,11 +6,19 @@ teaserTools:
   - "gemini"
   - "tailwind"
 en:
-  title: "Design"
+  title: "Designing"
   globalText: "Wireframes come first and fix the structure and states of each screen. The design system lives in one place that the code reads, the design tokens, and is never hardcoded in components."
   blocks:
     - project: "tenon"
+      heading: "Onboarding and game features"
+      points:
+        - "A rules sheet in the settings, and a visual aid showing legal moves that can be switched off."
+        - "A three-step onboarding explains the goal and the three rules. It can be replayed from the settings, and it runs on a simulation board so it doesn't spoil the start of the solution."
+        - "Reflective pause: you can move the pegs freely along two axes and throw them, with sound effects. It doesn't count as a move, and the peg returns on its own."
+      tools: []
+    - project: "tenon"
       heading: "Wireframes"
+      toolsFirst: true
       points:
         - "I listed the pages, their content and the features, then generated wireframes from that. From the wireframes I drew up the list of components for the UI kit."
       tools:
@@ -32,8 +40,10 @@ en:
               alt: "Wireframe of the coming-soon screen: an image placeholder, a title, an email field with an invalid address message and a notify button."
     - project: "tenon"
       heading: "Hi-fidelity UI design"
+      toolsFirst: true
       points: []
-      tools: []
+      tools:
+        - label: "Gemini"
       media:
         - gallery: "spotlight"
           screens:
@@ -75,29 +85,21 @@ en:
         - label: "Claude Design"
         - label: "Claude Code"
         - label: "Godot"
-        - label: "GitHub"
       correction: "Keeping the visual direction consistent across every interface component was hard. I built an interactive space to browse the UI kit, with a comment area handled by a dedicated AI agent. Thanks to the tokens and the validated constraints, the design system now grows without friction."
       media:
         - gallery: "spotlight"
-          screens:
-            - caption: "UI kit"
-              src: "tenon-uikit.webp"
-              theme: "dark"
-              device: "desktop"
-              alt: "Tenon design system page in the game's debug window: wood roles, buttons in their normal, pressed and disabled states, pictograms, and a comment panel on the right."
-    - project: "tenon"
-      heading: "Rules, onboarding and reflective pause"
-      points:
-        - "A rules sheet in the settings, and a visual aid showing legal moves that can be switched off."
-        - "A three-step onboarding explains the goal and the three rules. It can be replayed from the settings, and it runs on a simulation board so it doesn't spoil the start of the solution."
-        - "Reflective pause: you can move the pegs freely along two axes and throw them, with sound effects. It doesn't count as a move, and the peg returns on its own."
-      tools: []
+          figure:
+            src: "tenon-uikit.webp"
+            caption: "UI kit"
+            alt: "Tenon design system page in the game's debug window: wood roles, buttons in their normal, pressed and disabled states, pictograms, and a comment panel on the right."
     - project: "food-journal"
       status: "teaser"
     - project: "portfolio"
       heading: "Wireframes"
+      toolsFirst: true
       points: []
-      tools: []
+      tools:
+        - label: "Figma"
       media:
         - gallery: "rail"
           screens:
@@ -111,6 +113,7 @@ en:
               alt: "Phone wireframe of the same case-study page: the Yassine El Idrissi bar with its menu button, the title, Diagnosis, then the Context, Problem, Role and Key insights blocks stacked above image placeholders and the contact block."
     - project: "portfolio"
       heading: "Hi-fidelity UI design"
+      toolsFirst: true
       points:
         - "I produced the wireframes and high-fidelity mockups in Figma, along with the design system, the UI kit and the tokens. The site is mobile first, but designed to be responsive for presentations on a laptop. Components are therefore built for every device (mobile, tablet, desktop)."
       tools:
@@ -153,18 +156,59 @@ en:
               src: "portfolio-hifi-footer-phone.webp"
               device: "phone"
               alt: "Page footer on a phone in French: the Discutons heading, the collaboration line, the button with the contact email, then the copyright and the LinkedIn link."
+    - project: "portfolio"
+      heading: "Design system kit"
+      points:
+        - "The design tokens are Figma variables, in two collections: Primitive (123 variables) and Semantic (71). Semantic tokens point to primitives, and both feed the tokens file that the code reads."
+      tools: []
+      media:
+        - gallery: "spotlight"
           figure:
             src: "portfolio-hifi-tokens.png"
             caption: "Figma variables"
             sub: "Primitive and semantic collections behind the tokens file"
             alt: "Figma Variables panel on the Semantic collection: the Collections column lists Primitive with 123 variables and Semantic with 71, grouped by colors (stroke, background, text), border, radius, width, spacing and layout. The stroke group maps stroke-primary to colors/blue-chill/400, stroke-tertiary to colors/neutral/50 and stroke-neutral-primary to colors/neutral/300."
+            code:
+              file: "tokens.js → tailwind.config.mjs → component"
+              lang: "jsx"
+              content: |
+                // 1. src/styles/tokens.js
+                const primitives = {
+                  color: {
+                    gray: { 300: "#d1d5dc" },
+                    "accent-action": { 400: "#7f98fa" },
+                  },
+                };
+
+                const semantic = {
+                  colors: {
+                    "stroke-primary": primitives.color["accent-action"][400],
+                    "stroke-neutral-primary": primitives.color.gray[300],
+                  },
+                };
+
+                // 2. tailwind.config.mjs
+                colors: {
+                  ...tokens.semantic.colors,
+                },
+
+                // 3. Footer.astro
+                <button class="border border-stroke-neutral-primary rounded-full">
 
 fr:
   title: "Design"
   globalText: "Les wireframes passent en premier et fixent la structure et les états de chaque écran. Le design system vit à un seul endroit que le code lit, les design tokens, et n'est jamais écrit en dur dans les composants."
   blocks:
     - project: "tenon"
+      heading: "Onboarding et fonctionnalités du jeu"
+      points:
+        - "Une feuille de règles dans les paramètres, et une aide visuelle des coups légaux qu'on peut désactiver."
+        - "Un onboarding en trois étapes explique le but et les trois règles. On peut le relancer depuis les paramètres. Il se joue sur une planche de simulation, pour ne pas spoiler le début de la solution."
+        - "Pause réflexive : on déplace les pions librement sur deux axes et on peut les lancer, avec des sons. Ça ne compte pas comme un coup, le pion revient tout seul."
+      tools: []
+    - project: "tenon"
       heading: "Wireframes"
+      toolsFirst: true
       points:
         - "J'ai listé les pages, leur contenu ainsi que les fonctionnalités, afin de générer des wireframes. J'en ai tiré une liste des composants pour l'UI kit."
       tools:
@@ -186,8 +230,10 @@ fr:
               alt: "Wireframe de l'écran « bientôt » : un emplacement d'image, un titre, un champ e-mail avec un message d'adresse invalide et un bouton pour être prévenu."
     - project: "tenon"
       heading: "Interface haute fidélité"
+      toolsFirst: true
       points: []
-      tools: []
+      tools:
+        - label: "Gemini"
       media:
         - gallery: "spotlight"
           screens:
@@ -229,29 +275,21 @@ fr:
         - label: "Claude Design"
         - label: "Claude Code"
         - label: "Godot"
-        - label: "GitHub"
       correction: "Il était difficile de concevoir et de maintenir une direction visuelle cohérente sur tous les composants de l'interface. J'ai donc construit un espace interactif pour visualiser l'UI kit, avec un espace de commentaires traités par un agent IA dédié. Le design system s'étend désormais naturellement grâce aux tokens et aux contraintes validées."
       media:
         - gallery: "spotlight"
-          screens:
-            - caption: "UI kit"
-              src: "tenon-uikit.webp"
-              theme: "dark"
-              device: "desktop"
-              alt: "Page du design system de Tenon dans la fenêtre de debug du jeu : rôles de bois, boutons dans leurs états normal, pressé et désactivé, pictos, et un panneau de commentaires à droite."
-    - project: "tenon"
-      heading: "Règles, onboarding et pause réflexive"
-      points:
-        - "Une feuille de règles dans les paramètres, et une aide visuelle des coups légaux qu'on peut désactiver."
-        - "Un onboarding en trois étapes explique le but et les trois règles. On peut le relancer depuis les paramètres. Il se joue sur une planche de simulation, pour ne pas spoiler le début de la solution."
-        - "Pause réflexive : on déplace les pions librement sur deux axes et on peut les lancer, avec des sons. Ça ne compte pas comme un coup, le pion revient tout seul."
-      tools: []
+          figure:
+            src: "tenon-uikit.webp"
+            caption: "UI kit"
+            alt: "Page du design system de Tenon dans la fenêtre de debug du jeu : rôles de bois, boutons dans leurs états normal, pressé et désactivé, pictos, et un panneau de commentaires à droite."
     - project: "food-journal"
       status: "teaser"
     - project: "portfolio"
       heading: "Wireframes"
+      toolsFirst: true
       points: []
-      tools: []
+      tools:
+        - label: "Figma"
       media:
         - gallery: "rail"
           screens:
@@ -265,6 +303,7 @@ fr:
               alt: "Wireframe téléphone de la même page d'étude de cas : la barre Yassine El Idrissi avec son bouton de menu, le titre, Diagnosis, puis les blocs Context, Problem, Role et Key insights empilés au-dessus des emplacements d'image et du bloc de contact."
     - project: "portfolio"
       heading: "Interface haute fidélité"
+      toolsFirst: true
       points:
         - "J'ai produit les wireframes et les maquettes haute fidélité sur Figma, ainsi que le design system, l'UI kit et les tokens. Le site est mobile first, mais pensé responsive pour des présentations sur ordinateur portable. Les composants sont donc déclinés pour tous les appareils (mobile, tablette, desktop)."
       tools:
@@ -307,8 +346,42 @@ fr:
               src: "portfolio-hifi-footer-phone.webp"
               device: "phone"
               alt: "Pied de page sur téléphone en français : le titre Discutons, la ligne de collaboration, le bouton avec l'adresse e-mail, puis le copyright et le lien LinkedIn."
+    - project: "portfolio"
+      heading: "Design system kit"
+      points:
+        - "Les design tokens sont des variables Figma, en deux collections : Primitive (123 variables) et Semantic (71). Les tokens sémantiques pointent vers les primitives, et les deux alimentent le fichier de tokens lu par le code."
+      tools: []
+      media:
+        - gallery: "spotlight"
           figure:
             src: "portfolio-hifi-tokens.png"
             caption: "Variables Figma"
             sub: "Collections primitive et sémantique derrière le fichier de tokens"
             alt: "Panneau Variables de Figma sur la collection Semantic : la colonne Collections liste Primitive avec 123 variables et Semantic avec 71, groupées par couleurs (stroke, background, text), bordure, rayon, épaisseur, espacement et mise en page. Le groupe stroke mappe stroke-primary sur colors/blue-chill/400, stroke-tertiary sur colors/neutral/50 et stroke-neutral-primary sur colors/neutral/300."
+            code:
+              file: "tokens.js → tailwind.config.mjs → component"
+              lang: "jsx"
+              content: |
+                // 1. src/styles/tokens.js
+                const primitives = {
+                  color: {
+                    gray: { 300: "#d1d5dc" },
+                    "accent-action": { 400: "#7f98fa" },
+                  },
+                };
+
+                const semantic = {
+                  colors: {
+                    "stroke-primary": primitives.color["accent-action"][400],
+                    "stroke-neutral-primary": primitives.color.gray[300],
+                  },
+                };
+
+                // 2. tailwind.config.mjs
+                colors: {
+                  ...tokens.semantic.colors,
+                },
+
+                // 3. Footer.astro
+                <button class="border border-stroke-neutral-primary rounded-full">
+

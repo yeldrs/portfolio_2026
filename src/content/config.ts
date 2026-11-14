@@ -119,6 +119,8 @@ const workflowFigure = z.object({
   alt: z.string(),
   caption: z.string(),
   sub: z.string().optional(),
+  // Code excerpt shown next to the plate (language-neutral, copied from the real file).
+  code: z.object({ file: z.string(), lang: z.string().default("js"), content: z.string() }).optional(),
 });
 
 // Tool diagram of step 1 ("Tools and how they connect"). Geometry is in SVG user units
@@ -174,6 +176,8 @@ const workflowBlock = z.object({
   heading: z.string().optional(),
   // Lighter heading (small sans title) for a block that is a sub-section of the one above.
   subsection: z.boolean().default(false),
+  // Tools listed right under the heading, without the "Tools" label (wireframes, hi-fi).
+  toolsFirst: z.boolean().default(false),
   // The block's text: one short bullet per decision or action.
   points: z.array(z.string()).default([]),
   // `id` is optional: without it the logo is found from the label (workflow.tools.ts).

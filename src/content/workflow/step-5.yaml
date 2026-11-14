@@ -6,7 +6,7 @@ teaserTools:
   - "google-play"
   - "app-store"
 en:
-  title: "Test and release"
+  title: "Testing and releasing"
   globalText: "I do not trust a change until something other than the agent that wrote it has checked it. I say what I have not tested, and I decide what ships and what stays off."
   blocks:
     - project: "tenon"
@@ -37,12 +37,6 @@ en:
         - label: "Umami"
         - label: "Google Search Console"
       correction: "The accessibility audit I ran with Claude Code let me improve contrast, skip links, keyboard navigation and reduced motion."
-      media:
-        - gallery: "grid"
-          screens:
-            - caption: "Keyboard focus on a case-study figure."
-              src: "portfolio-verification-01.webp"
-              alt: "Case-study page on desktop with a visible keyboard focus outline around the Conception figure."
 fr:
   title: "Tests et mise en ligne"
   globalText: "Je ne fais pas confiance à un changement tant qu'autre chose que l'agent qui l'a écrit ne l'a pas vérifié. Je dis ce que je n'ai pas testé, et je décide de ce qui part en ligne et de ce qui reste désactivé."
@@ -75,9 +69,3 @@ fr:
         - label: "Umami"
         - label: "Google Search Console"
       correction: "L'audit d'accessibilité que j'ai piloté avec Claude Code m'a permis d'améliorer les contrastes, les liens d'évitement, la navigation au clavier et la réduction des animations."
-      media:
-        - gallery: "grid"
-          screens:
-            - caption: "Le focus clavier sur une figure d'étude de cas."
-              src: "portfolio-verification-01.webp"
-              alt: "Page d'étude de cas sur desktop avec un contour de focus clavier visible autour de la figure Conception."

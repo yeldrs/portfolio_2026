@@ -26,7 +26,7 @@ const body = "text-base leading-relaxed text-text-body-primary";
 ---
 
 {/* File: src/components/workflow/WorkflowBlock.astro */}
-<div id={id} class="flex flex-col gap-lg scroll-mt-[calc(var(--wf-sticky)+theme(spacing.sm))]">
+<div id={id} class="flex flex-col gap-md scroll-mt-[calc(var(--wf-sticky)+theme(spacing.sm))]">
   {
     showHeading && block.heading && (
       <div class="flex flex-wrap items-center gap-x-sm-d gap-y-xs">
@@ -43,6 +43,26 @@ const body = "text-base leading-relaxed text-text-body-primary";
       <p class="m-0 text-base text-text-body-secondary">{t("workflow.notApplicableStep")}</p>
     ) : (
       <>
+        {block.toolsFirst && !block.diagram && block.tools.length > 0 && (
+          <div class="max-w-prose">
+            {/* Vertical rule on the left edge of each tool; the wrapper clips the one at the start of a row. */}
+            <div class="overflow-hidden">
+            <ul class="-ml-lg my-0 mr-0 flex list-none flex-wrap gap-y-md p-0">
+              {block.tools.map((tool) => (
+                <li class="relative flex flex-auto items-center gap-sm px-lg before:absolute before:left-0 before:top-1/2 before:h-md before:-translate-y-1/2 before:border-l before:border-stroke-neutral-primary before:content-[''] text-sm text-text-body-primary">
+                  <ToolLogo id={tool.id} variant="bare" size="lg" />
+                  <span>
+                    {tool.label}
+                    {tool.note && (
+                      <span class="block text-xs font-normal text-text-body-secondary">{tool.note}</span>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            </div>
+          </div>
+        )}
         {/* Reading order: the explanatory text first, then the screens and figures, the diagram, link, tools
             and the correction last. */}
         {/* Text follows the step's text column (max-w-prose, same as the generic step copy);
@@ -93,7 +113,7 @@ const body = "text-base leading-relaxed text-text-body-primary";
           </p>
         )}
         {block.callToAction && <p class="m-0 max-w-prose text-base font-semibold text-text-body-accent">{block.callToAction}</p>}
-        {!block.diagram && block.tools.length > 0 && (
+        {!block.toolsFirst && !block.diagram && block.tools.length > 0 && (
           <div class="max-w-prose">
             <p class={dt}>{t("workflow.tools")}</p>
             {/* Vertical rule on the left edge of each tool; the wrapper clips the one at the start of a row. */}

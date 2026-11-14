@@ -233,9 +233,9 @@ const arrowBtn =
       theme("spacing.md") theme("spacing.md"),
       theme("spacing.md") theme("spacing.md");
     /* Fades out on every side but is already at full strength behind the first screens. */
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent 100%), linear-gradient(transparent, #000 4%, #000 96%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 60%, transparent 100%), linear-gradient(transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent 100%), linear-gradient(transparent, #000 4%, #000 96%, transparent);
     mask-composite: intersect;
   }
   .wg-rail-track {
@@ -281,7 +281,8 @@ const arrowBtn =
     }
     /* Outside the content column: the mat runs into the gutter and past the container. */
     .wg-mat {
-      inset: theme("spacing.sm") calc(-1 * theme("spacing.3xl")) theme("spacing.3xl");
+      inset: theme("spacing.sm") 0 theme("spacing.3xl");
+      border-radius: theme("borderRadius.xl");
     }
   }
 
@@ -341,7 +342,7 @@ const arrowBtn =
        gradually toward the edges (no straight band edges, no hard corners). A short linear
        fade on the left keeps the start clean. */
     --spot-fade: radial-gradient(
-      ellipse 62% 78% at 40% 50%,
+      ellipse 95% 100% at 50% 50%,
       #000 0%,
       #000 38%,
       rgb(0 0 0 / 0.82) 52%,
@@ -422,7 +423,12 @@ const arrowBtn =
       --band: calc(theme("spacing.6xl") * 4 + theme("spacing.xl") - theme("spacing.2xl") * 2);
     }
     .wg-spot-mat {
-      inset: calc(var(--wg-top) - theme("spacing.md")) calc(-1 * theme("spacing.4xl")) calc(var(--wg-foot-pad) - theme("spacing.md"));
+      inset: calc(var(--wg-top) - theme("spacing.md")) 0 calc(var(--wg-foot-pad) - theme("spacing.md")) calc(-1 * theme("spacing.lg"));
+      border-radius: theme("borderRadius.xl");
+    }
+    /* The stage's left edge is the track's (24px past the column): the arrow sits on it. */
+    .wg-spot > [data-spot-prev] {
+      left: calc(-1 * theme("spacing.lg"));
     }
     .wg-track {
       gap: theme("spacing.lg");

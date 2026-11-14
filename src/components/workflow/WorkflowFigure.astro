@@ -1,12 +1,13 @@
 ---
 // src/components/workflow/WorkflowFigure.astro
 import { Image } from "astro:assets";
+import { Code } from "astro:components";
 import { workflowImage, zoomUrl } from "../../data/workflow.images";
 import { useTranslations } from "../../i18n/utils";
 
 export interface Props {
   lang: "en" | "fr";
-  figure: { src: string; alt: string; caption: string; sub?: string };
+  figure: { src: string; alt: string; caption: string; sub?: string; code?: { file: string; lang: string; content: string } };
   /** Screens sharing a group id page through each other in the preview modal. */
   group: string;
 }
@@ -16,20 +17,20 @@ const t = useTranslations(lang);
 const image = workflowImage(figure.src);
 const zoom = image ? await zoomUrl(image) : undefined;
 // Wide screenshots (the Figma variables panel) are capped so they don't fill the column.
-const maxWidth = 640;
+const maxWidth = 480;
 ---
 
 {/* File: src/components/workflow/WorkflowFigure.astro */}
 {
   image && zoom && (
-    <figure class="m-0 flex flex-col items-center gap-sm">
+    <figure class:list={["m-0 min-w-0", figure.code ? "grid gap-x-md gap-y-sm md:grid-cols-2" : "flex flex-col items-center gap-sm"]}>
       <button
         type="button"
         data-zoom={zoom}
         data-zoom-group={group}
         aria-label={t("workflow.zoomAria", { caption: figure.caption })}
         style={`max-width:min(${image.width}px, ${maxWidth}px)`}
-        class="block w-full cursor-zoom-in overflow-hidden rounded-xl border border-stroke-neutral-primary bg-gray-100 p-0 shadow-sm transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"
+        class:list={["block w-full cursor-zoom-in overflow-hidden rounded-xl border border-stroke-neutral-primary bg-gray-100 p-0 shadow-sm transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent", figure.code && "md:col-start-1 md:row-start-1"]}
       >
         <Image
           src={image}
@@ -43,10 +44,32 @@ const maxWidth = 640;
           class="block h-auto w-full"
         />
       </button>
-      <figcaption class="flex flex-col items-center gap-xs text-center">
+      <figcaption class:list={["flex flex-col items-center gap-xs text-center", figure.code && "md:col-start-1 md:row-start-2"]}>
         <b class="text-xs font-medium text-text-body-secondary">{figure.caption}</b>
         {figure.sub && <span class="text-xs text-text-body-tertiary">{figure.sub}</span>}
       </figcaption>
+      {figure.code && (
+        /* Same height as the image on desktop (the scroller fills the cell the image sizes),
+           a fixed height on mobile. Read only: the text cannot be selected or copied. */
+        <div class="relative min-w-0 select-none overflow-hidden rounded-xl bg-gray-100 md:col-start-2 md:row-start-1" aria-label={figure.code.file} role="img">
+          <div class="wf-code h-[16rem] overflow-y-auto overflow-x-hidden p-md text-xs leading-relaxed md:absolute md:inset-0 md:h-auto [&_pre]:m-0 [&_pre]:!bg-transparent [&_pre]:p-0">
+            <p class="m-0 mb-sm font-mono text-xs font-medium text-text-body-secondary">{figure.code.file}</p>
+            <Code code={figure.code.content} lang={figure.code.lang} theme="github-light" />
+          </div>
+          <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-xl bg-gradient-to-t from-gray-100 to-transparent" />
+        </div>
+      )}
     </figure>
   )
 }
+
+<style is:global>
+  /* Visible, slim vertical scrollbar for the tokens excerpt */
+  .wf-code {
+    scrollbar-width: thin;
+    scrollbar-color: theme("colors.gray.400") transparent;
+  }
+  .wf-code pre {
+    white-space: pre-wrap;
+  }
+</style>

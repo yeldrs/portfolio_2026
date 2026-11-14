@@ -3,7 +3,6 @@
 export type WorkflowProjectId = "tenon" | "food-journal" | "portfolio";
 
 export interface WorkflowPage {
-  eyebrow: string;
   title: string;
   intro: string;
   // Short intro used by the home teaser only (the page keeps `intro`).

@@ -58,7 +58,7 @@ try {
 
     $toolArgs = @()
     if ($Continue) { $toolArgs += '--continue' }
-    if ($PromptText) { $toolArgs += '--prompt'; $toolArgs += $PromptText }
+    if ($PromptText) { $toolArgs += '--prompt'; $toolArgs += ($PromptText -replace '"', '\"') }
     & $Tool @toolArgs
 } finally {
     Pop-Location

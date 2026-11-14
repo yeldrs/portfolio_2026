@@ -2,6 +2,7 @@
 import WorkflowStepIcon from "./WorkflowStepIcon.astro";
 import type { WorkflowStep } from "../../data/workflow.loader";
 import { useTranslations } from "../../i18n/utils";
+import type { UiKey } from "../../i18n/ui";
 
 export interface Props {
   lang: "en" | "fr";
@@ -40,7 +41,7 @@ const labelClass = "flex min-h-xl items-center";
             class={`group/link steplink min-h-2xl items-start py-xs ${linkBase}`}
           >
             <span aria-hidden="true" class={badge}><WorkflowStepIcon order={step.order} /></span>
-            <span class={labelClass}>{step.title}</span>
+            <span class={labelClass}>{t(`workflow.stepNav.${step.order}` as UiKey)}</span>
           </a>
         </li>
       ))
@@ -62,7 +63,7 @@ const labelClass = "flex min-h-xl items-center";
         data-template={t("workflow.stepOf", { n: "{n}", total: String(steps.length), title: "{title}" })}
         class="text-sm font-bold text-text-body-accent"
       >
-        {t("workflow.stepOf", { n: "1", total: String(steps.length), title: steps[0].title })}
+        {t("workflow.stepOf", { n: "1", total: String(steps.length), title: t(`workflow.stepNav.${steps[0].order}` as UiKey) })}
       </span>
       <span aria-hidden="true" class="flex-none flex items-center justify-center w-xl h-xl rounded-full border border-stroke-primary-hover bg-background-primary text-text-body-accent">
         <svg viewBox="0 0 16 16" fill="none" class="w-md h-md motion-safe:transition-transform group-open:rotate-180">
@@ -81,7 +82,7 @@ const labelClass = "flex min-h-xl items-center";
               class={`group/link steplink min-h-2xl items-center ${linkBase}`}
             >
               <span aria-hidden="true" class={badge}><WorkflowStepIcon order={step.order} /></span>
-              <span class={labelClass}>{step.title}</span>
+              <span class={labelClass}>{t(`workflow.stepNav.${step.order}` as UiKey)}</span>
             </a>
           </li>
         ))

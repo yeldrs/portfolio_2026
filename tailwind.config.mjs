@@ -109,6 +109,7 @@ export default {
       // Max width (container) (Unchanged)
       maxWidth: {
         content: tokens.semantic.layout.container.maxWidth,
+        page: tokens.semantic.layout.page.maxWidth,
         prose: tokens.semantic.layout.prose.maxWidth,
       },
 
