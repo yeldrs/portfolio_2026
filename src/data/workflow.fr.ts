@@ -4,7 +4,7 @@ import type { WorkflowPage } from "./workflow.types";
 export const workflow: WorkflowPage = {
   title: "Design, code et IA, dans un seul workflow",
   intro:
-    "Je mène certains de mes projets récents avec des agents IA. Je cadre, je pilote et j'esquisse le design. Ensuite, les agents construisent le projet et écrivent le code, par itérations successives, et je le relis et le peaufine. Voici cinq étapes de mon workflow, illustrées par trois projets différents, pour montrer les outils utilisés et les frictions corrigées en route.",
+    "Je mène certains de mes projets récents avec des agents IA. Je cadre, je pilote et j'esquisse le design. Ensuite, les agents construisent le projet et écrivent le code. Par itérations successives, je le relis et le peaufine. Voici cinq étapes de mon workflow, illustrées par trois projets différents, pour montrer les outils utilisés et les frictions corrigées en route.",
   teaserIntro:
     "Ma pratique du design agentique : trois projets, cinq étapes, et les outils que j'utilise.",
   projects: {
