@@ -7,7 +7,7 @@ teaserTools:
   - "app-store"
 en:
   title: "Testing and releasing"
-  globalText: "I do not trust a change until something other than the agent that wrote it has checked it. I say what I have not tested, and I decide what ships and what stays off."
+  globalText: "Before pushing a change made by an agent to production, I test it on a secondary branch. I run a quality assurance review, the design QA, comparing the coded version with my design. I log each gap as a comment, through Vercel or GitHub, to turn them into backlog tasks."
   blocks:
     - project: "tenon"
       heading: "Tests and accessibility"
@@ -39,7 +39,7 @@ en:
       correction: "The accessibility audit I ran with Claude Code let me improve contrast, skip links, keyboard navigation and reduced motion."
 fr:
   title: "Tests et mise en ligne"
-  globalText: "Je ne fais pas confiance à un changement tant qu'autre chose que l'agent qui l'a écrit ne l'a pas vérifié. Je dis ce que je n'ai pas testé, et je décide de ce qui part en ligne et de ce qui reste désactivé."
+  globalText: "Avant d'envoyer en production un changement fait par un agent, je le teste sur une branche secondaire. Je fais une revue d'assurance qualité, la QA design, en comparant la version codée à mon design. Je note chaque écart en commentaire, via Vercel ou GitHub, pour en faire des tâches au backlog."
   blocks:
     - project: "tenon"
       heading: "Tests et accessibilité"

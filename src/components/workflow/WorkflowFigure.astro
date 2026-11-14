@@ -59,6 +59,9 @@ const maxWidth = 480;
           <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-xl bg-gradient-to-t from-gray-100 to-transparent" />
         </div>
       )}
+      {figure.code && (
+        <p class="m-0 text-center text-xs text-text-body-tertiary md:col-start-2 md:row-start-2">{t("workflow.codeNote")}</p>
+      )}
     </figure>
   )
 }

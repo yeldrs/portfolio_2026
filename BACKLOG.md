@@ -32,6 +32,7 @@ Format: `- [ ] <area> — <what> — <why> (<severity>)`
 - [ ] Canevas Claude Design: `Hifi-B-mobile` a encore l'ancien style d'onglets et l'ancien filtre; à resynchroniser avec le desktop et la liste d'outils non interactive. (low)
 
 - [ ] Workflow: valider les schémas d'outils Food Journal / portfolio (flèches déduites des textes), les légendes et alt des écrans Tenon (rédigés par l'assistant, dont « Teaser »), et ajouter les bannières Food Journal et portfolio (`src/assets/workflow/banner-<id>.webp`, 1800x600; Tenon en 1024x500 à refaire en 1800x600). Différencier visuellement les étapes 2, 4 et 5. Vérifier le mobile des galeries (rail, projecteur) et le flou du UI kit au centre du projecteur. (medium)
+- [ ] Workflow: le dégradé sous la barre des onglets projet (`after:` de `data-tabs-bar` dans `WorkflowProjectTabs.astro`) n'est pas beau; laissé en place pour l'instant, à retravailler. (low)
 
 ## Assets
 

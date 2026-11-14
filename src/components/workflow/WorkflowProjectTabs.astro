@@ -46,9 +46,9 @@ const bannerOn = [
       </div>
       <details class="wf-all" hidden>
         <summary aria-label={t("workflow.allProjects")}>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-md w-md"><path d="M3 5h18v2H3V5zm0 6h18v2H3v-2zm0 6h18v2H3v-2z" /></svg>
           <span class="hidden md:inline">{t("workflow.allProjects")}</span>
           <span class="wf-count">{PROJECT_ORDER.length}</span>
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" class="wf-chevron h-md w-md"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </summary>
         <div class="wf-menu">
           {
@@ -82,6 +82,13 @@ const bannerOn = [
 <style is:global>
   :root {
     --wf-tab-h: calc(theme("spacing.xl") + theme("spacing.xs"));
+  }
+
+  /* Mobile: taller tabs, so they outweigh the pinned step menu stacked above them */
+  @media (max-width: 767px) {
+    :root {
+      --wf-tab-h: calc(theme("spacing.xl") + theme("spacing.md"));
+    }
   }
 
   /* Grey strip holding flat tabs; the selected tab becomes a white pill */
@@ -175,6 +182,17 @@ const bannerOn = [
   .wf-all > summary:focus-visible {
     outline: theme("spacing.xxs") solid theme("colors.text-body-accent");
     outline-offset: calc(-1 * theme("spacing.xxs"));
+  }
+  .wf-chevron {
+    flex: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wf-chevron {
+      transition: transform 150ms;
+    }
+  }
+  .wf-all[open] .wf-chevron {
+    transform: rotate(180deg);
   }
   .wf-count {
     min-width: theme("spacing.lg");
