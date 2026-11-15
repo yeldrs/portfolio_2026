@@ -50,7 +50,7 @@ const n = step.order;
       <WorkflowStepIcon order={n} />
     </span>
     <h2 id={`${step.id}-title`} class="m-0 font-serif text-3xl font-semibold">
-      {step.title}
+      {t(`workflow.headStep.${n}` as UiKey)}
       {step.projects.map((project, i) => (
         <span class:list={["hidden text-text-body-accent", titleOn[i]]}> {t(`workflow.projectTitle.${project.id}`)}</span>
       ))}
