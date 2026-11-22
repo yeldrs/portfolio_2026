@@ -73,7 +73,6 @@ export const ui = {
     "meta.workflowTitle": "How I work: design, code and AI in one workflow - Yassine El Idrissi",
     "meta.workflowDescription":
       "I build side projects end to end with coding agents: I frame, design and review, the agents implement. Five steps, three builds, with what worked and what did not.",
-    "footer.workflow": "How I work",
     "workflow.cta": "See the workflow",
     "workflow.teaserAria": "Workflow steps and tools",
     "workflow.teaserScrollAria": "Workflow steps and their tools, scrollable",
@@ -200,7 +199,6 @@ export const ui = {
     "meta.workflowTitle": "Comment je travaille : design, code et IA dans un seul workflow - Yassine El Idrissi",
     "meta.workflowDescription":
       "Je construis des projets personnels de bout en bout avec des agents de code : je cadre, je conçois et je relis, les agents implémentent. Cinq étapes, trois réalisations, avec ce qui a marché et ce qui n'a pas marché.",
-    "footer.workflow": "Comment je travaille",
     "workflow.cta": "Voir le workflow",
     "workflow.teaserAria": "Étapes du workflow et outils",
     "workflow.teaserScrollAria": "Étapes du workflow et leurs outils, défilable",

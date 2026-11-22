@@ -8,6 +8,8 @@ export interface Props {
   size?: "default" | "small" | "large";
   class?: string;
   showArrow?: boolean;
+  // "at" = @ sign, signals a copy-email action
+  icon?: "arrow" | "at";
   // We accept any other attribute (like data-umami-event)
   [x: string]: any;
 }
@@ -18,6 +20,7 @@ const {
   size = "default",
   class: className,
   showArrow = true,
+  icon = "arrow",
   ...rest // ✅ CAPTURES ALL OTHER ATTRIBUTES (Tracking, etc.)
 } = Astro.props;
 
@@ -80,12 +83,31 @@ let buttonClasses = `${baseStyles} ${sizeStyles} ${fontStyles} ${variantColors} 
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2.5"
-          d="M14 5l7 7m0 0l-7 7m7-7H3"
-        />
+        {icon === "at" ? (
+          <>
+            <circle
+              cx="12"
+              cy="12"
+              r="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+              d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"
+            />
+          </>
+        ) : (
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2.5"
+            d="M14 5l7 7m0 0l-7 7m7-7H3"
+          />
+        )}
       </svg>
     )
   }

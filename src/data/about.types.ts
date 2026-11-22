@@ -42,6 +42,8 @@ export interface AboutData {
   introBody: string;
   introCta: string;
   introWorkshop: string;
+  // When true, introWorkshop links to the workflow page
+  introWorkshopLink?: boolean;
   experienceHeading: string;
   professionalExperience: ProfessionalExperience[];
   toolkitHeading: string;

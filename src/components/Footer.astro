@@ -136,13 +136,6 @@ navigator.clipboard.writeText(email).then(() => {
       </small>
 
       <div class="flex items-center space-x-lg">
-        <a
-          href={getRelativeLocaleUrl(lang, "/workflow")}
-          data-umami-event={`${ev}footer-workflow-click`}
-          class="link text-sm font-normal"
-        >
-          {t("footer.workflow")}
-        </a>
         {
           socialLinks.map((link) => (
             <a

@@ -2,6 +2,7 @@
 // src/layouts/AboutLayout.astro
 import Container from "../components/Container.astro";
 import Button from "../components/Button.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { about as aboutEn } from "../data/about.en";
 import { about as aboutFr } from "../data/about.fr";
 import { useTranslations } from "../i18n/utils";
@@ -84,12 +85,25 @@ navigator.clipboard.writeText(email).then(() => {
         </h2>
         <p class="text-base text-text-body-secondary leading-relaxed">
           {about.introBody}
-          {about.introWorkshop}
+          {
+            about.introWorkshopLink ? (
+              <a
+                href={getRelativeLocaleUrl(lang, "/workflow")}
+                data-umami-event="about-workflow-link"
+                class="font-semibold text-text-body-accent underline underline-offset-2"
+              >
+                {about.introWorkshop}
+              </a>
+            ) : (
+              about.introWorkshop
+            )
+          }
         </p>
 
         <Button
           href={`mailto:${emailAddress}`}
           onclick={copyEmailOnClick}
+          icon="at"
           class="mt-lg"
           data-umami-event="about-contact-button"
         >
