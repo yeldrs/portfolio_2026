@@ -71,6 +71,10 @@ Format: `- [ ] <area> — <what> — <why> (<severity>)`
 - [ ] Optional: a `Stop` hook running `astro check` (Windows/PowerShell — verify it's robust
       before adding). (idea)
 
+- [ ] A/B test hero (lancé 2026-11-22) —
+      lire les résultats dans Umami (propriété `variant`), puis retirer la
+      variante perdante, le script `data-hero` de `BaseLayout.astro` et le CSS de `Hero.astro`. (medium)
+
 ## Security — owner decision
 
 - [ ] Git history: commit `604a7ee` (already pushed public) contains the owner's personal

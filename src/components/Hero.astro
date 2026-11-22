@@ -6,10 +6,16 @@ export interface Props {
   title: string;
   subtitle: string;
   subtitleBreak?: string;
+  subtitleB?: string;
+  subtitleBreakB?: string;
   profileImage: any;
 }
 
-const { title, subtitle, subtitleBreak, profileImage } = Astro.props;
+const { title, subtitle, subtitleBreak, subtitleB, subtitleBreakB, profileImage } = Astro.props;
+const variants = [
+  { id: "a", text: subtitle, brk: subtitleBreak },
+  ...(subtitleB ? [{ id: "b", text: subtitleB, brk: subtitleBreakB }] : []),
+];
 ---
 
 <Container>
@@ -34,21 +40,35 @@ const { title, subtitle, subtitleBreak, profileImage } = Astro.props;
         {title}
       </h1>
 
-      <p
-        class="text-lg font-normal text-text-body-secondary w-full max-w-[610px]"
-      >
-        {subtitle}
-        {
-          subtitleBreak && (
-            <span class="block">
-              <span class="text-text-body-accent relative inline-block font-semibold">
-                {subtitleBreak}
-                
+      {
+        variants.map((v) => (
+          <p
+            data-hero-variant={v.id}
+            class="text-lg font-normal text-text-body-secondary w-full max-w-[610px]"
+          >
+            {v.text}
+            {v.brk && (
+              <span class="block">
+                <span class="text-text-body-accent relative inline-block font-semibold">
+                  {v.brk}
+                </span>
               </span>
-            </span>
-          )
-        }
-      </p>
+            )}
+          </p>
+        ))
+      }
     </div>
   </section>
 </Container>
+
+<style is:global>
+  [data-hero-variant="b"] {
+    display: none;
+  }
+  html[data-hero="b"] [data-hero-variant="b"] {
+    display: block;
+  }
+  html[data-hero="b"] [data-hero-variant="a"] {
+    display: none;
+  }
+</style>

@@ -116,6 +116,23 @@ const personLd = {
     <!-- Self-hosted fonts (see @font-face in global.css). No Google Fonts dependency. -->
     <link rel="preload" href="/fonts/manrope-latin-var.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/lora-italic-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      // A/B test (hero sentence): sticky 50/50 bucket, shared across EN/FR.
+      // Runs synchronously before first paint so there is no text flash.
+      // Storage blocked -> variant A, nothing breaks.
+      (function () {
+        var v = "a";
+        try {
+          var s = localStorage.getItem("hero-variant");
+          if (s === "a" || s === "b") v = s;
+          else {
+            v = Math.random() < 0.5 ? "a" : "b";
+            localStorage.setItem("hero-variant", v);
+          }
+        } catch (e) {}
+        document.documentElement.setAttribute("data-hero", v);
+      })();
+    </script>
     <script
       defer
       src="https://cloud.umami.is/script.js"

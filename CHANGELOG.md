@@ -8,6 +8,15 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ---
 
+## 2026-11-22 — Test A/B de la phrase du hero (accueil EN + FR)
+
+- `BaseLayout.astro` — script inline en `<head>` : tirage 50/50 mémorisé dans `localStorage["hero-variant"]`, posé en `data-hero` sur `<html>` avant le premier rendu (pas de flash). Stockage bloqué ⇒ variante A. Un seul groupe pour EN et FR.
+- `Hero.astro`, `home.{types,en,fr}.ts` — les deux phrases sont rendues dans le HTML, le CSS n'affiche que celle du groupe. Variante B EN et FR fournies par le propriétaire.
+- `HomeLayout.astro` — événements `home-cta-click` et `home-scroll-arrow-click` ; propriété `variant` ajoutée aux événements Umami de l'accueil ; `hero-variant-view` + `umami.identify({ hero_variant })` pour filtrer tout le parcours de session.
+- À faire en fin de test : retirer la variante perdante et le script (voir `BACKLOG.md`).
+
+---
+
 ## 2026-11-13 — Workflow: nouveau contenu rédactionnel intégré (schéma `points` / `media`)
 
 - `workflow/content.yml` — nouvelle source rédactionnelle (EN + FR) ; `did` renommé `points`. Textes repris tels quels dans `src/content/workflow/step-*.yaml` et `src/data/workflow.{en,fr}.ts`. Deux retouches validées : intro de page (« produisent les écrans » retiré) et texte commun de l'étape 3 (phrase sur le contraste retirée, formulation simplifiée).

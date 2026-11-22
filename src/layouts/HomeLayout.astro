@@ -76,19 +76,26 @@ const allProjects = (await getCollection("projects"))
         title={home.heroTitle}
         subtitle={home.heroSubtitle}
         subtitleBreak={home.heroSubtitleBreak}
+        subtitleB={home.heroSubtitleB}
+        subtitleBreakB={home.heroSubtitleBreakB}
         profileImage={PlaceholderImage}
       />
 
       <div class="flex flex-col items-center gap-xl">
         <a
           href="#projects"
+          data-umami-event="home-cta-click"
           class="bg-background-primary border border-stroke-neutral-primary rounded-full px-lg py-sm-d cursor-pointer transition hover:bg-gray-50 border-stroke-primary-hover shadow-sm text-text-body-accent text-md font-semibold"
         >
           {t("home.cta")}
         </a>
 
         <div class="text-stroke-primary-dark animate-bounce">
-          <a href="#projects" aria-label={t("home.scrollAria")}>
+          <a
+            href="#projects"
+            data-umami-event="home-scroll-arrow-click"
+            aria-label={t("home.scrollAria")}
+          >
             <svg
               width="16"
               height="39"
@@ -134,3 +141,16 @@ const allProjects = (await getCollection("projects"))
     <WorkflowTeaser lang={lang} />
   </Container>
 </div>
+
+<script>
+  // A/B test: tag the session and every tracked click on home with the variant.
+  const variant = document.documentElement.dataset.hero === "b" ? "b" : "a";
+  document
+    .querySelectorAll("[data-umami-event]")
+    .forEach((el) => el.setAttribute("data-umami-event-variant", variant));
+  const umami = (window as any).umami;
+  if (umami) {
+    umami.identify({ hero_variant: variant });
+    umami.track("hero-variant-view", { variant });
+  }
+</script>

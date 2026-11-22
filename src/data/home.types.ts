@@ -4,4 +4,6 @@ export interface HomeData {
   heroTitle: string;
   heroSubtitle: string;
   heroSubtitleBreak: string;
+  heroSubtitleB: string;
+  heroSubtitleBreakB: string;
 }
