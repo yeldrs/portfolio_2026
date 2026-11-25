@@ -3,7 +3,7 @@
 // renders the "Photo coming soon" placeholder.
 //
 // Layout: public/images/workshop/<id>/cover.webp + 1.webp, 2.webp... (numbered in
-// display order). "cartes" reuses the published case-study images in caissedesdepots/.
+// display order). "cartes" has its own folder (copies of the Caisse des Dépôts images).
 
 export interface WorkshopMedia {
   cover?: string;
@@ -18,11 +18,11 @@ const dir = (id: string, count: number): WorkshopMedia => ({
 });
 
 export const workshopMedia: Record<string, WorkshopMedia> = {
-  // Reuses the published case-study images in caissedesdepots/ (the other ones stay there).
+  // Own copies in workshop/cartes/: the case study now serves its images from src/assets.
   cartes: {
-    cover: "/images/caissedesdepots/reviewsCdc.webp",
+    cover: "/images/workshop/cartes/reviewsCdc.webp",
     gallery: ["fillTilesCdc", "mapCdc", "storyBoardCdc"].map(
-      (name) => `/images/caissedesdepots/${name}.webp`,
+      (name) => `/images/workshop/cartes/${name}.webp`,
     ),
   },
   // 04: the stand render first, then other Maison Le Roux art-direction work.
