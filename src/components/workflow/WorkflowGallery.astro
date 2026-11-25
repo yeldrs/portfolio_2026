@@ -202,10 +202,10 @@ const arrowBtn =
           );
         })}
       </div>
-      <button type="button" data-spot-prev aria-label={t("workflow.galleryPrev")} class:list={[arrowBtn, "left-0 -translate-x-1/2"]} disabled={start === 0}>
+      <button type="button" data-spot-prev aria-label={t("workflow.galleryPrev")} class:list={[arrowBtn, "left-xs md:left-0 md:-translate-x-1/2"]} disabled={start === 0}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
       </button>
-      <button type="button" data-spot-next aria-label={t("workflow.galleryNext")} class:list={[arrowBtn, "right-0 translate-x-1/2"]} disabled={start === items.length - 1}>
+      <button type="button" data-spot-next aria-label={t("workflow.galleryNext")} class:list={[arrowBtn, "right-xs md:right-0 md:translate-x-1/2"]} disabled={start === items.length - 1}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-lg w-lg"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" /></svg>
       </button>
       {/* Caption, device and zoom sit under the screens, like the wireframe gallery. */}
@@ -229,6 +229,8 @@ const arrowBtn =
   /* Same screen heights as the hi-fi spotlight below (--band and the per-device --k), so a
      wireframe and its final screen are drawn at the same size. */
   .wg-rail {
+    /* Own stacking context: the arrows (z-3) must never rise above the sticky tabs bar. */
+    isolation: isolate;
     --band: calc(theme("spacing.6xl") * 4 - theme("spacing.xl") - theme("spacing.2xl") * 2);
     /* The block gap above already sets the rhythm under the heading; the mat only needs
        its 8px grid line. Below, one 24px step under the caption row. */
@@ -311,6 +313,7 @@ const arrowBtn =
      widths alone show the layout at each breakpoint. 24px of dotted canvas above the screens,
      72px below for the caption + pagination band. */
   .wg-spot {
+    isolation: isolate;
     container-type: inline-size;
     /* Vertical rhythm, top to bottom: 24 above the screens, the screens (the band), 24 down to
        the caption row, 12 to the pagination row, 16 under it. The stage height is the sum, so
@@ -359,10 +362,10 @@ const arrowBtn =
     pointer-events: none;
     background-image: radial-gradient(
       circle at center,
-      color-mix(in srgb, theme("colors.gray.400") 62%, transparent) calc(theme("spacing.xxs") / 4),
-      transparent calc(theme("spacing.xxs") * 0.75)
+      color-mix(in srgb, theme("colors.gray.400") 50%, transparent) calc(theme("spacing.xxs") / 7),
+      transparent calc(theme("spacing.xxs") * 0.5)
     );
-    background-size: calc(theme("spacing.md") * 0.875) calc(theme("spacing.md") * 0.875);
+    background-size: calc(theme("spacing.md") * 0.625) calc(theme("spacing.md") * 0.625);
     /* The dots follow the screens: --sx is the track's scrollLeft (set by the script below). */
     background-position: calc(-1 * var(--sx, 0px)) 0;
     /* Rounded, eased falloff: an ellipse that stays solid behind the screens and thins out
