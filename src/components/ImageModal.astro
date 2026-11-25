@@ -46,12 +46,15 @@ const arrowVariant = "tertiary";
       class="absolute left-0 z-10 transition-opacity disabled:opacity-30 disabled:pointer-events-none"
     />
 
-    <img
-      id="modalImage"
-      data-current-modal-index="0"
-      alt={t("modal.enlargedImageAlt")}
-      class="max-w-full max-h-full object-contain"
-    />
+    {/* Neutral wrapper (display: contents). A very tall capture turns it into a scroll box. */}
+    <div id="modalScroll" class="contents">
+      <img
+        id="modalImage"
+        data-current-modal-index="0"
+        alt={t("modal.enlargedImageAlt")}
+        class="max-w-full max-h-full object-contain"
+      />
+    </div>
 
     <ArrowButton
       id="modalNextBtn"
@@ -72,6 +75,27 @@ const arrowVariant = "tertiary";
 
   window.isModalOpen = false;
   window.isInitialized = false;
+
+  // A long capture (height > 2x its width) is shown at a readable width inside a scroll box
+  // instead of being squeezed into the viewport.
+  function fitModalImage() {
+    const img = document.getElementById("modalImage");
+    const box = document.getElementById("modalScroll");
+    if (!img || !box) return;
+    const tall = img.naturalWidth > 0 && img.naturalHeight / img.naturalWidth > 2;
+    box.classList.toggle("contents", !tall);
+    box.classList.toggle("block", tall);
+    box.style.maxHeight = tall ? "100%" : "";
+    box.style.overflowY = tall ? "auto" : "";
+    // Native resolution (the capture is 2x): sharp instead of stretched, 560px at most.
+    const dpr = window.devicePixelRatio || 1;
+    box.style.width = tall ? `min(100%, ${Math.round(Math.min(560, img.naturalWidth / dpr))}px)` : "";
+    img.style.maxHeight = tall ? "none" : "";
+    img.style.width = tall ? "100%" : "";
+    img.style.height = tall ? "auto" : "";
+    box.scrollTop = 0;
+  }
+  document.getElementById("modalImage")?.addEventListener("load", fitModalImage);
 
   window.navigateModal = function (direction) {
     const modalImg = document.getElementById("modalImage");

@@ -49,6 +49,35 @@ const creditEntry = z.object({
   role: i18nString.optional(),
 });
 
+// UI showcase of a case study: Figma screens in device frames (spotlight gallery, same
+// component as the workflow page) plus an optional flat plate. Files live in
+// src/assets/projects/<project>/ and are referenced as "<project>/<file>".
+const showcaseScreen = z.object({
+  src: z.string(),
+  caption: i18nString,
+  sub: i18nString.optional(),
+  alt: i18nString,
+  device: z.enum(["phone", "tablet", "desktop"]).default("phone"),
+  platform: z.enum(["android", "apple"]).default("android"),
+  theme: z.enum(["light", "dark"]).default("light"),
+  browser: z.boolean().default(false),
+  // Full-length capture: the screen scrolls inside the device frame. `src` is the whole page
+  // (opened by the zoom); `parts` optionally cuts it top to bottom into files, and the one at
+  // index `sticky` (the navbar) stays at the top while the rest scrolls under it.
+  scroll: z.boolean().default(false),
+  parts: z.array(z.string()).default([]),
+  sticky: z.number().int().min(0).optional(),
+});
+
+// Transparent plate (modals, flows): shown without a frame, with a drop shadow. `zoom` is an
+// opaque copy opened in the preview modal (a transparent PNG would vanish on its dark backdrop).
+const showcaseFigure = z.object({
+  src: z.string(),
+  zoom: z.string().optional(),
+  caption: i18nString,
+  alt: i18nString,
+});
+
 const projects = defineCollection({
   type: "data",
   schema: z.object({
@@ -71,6 +100,14 @@ const projects = defineCollection({
       results: figure,
       carousel: z.array(z.string()).default([]),
     }),
+
+    showcase: z
+      .object({
+        screens: z.array(showcaseScreen).default([]),
+        // Transparent plates shown side by side under the gallery.
+        figures: z.array(showcaseFigure).default([]),
+      })
+      .optional(),
 
     credits: z
       .object({
@@ -108,6 +145,10 @@ const screen = z.object({
   theme: z.enum(["light", "dark"]).default("light"),
   landscape: z.boolean().default(false),
   browser: z.boolean().default(false),
+  // Long capture that scrolls in its frame; see showcaseScreen above.
+  scroll: z.boolean().default(false),
+  parts: z.array(z.string()).default([]),
+  sticky: z.number().int().min(0).optional(),
   // "pairs" gallery: the earlier version (wireframe) shown next to `src` (the final screen).
   before: z.object({ src: z.string(), alt: z.string() }).optional(),
 });

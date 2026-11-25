@@ -16,6 +16,68 @@ images:
     main: /images/900care/metricsHomepage.webp
     secondary: ""
   carousel: []
+showcase:
+  screens:
+    - src: 900care/home-mobile.webp
+      browser: true
+      scroll: true
+      parts: [900care/home-mobile-a.webp, 900care/home-mobile-b.webp, 900care/home-mobile-c.webp]
+      sticky: 1
+      caption: { en: "Home", fr: "Accueil" }
+      sub: { en: "Mobile", fr: "Mobile" }
+      alt:
+        en: "900.care homepage on a phone, scrollable: the promotion banner, the header, the title La routine économique et responsable, the product packs, the comparison section and the footer."
+        fr: "Page d'accueil de 900.care sur mobile, défilable : le bandeau promotionnel, l'en-tête, le titre La routine économique et responsable, les packs, la section de comparaison et le pied de page."
+    - src: 900care/products-mobile.webp
+      browser: true
+      scroll: true
+      parts: [900care/products-mobile-a.webp, 900care/products-mobile-b.webp]
+      sticky: 0
+      caption: { en: "Products", fr: "Produits" }
+      sub: { en: "Mobile", fr: "Mobile" }
+      alt:
+        en: "Catalogue page on a phone, scrollable: the Hygiène and Maison categories, filter chips, then the products in two columns with their price and rating."
+        fr: "Page catalogue sur mobile, défilable : les catégories Hygiène et Maison, des filtres, puis les produits sur deux colonnes avec leur prix et leur note."
+    - src: 900care/next-order-mobile.webp
+      browser: true
+      scroll: true
+      parts: [900care/next-order-mobile-a.webp, 900care/next-order-mobile-b.webp]
+      sticky: 0
+      caption: { en: "Next order", fr: "Prochaine commande" }
+      sub: { en: "Mobile", fr: "Mobile" }
+      alt:
+        en: "Next order page on a phone, scrollable: the greeting, the next shipment in 2 days with a Décaler la livraison button, then the order details."
+        fr: "Page Prochaine commande sur mobile, défilable : le message d'accueil, le prochain envoi dans 2 jours avec un bouton Décaler la livraison, puis le détail de la commande."
+    - src: 900care/home-desktop.webp
+      device: desktop
+      scroll: true
+      parts: [900care/home-desktop-a.webp, 900care/home-desktop-b.webp]
+      sticky: 0
+      caption: { en: "Home", fr: "Accueil" }
+      sub: { en: "Desktop", fr: "Ordinateur" }
+      alt:
+        en: "900.care homepage on desktop, scrollable: the navigation, the title Arrêtez d'acheter de l'eau ! next to an open box of products, the Nos Packs cards, the comparison section and the footer."
+        fr: "Page d'accueil de 900.care sur ordinateur, défilable : la navigation, le titre Arrêtez d'acheter de l'eau ! à côté d'un carton de produits ouvert, les cartes Nos Packs, la section de comparaison et le pied de page."
+    - src: 900care/subscription-desktop.webp
+      device: desktop
+      caption: { en: "Subscription", fr: "Abonnement" }
+      sub: { en: "Desktop", fr: "Ordinateur" }
+      alt:
+        en: "Subscription space on desktop with a dialog titled Et si on réessayait juste pour un mois ? offering the economical plan, with the buttons Choisir l'offre econo-logique and Suspendre l'abonnement."
+        fr: "Espace abonnement sur ordinateur avec une fenêtre intitulée Et si on réessayait juste pour un mois ? qui propose l'offre économique, avec les boutons Choisir l'offre econo-logique et Suspendre l'abonnement."
+  figures:
+    - src: 900care/cancel-flow.webp
+      zoom: 900care/cancel-flow-zoom.webp
+      caption: { en: "Suspension flow", fr: "Parcours de suspension" }
+      alt:
+        en: "Four mobile dialogs titled Suspendre mon abonnement: the reason form at the top, with arrows leading to three outcomes, an exchange offer for a solid shampoo, a 20% discount offer and a free-text feedback form."
+        fr: "Quatre fenêtres mobiles intitulées Suspendre mon abonnement : le formulaire de motif en haut, avec des flèches vers trois issues, une offre d'échange vers un shampoing solide, une offre de -20 % et un champ de commentaire libre."
+    - src: 900care/datadog-steps.webp
+      zoom: 900care/datadog-steps-zoom.webp
+      caption: { en: "Funnel tracking", fr: "Suivi du tunnel" }
+      alt:
+        en: "Diagram of the steps tracked in Datadog: from the homepage, branches to the account space (35%), the Kit Essentiels page (10%), the Gel Douche kit page (5%) and the products list (6%), with the cart and checkout screens that follow, a drop-off of 32%, and two flow charts of visits by step, mobile 87% and desktop 13%."
+        fr: "Schéma des étapes suivies dans Datadog : depuis la page d'accueil, des branches vers l'espace compte (35 %), la page Kit Essentiels (10 %), la page du kit Gel Douche (5 %) et la liste des produits (6 %), avec les écrans de panier et de paiement qui suivent, un abandon de 32 %, et deux diagrammes de flux des visites par étape, mobile 87 % et desktop 13 %."
 credits:
   client:
     link: https://900.care/

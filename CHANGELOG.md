@@ -8,6 +8,15 @@ Older entries are archived under `docs/archive/` once a month is closed.
 
 ---
 
+## 2026-11-25 — 900.care: showcase d'écrans UI dans la page projet
+
+- `config.ts` — champ optionnel `showcase` (`screens[]` + `figure`) sur la collection `projects`; légendes et alt en `string` ou `{ en, fr }`.
+- `ProjectShowcase.astro` (nouveau), `ProjectLayout.astro` — réutilise la galerie « spotlight » du workflow (`WorkflowGallery`, nouveau prop `resolve`) en fin de la section Conception, plus une plaque PNG transparente avec ombre portée, cliquable (copie opaque pour la modale). Script de zoom ajouté à la page projet.
+- `workflow.images.ts` — `projectImage()` ; images dans `src/assets/projects/900care/` (recadrées au ratio de l'écran du cadre, sans barre de statut ni barre navigateur).
+- `900care.yaml` — 5 écrans (3 mobiles, 2 desktop) + parcours de suspension. Captures pleine longueur défilables dans le cadre (`scroll: true`, sans zoom) : `DeviceFrame` prop `scroll`. Barre de geste dessinée sur l'écran (overlay), non plus sur le cadre. Légendes et alt EN/FR rédigés par l'assistant, à relire.
+
+---
+
 ## 2026-11-22 — Test A/B de la phrase du hero (accueil EN + FR)
 
 - `BaseLayout.astro` — script inline en `<head>` : tirage 50/50 mémorisé dans `localStorage["hero-variant"]`, posé en `data-hero` sur `<html>` avant le premier rendu (pas de flash). Stockage bloqué ⇒ variante A. Un seul groupe pour EN et FR.

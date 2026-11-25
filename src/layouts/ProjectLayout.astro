@@ -8,6 +8,7 @@ import ProjectCarousel from "../components/ProjectCarousel.astro";
 import ProjectSection from "../components/ProjectSection.astro";
 import ProjectFigure from "../components/ProjectFigure.astro";
 import ImageModal from "../components/ImageModal.astro";
+import ProjectShowcase from "../components/ProjectShowcase.astro";
 import { LOCALES } from "../i18n/locales";
 import { useTranslations, plainText } from "../i18n/utils";
 
@@ -223,6 +224,8 @@ const hasDesignConception =
             />
           </div>
         </article>
+
+        {data.showcase && <ProjectShowcase lang={lang} slug={data.semanticSlug} showcase={data.showcase} />}
       </section>
 
       <section
@@ -367,3 +370,20 @@ const hasDesignConception =
 
   <ImageModal images={carouselImages} />
 </BaseLayout>
+
+<script>
+  // Showcase screens open in the preview modal; the arrows page through the screens of the
+  // same block (same behaviour as the workflow page).
+  document.addEventListener("click", (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLElement>("[data-zoom]");
+    if (!button) return;
+    const group = button.dataset.zoomGroup;
+    const list = Array.from(document.querySelectorAll<HTMLElement>(`[data-zoom][data-zoom-group="${group}"]`)).map(
+      (el) => el.dataset.zoom as string,
+    );
+    (window as unknown as { showImageModal: (url: string, list: string[]) => void }).showImageModal(
+      button.dataset.zoom as string,
+      list,
+    );
+  });
+</script>

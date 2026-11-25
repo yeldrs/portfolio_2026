@@ -12,6 +12,10 @@ export interface Props {
   landscape?: boolean;
   /** Phone only: adds the browser bar of a web app (Chrome on top for Android, Safari at the bottom for Apple). */
   browser?: boolean;
+  /** With `src`: a full-length capture. The screen scrolls inside the frame, the image keeps its own ratio. */
+  scroll?: boolean;
+  /** With `scroll`: the capture cut into files, top to bottom. The `sticky` one (the navbar) stays at the top. */
+  parts?: { image: ImageMetadata; sticky?: boolean }[];
   /** Imported image (optimised by astro:assets) or a URL string. Without it, the default slot fills the screen (placeholder). */
   src?: ImageMetadata | string;
   /** Required with `src`: describe what the screenshot shows. */
@@ -29,6 +33,8 @@ const {
   theme = "light",
   landscape = false,
   browser = false,
+  scroll = false,
+  parts,
   src,
   alt,
   width,
@@ -45,6 +51,7 @@ const classes = [
   device === "tablet" && landscape && "pf--landscape",
   device === "desktop" && "pf--desktop",
   device === "phone" && browser && "pf--browser",
+  scroll && "pf--scroll",
   theme === "dark" && "pf--dark",
   className,
 ];
@@ -80,13 +87,8 @@ const classes = [
           <>
             <div class="pf__tabs">
               <b />
-              <span class="pf__win" aria-hidden="true">
-                <i class="pf__min" />
-                <i class="pf__max" />
-                <i class="pf__cls" />
-              </span>
             </div>
-            <div class="pf__tool" />
+            <div class="pf__tool"><i /></div>
           </>
         )}
       </div>
@@ -97,10 +99,24 @@ const classes = [
     {
       src === undefined ? (
         <slot />
+      ) : scroll && parts && parts.length > 0 ? (
+        parts.map((part, i) => (
+          <Image
+            src={part.image}
+            alt={i === parts.length - 1 ? (alt ?? "") : ""}
+            widths={[240, 480, 720, 960, 1200, 1600]}
+            quality={90}
+            sizes={sizes}
+            format="webp"
+            loading="lazy"
+            decoding="async"
+            class:list={[part.sticky && "pf__sticky"]}
+          />
+        ))
       ) : typeof src === "string" ? (
         <img src={src} alt={alt ?? ""} loading="lazy" decoding="async" />
       ) : (
-        <Image src={src} alt={alt ?? ""} widths={[240, 480, 960, 1200]} sizes={sizes} format="webp" loading="lazy" decoding="async" />
+        <Image src={src} alt={alt ?? ""} widths={[240, 480, 720, 960, 1200, 1600]} quality={90} sizes={sizes} format="webp" loading="lazy" decoding="async" />
       )
     }
   </div>
@@ -117,6 +133,7 @@ const classes = [
     --space-sm: theme("spacing.sm");
     --space-sm-d: theme("spacing.sm-d");
     --space-md: theme("spacing.md");
+    --space-lg: theme("spacing.lg");
     --space-xl: theme("spacing.xl");
     --radius-md: theme("borderRadius.md");
     --radius-xl: theme("borderRadius.xl");
@@ -132,15 +149,22 @@ const classes = [
     --pf-screen: theme("colors.gray.100");
     --pf-shadow: color-mix(in srgb, theme("colors.gray.950") 22%, transparent);
     --pf-nav: var(--pf-glyph);
+    position: relative;
+    /* Status bar glyphs: small, and kept clear of the rounded corners (edge = 24px). */
+    --pf-e: var(--space-lg);
+    --pf-d: calc(var(--space-xs) * 0.75);
+    --pf-i: calc(var(--space-sm) * 0.625);
+    --pf-w: calc(var(--space-md) + var(--space-xs));
+    /* Glyphs sit 2px below the strip centre, like the real system bar. */
     --pf-status:
-      linear-gradient(var(--pf-glyph), var(--pf-glyph)) left calc(var(--space-md) + var(--space-xs) / 2) center / calc(var(--space-xl) - var(--space-xs)) var(--space-xs) no-repeat,
-      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) left var(--space-md) center / var(--space-xs) var(--space-xs) no-repeat,
-      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) left calc(var(--space-md) + var(--space-xl) - var(--space-xs)) center / var(--space-xs) var(--space-xs) no-repeat,
-      linear-gradient(var(--pf-glyph), var(--pf-glyph)) right calc(var(--space-md) + var(--space-sm) / 2) center / calc(var(--space-md) - var(--space-sm)) var(--space-sm) no-repeat,
-      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right var(--space-md) center / var(--space-sm) var(--space-sm) no-repeat,
-      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right calc(var(--space-md) + var(--space-md) - var(--space-sm)) center / var(--space-sm) var(--space-sm) no-repeat,
-      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right calc(var(--space-md) * 2 + var(--space-xs)) center / var(--space-sm) var(--space-sm) no-repeat,
-      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right calc(var(--space-md) * 3 + var(--space-xs)) center / var(--space-sm) var(--space-sm) no-repeat;
+      linear-gradient(var(--pf-glyph), var(--pf-glyph)) left calc(var(--pf-e) + var(--pf-d) / 2) top calc(50% + var(--space-xxs)) / var(--pf-w) var(--pf-d) no-repeat,
+      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) left var(--pf-e) top calc(50% + var(--space-xxs)) / var(--pf-d) var(--pf-d) no-repeat,
+      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) left calc(var(--pf-e) + var(--pf-w)) top calc(50% + var(--space-xxs)) / var(--pf-d) var(--pf-d) no-repeat,
+      linear-gradient(var(--pf-glyph), var(--pf-glyph)) right calc(var(--pf-e) + var(--pf-i) / 2) top calc(50% + var(--space-xxs)) / var(--pf-i) var(--pf-i) no-repeat,
+      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right var(--pf-e) top calc(50% + var(--space-xxs)) / var(--pf-i) var(--pf-i) no-repeat,
+      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right calc(var(--pf-e) + var(--pf-i)) top calc(50% + var(--space-xxs)) / var(--pf-i) var(--pf-i) no-repeat,
+      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right calc(var(--pf-e) + var(--pf-i) * 2.5) top calc(50% + var(--space-xxs)) / var(--pf-i) var(--pf-i) no-repeat,
+      radial-gradient(circle, var(--pf-glyph) 68%, transparent 72%) right calc(var(--pf-e) + var(--pf-i) * 4.5) top calc(50% + var(--space-xxs)) / var(--pf-i) var(--pf-i) no-repeat;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -174,7 +198,7 @@ const classes = [
     background: var(--pf-status);
   }
   .pf__screen {
-    flex: 94 0 0;
+    flex: 97 0 0;
     min-height: 0;
     overflow: hidden;
     background: var(--pf-screen);
@@ -186,13 +210,41 @@ const classes = [
     object-fit: cover;
     object-position: top center;
   }
+  /* A complete screen stops short of the frame edge, with a small margin. */
+  .pf:not(.pf--scroll):not(.pf--apple.pf--browser) .pf__screen {
+    margin-bottom: var(--space-sm);
+  }
+  /* Long capture: scrolls inside the screen (native scrollbar hidden: the gallery draws a
+     discreet one outside the frame). The frame itself is open at the bottom: see the
+     "Long capture" block at the end of this sheet. */
+  .pf--scroll .pf__screen {
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .pf--scroll .pf__screen::-webkit-scrollbar {
+    display: none;
+  }
+  .pf--scroll .pf__screen img {
+    height: auto;
+    object-fit: initial;
+  }
+  /* The navbar of a long capture stays put while the page scrolls under it. */
+  .pf--scroll .pf__screen img.pf__sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
   /* Gesture bar: pill = 30% of the width (108 of 360 dp). A bar plus two dots at its ends
      draws the rounded caps. */
+  /* The bar is drawn on the screen, not on the bezel: an overlay pinned to the bottom edge
+     (--pf-bar tall), while the screen grows to the bottom of the frame. */
   .pf::after {
     content: "";
     display: block;
-    flex: 3 0 0;
-    min-height: 0;
+    position: absolute;
+    inset: auto 0 var(--space-xxs);
+    height: 3%;
     padding: 0 35%;
     background-origin: content-box;
     background-clip: content-box;
@@ -214,22 +266,22 @@ const classes = [
     border-radius: var(--radius-2xl);
     padding: 0 var(--space-sm);
   }
-  .pf--tablet::before,
-  .pf--tablet::after {
+  .pf--tablet::before {
     flex: 24 0 0;
   }
   .pf--tablet::after {
+    height: 1.875%;
     padding: 0 43%;
   }
   .pf--tablet .pf__screen {
-    flex-grow: 1232;
+    flex-grow: 1256;
   }
 
   /* Desktop window 16:10. The preview never scrolls: like the other devices, the capture is
      cropped to the screen box (top edge kept) and the full image opens in the zoom modal. */
   .pf--desktop {
     aspect-ratio: 16 / 10;
-    padding: 0;
+    padding: var(--space-xs);
   }
   .pf--desktop::before,
   .pf--desktop::after {
@@ -239,12 +291,28 @@ const classes = [
     flex-grow: 91;
     overflow: hidden;
   }
+  .pf--desktop.pf--scroll .pf__screen {
+    overflow-y: auto;
+  }
+  /* The white bezel around the window (as on a phone) already leaves a margin. */
+  .pf.pf--desktop:not(.pf--scroll) .pf__screen {
+    margin-bottom: 0;
+  }
+  /* Inner corners follow the outer radius minus the bezel (4px) and the border (1px). */
+  .pf--desktop {
+    --pf-inner: calc(var(--radius-xl) - var(--space-xs) - 1px);
+  }
   .pf__chrome {
     flex: 9 0 0;
     min-height: 0;
     display: grid;
     grid-template-rows: 45fr 55fr;
-    background: var(--pf-chrome);
+    background: var(--pf-bg);
+    border-radius: var(--pf-inner) var(--pf-inner) 0 0;
+    overflow: hidden;
+  }
+  .pf.pf--desktop:not(.pf--scroll) .pf__screen {
+    border-radius: 0 0 var(--pf-inner) var(--pf-inner);
   }
   .pf__tabs {
     display: flex;
@@ -257,28 +325,7 @@ const classes = [
     width: 18%;
     height: 75%;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
-    background: var(--pf-tab);
-  }
-  /* PC window controls (minimize, maximize, close), top right */
-  .pf__win {
-    margin-left: auto;
-    align-self: stretch;
-    display: flex;
-  }
-  .pf__win i {
-    width: var(--space-md);
-    background: var(--pf-dot);
-    -webkit-mask: var(--pf-m) center / calc(var(--space-xs) + var(--space-xxs)) calc(var(--space-xs) + var(--space-xxs)) no-repeat;
-    mask: var(--pf-m) center / calc(var(--space-xs) + var(--space-xxs)) calc(var(--space-xs) + var(--space-xxs)) no-repeat;
-  }
-  .pf__min {
-    --pf-m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect y='4.5' width='10' height='1'/%3E%3C/svg%3E");
-  }
-  .pf__max {
-    --pf-m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect x='.5' y='.5' width='9' height='9' rx='1' fill='none' stroke='black'/%3E%3C/svg%3E");
-  }
-  .pf__cls {
-    --pf-m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M.5.5l9 9M9.5.5l-9 9' fill='none' stroke='black'/%3E%3C/svg%3E");
+    background: var(--pf-screen);
   }
   /* macOS window dots, top left */
   .pf__dots {
@@ -292,8 +339,17 @@ const classes = [
     border-radius: 9999px;
     background: var(--pf-dot);
   }
+  /* Address bar, as on the phone: a faintly gray pill on a white toolbar. */
   .pf__tool {
-    background: var(--pf-tab);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-sm);
+  }
+  .pf__tool i {
+    flex: 1;
+    height: 65%;
+    border-radius: 9999px;
+    background: var(--pf-screen);
   }
 
   /* Apple: thin white bezel around an edge-to-edge screen. iPhone 393 x 852 pt:
@@ -321,11 +377,11 @@ const classes = [
     display: none;
   }
   .pf--apple::after {
-    flex-grow: 40;
+    height: 4%;
     padding: 0 33%;
   }
   .pf--apple .pf__screen {
-    flex-grow: 897;
+    flex-grow: 937;
   }
   .pf--apple .pf__sb {
     flex: 63 0 0;
@@ -395,11 +451,11 @@ const classes = [
     grid-column: 3;
   }
   .pf--apple.pf--tablet::after {
-    flex: 20 0 0;
+    height: 1.675%;
     padding: 0 42%;
   }
   .pf--apple.pf--tablet .pf__screen {
-    flex-grow: 1150;
+    flex-grow: 1170;
   }
 
   /* macOS window: no bezel, single title bar row, window dots on the left */
@@ -431,48 +487,68 @@ const classes = [
     aspect-ratio: 16 / 10;
   }
   .pf--tablet.pf--landscape::after {
+    height: 3%;
     padding: 0 46%;
   }
   /* Android 1280 x 800 dp: status 24, screen 752, gesture 24. iPad 1194 x 834 pt: 24, 790, 20. */
   .pf--tablet.pf--landscape .pf__screen {
-    flex-grow: 752;
+    flex-grow: 776;
   }
   .pf--apple.pf--tablet.pf--landscape {
     aspect-ratio: 1194 / 834;
   }
   .pf--apple.pf--tablet.pf--landscape .pf__screen {
-    flex-grow: 790;
+    flex-grow: 810;
   }
   .pf--apple.pf--tablet.pf--landscape::after {
+    height: 2.4%;
     padding: 0 44%;
   }
 
   /* Browser bar of a web app, phone only.
-     Android (Chrome, address bar on top): 56 dp of 800 -> status 3, bar 7, screen 87, gesture 3 (%).
-     Apple (Safari, address bar at the bottom): 50 pt of 852 -> status 63, screen 838, bar 59,
-     home indicator 40 (per mille). The bar is a pill in a toolbar, no text. */
+     Android (Chrome, address bar on top): 56 dp of 800 -> status 3, bar 7, screen 87 + 3 under the gesture bar (%).
+     Apple (Safari, address bar at the bottom): 50 pt of 852 -> status 63, screen 838, bar 59 + 40 under the home
+     indicator (per mille). The bar is a white toolbar with a faintly gray pill, no text. */
   .pf__url {
     flex: 7 0 0;
     min-height: 0;
     display: flex;
     align-items: center;
     padding: 0 var(--space-sm);
-    background: var(--pf-chrome);
+    background: var(--pf-bg);
   }
   .pf__url i {
     flex: 1;
     height: 70%;
     border-radius: 9999px;
-    background: var(--pf-tab);
+    background: var(--pf-screen);
   }
   .pf--browser .pf__screen {
-    flex-grow: 87;
+    flex-grow: 90;
   }
   .pf--apple.pf--browser .pf__url {
-    flex-grow: 59;
+    flex-grow: 99;
     padding: 0 var(--space-md);
   }
   .pf--apple.pf--browser .pf__screen {
     flex-grow: 838;
+  }
+
+  /* Long capture: the frame is the very same device, shape and size. Only the image sticks
+     out: the screen box is --pf-ext taller than its slot (negative margin), painted over the
+     frame's bottom edge, and fades to nothing over that length (same px for every device).
+     The gesture bar stays where it always is. */
+  .pf.pf--scroll {
+    --pf-ext: var(--space-lg);
+    overflow: visible;
+  }
+  /* The image leaves the frame, so there is no bottom navigation bar on a long screen. */
+  .pf.pf--scroll::after {
+    display: none;
+  }
+  .pf.pf--scroll .pf__screen {
+    margin-bottom: calc(-1 * var(--pf-ext));
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pf-ext)), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - var(--pf-ext)), transparent 100%);
   }
 </style>

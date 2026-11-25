@@ -16,9 +16,11 @@ export interface Props {
   group: string;
   /** Spotlight: 1-based screen shown on arrival. */
   startAt?: number;
+  /** Maps a `src` name to its image. Defaults to the workflow assets; case studies pass their own. */
+  resolve?: typeof workflowImage;
 }
 
-const { lang, gallery, screens, group, startAt = 1 } = Astro.props;
+const { lang, gallery, screens, group, startAt = 1, resolve = workflowImage } = Astro.props;
 const start = Math.min(Math.max(startAt, 1), screens.length) - 1;
 const t = useTranslations(lang);
 
@@ -33,8 +35,8 @@ function size(s: Screen) {
 
 const items = await Promise.all(
   screens.map(async (s, i) => {
-    const image = workflowImage(s.src);
-    const before = workflowImage(s.before?.src);
+    const image = resolve(s.src);
+    const before = resolve(s.before?.src);
     const dp = size(s);
     return {
       ...s,
@@ -42,6 +44,7 @@ const items = await Promise.all(
       image,
       before,
       zoom: image && s.alt ? await zoomUrl(image) : undefined,
+      partImages: (s.parts ?? []).map((name) => resolve(name)).filter((p): p is NonNullable<typeof p> => Boolean(p)),
       beforeAlt: s.before?.alt,
       beforeZoom: before ? await zoomUrl(before) : undefined,
       dp,
@@ -51,12 +54,17 @@ const items = await Promise.all(
 );
 type Item = (typeof items)[number];
 
+// Width factor of a frame in the spotlight row (desktop = reference, tablet and phone step down).
+const widthFactor = (s: Item) => (s.device === "desktop" ? 1 : s.device === "tablet" ? 0.9 : 0.8);
+
 const frame = (s: Item) => ({
   device: s.device,
   platform: s.platform,
   theme: s.theme,
   landscape: s.landscape,
   browser: s.browser,
+  scroll: s.scroll,
+  parts: s.partImages.length > 0 ? s.partImages.map((image, i) => ({ image, sticky: i === s.sticky })) : undefined,
 });
 const zoomBtn =
   "block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent";
@@ -152,14 +160,17 @@ const arrowBtn =
       data-count-template={t("workflow.galleryCount", { n: "{n}", total: String(items.length) })}
       role="group"
       aria-label={t("workflow.galleryAria")}
-      style={`--last-ar:${items[items.length - 1].ar}`}
+      data-ext={items.some((s) => s.scroll) ? "" : undefined}
+      style={`--last-ar:${items[items.length - 1].ar};--last-k:${widthFactor(items[items.length - 1])}`}
       class="wg-spot relative"
     >
       {/* Measuring canvas: a large dot field that starts before the screens and fades out. */}
       <span aria-hidden="true" class="wg-spot-mat" />
       <div data-spot-track class="wg-track">
         {items.map((s, i) => {
-          const Tag = s.zoom ? "button" : "div";
+          // A long capture scrolls inside its frame: a <div role="button"> keeps the wheel and
+          // touch scrolling working where a <button> would not.
+          const Tag = s.zoom && !s.scroll ? "button" : "div";
           return (
             <Tag
               class:list={["wg-item flex-none border-0 bg-transparent p-0 text-left", s.zoom && "cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent"]}
@@ -168,9 +179,17 @@ const arrowBtn =
               data-caption={s.caption}
               data-device={s.device}
               data-has-zoom={String(Boolean(s.zoom))}
-              {...(s.zoom ? { type: "button", "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
+              {...(s.zoom ? { ...(s.scroll ? { role: "button", tabindex: 0 } : { type: "button" }), "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
             >
               <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" || s.landscape ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
+              {/* The title sits under its own screen. */}
+              <span class="wg-cap">{s.caption}</span>
+              {s.scroll && (
+                /* Scrollbar of a long capture: drawn outside the frame, on its right. */
+                <span data-wg-scroll aria-hidden="true" class="wg-scrollbar">
+                  <i />
+                </span>
+              )}
             </Tag>
           );
         })}
@@ -184,7 +203,6 @@ const arrowBtn =
       {/* Caption, device and zoom sit under the screens, like the wireframe gallery. */}
       <div class="wg-spot-foot">
         <div class="flex flex-wrap items-center justify-center gap-sm px-md text-sm text-text-body-primary">
-          <b data-spot-title class="text-xs font-medium text-text-body-secondary">{items[start].caption}</b>
           <button type="button" data-spot-zoom aria-label={t("workflow.expandCurrent")} class="flex h-lg w-lg -my-xs cursor-zoom-in items-center justify-center rounded-full border border-stroke-secondary bg-background-primary p-0 text-text-body-accent hover:border-button-background-primary disabled:cursor-default disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent" disabled={!items[start].zoom}>
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-sm-d w-sm-d"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z" /></svg>
           </button>
@@ -298,8 +316,9 @@ const arrowBtn =
     --wg-foot-gap: theme("spacing.sm-d");
     --wg-foot-end: theme("spacing.md");
     /* Below the screens: 24 gap + caption row 24 + gap + pagination row 16 + end. */
+    --wg-ext: 0px;
     --wg-foot-pad: calc(
-      theme("spacing.lg") + theme("spacing.lg") + var(--wg-foot-gap) + theme("spacing.md") + var(--wg-foot-end)
+      theme("spacing.lg") + theme("spacing.lg") + var(--wg-foot-gap) + theme("spacing.md") + var(--wg-foot-end) + var(--wg-ext) + theme("spacing.sm")
     );
     --band: calc(theme("spacing.6xl") * 4 - theme("spacing.xl") - theme("spacing.2xl") * 2);
     --stage-h: calc(var(--band) + var(--wg-top) + var(--wg-foot-pad));
@@ -308,6 +327,11 @@ const arrowBtn =
   /* Caption, zoom and pagination: one column under the screens, inside the stage band the
      track already reserves (its bottom padding). */
   /* The arrows centre on the screens, not on the whole stage (caption rows included). */
+  /* A long capture leaves its frame and fades out below it (24px, as in DeviceFrame): reserve
+     that room so the caption row stays clear. */
+  .wg-spot[data-ext] {
+    --wg-ext: theme("spacing.lg");
+  }
   .wg-spot > [data-spot-prev],
   .wg-spot > [data-spot-next] {
     top: calc((var(--wg-top) + var(--stage-h) - var(--wg-foot-pad)) / 2);
@@ -367,8 +391,24 @@ const arrowBtn =
     scrollbar-width: none;
     padding-top: var(--wg-top);
     padding-bottom: var(--wg-foot-pad);
+    /* The first screen sits at the left edge; the last one can be centred. */
+    --last-w: min(calc(var(--band) * var(--last-ar) * var(--last-k)), calc(100cqw - theme("spacing.2xl")));
     padding-inline-start: theme("spacing.md");
-    padding-inline-end: calc(50cqw - var(--band) * var(--last-ar) / 2);
+    padding-inline-end: calc((100cqw - var(--last-w)) / 2);
+  }
+  /* Title under its own screen: on one line below the bottom of the band (screens are centred,
+     the shorter ones sit higher), under the fade of a long capture. */
+  .wg-cap {
+    @apply text-xs font-medium text-text-body-secondary;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    top: calc(100% + var(--band) * (1 - var(--k)) / 2 + var(--wg-ext) + theme("spacing.sm"));
+  }
+  .wg-item[data-on="true"] .wg-cap {
+    @apply text-text-body-primary;
   }
   .wg-track::-webkit-scrollbar {
     display: none;
@@ -415,6 +455,29 @@ const arrowBtn =
   .wg-flat {
     box-shadow: theme("boxShadow.md");
   }
+  /* Discreet scrollbar outside the frame: a thin thumb, no track. */
+  .wg-scrollbar {
+    position: absolute;
+    left: calc(100% + theme("spacing.xs"));
+    top: 12%;
+    bottom: 12%;
+    width: theme("spacing.xs");
+    pointer-events: none;
+  }
+  .wg-scrollbar[hidden] {
+    display: none;
+  }
+  .wg-scrollbar i {
+    position: absolute;
+    left: 0;
+    right: 0;
+    /* Fixed length: the thumb travels faster when there is less to scroll. */
+    height: calc(theme("spacing.xl") + theme("spacing.sm"));
+    top: calc(var(--sb-p, 0) * (100% - theme("spacing.xl") - theme("spacing.sm")));
+    border-radius: 9999px;
+    /* Between gray 300 and 400: the scale has nothing in between. */
+    background: color-mix(in srgb, theme("colors.gray.300") 55%, theme("colors.gray.400"));
+  }
   .wg-ritem:hover .wg-flat {
     border-color: theme("colors.button-background-primary");
   }
@@ -436,6 +499,7 @@ const arrowBtn =
          screen stays aligned with the text while its shadow is no longer cut by the scroll box. */
       inset-inline-start: calc(-1 * theme("spacing.lg"));
       padding-inline-start: theme("spacing.lg");
+      padding-inline-end: calc((100cqw + theme("spacing.lg") - var(--last-w)) / 2);
     }
   }
 </style>
@@ -469,8 +533,18 @@ const arrowBtn =
       if (count) count.textContent = template.replace("{n}", String(i + 1)).replace("{total}", String(items.length));
     };
 
+    // A screen near the start cannot always be centred (the track has nothing to scroll to), so
+    // the scroll position alone cannot tell which one the arrows are on. While a move started
+    // by the arrows or a click settles, the scroll handler leaves the current screen alone.
+    let programmatic = false;
+    let settle = 0;
     const goTo = (i: number) => {
-      const el = items[Math.max(0, Math.min(items.length - 1, i))];
+      const index = Math.max(0, Math.min(items.length - 1, i));
+      const el = items[index];
+      programmatic = true;
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => (programmatic = false), 900);
+      set(index);
       track.scrollTo({
         left: el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2,
         behavior: reduce.matches ? "auto" : "smooth",
@@ -492,24 +566,12 @@ const arrowBtn =
       () => {
         cancelAnimationFrame(frame);
         frame = requestAnimationFrame(() => {
+          if (programmatic) return;
+          // The first screens cannot all be centred, so the current one follows the scroll
+          // progress: it steps through every screen in order, from the first to the last.
           const max = track.scrollWidth - track.clientWidth;
-          let best = 0;
-          if (track.scrollLeft > 1 && max > 1) {
-            if (track.scrollLeft >= max - 1) {
-              best = items.length - 1;
-            } else {
-              const mid = track.scrollLeft + track.clientWidth / 2;
-              let bestDist = Infinity;
-              items.forEach((el, k) => {
-                const dist = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
-                if (dist < bestDist) {
-                  bestDist = dist;
-                  best = k;
-                }
-              });
-            }
-          }
-          set(best);
+          const t = max > 1 ? Math.min(1, Math.max(0, track.scrollLeft / max)) : 0;
+          set(Math.round(t * (items.length - 1)));
         });
       },
       { passive: true },
@@ -541,4 +603,30 @@ const arrowBtn =
   }
 
   document.querySelectorAll<HTMLElement>("[data-spot]").forEach(init);
+
+  // Keyboard: Enter or Space opens a long capture (a div with role="button").
+  document.addEventListener("keydown", (event) => {
+    const el = event.target as HTMLElement | null;
+    if ((event.key === "Enter" || event.key === " ") && el?.matches('div[role="button"][data-zoom]')) {
+      event.preventDefault();
+      el.click();
+    }
+  });
+
+  // Scrollbar of the long captures: the thumb follows the screen's scroll position.
+  document.querySelectorAll<HTMLElement>("[data-wg-scroll]").forEach((bar) => {
+    const screen = bar.parentElement?.querySelector<HTMLElement>(".pf__screen");
+    if (!screen) return;
+    const sync = () => {
+      const total = screen.scrollHeight;
+      const visible = screen.clientHeight;
+      bar.hidden = total <= visible + 1;
+      if (bar.hidden) return;
+      bar.style.setProperty("--sb-p", String(screen.scrollTop / (total - visible)));
+    };
+    screen.addEventListener("scroll", sync, { passive: true });
+    screen.querySelector("img")?.addEventListener("load", sync);
+    new ResizeObserver(sync).observe(screen);
+    sync();
+  });
 </script>

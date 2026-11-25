@@ -8,6 +8,10 @@ export interface Props {
   theme?: "light" | "dark";
   landscape?: boolean;
   browser?: boolean;
+  /** Full-length capture: the screen scrolls inside the frame instead of cropping the top. */
+  scroll?: boolean;
+  /** Long capture cut into files, top to bottom; the sticky one stays at the top of the screen. */
+  parts?: { image: ImageMetadata; sticky?: boolean }[];
   /** Without an image, the frame shows a neutral skeleton (screenshot still to come). */
   image?: ImageMetadata;
   alt?: string;
