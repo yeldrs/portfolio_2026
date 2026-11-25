@@ -28,6 +28,7 @@ const t = useTranslations(lang);
 // spotlight gives every frame the same height instead, so the row reads as one layout at
 // different widths: the frame ratio matches the dp ratio for each device type below.
 function size(s: Screen) {
+  if (s.flat) return { w: 1280, h: 720 };
   if (s.device === "tablet") return s.landscape ? { w: 1280, h: 800 } : { w: 800, h: 1280 };
   if (s.device === "desktop") return { w: 1280, h: 800 };
   return { w: 360, h: 800 };
@@ -55,7 +56,7 @@ const items = await Promise.all(
 type Item = (typeof items)[number];
 
 // Width factor of a frame in the spotlight row (desktop = reference, tablet and phone step down).
-const widthFactor = (s: Item) => (s.device === "desktop" ? 1 : s.device === "tablet" ? 0.9 : 0.8);
+const widthFactor = (s: Item) => (s.flat || s.device === "desktop" ? 1 : s.device === "tablet" ? 0.9 : 0.8);
 
 const frame = (s: Item) => ({
   device: s.device,
@@ -161,6 +162,7 @@ const arrowBtn =
       role="group"
       aria-label={t("workflow.galleryAria")}
       data-ext={items.some((s) => s.scroll) ? "" : undefined}
+      data-mat={items.every((s) => s.flat) ? "grid" : undefined}
       style={`--last-ar:${items[items.length - 1].ar};--last-k:${widthFactor(items[items.length - 1])}`}
       class="wg-spot relative"
     >
@@ -181,9 +183,15 @@ const arrowBtn =
               data-has-zoom={String(Boolean(s.zoom))}
               {...(s.zoom ? { ...(s.scroll ? { role: "button", tabindex: 0 } : { type: "button" }), "data-zoom": s.zoom, "data-zoom-group": group, "aria-label": t("workflow.zoomAria", { caption: s.caption }) } : {})}
             >
-              <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" || s.landscape ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
+              {s.flat && s.image ? (
+                <span class="wg-flat block overflow-hidden rounded-md" style={`aspect-ratio:${s.dp.w}/${s.dp.h}`}>
+                  <Image src={s.image} alt={s.alt ?? ""} widths={[480, 960, 1280]} sizes="(min-width: 768px) 720px, 80vw" format="webp" loading="lazy" decoding="async" class="block h-full w-full object-cover" />
+                </span>
+              ) : (
+                <WorkflowFrame {...frame(s)} image={s.image} alt={s.alt} sizes={s.device === "desktop" || s.landscape ? "(min-width: 768px) 640px, 80vw" : "(min-width: 768px) 320px, 50vw"} class="w-full" />
+              )}
               {/* The title sits under its own screen. */}
-              <span class="wg-cap">{s.caption}</span>
+              {!s.flat && <span class="wg-cap">{s.caption}</span>}
               {s.scroll && (
                 /* Scrollbar of a long capture: drawn outside the frame, on its right. */
                 <span data-wg-scroll aria-hidden="true" class="wg-scrollbar">
@@ -202,18 +210,13 @@ const arrowBtn =
       </button>
       {/* Caption, device and zoom sit under the screens, like the wireframe gallery. */}
       <div class="wg-spot-foot">
-        <div class="flex flex-wrap items-center justify-center gap-sm px-md text-sm text-text-body-primary">
-          <button type="button" data-spot-zoom aria-label={t("workflow.expandCurrent")} class="flex h-lg w-lg -my-xs cursor-zoom-in items-center justify-center rounded-full border border-stroke-secondary bg-background-primary p-0 text-text-body-accent hover:border-button-background-primary disabled:cursor-default disabled:opacity-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-body-accent" disabled={!items[start].zoom}>
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="h-sm-d w-sm-d"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z" /></svg>
-          </button>
-        </div>
         <div class="flex items-center justify-center gap-md">
           <span aria-hidden="true" class="flex gap-sm">
             {items.map((_, i) => (
               <i data-spot-dot data-on={String(i === start)} class="block h-[calc(theme(spacing.sm)-theme(spacing.xxs))] w-[calc(theme(spacing.sm)-theme(spacing.xxs))] rounded-full bg-background-disabled data-[on=true]:w-lg data-[on=true]:bg-button-background-primary motion-safe:transition-all" />
             ))}
           </span>
-          <span data-spot-count aria-live="polite" class="text-xs font-bold text-text-body-secondary">
+          <span data-spot-count aria-live="polite" class="text-xs font-bold text-text-body-tertiary">
             {t("workflow.galleryCount", { n: String(start + 1), total: String(items.length) })}
           </span>
         </div>
@@ -380,6 +383,25 @@ const arrowBtn =
     mask-image: var(--spot-fade), linear-gradient(90deg, transparent, #000 6%);
     mask-composite: intersect;
   }
+  /* Flat boards have no caption row: the dots sit right under the images. */
+  .wg-spot[data-mat="grid"] {
+    --wg-foot-pad: calc(var(--wg-foot-gap) + theme("spacing.sm") + theme("spacing.md") + var(--wg-foot-end));
+  }
+  /* Flat boards sit on the cutting mat (same grid as the wireframe rail) instead of the dots. */
+  .wg-spot[data-mat="grid"] .wg-spot-mat {
+    --mat-minor: color-mix(in srgb, theme("colors.stroke-neutral-primary") 30%, transparent);
+    --mat-major: color-mix(in srgb, theme("colors.stroke-neutral-primary") 60%, transparent);
+    background-image:
+      linear-gradient(var(--mat-major) calc(theme("spacing.xxs") / 2), transparent 0),
+      linear-gradient(90deg, var(--mat-major) calc(theme("spacing.xxs") / 2), transparent 0),
+      linear-gradient(var(--mat-minor) calc(theme("spacing.xxs") / 2), transparent 0),
+      linear-gradient(90deg, var(--mat-minor) calc(theme("spacing.xxs") / 2), transparent 0);
+    background-size:
+      calc(theme("spacing.md") * 4) calc(theme("spacing.md") * 4),
+      calc(theme("spacing.md") * 4) calc(theme("spacing.md") * 4),
+      theme("spacing.md") theme("spacing.md"),
+      theme("spacing.md") theme("spacing.md");
+  }
   .wg-track {
     position: absolute;
     inset: 0;
@@ -515,7 +537,6 @@ const arrowBtn =
     const prev = root.querySelector<HTMLButtonElement>("[data-spot-prev]");
     const next = root.querySelector<HTMLButtonElement>("[data-spot-next]");
     const title = root.querySelector<HTMLElement>("[data-spot-title]");
-    const zoom = root.querySelector<HTMLButtonElement>("[data-spot-zoom]");
     const count = root.querySelector<HTMLElement>("[data-spot-count]");
     const template = root.dataset.countTemplate ?? "{n} / {total}";
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -529,7 +550,6 @@ const arrowBtn =
       if (prev) prev.disabled = i === 0;
       if (next) next.disabled = i === items.length - 1;
       if (title) title.textContent = items[i].dataset.caption ?? "";
-      if (zoom) zoom.disabled = items[i].dataset.hasZoom !== "true";
       if (count) count.textContent = template.replace("{n}", String(i + 1)).replace("{total}", String(items.length));
     };
 
@@ -591,7 +611,6 @@ const arrowBtn =
       true,
     );
 
-    zoom?.addEventListener("click", () => items[current].click());
     prev?.addEventListener("click", () => goTo(current - 1));
     next?.addEventListener("click", () => goTo(current + 1));
     root.addEventListener("keydown", (event) => {

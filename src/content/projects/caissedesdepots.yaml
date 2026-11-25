@@ -15,16 +15,63 @@ images:
   results:
     main: /images/caissedesdepots/magazineCdc.webp
     secondary: ""
-  carousel:
-    - /images/caissedesdepots/storyBoardCdc.webp
-    - /images/caissedesdepots/kickoffCdc.webp
-    - /images/caissedesdepots/distributeCdc.webp
-    - /images/caissedesdepots/fillTilesCdc.webp
-    - /images/caissedesdepots/mapCdc.webp
-    - /images/caissedesdepots/reviewsCdc.webp
-    - /images/caissedesdepots/checkCdc.webp
-    - /images/caissedesdepots/editCdc.webp
-    - /images/caissedesdepots/degitalCdc.webp
+  carousel: []
+showcase:
+  screens:
+    - src: caissedesdepots/storyBoardCdc.webp
+      flat: true
+      caption: { en: "Two phases", fr: "Deux phases" }
+      alt:
+        en: "Storyboard of the two phases: framing the project with the tiles laid flat on a table, then tracking and adapting on a wall."
+        fr: "Storyboard des deux phases : cadrer le projet avec les tuiles à plat sur une table, puis suivre et adapter sur un mur."
+    - src: caissedesdepots/kickoffCdc.webp
+      flat: true
+      caption: { en: "Project kickoff", fr: "Lancement du projet" }
+      alt:
+        en: "Four people around a table, each laying out hexagonal tiles during the kickoff session."
+        fr: "Quatre personnes autour d'une table posent chacune des tuiles hexagonales pendant la session de lancement."
+    - src: caissedesdepots/distributeCdc.webp
+      flat: true
+      caption: { en: "Distributing the tiles", fr: "Distribution des tuiles" }
+      alt:
+        en: "One hand passing a tile to another, with more tiles spread on the table."
+        fr: "Une main passe une tuile à une autre, d'autres tuiles sont posées sur la table."
+    - src: caissedesdepots/fillTilesCdc.webp
+      flat: true
+      caption: { en: "Filling in a tile", fr: "Remplir une tuile" }
+      alt:
+        en: "A hand writing a backlog item on a Typographie tile."
+        fr: "Une main écrit un élément de backlog sur une tuile Typographie."
+    - src: caissedesdepots/mapCdc.webp
+      flat: true
+      caption: { en: "Building the map", fr: "Construire la carte" }
+      alt:
+        en: "Hands assembling the colored tiles into one connected map on a table."
+        fr: "Des mains assemblent les tuiles colorées en une carte continue sur une table."
+    - src: caissedesdepots/reviewsCdc.webp
+      flat: true
+      caption: { en: "Sprint reviews", fr: "Revues de sprint" }
+      alt:
+        en: "Two people reviewing the tile map on a wall, one pointing at a tile."
+        fr: "Deux personnes passent en revue la carte de tuiles sur un mur, l'une pointe une tuile."
+    - src: caissedesdepots/checkCdc.webp
+      flat: true
+      caption: { en: "Checking progress", fr: "Suivre l'avancement" }
+      alt:
+        en: "A hand crossing out a tile with a marker on the wall map."
+        fr: "Une main barre une tuile au marqueur sur la carte murale."
+    - src: caissedesdepots/editCdc.webp
+      flat: true
+      caption: { en: "Editing a tile", fr: "Modifier une tuile" }
+      alt:
+        en: "A hand placing a RGPD tile next to the others on the wall."
+        fr: "Une main place une tuile RGPD à côté des autres sur le mur."
+    - src: caissedesdepots/degitalCdc.webp
+      flat: true
+      caption: { en: "Digitalizing", fr: "Numériser" }
+      alt:
+        en: "A person photographing the wall map with a phone."
+        fr: "Une personne photographie la carte murale avec un téléphone."
 credits:
   client:
     link: https://www.caissedesdepots.fr/

@@ -61,6 +61,8 @@ const showcaseScreen = z.object({
   platform: z.enum(["android", "apple"]).default("android"),
   theme: z.enum(["light", "dark"]).default("light"),
   browser: z.boolean().default(false),
+  // Flat 16:9 image (photo, board, slide): shown as is, without a device frame.
+  flat: z.boolean().default(false),
   // Full-length capture: the screen scrolls inside the device frame. `src` is the whole page
   // (opened by the zoom); `parts` optionally cuts it top to bottom into files, and the one at
   // index `sticky` (the navbar) stays at the top while the rest scrolls under it.
@@ -145,6 +147,7 @@ const screen = z.object({
   theme: z.enum(["light", "dark"]).default("light"),
   landscape: z.boolean().default(false),
   browser: z.boolean().default(false),
+  flat: z.boolean().default(false),
   // Long capture that scrolls in its frame; see showcaseScreen above.
   scroll: z.boolean().default(false),
   parts: z.array(z.string()).default([]),
